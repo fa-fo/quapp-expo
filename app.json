@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "quapp-expo",
-    "slug": "quapp-expo",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "name": "QuattFo Quapp",
+    "slug": "quattfo-quapp",
+    "version": "2.0.1",
+    "orientation": "default",
+    "scheme": "quapp",
+    "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,16 +18,50 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "de.quattfo.quapp"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "de.quattfo.quapp",
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 26008,
+      "permissions": [],
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/favicon.png"
+    },
+    "androidStatusBar": {
+      "translucent": true
+    },
+    "plugins": [
+      [
+        "./withAndroidRemovedPermissions",
+        [
+          "android.permission.READ_PHONE_STATE"
+        ]
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#ffffff",
+          "androidMode": "default"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6e5271a6-5d4f-4a44-a517-0b2c7b9ec853"
+      }
     }
   }
 }

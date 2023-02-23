@@ -1,0 +1,20 @@
+{
+  "cli": {
+    "requireCommit": "false",
+    "version": ">= 0.42.4"
+  },
+  "build": {
+    "preview": {
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {
+      "ios": {},
+      "android":{}
+    }
+  }
+}
