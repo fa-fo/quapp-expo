@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, KeyboardAvoidingView, Pressable, ScrollView, Text, TextInput, View} from 'react-native';
+import {ActivityIndicator, Pressable, Text, TextInput, View} from 'react-native';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchLogsAddEventModal from './modals/MatchLogsAddEventModal';
@@ -11,6 +11,7 @@ import * as ScoreAsyncStorageFunctions from "../../components/functions/ScoreAsy
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
 import IconIon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {format} from "date-fns";
 import {useKeepAwake} from 'expo-keep-awake';
 import styles from '../../assets/styles.js';
@@ -475,7 +476,8 @@ export default function MatchLogsScreen({navigation}) {
 
     return (
         (liveLogsCalc ?
-            <ScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}>
+            <KeyboardAwareScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}
+                                     automaticallyAdjustKeyboardInsets={true}>
                 <View style={styles.matchflexRowView}>
                     <View style={{flex: 5}}>
                         <Text style={styles.big2} numberOfLines={2}
@@ -519,14 +521,14 @@ export default function MatchLogsScreen({navigation}) {
                                     setCancelEventModalVisible(true);
                                 }}
                             >
-                                <Text numberOfLines={1} style={styles.small}>
+                                <Text numberOfLines={1} style={[styles.small, {width: '100%'}]}>
                                     <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
                                 </Text>
                             </Pressable>
                         </View>
                         : null}
                 </View>
-                <KeyboardAvoidingView style={styles.matchflexEventsView}>
+                <View style={styles.matchflexEventsView}>
                     {!liveLogsCalc.isMatchStarted ?
                         <Text style={styles.big3}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
                     {liveLogsCalc.isMatchConcluded ? <Text style={styles.big3}>Vielen Dank!</Text> : null}
@@ -578,7 +580,7 @@ export default function MatchLogsScreen({navigation}) {
                         <Text>Alle 3 Buttons müssen <Text style={styles.textGreen}>grün</Text> sein, damit es losgehen
                             kann!</Text>
                         : null}
-                </KeyboardAvoidingView>
+                </View>
 
                 <MatchLogsAddEventModal
                     match={route.params.item}
@@ -607,7 +609,7 @@ export default function MatchLogsScreen({navigation}) {
                     setModalVisible={setDoubleYellowModalVisible}
                     modalVisible={doubleYellowModalVisible}
                 />
-            </ScrollView>
+            </KeyboardAwareScrollView>
             : null)
     );
 }

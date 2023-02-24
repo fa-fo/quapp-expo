@@ -4,9 +4,9 @@ import MyDrawer from "./navigation/DrawerNavigator";
 import {NavigationContainer} from "@react-navigation/native";
 import {ActivityIndicator, Platform} from "react-native";
 import styles from './assets/styles.js';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
     const [isLoading, setLoading] = useState(true);
@@ -25,22 +25,24 @@ export default function App() {
     }
 
     useEffect(() => {
-        registerForPushNotificationsAsync().then(token => {
-            setExpoPushToken(token);
-            global.expoPushToken = (token !== undefined ? token : '');
-        });
-
-        AsyncStorage.getItem('myTeamId')
-            .then(response => response !== null ? response.toString() : null)
-            .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
-            .catch((error) => console.error(error));
-
-        AsyncStorage.getItem('myTeamName')
-            .then(response => response !== null ? response.toString() : null)
-            .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
-            .catch((error) => console.error(error));
-
-        setLoading(false)
+        registerForPushNotificationsAsync()
+            .then(token => {
+                setExpoPushToken(token);
+                global.expoPushToken = (token !== undefined ? token : '');
+            })
+            .then(() => {
+                return AsyncStorage.getItem('myTeamId')
+                    .then(response => response !== null ? response.toString() : null)
+                    .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
+                    .catch((error) => console.error(error));
+            })
+            .then(() => {
+                return AsyncStorage.getItem('myTeamName')
+                    .then(response => response !== null ? response.toString() : null)
+                    .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
+                    .catch((error) => console.error(error));
+            })
+            .finally(() => setLoading(false))
     }, []);
 
     return (

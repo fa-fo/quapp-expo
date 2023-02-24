@@ -113,11 +113,12 @@ export default function MatchLogsAddEventModal({
                                            setPlayerNumber('');
                                        }
                                    }}>
-                            <Text style={[styles.textButton1, styles.big3]}>
-                                <IconMat name="arrow-right" size={30}
-                                         style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
-                                {' '}
-                                {addEvent.needsTeamAssoc ? team.name : 'Bestätigen'}
+                            <Text style={[styles.textButton1, (addEvent.needsTeamAssoc ? null : styles.big3)]}>
+                                {addEvent.needsTeamAssoc ?
+                                    team.name
+                                    :
+                                    <Text><IconMat name="arrow-right" size={30}
+                                                   style={{color: showBlinking ? '#fff' : '#3d8d02'}}/> Bestätigen</Text>}
                             </Text>
                         </Pressable>
                     ))}

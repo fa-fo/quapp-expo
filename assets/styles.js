@@ -56,7 +56,7 @@ export default StyleSheet.create({
     buttonBig1: {
         alignItems: 'center',
         paddingVertical: 16,
-        paddingHorizontal: 22,
+        paddingHorizontal: 18,
         width: '100%',
     },
     buttonBigBB1: {
