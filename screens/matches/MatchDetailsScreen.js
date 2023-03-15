@@ -36,7 +36,7 @@ export default function MatchDetailsScreen({navigation}) {
                     <ScrollView key={item.id}
                                 refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
                                 contentContainerStyle={styles.matchDetailsView}>
-                        {global.settings.isTest && data.yearSelected === undefined ?
+                        {global.settings.isTest && item.group.year.id === data.year.id ?
                             <Text style={styles.testMode}>{global.hintTestData}</Text> : null}
                         <Text>QuattFo {item.group.year.name}, Tag {item.group.day_id}</Text>
                         <Text>Runde {item.round.id}, Gruppe {item.group_name}</Text>
