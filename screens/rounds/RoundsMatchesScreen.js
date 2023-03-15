@@ -118,15 +118,17 @@ export default function RoundsMatchesScreen({navigation}) {
                                                     </View>
                                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                         {route.name === 'RoundsMatches' ?
-                                                            <Pressable style={styles.buttonTopRight}
-                                                                       onPress={() => navigation.navigate('RankingInGroups', {item: group})}
+                                                            <Pressable
+                                                                style={styles.buttonTopRight}
+                                                                onPress={() => navigation.navigate('RankingInGroups', {item: group})}
                                                             >
-                                                                <Text style={styles.textButtonTopRight}>
-                                                                    <IconMat name="table-column" size={15}/>
-                                                                    {' '}
-                                                                    {'Tabelle Gr. ' + group.name}
+                                                                <Text style={styles.textButtonTopRight}
+                                                                      numberOfLines={1}>
+                                                                    <IconMat name="table-large"
+                                                                             size={15}/>{' Tabelle Gr. ' + group.name}
                                                                 </Text>
-                                                            </Pressable> :
+                                                            </Pressable>
+                                                            :
                                                             (route.name === 'RoundsMatchesAdmin' && group.name === 'A' ?
                                                                 <Pressable
                                                                     style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}

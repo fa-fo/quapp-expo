@@ -1,6 +1,15 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, Pressable, Text, TextInput, View} from 'react-native';
+import {
+    ActivityIndicator,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    View
+} from 'react-native';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchLogsAddEventModal from './modals/MatchLogsAddEventModal';
@@ -11,7 +20,6 @@ import * as ScoreAsyncStorageFunctions from "../../components/functions/ScoreAsy
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
 import IconIon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {format} from "date-fns";
 import {useKeepAwake} from 'expo-keep-awake';
 import styles from '../../assets/styles.js';
@@ -209,7 +217,7 @@ export default function MatchLogsScreen({navigation}) {
     }, []);
 
     useEffect(() => {
-        if (showButtonArrow(liveLogsCalc)) {
+        if (!global.settings.isTest && showButtonArrow(liveLogsCalc)) {
             scrollRef.current?.scrollToEnd();
         }
     }, [liveLogsCalc]);
@@ -311,7 +319,7 @@ export default function MatchLogsScreen({navigation}) {
             return tagName === 'Text' ? [styles.textButton1, styles.textButtonFoul, {textDecorationColor: FoulFunctions.getFoulColor(code)}] : styles.buttonGrey;
 
         } else if (code === 'MATCH_START' || code === 'MATCH_END' || code === 'MATCH_CONCLUDE') {
-            return tagName === 'Text' ? [styles.textButton1, showButtonArrow(liveLogsCalc) ? styles.big3 : null] : styles.buttonGreen;
+            return tagName === 'Text' ? [styles.textButton1, showButtonArrow(liveLogsCalc) ? styles.big22 : null] : styles.buttonGreen;
 
         } else {
             return tagName === 'Text' ? styles.textButton1 : styles.buttonGreen;
@@ -323,15 +331,15 @@ export default function MatchLogsScreen({navigation}) {
             case 'ON_PLACE_REF':
                 return <IconMat
                     name={liveLogsCalc.isRefereeOnPlace ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={30}/>
+                    size={28}/>
             case 'ON_PLACE_TEAM1':
                 return <IconMat
                     name={liveLogsCalc.isTeam1OnPlace ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={30}/>
+                    size={28}/>
             case 'ON_PLACE_TEAM2':
                 return <IconMat
                     name={liveLogsCalc.isTeam2OnPlace ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={30}/>
+                    size={28}/>
             case 'GOAL_1POINT':
                 switch (route.params.item.sport.code) {
                     case 'BB':
@@ -366,25 +374,25 @@ export default function MatchLogsScreen({navigation}) {
                 return <IconMat name="hand-peace" size={15} style={{color: FoulFunctions.getFoulColor(code)}}/>
             case 'MATCH_START':
             case 'MATCH_CONCLUDE':
-                return <IconMat name="arrow-right" size={30}
+                return <IconMat name="arrow-right" size={28}
                                 style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
             case 'MATCH_END':
-                return <IconMat name="arrow-right" size={30}
+                return <IconMat name="arrow-right" size={28}
                                 style={{color: liveLogsCalc.isTime2confirm && showBlinking ? '#fff' : '#3d8d02'}}/>
             case 'RESULT_WIN_NONE':
                 return <IconMat
                     name={liveLogsCalc.teamWon === 0 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={30}/>
+                    size={28}/>
             case 'RESULT_WIN_TEAM1':
                 return <IconMat
                     name={liveLogsCalc.teamWon === 1 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={30}/>
+                    size={28}/>
             case 'RESULT_WIN_TEAM2':
                 return <IconMat
                     name={liveLogsCalc.teamWon === 2 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={30}/>
+                    size={28}/>
             case 'LOGOUT':
-                return <IconMat name="logout" size={30}/>
+                return <IconMat name="logout" size={28}/>
             default:
                 return null;
         }
@@ -463,7 +471,8 @@ export default function MatchLogsScreen({navigation}) {
             >
                 <Text
                     style={getButtonStyle(eventItem.code, 'Text')}
-                    numberOfLines={eventItem.code.substring(0, 5) === 'FOUL_' ? 1 : 2}
+                    adjustsFontSizeToFit={eventItem.code === 'MATCH_START'}
+                    numberOfLines={eventItem.code.substring(0, 5) === 'FOUL_' || eventItem.code === 'MATCH_START' ? 1 : 2}
                 >
                     {getButtonIcon(eventItem.code)}
                     {getButtonText(eventItem.code, eventItem.name)}
@@ -476,140 +485,149 @@ export default function MatchLogsScreen({navigation}) {
 
     return (
         (liveLogsCalc ?
-            <KeyboardAwareScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}
-                                     automaticallyAdjustKeyboardInsets={true}>
-                <View style={styles.matchflexRowView}>
-                    <View style={{flex: 5}}>
-                        <Text style={styles.big2} numberOfLines={2}
-                              adjustsFontSizeToFit>{route.params.item.teams1.name}</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Text style={styles.big2}>-</Text>
-                    </View>
-                    <View style={{flex: 5}}>
-                        <Text style={styles.big2} numberOfLines={2}
-                              adjustsFontSizeToFit>{route.params.item.teams2.name}</Text>
-                    </View>
-                </View>
-                <View style={styles.matchflexEventsView}>
-                    <Text adjustsFontSizeToFit>{liveLogsCalc.isMatchEnded ? 'Endstand' : 'Spielstand'}:</Text>
+            <KeyboardAvoidingView
+                behavior={'padding'}
+                style={{flex: 1}}
+                enabled
+                keyboardVerticalOffset={Platform.select({ios: 120, android: 160})}
+            >
+                <ScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}>
                     <View style={styles.matchflexRowView}>
                         <View style={{flex: 5}}>
-                            <Text
-                                style={[styles.big1, styles.textRed]}>{score1}</Text>
+                            <Text style={styles.big2a} numberOfLines={2} adjustsFontSizeToFit
+                                  textBreakStrategy="simple">{route.params.item.teams1.name}</Text>
                         </View>
-                        <View style={{flex: 1}}>
-                            <Text style={[styles.big1, styles.textRed]}>{isSendingEvent ?
-                                <ActivityIndicator size="large" color="#00ff00"/> : ':'}</Text>
+                        <View style={{flex: 1, paddingTop: 32}}>
+                            <Text style={[styles.big2a, styles.small]}>vs</Text>
                         </View>
                         <View style={{flex: 5}}>
-                            <Text
-                                style={[styles.big1, styles.textRed]}>{score2}</Text>
+                            <Text style={styles.big2a} numberOfLines={2} adjustsFontSizeToFit
+                                  textBreakStrategy="simple">{route.params.item.teams2.name}</Text>
                         </View>
                     </View>
-                    {liveLogsCalc.isMatchLive
-                    && liveLogsCalc.inserted_id
-                    && liveLogsCalc.score !== undefined
-                    && (isSendingEvent ||
-                        (score1 <= (parseInt(liveLogsCalc.score[route.params.item.team1_id]) || 0)
-                            && score2 <= (parseInt(liveLogsCalc.score[route.params.item.team2_id]) || 0)))
-                        ?
-                        <View style={styles.matchPressableView}>
-                            <Pressable
-                                style={[styles.button1, styles.buttonConfirm, styles.buttonGreyBright, {width: '50%'}]}
-                                onPress={() => {
-                                    setCancelEventModalVisible(true);
-                                }}
-                            >
-                                <Text numberOfLines={1} style={[styles.small, {width: '100%'}]}>
-                                    <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
-                                </Text>
-                            </Pressable>
+                    <View style={styles.matchflexEventsView}>
+                        <Text> </Text>
+                        <Text adjustsFontSizeToFit>{liveLogsCalc.isMatchEnded ? 'Endstand' : 'Spielstand'}:</Text>
+                        <View style={styles.matchflexRowView}>
+                            <View style={{flex: 5}}>
+                                <Text
+                                    style={[styles.big1, styles.textRed]}>{score1}</Text>
+                            </View>
+                            <View style={{flex: 1}}>
+                                <Text style={[styles.big1, styles.textRed]}>{isSendingEvent ?
+                                    <ActivityIndicator size="large" color="#00ff00"/> : ':'}</Text>
+                            </View>
+                            <View style={{flex: 5}}>
+                                <Text
+                                    style={[styles.big1, styles.textRed]}>{score2}</Text>
+                            </View>
                         </View>
-                        : null}
-                </View>
-                <View style={styles.matchflexEventsView}>
-                    {!liveLogsCalc.isMatchStarted ?
-                        <Text style={styles.big3}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
-                    {liveLogsCalc.isMatchConcluded ? <Text style={styles.big3}>Vielen Dank!</Text> : null}
-                    {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
-                        (allEvents.status === 'success' ?
-                            allEvents.object.map(eventItem =>
-                                showRelatedOnMatchPhase(eventItem.code) ?
-                                    showRelatedOnSports(eventItem.showOnSportsOnly) ?
-                                        <View key={eventItem.id} style={{width: '100%'}}>
-                                            {eventItem.textHeaderBeforeButton !== null ?
-                                                <Text>{eventItem.textHeaderBeforeButton}</Text> : null}
-                                            {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
-                                                <View style={styles.matchflexRowView}>
-                                                    <View style={[styles.viewRight, {flex: 1}]}>
-                                                        {getButton(eventItem, route.params.item.team1_id, route.params.item.teams1.name)}
+                        {liveLogsCalc.isMatchLive
+                        && liveLogsCalc.inserted_id
+                        && liveLogsCalc.score !== undefined
+                        && (isSendingEvent ||
+                            (score1 <= (parseInt(liveLogsCalc.score[route.params.item.team1_id]) || 0)
+                                && score2 <= (parseInt(liveLogsCalc.score[route.params.item.team2_id]) || 0)))
+                            ?
+                            <View style={styles.matchPressableView}>
+                                <Pressable
+                                    style={[styles.button1, styles.buttonConfirm, styles.buttonGreyBright, {width: '50%'}]}
+                                    onPress={() => {
+                                        setCancelEventModalVisible(true);
+                                    }}
+                                >
+                                    <Text numberOfLines={1} style={[styles.small, {width: '100%'}]}>
+                                        <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
+                                    </Text>
+                                </Pressable>
+                            </View>
+                            : null}
+                    </View>
+                    <View style={styles.matchflexEventsView}>
+                        {!liveLogsCalc.isMatchStarted ?
+                            <Text style={styles.big3}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
+                        {liveLogsCalc.isMatchConcluded ? <Text style={styles.big3}>Vielen Dank!</Text> : null}
+                        {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
+                            (allEvents.status === 'success' ?
+                                allEvents.object.map(eventItem =>
+                                    showRelatedOnMatchPhase(eventItem.code) ?
+                                        showRelatedOnSports(eventItem.showOnSportsOnly) ?
+                                            <View key={eventItem.id} style={{width: '100%'}}>
+                                                {eventItem.textHeaderBeforeButton !== null ?
+                                                    <Text>{eventItem.textHeaderBeforeButton}</Text> : null}
+                                                {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
+                                                    <View style={styles.matchflexRowView}>
+                                                        <View style={[styles.viewRight, {flex: 1}]}>
+                                                            {getButton(eventItem, route.params.item.team1_id, route.params.item.teams1.name)}
+                                                        </View>
+                                                        <View style={[styles.viewLeft, {flex: 1}]}>
+                                                            {getButton(eventItem, route.params.item.team2_id, route.params.item.teams2.name)}
+                                                        </View>
                                                     </View>
-                                                    <View style={[styles.viewLeft, {flex: 1}]}>
-                                                        {getButton(eventItem, route.params.item.team2_id, route.params.item.teams2.name)}
+                                                    :
+                                                    <View style={styles.matchflexRowView}>
+                                                        {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, route.params.item.team1_id, diff)}
+                                                        <View style={[styles.viewCentered, {flex: 2}]}>
+                                                            {getButton(eventItem, null, null)}
+                                                        </View>
+                                                        {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, route.params.item.team2_id, diff)}
                                                     </View>
-                                                </View>
-                                                :
-                                                <View style={styles.matchflexRowView}>
-                                                    {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, route.params.item.team1_id, diff)}
-                                                    <View style={[styles.viewCentered, {flex: 2}]}>
-                                                        {getButton(eventItem, null, null)}
+                                                }
+                                                {eventItem.code === 'RESULT_WIN_TEAM2' && liveLogsCalc.isMatchEnded && !liveLogsCalc.isMatchConcluded && liveLogsCalc.teamWon !== undefined ?
+                                                    <View>
+                                                        <Text>Besondere Vorkommnisse bzw. Kommentar des
+                                                            Schiedsrichters:</Text>
+                                                        <TextInput
+                                                            style={styles.textInput}
+                                                            multiline={true}
+                                                            numberOfLines={4}
+                                                            onChangeText={setRemarks}
+                                                            value={remarks}
+                                                            placeholder="Hier eingeben"
+                                                        />
                                                     </View>
-                                                    {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, route.params.item.team2_id, diff)}
-                                                </View>
-                                            }
-                                            {eventItem.code === 'RESULT_WIN_TEAM2' && liveLogsCalc.isMatchEnded && !liveLogsCalc.isMatchConcluded && liveLogsCalc.teamWon !== undefined ?
-                                                <View>
-                                                    <Text>Besondere Vorkommnisse bzw. Kommentar des
-                                                        Schiedsrichters:</Text>
-                                                    <TextInput
-                                                        style={styles.textInput}
-                                                        multiline={true}
-                                                        numberOfLines={4}
-                                                        onChangeText={setRemarks}
-                                                        value={remarks}
-                                                        placeholder="Hier eingeben"
-                                                    />
-                                                </View>
-                                                : null}
-                                        </View>
-                                        : null : null
-                            )
-                            : <Text>Fehler!</Text>)}
-                    {!liveLogsCalc.isMatchReadyToStart && !liveLogsCalc.isMatchStarted ?
-                        <Text>Alle 3 Buttons müssen <Text style={styles.textGreen}>grün</Text> sein, damit es losgehen
-                            kann!</Text>
-                        : null}
-                </View>
+                                                    : null}
+                                            </View>
+                                            : null : null
+                                )
+                                : <Text>Fehler!</Text>)}
+                        {!liveLogsCalc.isMatchReadyToStart && !liveLogsCalc.isMatchStarted ?
+                            <Text>Alle 3 Buttons müssen <Text style={styles.textGreen}>grün</Text> sein, damit es
+                                losgehen
+                                kann!</Text>
+                            : null}
+                    </View>
+                    <Text> </Text>
 
-                <MatchLogsAddEventModal
-                    match={route.params.item}
-                    addEvent={addEvent}
-                    setLiveLogsCalc={setLiveLogsCalc}
-                    setAddEventModalVisible={setAddEventModalVisible}
-                    addEventModalVisible={addEventModalVisible}
-                    remarks={remarks}
-                    setNextSendAlive={setNextSendAlive}
-                    showBlinking={showBlinking}
-                />
-                <MatchLogsCancelEventModal
-                    match={route.params.item}
-                    lastInsertedId={liveLogsCalc.inserted_id}
-                    setLiveLogsCalc={setLiveLogsCalc}
-                    setCancelEventModalVisible={setCancelEventModalVisible}
-                    cancelEventModalVisible={cancelEventModalVisible}
-                    setNextSendAlive={setNextSendAlive}
-                    setIsSendingEvent={setIsSendingEvent}
-                />
-                <FouledOutModal
-                    setModalVisible={setFouledOutModalVisible}
-                    modalVisible={fouledOutModalVisible}
-                />
-                <DoubleYellowModal
-                    setModalVisible={setDoubleYellowModalVisible}
-                    modalVisible={doubleYellowModalVisible}
-                />
-            </KeyboardAwareScrollView>
+                    <MatchLogsAddEventModal
+                        match={route.params.item}
+                        addEvent={addEvent}
+                        setLiveLogsCalc={setLiveLogsCalc}
+                        setAddEventModalVisible={setAddEventModalVisible}
+                        addEventModalVisible={addEventModalVisible}
+                        remarks={remarks}
+                        setNextSendAlive={setNextSendAlive}
+                        showBlinking={showBlinking}
+                    />
+                    <MatchLogsCancelEventModal
+                        match={route.params.item}
+                        lastInsertedId={liveLogsCalc.inserted_id}
+                        setLiveLogsCalc={setLiveLogsCalc}
+                        setCancelEventModalVisible={setCancelEventModalVisible}
+                        cancelEventModalVisible={cancelEventModalVisible}
+                        setNextSendAlive={setNextSendAlive}
+                        setIsSendingEvent={setIsSendingEvent}
+                    />
+                    <FouledOutModal
+                        setModalVisible={setFouledOutModalVisible}
+                        modalVisible={fouledOutModalVisible}
+                    />
+                    <DoubleYellowModal
+                        setModalVisible={setDoubleYellowModalVisible}
+                        modalVisible={doubleYellowModalVisible}
+                    />
+                </ScrollView>
+            </KeyboardAvoidingView>
             : null)
     );
 }

@@ -30,19 +30,20 @@ export default function App() {
                 setExpoPushToken(token);
                 global.expoPushToken = (token !== undefined ? token : '');
             })
-            .then(() => {
-                return AsyncStorage.getItem('myTeamId')
-                    .then(response => response !== null ? response.toString() : null)
-                    .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
-                    .catch((error) => console.error(error));
-            })
-            .then(() => {
-                return AsyncStorage.getItem('myTeamName')
-                    .then(response => response !== null ? response.toString() : null)
-                    .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
-                    .catch((error) => console.error(error));
-            })
-            .finally(() => setLoading(false))
+
+        async function getStorage() {
+            await AsyncStorage.getItem('myTeamId')
+                .then(response => response !== null ? response.toString() : null)
+                .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
+                .catch((error) => console.error(error));
+
+            await AsyncStorage.getItem('myTeamName')
+                .then(response => response !== null ? response.toString() : null)
+                .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
+                .catch((error) => console.error(error));
+        }
+
+        getStorage().then(r => setLoading(false));
     }, []);
 
     return (

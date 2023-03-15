@@ -1,6 +1,9 @@
 import {StyleSheet} from "react-native";
 
 export default StyleSheet.create({
+    bgYellow: {
+        backgroundColor: 'yellow'
+    },
     buttonTopRight: {
         alignItems: 'center',
         marginVertical: 4,
@@ -91,7 +94,8 @@ export default StyleSheet.create({
         shadowColor: '#aaaaaa',
     },
     textButtonTopRight: {
-        color: '#fff'
+        color: '#fff',
+        width: '100%'
     },
     foulCards: {
         paddingVertical: 5,
@@ -103,7 +107,7 @@ export default StyleSheet.create({
         width: '100%'
     },
     textButtonFoul: {
-        color: '#000',
+        color: '#fff',
         textDecorationLine: 'underline'
     },
     textInput: {
@@ -181,6 +185,13 @@ export default StyleSheet.create({
     big2: {
         fontSize: 36,
         textAlign: 'center',
+    },
+    big2a: {
+        fontSize: 32,
+        textAlign: 'center',
+    },
+    big22: {
+        fontSize: 22,
     },
     big3: {
         fontSize: 24,

@@ -27,17 +27,15 @@ export function setScore(code, matchId, teamId) {
 }
 
 export function syncScore(match, score) {
-    if (score) {
-        let newJson = {
-            [match.id]:
-                {
-                    [match.team1_id]: (parseInt(score[match.team1_id] ?? 0) || 0),
-                    [match.team2_id]: (parseInt(score[match.team2_id] ?? 0) || 0),
-                },
-        }
-
-        setAsyncStorage(scoreName, newJson, 1);
+    let newJson = {
+        [match.id]:
+            {
+                [match.team1_id]: (parseInt(score ? (score[match.team1_id] ?? 0) : 0) || 0),
+                [match.team2_id]: (parseInt(score ? (score[match.team2_id] ?? 0) : 0) || 0),
+            },
     }
+
+    setAsyncStorage(scoreName, newJson, 1);
 }
 
 export function clearScores() {

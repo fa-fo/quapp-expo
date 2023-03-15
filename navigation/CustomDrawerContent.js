@@ -39,7 +39,7 @@ export default function CustomDrawerContent(props) {
             {global.myTeamId === 0 ? null
                 :
                 <DrawerItem
-                    icon={() => <Icon name="exclamation-thick" size={25}/>}
+                    icon={() => <Icon name="exclamation-thick" size={25} style={styles.bgYellow}/>}
                     label="Meine Spiele"
                     onPress={() =>
                         props.navigation.reset({

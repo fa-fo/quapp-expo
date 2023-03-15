@@ -66,13 +66,14 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                         </Text>
                                                     </View>
                                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                                        <Pressable style={styles.buttonTopRight}
-                                                                   onPress={() => navigation.navigate(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item})}
+                                                        <Pressable
+                                                            style={styles.buttonTopRight}
+                                                            onPress={() => navigation.navigate(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item})}
                                                         >
-                                                            <Text style={styles.textButtonTopRight}>
-                                                                <IconMat name="table-column" size={15}/>
-                                                                {' '}
-                                                                {'Tabelle Gr. ' + route.params.item.group_name}
+                                                            <Text style={styles.textButtonTopRight}
+                                                                  numberOfLines={1}>
+                                                                <IconMat name="table-large"
+                                                                         size={15}/>{' Tabelle Gr. ' + route.params.item.group_name}
                                                             </Text>
                                                         </Pressable>
                                                     </View>

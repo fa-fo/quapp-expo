@@ -59,10 +59,9 @@ export default function RankingInGroupsScreen({navigation}) {
                                         <Pressable style={styles.buttonTopRight}
                                                    onPress={() => navigation.navigate(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: route.params.item})}
                                         >
-                                            <Text style={styles.textButtonTopRight}>
-                                                <IconMat name="format-list-bulleted" size={15}/>
-                                                {' '}
-                                                {'Spielplan Gr. ' + route.params.item.group_name}
+                                            <Text style={styles.textButtonTopRight} numberOfLines={1}>
+                                                <IconMat name="format-list-bulleted"
+                                                         size={15}/>{' Spielplan Gr. ' + route.params.item.group_name}
                                             </Text>
                                         </Pressable>
                                     </View>

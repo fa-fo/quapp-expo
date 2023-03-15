@@ -28,7 +28,7 @@
       },
       "package": "de.quattfo.quapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 26008,
+      "versionCode": 26018,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",

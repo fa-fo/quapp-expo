@@ -114,13 +114,14 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             </Text>
                                                         </View>
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                                            <Pressable style={styles.buttonTopRight}
-                                                                       onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group})}
+                                                            <Pressable
+                                                                style={styles.buttonTopRight}
+                                                                onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group})}
                                                             >
-                                                                <Text style={styles.textButtonTopRight}>
-                                                                    <IconMat name="table-column" size={15}/>
-                                                                    {' '}
-                                                                    {'Tabelle Gr. ' + data.object.group.group_name}
+                                                                <Text style={styles.textButtonTopRight}
+                                                                      numberOfLines={1}>
+                                                                    <IconMat name="table-large"
+                                                                             size={15}/>{' Tabelle Gr. ' + data.object.group.group_name}
                                                                 </Text>
                                                             </Pressable>
                                                         </View>
