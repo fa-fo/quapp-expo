@@ -46,8 +46,8 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                                            day_id: (day_id + 1)
                                                        })}
                                             >
-                                                <Text
-                                                    style={styles.textButtonTopRight}>{'Archiv Tag ' + (day_id + 1)}</Text>
+                                                <Text style={styles.textButtonTopRight}
+                                                      numberOfLines={1}>{'Archiv Tag ' + (day_id + 1)}</Text>
                                             </Pressable>
                                         </View>
                                     )) : null}

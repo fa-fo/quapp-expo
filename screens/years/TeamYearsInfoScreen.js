@@ -51,8 +51,8 @@ export default function TeamYearsInfoScreen({navigation}) {
                                                 <Pressable style={styles.buttonTopRight}
                                                            onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: route.params.item})}
                                                 >
-                                                    <Text
-                                                        style={styles.textButtonTopRight}>{'Bilanz seit 2022'}</Text>
+                                                    <Text style={styles.textButtonTopRight}
+                                                          numberOfLines={1}>{'Bilanz seit 2022'}</Text>
                                                 </Pressable>
                                             </View>
                                             : null}
