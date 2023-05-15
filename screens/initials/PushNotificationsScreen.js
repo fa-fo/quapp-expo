@@ -17,7 +17,7 @@ export default function PushNotificationsScreen({navigation}) {
     }, []);
 
     const loadScreenData = () => {
-        fetchApi('teamYears/all')
+        fetchApi('teamYears/allWithPushTokenCount')
             .then((json) => setData(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -69,7 +69,7 @@ export default function PushNotificationsScreen({navigation}) {
                         >
                             <Picker.Item key="0" value="0" label="alle Teams"/>
                             {data ? data.object.map(item => (
-                                <Picker.Item key={item.id} value={item.team_id} label={item.team.name}/>
+                                <Picker.Item key={item.id} value={item.team_id} label={item.team.name + '(' + item.countPushTokens + ')'}/>
                             )) : null}
                         </Picker>
                         <Text>Nachrichtentitel:</Text>

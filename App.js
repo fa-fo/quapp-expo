@@ -69,7 +69,11 @@ async function registerForPushNotificationsAsync() {
         if (finalStatus !== 'granted') {
             return;
         }
-        token = (await Notifications.getExpoPushTokenAsync()).data;
+        const appConfig = require('./app.json');
+        const projectId = appConfig?.expo?.extra?.eas?.projectId;
+        token = (await Notifications.getExpoPushTokenAsync({
+            projectId
+        })).data;
     }
 
     if (Platform.OS === 'android') {
