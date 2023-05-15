@@ -96,28 +96,26 @@ export default function MatchDetailsScreen({navigation}) {
                         {item.canceled === 2 || item.canceled === 3 ?
                             <Text style={styles.textRed}>{item.teams2.name} zurückgezogen</Text> : null}
 
-                        <Text>
-                            {item.isTime2login
-                            && !item.canceled
-                            && !item.logsCalc.isMatchConcluded
-                            && !item.logsCalc.isResultConfirmed ?
-                                (window?.location?.hostname === 'api.quattfo.de' ? null
-                                    :
-                                    <Pressable
-                                        style={[styles.button1, (item.logsCalc.isLoggedIn ? styles.buttonGrey : styles.buttonGreen)]}
-                                        onPress={() => setModalVisible(true)}
-                                        disabled={(!!item.logsCalc.isLoggedIn)}
-                                    >
-                                        <Text style={styles.textButton1}>
-                                            <Icon name="login" size={30}/>
-                                            {(item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
-                                                (item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
-                                                    'Jetzt einloggen\nund Spielprotokollierung starten'))
-                                            }
-                                        </Text>
-                                    </Pressable>) : null}
-                        </Text>
-                        <Text> </Text>
+                        {item.isTime2login
+                        && !item.canceled
+                        && !item.logsCalc.isMatchConcluded
+                        && !item.logsCalc.isResultConfirmed ?
+                            (window?.location?.hostname === 'api.quattfo.de' ? null
+                                :
+                                <Pressable
+                                    style={[styles.button1, (item.logsCalc.isLoggedIn ? styles.buttonGrey : styles.buttonGreen)]}
+                                    onPress={() => setModalVisible(true)}
+                                    disabled={(!!item.logsCalc.isLoggedIn)}
+                                >
+                                    <Text style={styles.textButton1}>
+                                        <Icon name="login" size={30}/>
+                                        {(item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
+                                            (item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
+                                                'Jetzt einloggen\nund Spielprotokollierung starten'))
+                                        }
+                                    </Text>
+                                </Pressable>) : null}
+
                         <MatchDetailsLoginModal
                             setModalVisible={setModalVisible}
                             modalVisible={modalVisible}
