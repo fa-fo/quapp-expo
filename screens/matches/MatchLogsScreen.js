@@ -128,7 +128,7 @@ export default function MatchLogsScreen({navigation}) {
 
     useEffect(() => {
         // add log directly without modal
-        function addMatcheventlogDirectly(data) {
+        async function addMatcheventlogDirectly(data) {
             if (addEventDirectly.code.substring(0, 9) !== 'ON_PLACE_') {
                 setIsSendingEvent(true); // prevent accidentally multiple clicks
             }
@@ -139,7 +139,7 @@ export default function MatchLogsScreen({navigation}) {
             };
             if (data.teamId) {
                 postData = {'team_id': data.teamId, ...postData};
-                ScoreAsyncStorageFunctions.setScore(addEventDirectly.code, route.params.item.id, data.teamId);
+                await ScoreAsyncStorageFunctions.setScore(addEventDirectly.code, route.params.item.id, data.teamId);
             }
 
             fetchApi('matcheventLogs/add/' + route.params.item.id, 'POST', postData)
@@ -157,7 +157,7 @@ export default function MatchLogsScreen({navigation}) {
                 })
                 .catch((error) => console.error(error))
                 .finally(() => {
-                    setTimeout(() => { // wait for setScore before trigger setScore1 and setScore2
+                    setTimeout(() => { // wait to prevent multiple clicks
                         setIsSendingEvent(false);
                     }, 500);
                 });

@@ -81,7 +81,7 @@ export default function RoundsMatchesScreen({navigation}) {
     function confirmAllResults(groups) {
         groups.map(group =>
             group.matches.map(item => {
-                    if (item.isResultOk && item.resultTrend === null)
+                    if (item.isResultOk && item.resultTrend === null) // todo: remove bug: overlapping post requests cause duplicate calcRanking
                         confirmResult(item.id, 0, null, null, null)
                 }
             ));

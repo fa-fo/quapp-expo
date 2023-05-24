@@ -2,7 +2,7 @@
   "expo": {
     "name": "QuattFo Quapp",
     "slug": "quattfo-quapp",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "orientation": "default",
     "scheme": "quapp",
     "icon": "./assets/images/icon.png",
@@ -28,7 +28,7 @@
       },
       "package": "de.quattfo.quapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 26023,
+      "versionCode": 26024,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
