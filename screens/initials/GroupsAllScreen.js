@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {RefreshControl, ScrollView, Text} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
-import {useRoute} from "@react-navigation/native";
+import {useFocusEffect, useRoute} from "@react-navigation/native";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 
 export default function GroupsAllScreen({navigation}) {
@@ -14,19 +14,19 @@ export default function GroupsAllScreen({navigation}) {
     let year_id_prev = null;
     let day_id_prev = null;
 
-    useEffect(() => {
-        if ((route.params === undefined && year_id_prev === null) || year_id_prev !== (route.params?.year_id ?? 0) || day_id_prev !== (route.params?.day_id ?? 0)) {
-            year_id_prev = route.params?.year_id ?? 0;
-            day_id_prev = route.params?.day_id ?? 0;
-            setLoading(true);
-            loadScreenData();
-        }
+    useFocusEffect(
+        useCallback(() => {
+            if ((route.params === undefined && year_id_prev === null)
+                || year_id_prev !== (route.params?.year_id ?? (global.currentYearId ?? 0))
+                || day_id_prev !== (route.params?.day_id ?? (global.settings?.currentDay_id ?? 0))) {
 
-        return () => {
-            setData(null);
-            setLoading(false);
-        };
-    }, [navigation, route]);
+                year_id_prev = route.params?.year_id ?? (global.currentYearId ?? 0);
+                day_id_prev = route.params?.day_id ?? (global.settings?.currentDay_id ?? 0);
+                setLoading(true);
+                loadScreenData();
+            }
+        }, [navigation, route]),
+    );
 
     const loadScreenData = () => {
         fetchApi('groups/all' + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0))
