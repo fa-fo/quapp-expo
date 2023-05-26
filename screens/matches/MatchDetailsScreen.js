@@ -45,6 +45,11 @@ export default function MatchDetailsScreen({navigation}) {
                         <Text style={styles.big2} numberOfLines={2} adjustsFontSizeToFit>{item.teams2.name}</Text>
                         <Text> </Text>
                         <Text>SR: {item.teams3.name}</Text>
+                        {item.teams4 ?
+                            <Text numberOfLines={1} style={styles.textGreen}>
+                                <Text style={styles.textViolet}>Ersatz-SR:</Text> {item.teams4.name}
+                            </Text>
+                            : null}
                         <Text> </Text>
                         <Text>Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}</Text>
                         <Text style={styles.big3}>{item.sport.name} Feld {item.group_name}</Text>
