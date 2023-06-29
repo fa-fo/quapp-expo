@@ -9,7 +9,7 @@ import CellVariantMatchesAdmin from '../../components/cellVariantMatchesAdmin';
 import fetchApi from '../../components/fetchApi';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {confirmResult} from "../../components/functions/ConfirmFunctions";
+import {confirmResults} from "../../components/functions/ConfirmFunctions";
 
 export default function RoundsMatchesScreen({navigation}) {
     const route = useRoute();
@@ -79,15 +79,17 @@ export default function RoundsMatchesScreen({navigation}) {
     };
 
     function confirmAllResults(groups) {
+        let matchIds = [];
+
         groups.map(group =>
             group.matches.map(item => {
-                    if (item.isResultOk && item.resultTrend === null)
-                        setTimeout(() => {
-                            confirmResult(item.id, 0, null, null, null)
-                        }, 1000); // wait to avoid overlapping post requests cause duplicate calcRanking
+                if (item.isResultOk && !item.logsCalc.isResultConfirmed) {
+                    matchIds = [item.id, ...matchIds];
                 }
-            ));
-        loadScreenData();
+            })
+        )
+
+        confirmResults(matchIds, 0, null, null, null);
     }
 
     return (
