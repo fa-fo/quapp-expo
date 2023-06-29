@@ -278,24 +278,44 @@ export default function AdminActionsScreen({navigation}) {
                             <Text style={{fontSize: 32}}>Spielbetrieb läuft!</Text>
                             : null}
                         {data.object.matchesCount > data.object.matchResultCount ?
-                            <View>
-                                <Pressable style={[styles.button1, styles.buttonGreyDark]}
-                                           onPress={() => downloadPdf('teamYears/pdfAllTeamsMatches')}>
-                                    <Text style={styles.textButton1}><Icon name="file-pdf-box"
-                                                                           size={25}/>Pdf-Download:{'\n'}Alle
-                                        Team-Spielpläne </Text>
-                                </Pressable>
-                                <Pressable style={[styles.button1, styles.buttonGreyDark]}
-                                           onPress={() => downloadPdf('sports/pdfAllFieldsMatches')}>
-                                    <Text style={styles.textButton1}><Icon name="file-pdf-box"
-                                                                           size={25}/>Pdf-Download:{'\n'}Alle
-                                        Feld-Spielpläne </Text>
-                                </Pressable>
+                            <View style={styles.matchflexRowView}>
+                                <View style={[styles.viewStatus, {flex: 1}]}>
+                                    <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                               onPress={() => downloadPdf('teamYears/pdfAllTeamsMatches')}>
+                                        <Text style={styles.textButton1}><Icon name="file-pdf-box"
+                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                            Team-Spielpläne </Text>
+                                    </Pressable>
+                                </View>
+                                <View style={[styles.viewStatus, {flex: 1}]}>
+                                    <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                               onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/0')}>
+                                        <Text style={styles.textButton1}><Icon name="file-pdf-box"
+                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                            Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 1</Text>
+                                    </Pressable>
+                                </View>
+                                <View style={[styles.viewStatus, {flex: 1}]}>
+                                    <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                               onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/1')}>
+                                        <Text style={styles.textButton1}><Icon name="file-pdf-box"
+                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                            Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 2</Text>
+                                    </Pressable>
+                                </View>
                             </View>
                             : null}
 
                         {data.object.matchesCount > 0 ?
                             <View>
+                                {data.object.matchesCount > data.object.matchResultCount ?
+                                    <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                               onPress={() => downloadPdf('sports/pdfAllFieldsMatches')}>
+                                        <Text style={styles.textButton1}><Icon name="file-pdf-box"
+                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                            Feld-Spielpläne </Text>
+                                    </Pressable>
+                                    : null}
                                 <Pressable style={[styles.button1, styles.buttonGreyDark]}
                                            onPress={() => downloadPdf('groupTeams/pdfAllRankings')}>
                                     <Text style={styles.textButton1}><Icon name="file-pdf-box"
