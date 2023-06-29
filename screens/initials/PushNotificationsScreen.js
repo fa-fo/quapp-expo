@@ -41,11 +41,13 @@ export default function PushNotificationsScreen({navigation}) {
         const message = {
             to: expoPushToken,
             sound: 'default',
+            channelId: 'default',
+            ttl: 3600,
             title: mailTitle,
             body: mailBody,
         };
 
-        await fetch('https://exp.host/--/api/v2/push/send', {
+        await fetch('https://api.expo.dev/v2/push/send', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -69,7 +71,8 @@ export default function PushNotificationsScreen({navigation}) {
                         >
                             <Picker.Item key="0" value="0" label="alle Teams"/>
                             {data ? data.object.map(item => (
-                                <Picker.Item key={item.id} value={item.team_id} label={item.team.name + '(' + item.countPushTokens + ')'}/>
+                                <Picker.Item key={item.id} value={item.team_id}
+                                             label={item.team.name + '(' + item.countPushTokens + ')'}/>
                             )) : null}
                         </Picker>
                         <Text>Nachrichtentitel:</Text>
