@@ -148,7 +148,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                             </Section>
                                         </TableView>
                                         :
-                                        data.year.currentDay_id === 1 ?
+                                        data.year.settings.currentDay_id === 1 ?
                                             <View>
                                                 <Text>Team nicht gefunden!</Text>
                                                 {team_name === global.myTeamName ?
