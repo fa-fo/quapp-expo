@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../assets/styles.js';
-import {confirmResult} from "../functions/ConfirmFunctions";
+import {confirmResults} from "../functions/ConfirmFunctions";
 import {isNumber} from "../functions/CheckFunctions";
 
 export default function InsertResultModal({
@@ -22,7 +22,7 @@ export default function InsertResultModal({
                 'goals2': submitData.goals2,
             };
 
-            confirmResult(match.id, 1, setModalVisible, loadScreenData, postData)
+            confirmResults(match.id, 1, setModalVisible, loadScreenData, postData)
         }
 
         return () => {
@@ -50,7 +50,7 @@ export default function InsertResultModal({
                     <Text>{'\n'}</Text>
                     <Text>Ergebniseingabe ohne Faktor:</Text>
                     <Text>{'\n'}</Text>
-                    <View style={[styles.matchflexRowView, {flex: 0, alignItems: 'center'}]}>
+                    <View style={[styles.matchflexRowView, {flex: 1, alignItems: 'center'}]}>
                         <TextInput style={[styles.textInput, {flex: 2}]}
                                    onChangeText={setGoals1}
                                    placeholder="Tore"
@@ -58,7 +58,7 @@ export default function InsertResultModal({
                                    maxLength={3}
                                    value={goals1 !== null ? goals1 : (oldGoals1 !== null ? oldGoals1 : '')}
                         />
-                        <Text style={{flex: 1, width: '100%', alignContent: 'center'}}> : </Text>
+                        <Text style={{flex: 1, width: '100%', alignContent: 'center', textAlign: 'center'}}> : </Text>
                         <TextInput style={[styles.textInput, {flex: 2}]}
                                    onChangeText={setGoals2}
                                    placeholder="Tore"
@@ -82,7 +82,7 @@ export default function InsertResultModal({
                             }
                         }}>
                         <Text
-                            style={styles.textButton1}>Eintragen und werten</Text>
+                            style={[styles.textButton1, {textAlign: 'center'}]}>Eintragen und werten</Text>
                     </Pressable>
                     <Text>{'\n'}</Text>
                     <Pressable
