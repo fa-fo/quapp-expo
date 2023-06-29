@@ -81,6 +81,9 @@ export default StyleSheet.create({
     buttonRed: {
         backgroundColor: '#a33300'
     },
+    buttonRed50: {
+        backgroundColor: '#ef7842'
+    },
     buttonGreyDark: {
         backgroundColor: '#4e4e4e',
         borderColor: '#3d8d02'

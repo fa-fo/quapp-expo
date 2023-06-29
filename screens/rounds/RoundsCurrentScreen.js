@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, Text} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import {useRoute} from '@react-navigation/native';
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import styles from "../../assets/styles";
 
 export default function RoundsCurrentScreen({navigation}) {
     const route = useRoute();
@@ -28,7 +29,27 @@ export default function RoundsCurrentScreen({navigation}) {
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.rounds?.length > 0 ? (
                     <TableView appearance="light">
-                        <Section header={global.currentDayName}>
+                        <Section
+                            header={global.currentDayName}
+                            headerComponent={route.name === 'RoundsCurrentSupervisor' ?
+                                <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                    <View style={{flex: 2}}>
+                                        <Text>{global.currentDayName}</Text>
+                                    </View>
+                                    <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                        <Pressable
+                                            style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
+                                            onPress={() => navigation.navigate('RoundsMatchesManager', {
+                                                roundsCount: data.object.rounds.length,
+                                            })}
+                                        >
+                                            <Text numberOfLines={1} style={styles.textButton1}>
+                                                {'zur Manager-Ansicht'}
+                                            </Text>
+                                        </Pressable>
+                                    </View>
+                                </View> : null
+                            }>
                             {data.object.rounds.map(item => (
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"
