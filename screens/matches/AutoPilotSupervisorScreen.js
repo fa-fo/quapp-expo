@@ -1,7 +1,5 @@
-import * as React from 'react';
-
 // re-add "expo-av": "~13.0.2",
-/*
+import * as React from 'react';
 import {useCallback, useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import fetchApi from "../../components/fetchApi";
@@ -12,10 +10,9 @@ import styles from "../../assets/styles";
 import {Audio} from 'expo-av';
 import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-*/
+
 
 export default function AutoPilotSupervisorScreen({navigation}) {
-    /*
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [now, setNow] = useState(new Date());
@@ -39,21 +36,22 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         useCallback(() => {
             const interval =
                 setInterval(() => {
-                    getMatchTime();
+                    if (data.year?.settings?.currentDay_id)
+                        getMatchTime(data.year.settings.currentDay_id);
                 }, 1000);
 
             return () => {
                 clearInterval(interval);
             };
-        }, [currentRoundId, autoPilot]),
+        }, [currentRoundId, autoPilot, data]),
     );
 
-    function getCurrentRoundId() {
+    function getCurrentRoundId(currentDay_id) {
         let time = new Date();
         time.setMinutes(time.getMinutes() + 10);
-        time.setHours(time.getHours() - (data?.year?.currentDay_id === 2 ? 1 : 2));
+        time.setHours(time.getHours() - (currentDay_id === 2 ? 1 : 2));
         let cycle = Math.floor(time.getHours() / 8);
-        console.log(cycle);
+
         if (cycle !== 1 && data.day === format(now, "yyyy-MM-dd")) {
             return 0; // on real match day only play real times
         }
@@ -61,7 +59,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         return (time.getHours() % 8 * 2 + 1) + Math.floor(time.getMinutes() / 30);
     }
 
-    function getMatchTime() {
+    function getMatchTime(currentDay_id) {
         let now = new Date();
         let mainTimer = '';
         let neg = 0;
@@ -83,7 +81,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         }
 
         if (mainTimer === '-09:59' || mainTimer === '-09:56' || currentRoundId === null) { // round change
-            setCurrentRoundId(getCurrentRoundId());
+            setCurrentRoundId(getCurrentRoundId(currentDay_id));
         }
 
         if (autoPilot && currentRoundId !== 0) {
@@ -106,49 +104,49 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     }
 
     function getSoundFileName(mainTimer) {
-        let file = '';
+        let file = ' ';
 
         if (global.settings.isTest) {
-            if (mainTimer.substring(0, 1) === '-' && mainTimer.substring(2, 3) !== '0' && mainTimer.substring(4, 6) === '00') {
+            if (mainTimer.substring(0, 1) === '-' && mainTimer.substring(2, 3) !== '0' && mainTimer.substring(4, 6) === '10') {
                 file = 'startRound' + currentRoundId + 'In' + mainTimer.substring(2, 3) + 'minutes';
-            } else if (mainTimer.substring(0, 1) === '0' && mainTimer.substring(3, 5) === '00') {
+            } else if (mainTimer.substring(0, 1) === '0' && mainTimer.substring(1, 2) !== '9' && mainTimer.substring(3, 5) === '50') {
                 file = 'changeSides-Round' + currentRoundId + 'In' + (10 - mainTimer.substring(1, 2)) + 'minutes';
-            } else if (mainTimer.substring(0, 1) === '1' && mainTimer.substring(3, 5) === '00') {
+            } else if (mainTimer.substring(0, 1) === '1' && mainTimer.substring(1, 2) !== '9' && mainTimer.substring(3, 5) === '50') {
                 file = 'endRound' + currentRoundId + 'In' + (10 - mainTimer.substring(1, 2)) + 'minutes';
             }
         }
 
         switch (mainTimer) {
-            case '-00:10':
-            case '09:50':
-            case '19:50':
+            case '-00:20':
+            case '09:40':
+            case '19:40':
                 file = 'countdown9and8and7and6and5and4and3and2and1and0';
                 break;
 
-            case '-05:00':
+            case '-05:10':
                 file = 'startRound' + currentRoundId + 'In5minutes';
                 break;
-            case '-03:00':
+            case '-03:10':
                 file = 'startRound' + currentRoundId + 'In3minutes';
                 break;
-            case '-01:00':
+            case '-01:10':
                 file = 'startRound' + currentRoundId + 'In1minute';
                 break;
-            case '00:00':
+            case '-00:10':
                 file = 'startRound' + currentRoundId;
                 break;
 
-            case '09:00':
+            case '08:50':
                 file = 'changeSides-In1minute';
                 break;
-            case '10:00':
+            case '09:50':
                 file = 'changeSides';
                 break;
 
-            case '19:00':
+            case '18:50':
                 file = 'endIn1minute';
                 break;
-            case '19:59':
+            case '19:49':
                 file = 'endRound' + currentRoundId;
                 break;
         }
@@ -162,7 +160,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         if (mainTimer.substring(mainTimer.length - 1) === '5') file = ' '; // reset status text file after 5 sec
         if (mainTimer === '19:59') await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
 
-        if (file) {
+        if (0 && file) {
             setSoundFile(file);
             if (file !== ' ') {
                 Speech.speak(file, {rate: 0.6});
@@ -170,11 +168,11 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         }
 
         try {
-            if (0 && file) {
+            if (file && file !== ' ') {
                 const sound = new Audio.Sound();
-                await sound.loadAsync({
-                    uri: 'https://www.quattfo.de/audio/' + file + '.mp3'
-                }, {shouldPlay: true});
+                await sound.loadAsync(
+                    require('./../../assets/sounds/alam.mp3'),
+                    {shouldPlay: true});
                 await sound.setPositionAsync(0);
                 await sound.playAsync();
             }
@@ -218,5 +216,4 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                 ) : <Text>Keine Spielrunden gefunden!</Text>)}
         </ScrollView>
     );
-*/
 }
