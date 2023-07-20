@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
@@ -15,6 +15,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
     const [data, setData] = useState([]);
     const [now, setNow] = useState(new Date());
     const [lastUpdate, setLastUpdate] = useState(null);
+    const problemsRef = useRef(null);
 
     useEffect(() => {
         setLoading(true);
@@ -82,7 +83,8 @@ export default function RoundsMatchesManagerScreen({navigation}) {
     return (
         <ScrollView
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
-            style={lastUpdate && data && now > lastUpdate ? styles.buttonRed : null}
+            style={lastUpdate && data && now > lastUpdate ? styles.buttonRed
+                : (problemsRef?.current?.childNodes?.length ?? 0) === 0 ? styles.buttonGreen : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
                 <Text>{format(now, "HH:mm:ss")}</Text>
@@ -99,14 +101,19 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                 {'Runde ' + data.object.round?.id + ' um '
                                 + DateFunctions.getFormatted(data.object.round['timeStartDay' + data.year.settings.currentDay_id]) + ' Uhr'}
                             </Text>
-                            {data.object.groups?.map(group =>
-                                group.matches.map(item => (
-                                    <CellVariantMatchesManagerProblem
-                                        key={item.id}
-                                        item={item}
-                                    />
-                                ))
-                            )}
+                            <View ref={problemsRef}>
+                                {data.object.groups?.map(group =>
+                                    group.matches.map(item => (
+                                        <CellVariantMatchesManagerProblem
+                                            key={item.id}
+                                            item={item}
+                                        />
+                                    ))
+                                )}
+                            </View>
+                            {(problemsRef?.current?.childNodes?.length ?? 0) === 0 ?
+                                <Text style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</Text>
+                                : null}
                         </View>
                         <View style={{flex: 1}}>
                             {data.object.groups?.map(group =>
