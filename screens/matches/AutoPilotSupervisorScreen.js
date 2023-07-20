@@ -146,6 +146,9 @@ export default function AutoPilotSupervisorScreen({navigation}) {
             case '18:50':
                 file = 'endIn1minute';
                 break;
+            case '19:20':
+                file = 'endIn30seconds';
+                break;
             case '19:49':
                 file = 'endRound' + currentRoundId;
                 break;
@@ -169,6 +172,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
 
         try {
             if (file && file !== ' ') {
+                setSoundFile(file);
                 const sound = new Audio.Sound();
                 await sound.loadAsync(
                     require('./../../assets/sounds/alam.mp3'),
