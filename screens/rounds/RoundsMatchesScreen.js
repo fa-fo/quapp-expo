@@ -89,7 +89,9 @@ export default function RoundsMatchesScreen({navigation}) {
             })
         )
 
-        confirmResults(matchIds, 0, null, null, null);
+        if (matchIds.length > 0) {
+            confirmResults(matchIds, 0, null, null, null);
+        }
     }
 
     return (
