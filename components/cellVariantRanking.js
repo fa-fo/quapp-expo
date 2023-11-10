@@ -24,7 +24,7 @@ export default function CellVariantRanking(props) {
                                 ? 2
                                 : 0,
                     }}>
-                    <View style={{alignSelf: 'center', flex: 2}}>
+                    <View style={{alignSelf: 'center', flex: 2.5}}>
                         <Text
                             adjustsFontSizeToFit
                             numberOfLines={1}
