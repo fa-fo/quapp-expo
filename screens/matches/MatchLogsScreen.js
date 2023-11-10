@@ -39,6 +39,11 @@ export default function MatchLogsScreen({navigation}) {
     const [showBlinking, setShowBlinking] = useState(true);
     const [score1, setScore1] = useState(0);
     const [score2, setScore2] = useState(0);
+    const [teamsSwapped, setTeamsSwapped] = useState(false);
+    const [teamA_id, setTeamA_id] = useState(route.params.item.team1_id);
+    const [teamB_id, setTeamB_id] = useState(route.params.item.team2_id);
+    const [teamA_name, setTeamA_name] = useState(route.params.item.teams1.name);
+    const [teamB_name, setTeamB_name] = useState(route.params.item.teams2.name);
 
     const [addEvent, setAddEvent] = useState(false);
     const [addEventDirectly, setAddEventDirectly] = useState(false);
@@ -118,8 +123,8 @@ export default function MatchLogsScreen({navigation}) {
                 .then((string) => {
                     let json = string !== null ? JSON.parse(string) : null;
                     if (json && json[route.params.item.id]) {
-                        setScore1(parseInt(json[route.params.item.id][route.params.item.team1_id]) || 0);
-                        setScore2(parseInt(json[route.params.item.id][route.params.item.team2_id]) || 0);
+                        setScore1(parseInt(json[route.params.item.id][teamsSwapped ? teamB_id : teamA_id]) || 0);
+                        setScore2(parseInt(json[route.params.item.id][teamsSwapped ? teamA_id : teamB_id]) || 0);
                     }
                 })
                 .catch((error) => console.error(error));
@@ -252,6 +257,19 @@ export default function MatchLogsScreen({navigation}) {
             setCancelEventDirectly(false);
         };
     }, [cancelEventDirectly]);
+
+
+    useEffect(() => {
+        setTeamA_id(teamsSwapped ? route.params.item.team2_id : route.params.item.team1_id);
+        setTeamB_id(teamsSwapped ? route.params.item.team1_id : route.params.item.team2_id);
+        setTeamA_name(teamsSwapped ? route.params.item.teams2.name : route.params.item.teams1.name);
+        setTeamB_name(teamsSwapped ? route.params.item.teams1.name : route.params.item.teams2.name);
+
+        return () => {
+            //setTeamsSwapped(false);
+        };
+    }, [teamsSwapped]);
+
 
     let showButtonArrow = function (liveLogsCalc) {
         return !!(
@@ -495,14 +513,20 @@ export default function MatchLogsScreen({navigation}) {
                     <View style={styles.matchflexRowView}>
                         <View style={{flex: 5}}>
                             <Text style={styles.big2a} numberOfLines={2} adjustsFontSizeToFit
-                                  textBreakStrategy="simple">{route.params.item.teams1.name}</Text>
+                                  textBreakStrategy="simple">{teamA_name}</Text>
                         </View>
-                        <View style={{flex: 1, paddingTop: 32}}>
+                        <View style={{flex: 1}}>
+                            <Pressable style={[styles.button1, styles.viewStatus, styles.buttonGreen]}
+                                       onPress={() => setTeamsSwapped(!teamsSwapped)}>
+                                <Text style={[styles.textButton1, {textAlign: 'center'}]}>
+                                    <IconMat name={'swap-horizontal-bold'} size={20}/>
+                                </Text>
+                            </Pressable>
                             <Text style={[styles.big2a, styles.small]}>vs</Text>
                         </View>
                         <View style={{flex: 5}}>
                             <Text style={styles.big2a} numberOfLines={2} adjustsFontSizeToFit
-                                  textBreakStrategy="simple">{route.params.item.teams2.name}</Text>
+                                  textBreakStrategy="simple">{teamB_name}</Text>
                         </View>
                     </View>
                     <View style={styles.matchflexEventsView}>
@@ -511,7 +535,7 @@ export default function MatchLogsScreen({navigation}) {
                         <View style={styles.matchflexRowView}>
                             <View style={{flex: 5}}>
                                 <Text
-                                    style={[styles.big1, styles.textRed]}>{score1}</Text>
+                                    style={[styles.big1, styles.textRed]}>{teamsSwapped ? score2 : score1}</Text>
                             </View>
                             <View style={{flex: 1}}>
                                 <Text style={[styles.big1, styles.textRed]}>{isSendingEvent ?
@@ -519,15 +543,15 @@ export default function MatchLogsScreen({navigation}) {
                             </View>
                             <View style={{flex: 5}}>
                                 <Text
-                                    style={[styles.big1, styles.textRed]}>{score2}</Text>
+                                    style={[styles.big1, styles.textRed]}>{teamsSwapped ? score1 : score2}</Text>
                             </View>
                         </View>
                         {liveLogsCalc.isMatchLive
                         && liveLogsCalc.inserted_id
                         && liveLogsCalc.score !== undefined
                         && (isSendingEvent ||
-                            (score1 <= (parseInt(liveLogsCalc.score[route.params.item.team1_id]) || 0)
-                                && score2 <= (parseInt(liveLogsCalc.score[route.params.item.team2_id]) || 0)))
+                            (score1 <= (parseInt(liveLogsCalc.score[teamsSwapped ? teamB_id : teamA_id]) || 0)
+                                && score2 <= (parseInt(liveLogsCalc.score[teamsSwapped ? teamA_id : teamB_id]) || 0)))
                             ?
                             <View style={styles.matchPressableView}>
                                 <Pressable
@@ -558,19 +582,19 @@ export default function MatchLogsScreen({navigation}) {
                                                 {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
                                                     <View style={styles.matchflexRowView}>
                                                         <View style={[styles.viewRight, {flex: 1}]}>
-                                                            {getButton(eventItem, route.params.item.team1_id, route.params.item.teams1.name)}
+                                                            {getButton(eventItem, teamA_id, teamA_name)}
                                                         </View>
                                                         <View style={[styles.viewLeft, {flex: 1}]}>
-                                                            {getButton(eventItem, route.params.item.team2_id, route.params.item.teams2.name)}
+                                                            {getButton(eventItem, teamB_id, teamB_name)}
                                                         </View>
                                                     </View>
                                                     :
                                                     <View style={styles.matchflexRowView}>
-                                                        {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, route.params.item.team1_id, diff)}
+                                                        {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, teamA_id, diff)}
                                                         <View style={[styles.viewCentered, {flex: 2}]}>
                                                             {getButton(eventItem, null, null)}
                                                         </View>
-                                                        {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, route.params.item.team2_id, diff)}
+                                                        {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, teamB_id, diff)}
                                                     </View>
                                                 }
                                                 {eventItem.code === 'RESULT_WIN_TEAM2' && liveLogsCalc.isMatchEnded && !liveLogsCalc.isMatchConcluded && liveLogsCalc.teamWon !== undefined ?
