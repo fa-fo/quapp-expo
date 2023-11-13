@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import * as SportFunctions from "./functions/SportFunctions";
 
 export default function CellVariant(props) {
+
     return (
         <Cell
             {...props}
@@ -25,9 +26,7 @@ export default function CellVariant(props) {
                                 fontSize: 16,
                             }}>
                             {props.title}
-                            {props.countStars ? [...Array(props.countStars)].map((e, i) => <IconMat name="star"
-                                                                                                    size={15}
-                                                                                                    style={{color: 'rgba(224,196,13,0.37)'}}/>) : null}
+                            {props.countStars ? SportFunctions.getChampionshipStars(props.countStars) : null}
                             {props.canceled ? (
                                 <Text style={{color: '#a33300', fontSize: 10}}>
                                     {' '}

@@ -6,6 +6,7 @@ import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariant from '../../components/cellVariant';
 import fetchApi from '../../components/fetchApi';
+import * as SportFunctions from "../../components/functions/SportFunctions";
 
 export default function TeamYearsInfoScreen({navigation}) {
     const route = useRoute();
@@ -39,7 +40,9 @@ export default function TeamYearsInfoScreen({navigation}) {
                                 <View>
                                     <View style={[styles.matchflexRowView, styles.headerComponentView]}>
                                         <View style={{flex: 2}}>
-                                            <Text style={{fontSize: 18}}>{data.object[0].team_name}</Text>
+                                            <Text style={{fontSize: 18}}>{data.object[0].team_name}
+                                                {data.object[0].calcTotalChampionships ? SportFunctions.getChampionshipStars(data.object[0].calcTotalChampionships) : null}
+                                            </Text>
                                             <Text>{'Teilnahmen: ' + data.object[0].calcTotalYears}</Text>
                                             <Text>{'Gesamtplatzierungspunkte: ' + (data.object[0].calcTotalRankingPoints ? data.object[0].calcTotalRankingPoints : 0)}</Text>
                                             <Text>{'Platzierungspunkte/Jahr: ' + (data.object[0].calcTotalPointsPerYear ? data.object[0].calcTotalPointsPerYear : 0)}</Text>
