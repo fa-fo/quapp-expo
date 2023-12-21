@@ -17,11 +17,7 @@ export default function CellVariantMatchesManagerProblem(props) {
     }, [props.item.logsCalc]);
 
     let getStatus = function (status) {
-        if (!props.item.logsCalc[status]) {
-            return false;
-        } else {
-            return true;
-        }
+        return props.item.logsCalc[status];
     };
 
     let getProblemEventView = function (status, nameProblem) {
@@ -36,9 +32,9 @@ export default function CellVariantMatchesManagerProblem(props) {
     };
 
     let getButtonStyle = function (status) {
-        if (status === 'isLoggedIn') {
+        if (status === 'isLoggedIn' && !getStatus('wasLoggedIn')) {
             return styles.buttonRed;
-        } else if (status === 'isMatchStarted') {
+        } else if (status === 'isMatchStarted' || (status === 'isLoggedIn' && getStatus('wasLoggedIn'))) {
             return styles.buttonGreyDark;
         }
 
@@ -46,7 +42,7 @@ export default function CellVariantMatchesManagerProblem(props) {
     };
 
     let getButtonWidth = function (status) {
-        if (status === 'isLoggedIn') {
+        if (status === 'isLoggedIn' && !getStatus('wasLoggedIn')) {
             return '95%';
         }
 

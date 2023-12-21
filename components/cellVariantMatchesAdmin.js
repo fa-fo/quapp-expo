@@ -43,11 +43,7 @@ export default function CellVariantMatchesAdmin(props) {
     };
 
     let getStatus = function (status) {
-        if (!props.item.logsCalc[status]) {
-            return false;
-        } else {
-            return true;
-        }
+        return props.item.logsCalc[status];
     };
 
     let getEventView = function (status, nameTrue, nameFalse) {
