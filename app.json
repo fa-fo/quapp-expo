@@ -22,7 +22,8 @@
       "bundleIdentifier": "de.quattfo.quapp",
       "infoPlist": {
         "UIBackgroundModes": [
-          "remote-notification"
+          "remote-notification",
+          "fetch"
         ]
       }
     },
@@ -42,7 +43,8 @@
       ]
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
     },
     "androidStatusBar": {
       "translucent": true
@@ -60,6 +62,14 @@
           "icon": "./assets/images/notification-icon.png",
           "color": "#ffffff",
           "androidMode": "default"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 33
+          }
         }
       ]
     ],

@@ -1,3 +1,4 @@
+import "@expo/metro-runtime";
 import 'expo/build/Expo.fx';
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import {createRoot} from 'react-dom/client';
