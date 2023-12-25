@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import * as DateFunctions from "../components/functions/DateFunctions";
 import MyTeamSelectScreen from '../screens/initials/MyTeamSelectScreen';
 import ListMatchesByTeamScreen from '../screens/matches/ListMatchesByTeamScreen';
 import RankingInGroupsScreen from '../screens/matches/RankingInGroupsScreen';
@@ -10,17 +10,13 @@ import GroupsAllScreen from '../screens/initials/GroupsAllScreen';
 import RoundsCurrentScreen from '../screens/rounds/RoundsCurrentScreen';
 import RoundsMatchesScreen from '../screens/rounds/RoundsMatchesScreen';
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
-import MatchRulesScreen from "../screens/matches/MatchRulesScreen";
+import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import NoInternetModalScreen from "../screens/initials/modals/NoInternetModalScreen";
-import * as DateFunctions from "../components/functions/DateFunctions";
-
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-
 export default function MyMatchesStackNavigator({navigation}) {
-
     return (
         <Stack.Navigator
             initialRouteName={
@@ -110,9 +106,11 @@ export default function MyMatchesStackNavigator({navigation}) {
                 options={{title: 'Teams am ' + global.currentDayName}}
             />
             <Stack.Screen
-                name="MatchRules"
-                component={MatchRulesScreen}
-                options={{title: 'Spielregeln'}}
+                name="ResourceContent"
+                component={ResourceContentScreen}
+                options={({route}) => ({
+                    title: route.params.title
+                })}
             />
             <Stack.Screen
                 name="NoInternetModal"

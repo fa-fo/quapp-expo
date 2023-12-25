@@ -4,8 +4,10 @@ import {ActivityIndicator, ScrollView, useWindowDimensions, View} from 'react-na
 import fetchApi from "../../components/fetchApi";
 import styles from "../../assets/styles";
 import RenderHtml from 'react-native-render-html';
+import {useRoute} from "@react-navigation/native";
 
-export default function MatchRulesScreen({navigation}) {
+export default function ResourceContentScreen({navigation}) {
+    const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const {width} = useWindowDimensions();
@@ -13,10 +15,10 @@ export default function MatchRulesScreen({navigation}) {
     useEffect(() => {
         setLoading(true);
         loadScreenData();
-    }, []);
+    }, [route]);
 
     const loadScreenData = () => {
-        fetchApi('sports/getRules/')
+        fetchApi('sports/getResourceContent/' + route.params.resource_id)
             .then((json) => setData(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));

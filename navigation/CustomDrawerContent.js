@@ -74,7 +74,26 @@ export default function CustomDrawerContent(props) {
                 icon={() => <Icon name="playlist-check" size={25}/>}
                 label="Spielregeln"
                 onPress={() =>
-                    props.navigation.navigate('MatchRules')
+                    props.navigation.navigate('MyMatches', {
+                        screen: 'ResourceContent',
+                        params: {
+                            resource_id: 16,
+                            title: 'Spielregeln'
+                        }
+                    })
+                }
+            />
+            <DrawerItem
+                icon={() => <Icon name="food-fork-drink" size={25}/>}
+                label="Speisekarte"
+                onPress={() =>
+                    props.navigation.navigate('MyMatches', {
+                        screen: 'ResourceContent',
+                        params: {
+                            resource_id: 77,
+                            title: 'Speisekarte'
+                        }
+                    })
                 }
             />
             {currentDayId > 1 ?
