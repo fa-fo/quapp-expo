@@ -19,8 +19,8 @@ export default function CellVariantMatchesManager(props) {
                     </Text>
                 </View>
                 <View style={{flex: 1}}>
-                    <Text
-                        style={[styles.big3, styles.textRed]}>
+                    <Text adjustsFontSizeToFit numberOfLines={1}
+                          style={[styles.big3, styles.textRed]}>
                         {props.item.logsCalc.score !== undefined
                             ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
                             0
