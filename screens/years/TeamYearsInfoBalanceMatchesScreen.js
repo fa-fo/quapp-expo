@@ -51,9 +51,6 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
                                             </Text>
                                             <Text>Alle ausgetragene Spiele seit 2022: </Text>
                                         </View>
-                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
-
-                                        </View>
                                     </View>
                                 </View>
                             }>

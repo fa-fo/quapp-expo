@@ -41,12 +41,31 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
                                         <View style={{flex: 2}}>
                                             <Text style={{fontSize: 18}}>{route.params.team.team_name}</Text>
                                             <Text>{'Gesamtbilanz seit 2022 (nur ausgetragene Spiele):'}</Text>
-                                            <Text>{(data.object['total'][1] ?? 0) + ' Siege'}</Text>
-                                            <Text>{(data.object['total'][0] ?? 0) + ' Remis'}</Text>
-                                            <Text>{(data.object['total'][2] ?? 0) + ' Niederlagen'}</Text>
+                                            <Text>{(data.object['total'][1] ?? 0) + ' Siege'} - {(data.object['total'][0] ?? 0) + ' Unentschieden'} - {(data.object['total'][2] ?? 0) + ' Niederlagen'}</Text>
+                                            <Text>{'\n'}</Text>
                                         </View>
-                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
-
+                                    </View>
+                                    <View style={styles.matchflexRowView}>
+                                        <View style={{alignSelf: 'center', flex: 2.4}}>
+                                            <Text numberOfLines={1} style={styles.textRankingStats}> </Text>
+                                        </View>
+                                        <View style={{alignSelf: 'center', flex: 2}}>
+                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                                Siege
+                                            </Text>
+                                        </View>
+                                        <View style={{alignSelf: 'center', flex: 2}}>
+                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                                Unent.
+                                            </Text>
+                                        </View>
+                                        <View style={{alignSelf: 'center', flex: 2}}>
+                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                                Nied.
+                                            </Text>
+                                        </View>
+                                        <View style={{flex: 1}}>
+                                            <Text> </Text>
                                         </View>
                                     </View>
                                 </View>

@@ -11,7 +11,9 @@ export default function CellVariantBalance(props) {
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
             backgroundColor={
-                props.object[props.item.id][1] > (props.object[props.item.id][2] ?? 0) ? 'rgba(151,245,135,0.37)' : (props.object[props.item.id][2] > (props.object[props.item.id][1] ?? 0) ? 'rgba(245,135,135,0.37)' : '')
+                props.object[props.item.id][1] > (props.object[props.item.id][2] ?? 0) ? 'rgba(151,245,135,0.37)'
+                    : (props.object[props.item.id][2] > (props.object[props.item.id][1] ?? 0) ? 'rgba(245,135,135,0.37)'
+                    : '')
             }
             cellContentView={
                 <View
@@ -46,9 +48,9 @@ export default function CellVariantBalance(props) {
                             numberOfLines={1}
                             style={{
                                 fontSize: 16,
-                                textAlign: 'right',
+                                textAlign: 'center',
                             }}>
-                            {(props.object[props.item.id][1] ?? 0) + ' Siege, '}
+                            {(props.object[props.item.id][1] ?? 0)}
                         </Text>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
@@ -57,9 +59,9 @@ export default function CellVariantBalance(props) {
                             numberOfLines={1}
                             style={{
                                 fontSize: 16,
-                                textAlign: 'right',
+                                textAlign: 'center',
                             }}>
-                            {(props.object[props.item.id][0] ?? 0) + ' Remis, '}
+                            {(props.object[props.item.id][0] ?? 0)}
                         </Text>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
@@ -68,9 +70,9 @@ export default function CellVariantBalance(props) {
                             numberOfLines={1}
                             style={{
                                 fontSize: 16,
-                                textAlign: 'right',
+                                textAlign: 'center',
                             }}>
-                            {(props.object[props.item.id][2] ?? 0) + ' Nied.  '}
+                            {(props.object[props.item.id][2] ?? 0)}
                         </Text>
                     </View>
                     <View style={{alignSelf: 'center'}}>
