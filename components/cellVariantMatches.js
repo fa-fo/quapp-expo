@@ -51,7 +51,7 @@ export default function CellVariantMatches(props) {
                                 />
                                 {props.item.sport.code}
                                 <Text style={styles.textViolet}>
-                                    {props.isRefereeJob ? 'SR ' : ''}
+                                    {props.isRefereeJob ? 'SR' + (props.item.teams4 ? '-Ersatz ' : '') : ''}
                                 </Text>
                             </Text>
                             }
@@ -126,7 +126,7 @@ export default function CellVariantMatches(props) {
                                         style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
                                         onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
                                             + encodeURIComponent('Ergebnis ' + props.item.id)
-                                            + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id]+ '\n\nKommentar des Schiedsrichters:\n'))}>
+                                            + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
                                         <Text numberOfLines={2} style={styles.textButton1}>
                                             Ergebnis per Mail senden
                                         </Text>

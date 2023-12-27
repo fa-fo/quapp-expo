@@ -81,7 +81,7 @@ export default function CellVariantMatchesManagerProblem(props) {
                         </Text>
                     </View>
                     <View style={{flex: 4, alignSelf: 'flex-start', paddingRight: 20}}>
-                        {getProblemEventView('isLoggedIn', props.item.teams3.name + ': SR nicht eingeloggt')}
+                        {getProblemEventView('isLoggedIn', (props.item.teams4 ? props.item.teams4.name : props.item.teams3.name) + ': ' + (props.item.teams4 ? 'Ersatz-' : '') + 'SR nicht eingeloggt')}
 
                         {getStatus('isMatchStarted') ? null :
                             (!getStatus('isLoggedIn')
@@ -89,7 +89,7 @@ export default function CellVariantMatchesManagerProblem(props) {
                                 && !getStatus('isTeam1OnPlace')
                                 && !getStatus('isTeam2OnPlace') ? null :
                                     <View>
-                                        {getProblemEventView('isRefereeOnPlace', (props.item.teams4 ? props.item.teams4.name : props.item.teams3.name) + ': SR nicht am Platz')}
+                                        {getProblemEventView('isRefereeOnPlace', (props.item.teams4 ? props.item.teams4.name : props.item.teams3.name) + ': ' + (props.item.teams4 ? 'Ersatz-' : '') + 'SR nicht am Platz')}
                                         {getProblemEventView('isTeam1OnPlace', props.item.teams1.name + ': Team nicht am Platz')}
                                         {getProblemEventView('isTeam2OnPlace', props.item.teams2.name + ': Team nicht am Platz')}
 
