@@ -1,15 +1,15 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import MyDrawer from "./navigation/DrawerNavigator";
 import {NavigationContainer} from "@react-navigation/native";
-import {ActivityIndicator, Platform} from "react-native";
-import styles from './assets/styles.js';
-import * as Notifications from 'expo-notifications';
-import * as Device from 'expo-device';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from 'expo-splash-screen';
+import * as PushFunctions from './components/functions/PushFunctions';
+import {loadStorageTeam} from "./components/functions/AsyncStorageFunctions";
+
+SplashScreen.preventAutoHideAsync().then(r => null);
 
 export default function App() {
-    const [isLoading, setLoading] = useState(true);
+    const [appIsReady, setAppIsReady] = useState(false);
     const [expoPushToken, setExpoPushToken] = useState(''); // sic! needed
 
     global.settings = {};
@@ -25,66 +25,43 @@ export default function App() {
     }
 
     useEffect(() => {
-        registerForPushNotificationsAsync()
-            .then(token => {
-                setExpoPushToken(token);
-                global.expoPushToken = (token !== undefined ? token : '');
-            })
+        async function prepare() {
+            try {
+                PushFunctions.registerForPushNotificationsAsync()
+                    .then(token => {
+                        setExpoPushToken(token);
+                        global.expoPushToken = (token !== undefined ? token : '');
+                    })
 
-        async function getStorage() {
-            await AsyncStorage.getItem('myTeamId')
-                .then(response => response !== null ? response.toString() : null)
-                .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
-                .catch((error) => console.error(error));
+                loadStorageTeam().then(r => null);
 
-            await AsyncStorage.getItem('myTeamName')
-                .then(response => response !== null ? response.toString() : null)
-                .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
-                .catch((error) => console.error(error));
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            } catch (e) {
+                console.warn(e);
+            } finally {
+                // Tell the application to render
+                setAppIsReady(true);
+            }
         }
 
-        getStorage().then(r => setLoading(false));
+        prepare().then(r => null);
     }, []);
 
+    const onLayoutRootView = useCallback(async () => {
+        if (appIsReady) {
+            await SplashScreen.hideAsync();
+        }
+    }, [appIsReady]);
+
+    if (!appIsReady) {
+        return null;
+    }
+
     return (
-        <NavigationContainer>
-            {isLoading ?
-                <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/>
-                :
-                <MyDrawer/>
-            }
+        <NavigationContainer onReady={onLayoutRootView}>
+            <MyDrawer/>
         </NavigationContainer>
     );
 }
 
-async function registerForPushNotificationsAsync() {
-    let token;
-    if (Device.isDevice && Platform.OS !== 'web') {
-        const {status: existingStatus} = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-            const {status} = await Notifications.requestPermissionsAsync();
-            finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-            return;
-        }
-        const appConfig = require('./app.json');
-        const projectId = appConfig?.expo?.extra?.eas?.projectId;
-        token = (await Notifications.getExpoPushTokenAsync({
-            projectId
-        })).data;
-    }
-
-    if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-        });
-    }
-
-    return token;
-}
 

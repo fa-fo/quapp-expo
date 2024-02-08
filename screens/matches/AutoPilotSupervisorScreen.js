@@ -1,4 +1,5 @@
-// re-add "expo-av": "~13.0.2",
+// re-add "expo-speech": "~11.3.0","expo-av": "~13.4.1",
+/*
 import * as React from 'react';
 import {useCallback, useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
@@ -221,3 +222,4 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         </ScrollView>
     );
 }
+*/

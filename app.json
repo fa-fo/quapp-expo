@@ -2,7 +2,7 @@
   "expo": {
     "name": "QuattFo Quapp",
     "slug": "quattfo-quapp",
-    "version": "2.0.3",
+    "version": "3.0.0",
     "orientation": "default",
     "scheme": "quapp",
     "icon": "./assets/images/icon.png",
@@ -34,7 +34,7 @@
       },
       "package": "de.quattfo.quapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 26024,
+      "versionCode": 27002,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -68,7 +68,7 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 33
+            "targetSdkVersion": 33
           }
         }
       ]

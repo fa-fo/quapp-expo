@@ -10,7 +10,7 @@ import setAsyncStorage from '../../components/setAsyncStorage';
 import {setLocalPushNotifications} from "../../components/setLocalPushNotifications";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import * as ScoreAsyncStorageFunctions from "../../components/functions/ScoreAsyncStorageFunctions";
+import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 
 export default function ListMatchesByTeamScreen({navigation}) {
     const route = useRoute();
@@ -58,7 +58,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 }
 
                 if (json.year?.settings?.showLocalStorageScore) {
-                    ScoreAsyncStorageFunctions.getScore()
+                    AsyncStorageFunctions.getScore()
                         .then(response => response !== null ? response.toString() : null)
                         .then((string) => {
                             let jsonScore = string !== null ? JSON.parse(string) : null;

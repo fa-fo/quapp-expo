@@ -16,7 +16,7 @@ import MatchLogsAddEventModal from './modals/MatchLogsAddEventModal';
 import MatchLogsCancelEventModal from './modals/MatchLogsCancelEventModal';
 import FouledOutModal from "../../components/modals/FouledOutModal";
 import DoubleYellowModal from "../../components/modals/DoubleYellowModal";
-import * as ScoreAsyncStorageFunctions from "../../components/functions/ScoreAsyncStorageFunctions";
+import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
 import IconIon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
@@ -118,7 +118,7 @@ export default function MatchLogsScreen({navigation}) {
     // set Score
     useEffect(() => {
         if (isSendingEvent === false) {
-            ScoreAsyncStorageFunctions.getScore()
+            AsyncStorageFunctions.getScore()
                 .then(response => response !== null ? response.toString() : null)
                 .then((string) => {
                     let json = string !== null ? JSON.parse(string) : null;
@@ -144,7 +144,7 @@ export default function MatchLogsScreen({navigation}) {
             };
             if (data.teamId) {
                 postData = {'team_id': data.teamId, ...postData};
-                await ScoreAsyncStorageFunctions.setScore(addEventDirectly.code, route.params.item.id, data.teamId);
+                await AsyncStorageFunctions.setScore(addEventDirectly.code, route.params.item.id, data.teamId);
             }
 
             fetchApi('matcheventLogs/add/' + route.params.item.id, 'POST', postData)
@@ -176,7 +176,7 @@ export default function MatchLogsScreen({navigation}) {
         if (allEvents.length === 0) {
             fetchApi('matchevents/all/')
                 .then((json) => {
-                    ScoreAsyncStorageFunctions.syncScore(route.params.item, route.params.item.logsCalc.score);
+                    AsyncStorageFunctions.syncScore(route.params.item, route.params.item.logsCalc.score);
                     setAllEvents(json);
                 })
                 .catch((error) => console.error(error))

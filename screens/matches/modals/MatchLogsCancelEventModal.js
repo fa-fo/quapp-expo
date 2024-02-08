@@ -3,7 +3,7 @@ import {Modal, Pressable, Text, View} from 'react-native';
 import styles from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import * as ScoreAsyncStorageFunctions from "../../../components/functions/ScoreAsyncStorageFunctions";
+import * as AsyncStorageFunctions from "../../../components/functions/AsyncStorageFunctions";
 
 export default function MatchLogsCancelEventModal({
                                                       match,
@@ -25,7 +25,7 @@ export default function MatchLogsCancelEventModal({
             fetchApi('matcheventLogs/cancel/' + match.id + '/' + lastInsertedId, 'POST', postData)
                 .then((json) => {
                     if (json.status === 'success') {
-                        ScoreAsyncStorageFunctions.syncScore(match, json.object.score);
+                        AsyncStorageFunctions.syncScore(match, json.object.score);
                         setLiveLogsCalc(json.object);
                         setNextSendAlive();
                     }

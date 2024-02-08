@@ -4,6 +4,18 @@ import setAsyncStorage from "../setAsyncStorage";
 
 let scoreName = 'score';
 
+export async function loadStorageTeam() {
+    await AsyncStorage.getItem('myTeamId')
+        .then(response => response !== null ? response.toString() : null)
+        .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
+        .catch((error) => console.error(error));
+
+    await AsyncStorage.getItem('myTeamName')
+        .then(response => response !== null ? response.toString() : null)
+        .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
+        .catch((error) => console.error(error));
+}
+
 // redundant Storage for emergency case if server is down
 export function setScore(code, matchId, teamId) {
     if (code.substring(0, 5) === 'GOAL_') {
