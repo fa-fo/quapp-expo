@@ -36,7 +36,10 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
     );
 
     const loadScreenData = () => {
-        fetchApi('matches/refereeCanceledMatches')
+        let postData = {
+            'password': global['supervisorPW']
+        };
+        fetchApi('matches/refereeCanceledMatches', 'POST', postData)
             .then((json) => setData(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
