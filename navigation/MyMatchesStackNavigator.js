@@ -11,6 +11,7 @@ import RoundsCurrentScreen from '../screens/rounds/RoundsCurrentScreen';
 import RoundsMatchesScreen from '../screens/rounds/RoundsMatchesScreen';
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
 import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
+import SettingsScreen from "../screens/initials/SettingsScreen";
 import NoInternetModalScreen from "../screens/initials/modals/NoInternetModalScreen";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -110,6 +111,13 @@ export default function MyMatchesStackNavigator({navigation}) {
                 component={ResourceContentScreen}
                 options={({route}) => ({
                     title: route.params.title
+                })}
+            />
+            <Stack.Screen
+                name="Settings"
+                component={SettingsScreen}
+                options={({route}) => ({
+                    title: 'Einstellungen'
                 })}
             />
             <Stack.Screen

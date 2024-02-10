@@ -3,13 +3,10 @@ import {useEffect, useState} from 'react';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Image, Linking, Text, View} from 'react-native';
 import styles from '../assets/styles';
-import UsernameLoginModal from './modals/UsernameLoginModal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Constants from "expo-constants";
 
 export default function CustomDrawerContent(props) {
-    const [usernameModalVisible, setUsernameModalVisible] = useState(false);
-    const [username, setUsername] = useState(null);
-
     const [currentYearId, setCurrentYearId] = useState(0);
     const [currentYearName, setCurrentYearName] = useState('');
     const [currentDayId, setCurrentDayId] = useState(0);
@@ -125,140 +122,108 @@ export default function CustomDrawerContent(props) {
                     props.navigation.navigate('Years', {screen: 'TeamsAllTimeRanking'})
                 }
             />
-            {window?.location?.hostname !== 'api.quattfo.de' ?
+            <View>
+                <View style={styles.drawerSectionView}>
+                    <View style={styles.separatorLine}/>
+                </View>
+                <DrawerItem
+                    icon={() => <Icon name="account-settings-outline" size={25}/>}
+                    label="Einstellungen"
+                    onPress={() => {
+                        props.navigation.navigate('MyMatches', {screen: 'Settings'})
+                    }}
+                />
+            </View>
+            {global.supervisorPW === undefined ?
+                null
+                :
                 <View>
                     <View style={styles.drawerSectionView}>
-                        <Text style={{marginLeft: 10}}>Einstellungen</Text>
+                        <Text style={{marginLeft: 10}}>Supervisor</Text>
                         <View style={styles.separatorLine}/>
                     </View>
                     <DrawerItem
-                        icon={() => <Icon name="account-switch-outline" size={25}/>}
-                        label="Mein Team ändern"
+                        icon={() => <Icon name="timetable" size={25}/>}
+                        label="Supervisor Spielrunden"
                         onPress={() =>
-                            props.navigation.navigate('MyMatches', {screen: 'MyTeamSelect'})
+                            props.navigation.navigate('Supervisor', {
+                                screen: 'RoundsCurrentSupervisor',
+                            })
                         }
                     />
-                </View> : null
+                    <DrawerItem
+                        icon={() => <Icon name="phone-missed" size={25}/>}
+                        label="Fehlende SR"
+                        onPress={() =>
+                            props.navigation.navigate('Supervisor', {
+                                screen: 'ListMatchesByRefereeCanceledTeamsSupervisor',
+                            })
+                        }
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="clipboard-list-outline" size={25}/>}
+                        label="Ersatz-SR-Rangliste"
+                        onPress={() =>
+                            props.navigation.navigate('Supervisor', {
+                                screen: 'RankingRefereeSubstSupervisor',
+                            })
+                        }
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="refresh-auto" size={25}/>}
+                        label="Supervisor Auto-Pilot"
+                        onPress={() =>
+                            props.navigation.navigate('Supervisor', {
+                                screen: 'AutoPilotSupervisor',
+                            })
+                        }
+                    />
+                </View>
             }
-
-            {__DEV__ || window?.location?.hostname === 'api.quattfo.de' ?
+            {global.adminPW === undefined ?
+                null
+                :
                 <View>
-                    {global.supervisorPW === undefined ?
-                        <View>
-                            <View style={styles.drawerSectionView}>
-                                <View style={styles.separatorLine}/>
-                            </View>
-                            <DrawerItem
-                                icon={() => <Icon name="login" size={25}/>}
-                                label="Supervisor Login"
-                                onPress={() => {
-                                    setUsername('supervisor');
-                                    setUsernameModalVisible(true);
-                                }}
-                            />
-                        </View>
-                        :
-                        <View>
-                            <View style={styles.drawerSectionView}>
-                                <Text style={{marginLeft: 10}}>Supervisor</Text>
-                                <View style={styles.separatorLine}/>
-                            </View>
-                            <DrawerItem
-                                icon={() => <Icon name="timetable" size={25}/>}
-                                label="Supervisor Spielrunden"
-                                onPress={() =>
-                                    props.navigation.navigate('Supervisor', {
-                                        screen: 'RoundsCurrentSupervisor',
-                                    })
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="phone-missed" size={25}/>}
-                                label="Fehlende SR"
-                                onPress={() =>
-                                    props.navigation.navigate('Supervisor', {
-                                        screen: 'ListMatchesByRefereeCanceledTeamsSupervisor',
-                                    })
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="clipboard-list-outline" size={25}/>}
-                                label="Ersatz-SR-Rangliste"
-                                onPress={() =>
-                                    props.navigation.navigate('Supervisor', {
-                                        screen: 'RankingRefereeSubstSupervisor',
-                                    })
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="refresh-auto" size={25}/>}
-                                label="Supervisor Auto-Pilot"
-                                onPress={() =>
-                                    props.navigation.navigate('Supervisor', {
-                                        screen: 'AutoPilotSupervisor',
-                                    })
-                                }
-                            />
-                        </View>
-                    }
-                    {global.adminPW === undefined ?
-                        <View>
-                            <View style={styles.drawerSectionView}>
-                                <View style={styles.separatorLine}/>
-                            </View>
-                            <DrawerItem
-                                icon={() => <Icon name="login-variant" size={25}/>}
-                                label="Admin Login"
-                                onPress={() => {
-                                    setUsername('admin');
-                                    setUsernameModalVisible(true);
-                                }}
-                            />
-                        </View>
-                        :
-                        <View>
-                            <View style={styles.drawerSectionView}>
-                                <Text style={{marginLeft: 10}}>Admin</Text>
-                                <View style={styles.separatorLine}/>
-                            </View>
-                            <DrawerItem
-                                icon={() => <Icon name="timetable" size={25}/>}
-                                label="Admin Spielrunden"
-                                onPress={() =>
-                                    props.navigation.navigate('Admin', {screen: 'RoundsCurrentAdmin'})
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="heart-flash" size={25}/>}
-                                label="Admin Aktionen"
-                                onPress={() =>
-                                    props.navigation.navigate('Admin', {screen: 'AdminActions'})
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="view-grid-outline" size={25}/>}
-                                label="Admin Gruppen"
-                                onPress={() =>
-                                    props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin'})
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="cpu-64-bit" size={25}/>}
-                                label="Admin Teams"
-                                onPress={() =>
-                                    props.navigation.navigate('Admin', {screen: 'TeamsCurrentAdmin'})
-                                }
-                            />
-                            <DrawerItem
-                                icon={() => <Icon name="email-send-outline" size={25}/>}
-                                label="Push Notifications"
-                                onPress={() =>
-                                    props.navigation.navigate('Admin', {screen: 'PushNotifications'})
-                                }
-                            />
-                        </View>
-                    }
-                </View> : null
+                    <View style={styles.drawerSectionView}>
+                        <Text style={{marginLeft: 10}}>Admin</Text>
+                        <View style={styles.separatorLine}/>
+                    </View>
+                    <DrawerItem
+                        icon={() => <Icon name="timetable" size={25}/>}
+                        label="Admin Spielrunden"
+                        onPress={() =>
+                            props.navigation.navigate('Admin', {screen: 'RoundsCurrentAdmin'})
+                        }
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="heart-flash" size={25}/>}
+                        label="Admin Aktionen"
+                        onPress={() =>
+                            props.navigation.navigate('Admin', {screen: 'AdminActions'})
+                        }
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="view-grid-outline" size={25}/>}
+                        label="Admin Gruppen"
+                        onPress={() =>
+                            props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin'})
+                        }
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="cpu-64-bit" size={25}/>}
+                        label="Admin Teams"
+                        onPress={() =>
+                            props.navigation.navigate('Admin', {screen: 'TeamsCurrentAdmin'})
+                        }
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="email-send-outline" size={25}/>}
+                        label="Push Notifications"
+                        onPress={() =>
+                            props.navigation.navigate('Admin', {screen: 'PushNotifications'})
+                        }
+                    />
+                </View>
             }
             <View style={styles.drawerSectionView}>
                 <View style={styles.separatorLine}/>
@@ -272,12 +237,11 @@ export default function CustomDrawerContent(props) {
                         onPress={() => Linking.openURL('https://www.quattfo.de/infos/datenschutz.html')}>Datenschutz</Text>
                 </Text>
             </View>
-            <UsernameLoginModal
-                setModalVisible={setUsernameModalVisible}
-                modalVisible={usernameModalVisible}
-                username={username}
-                navigation={props.navigation}
-            />
+            <View style={styles.matchflexEventsView}>
+                <Text>
+                    Quapp V{Constants.expoConfig.version}
+                </Text>
+            </View>
         </DrawerContentScrollView>
     );
 }

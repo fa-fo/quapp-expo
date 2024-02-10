@@ -27,13 +27,13 @@ export default function App() {
     useEffect(() => {
         async function prepare() {
             try {
-                PushFunctions.registerForPushNotificationsAsync()
+                await PushFunctions.registerForPushNotificationsAsync()
                     .then(token => {
                         setExpoPushToken(token);
                         global.expoPushToken = (token !== undefined ? token : '');
                     })
 
-                loadStorageTeam().then(r => null);
+                await loadStorageTeam().then(r => null);
 
                 await new Promise(resolve => setTimeout(resolve, 2000));
             } catch (e) {

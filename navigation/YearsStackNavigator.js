@@ -49,7 +49,7 @@ export default function YearsStackNavigator({navigation}) {
                 name="TeamYearsInfoBalance"
                 component={TeamYearsInfoBalanceScreen}
                 options={({route}) => ({
-                    title: 'Team-Bilanz ' + route.params.team.team_name,
+                    title: 'Team-Bilanz',
                 })}
             />
             <Stack.Screen

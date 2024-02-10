@@ -11,9 +11,10 @@ import styles from "../../assets/styles";
 import {Audio} from 'expo-av';
 import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-
+*/
 
 export default function AutoPilotSupervisorScreen({navigation}) {
+    /*
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [now, setNow] = useState(new Date());
@@ -221,5 +222,5 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                 ) : <Text>Keine Spielrunden gefunden!</Text>)}
         </ScrollView>
     );
-}
 */
+}
