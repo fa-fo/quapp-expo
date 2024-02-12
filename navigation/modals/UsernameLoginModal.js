@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../assets/styles.js';
 import fetchApi from '../../components/fetchApi';
@@ -64,11 +64,9 @@ export default function UsernameLoginModal({
                         <Text style={styles.failureText}>falsches PW?</Text>
                     ) : null}
                     <Text>
-                        {usernamePW === '' ? (
+                        {usernamePW === '' ?
                             <Text style={styles.failureText}>Bitte Passwort eingeben</Text>
-                        ) : (
-                            ''
-                        )}
+                            : ''}
                     </Text>
                     <Pressable
                         style={[styles.button1, styles.buttonGreen]}

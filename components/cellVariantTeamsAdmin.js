@@ -4,9 +4,12 @@ import {Pressable, Text, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 import styles from '../assets/styles';
 import fetchApi from './fetchApi';
+import CancelTeamYearModal from "./modals/CancelTeamYearModal";
 
 export default function CellVariantTeamsAdmin(props) {
     const [canceled, setCanceled] = useState(props.canceled);
+    const [cancelTeamYearModalVisible, setCancelTeamYearModalVisible] =
+        useState(false);
 
     const cancelTeamYear = (teamYearsId, undo) => {
         let postData = {password: global.adminPW};
@@ -36,14 +39,12 @@ export default function CellVariantTeamsAdmin(props) {
                                 fontSize: 16,
                             }}>
                             {props.title}
-                            {canceled ? (
+                            {canceled ?
                                 <Text style={{color: '#a33300', fontSize: 10}}>
                                     {' '}
                                     zurückgezogen
                                 </Text>
-                            ) : (
-                                ''
-                            )}
+                                : null}
                         </Text>
                     </View>
                     <View style={{flex: 0.6, alignSelf: 'center'}}>
@@ -53,15 +54,21 @@ export default function CellVariantTeamsAdmin(props) {
                                 styles.buttonCancel,
                                 canceled ? styles.buttonGreen : styles.buttonRed,
                             ]}
-                            onPress={() => cancelTeamYear(props.teamYearsId, canceled)}>
+                            onPress={() => setCancelTeamYearModalVisible(true)}>
                             <Text
-
                                 numberOfLines={1}
                                 style={styles.textButton1}>
                                 {canceled ? 'Rückzug rückgängig' : 'zurückziehen'}
                             </Text>
                         </Pressable>
                     </View>
+                    <CancelTeamYearModal
+                        setModalVisible={setCancelTeamYearModalVisible}
+                        modalVisible={cancelTeamYearModalVisible}
+                        props={props}
+                        canceled={canceled}
+                        setCanceled={setCanceled}
+                    />
                 </View>
             }
         />

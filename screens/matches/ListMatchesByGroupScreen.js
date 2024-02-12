@@ -84,17 +84,23 @@ export default function ListMatchesByGroupScreen({navigation}) {
 
                                             </View>
                                         }>
-                                        {round.matches.map(item => (
-                                            <CellVariantMatches
-                                                key={item.id}
-                                                item={item}
-                                                timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
-                                                team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
-                                                team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                                isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
-                                                onPress={() => route.name === 'ListMatchesByGroup' ? navigation.navigate('MatchDetails', {item}) : null}
-                                            />
-                                        ))}
+                                        {round.matches ?
+                                            round.matches.map(item => (
+                                                <CellVariantMatches
+                                                    key={item.id}
+                                                    item={item}
+                                                    timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
+                                                    team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
+                                                    team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
+                                                    isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
+                                                    onPress={() => route.name === 'ListMatchesByGroup' ? navigation.navigate('MatchDetails', {item}) : null}
+                                                />
+                                            ))
+                                            :
+                                            <View>
+                                                <Text>{global.hintSchedule}</Text>
+                                            </View>
+                                        }
                                     </Section>
                                 ))}
                             </TableView>
