@@ -108,72 +108,85 @@ export default function RoundsMatchesScreen({navigation}) {
                                 {data.yearSelected === undefined && !data.year.settings.alwaysAutoUpdateResults && data.object.round?.autoUpdateResults === 0 && route.name === 'RoundsMatches' ?
                                     <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>
                                     : null}
-                                <TableView appearance="light">
-                                    {data.object.groups?.map(group => (
-                                        <Section
-                                            key={group.id}
-                                            headerComponent={
-                                                <View style={[styles.matchflexRowView, styles.headerComponentView]}>
-                                                    <View style={{flex: 2}}>
-                                                        <Text style={styles.textBlue}>
-                                                            {route.name !== 'RoundsMatches' ?
-                                                                <Text
-                                                                    style={{color: 'orange'}}>{'Runde ' + route.params.id}  </Text>
-                                                                : '\n'}
-                                                            {'Gruppe ' + group.name + ':'}</Text>
-                                                    </View>
-                                                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                                        {route.name === 'RoundsMatches' ?
-                                                            <Pressable
-                                                                style={styles.buttonTopRight}
-                                                                onPress={() => navigation.navigate('RankingInGroups', {item: group})}
-                                                            >
-                                                                <Text style={styles.textButtonTopRight}
-                                                                      numberOfLines={1}>
-                                                                    <IconMat name="table-large"
-                                                                             size={15}/>{' Tabelle Gr. ' + group.name}
-                                                                </Text>
-                                                            </Pressable>
-                                                            :
-                                                            (route.name === 'RoundsMatchesAdmin' && group.name === 'A' ?
+                                {data.object.groups ?
+                                    <TableView appearance="light">
+                                        {data.object.groups?.map(group => (
+                                            <Section
+                                                key={group.id}
+                                                headerComponent={
+                                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                                        <View style={{flex: 2}}>
+                                                            <Text style={styles.textBlue}>
+                                                                {route.name !== 'RoundsMatches' ?
+                                                                    <Text
+                                                                        style={{color: 'orange'}}>{'Runde ' + route.params.id}  </Text>
+                                                                    : '\n'}
+                                                                {'Gruppe ' + group.name + ':'}</Text>
+                                                        </View>
+                                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                                            {route.name === 'RoundsMatches' ?
                                                                 <Pressable
-                                                                    style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
-                                                                    onPress={() => confirmAllResults(data.object.groups)}
+                                                                    style={styles.buttonTopRight}
+                                                                    onPress={() => navigation.navigate('RankingInGroups', {item: group})}
                                                                 >
-                                                                    <Text numberOfLines={1} style={styles.textButton1}>
-                                                                        {'Alles regulär werten'}
+                                                                    <Text style={styles.textButtonTopRight}
+                                                                          numberOfLines={1}>
+                                                                        <IconMat name="table-large"
+                                                                                 size={15}/>{' Tabelle Gr. ' + group.name}
                                                                     </Text>
                                                                 </Pressable>
-                                                                : null)
-                                                        }
+                                                                :
+                                                                (route.name === 'RoundsMatchesAdmin' && group.name === 'A' ?
+                                                                    <Pressable
+                                                                        style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
+                                                                        onPress={() => confirmAllResults(data.object.groups)}
+                                                                    >
+                                                                        <Text numberOfLines={1}
+                                                                              style={styles.textButton1}>
+                                                                            {'Alles regulär werten'}
+                                                                        </Text>
+                                                                    </Pressable>
+                                                                    : null)
+                                                            }
+                                                        </View>
                                                     </View>
-                                                </View>
-                                            }>
-                                            {group.matches.map(item => (
-                                                route.name === 'RoundsMatches' ?
-                                                    <CellVariantMatches
-                                                        key={item.id}
-                                                        item={item}
-                                                        timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
-                                                        team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
-                                                        team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                                        isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
-                                                        onPress={() => navigation.navigate('MatchDetails', {item})}
-                                                    /> :
-                                                    <CellVariantMatchesAdmin
-                                                        key={item.id}
-                                                        item={item}
-                                                        timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
-                                                        team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
-                                                        team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                                        isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
-                                                        fromRoute={route.name}
-                                                        loadScreenData={loadScreenData}
-                                                    />
-                                            ))}
-                                        </Section>
-                                    ))}
-                                </TableView>
+                                                }>
+                                                {group.matches ?
+                                                    group.matches.map(item => (
+                                                        route.name === 'RoundsMatches' ?
+                                                            <CellVariantMatches
+                                                                key={item.id}
+                                                                item={item}
+                                                                timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
+                                                                team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
+                                                                team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
+                                                                isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
+                                                                onPress={() => navigation.navigate('MatchDetails', {item})}
+                                                            /> :
+                                                            <CellVariantMatchesAdmin
+                                                                key={item.id}
+                                                                item={item}
+                                                                timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
+                                                                team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
+                                                                team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
+                                                                isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
+                                                                fromRoute={route.name}
+                                                                loadScreenData={loadScreenData}
+                                                            />
+                                                    ))
+                                                    :
+                                                    <View>
+                                                        <Text>{global.hintSchedule}</Text>
+                                                    </View>
+                                                }
+                                            </Section>
+                                        ))}
+                                    </TableView>
+                                    :
+                                    <View>
+                                        <Text>{global.hintSchedule}</Text>
+                                    </View>
+                                }
                             </View>
                     ) : <Text>Fehler: keine Spiele gefunden!</Text>)}
         </ScrollView>

@@ -164,8 +164,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                             </View>
                                             :
                                             <View>
-                                                <Text>Der Spielplan ist derzeit noch in Bearbeitung und wird in Kürze
-                                                    veröffentlicht!</Text>
+                                                <Text>{global.hintSchedule}</Text>
                                             </View>
                                 ))
                             :
