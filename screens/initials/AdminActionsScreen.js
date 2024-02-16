@@ -54,6 +54,14 @@ export default function AdminActionsScreen({navigation}) {
             {isLoading ? null :
                 (data.status === 'success' ? (
                     <View style={styles.matchflexEventsView}>
+                        <View style={{position: 'absolute', left: 0, top: 10}}>
+                            <Pressable style={[styles.button1, styles.buttonConfirm, styles.buttonGreen, {width: 120}]}
+                                       onPress={() => loadScreenData()}>
+                                <Icon name="reload" size={25}/>
+                                <Text style={styles.textButton1}>neu laden</Text>
+                            </Pressable>
+                        </View>
+
                         <Text style={{fontSize: 32}}>{data.year.name}</Text>
                         <Text style={{fontSize: 26}}>{'Tag ' + data.year.settings.currentDay_id}</Text>
                         <Text
@@ -70,11 +78,11 @@ export default function AdminActionsScreen({navigation}) {
                             <View>
                                 <Text>Teams im aktuellen Jahr angelegt: {data.object.teamYearsCount}
                                     {data.object.teamYearsCount === data.year.teamsCount ?
-                                        <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                        <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                                 </Text>
                                 <Text>Team-PINs angelegt: {data.object.teamYearsPins}
                                     {data.object.teamYearsPins === data.object.teamYearsCount ?
-                                        <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                        <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                                 </Text>
                             </View>
                         }
@@ -82,7 +90,7 @@ export default function AdminActionsScreen({navigation}) {
                         <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
                         <Text>Gruppen angelegt: {data.object.groupsCount}
                             {data.object.groupsCount > 0 ?
-                                <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
                         {data.object.groupsCount === 0 && data.object.teamYearsCount === data.year.teamsCount ?
                             <View>
@@ -97,7 +105,7 @@ export default function AdminActionsScreen({navigation}) {
 
                         <Text>Teams in Gruppen gelegt: {data.object.groupTeamsCount}
                             {data.object.groupTeamsCount === data.year.teamsCount ?
-                                <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
                         {data.object.groupTeamsCount === 0 && data.object.groupsCount > 0 ?
                             <View>
@@ -138,7 +146,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Text>Gruppenzuordnungen sortieren</Text>
                                     :
                                     <Text>Gruppenzuordnungen sortiert<Text
-                                        style={{color: '#3d8d02'}}> {'\u2714'}</Text></Text>
+                                        style={styles.textGreen}> {'\u2714'}</Text></Text>
                             )
                         }
 
@@ -187,18 +195,30 @@ export default function AdminActionsScreen({navigation}) {
                                     <Text>Platzziffern an Teams verteilen</Text>
                                     :
                                     <Text>Platzziffern an Teams verteilt<Text
-                                        style={{color: '#3d8d02'}}> {'\u2714'}</Text></Text>
+                                        style={styles.textGreen}> {'\u2714'}</Text></Text>
                             )
                         }
 
+                        {data.year.settings.isTest === 1 && data.object.matchesCount > 0 && data.object.matchResultCount === 0 ?
+                            <View style={{position: 'absolute', right: 0}}>
+                                <Pressable style={[styles.button1, styles.buttonRed]}
+                                           onPress={() => adminAction('years/clearMatchesAndLogs', '')}>
+                                    <Text style={styles.textButton1}>Testmodus:
+                                        Alle Spiele{'\n'}und Matchlogs löschen</Text>
+                                </Pressable>
+                            </View> : null}
                         <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
                         <Text>Spiele angelegt: {data.object.matchesCount}
                             {data.object.matchesCount === data.year.teamsCount * 4 ?
-                                <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
                         <Text>Spiel-PINs angelegt: {data.object.matchesPins}
                             {data.object.matchesPins === data.object.matchesCount ?
-                                <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
+                        </Text>
+                        <Text>Spiele je Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
+                            {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
+                                <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
@@ -208,7 +228,16 @@ export default function AdminActionsScreen({navigation}) {
                                     <Text style={styles.textButton1}>Spiele analog
                                         Rasterspielplan anlegen</Text>
                                 </Pressable>
-                            </View> : null}
+                            </View>
+                            :
+                            <View>{data.countPrevYearsMatches ?
+                                <Text>Gleiche Paarungen wie in den
+                                    Vorjahren: {data.countPrevYearsMatches + '\u2762'}</Text> : null}
+                                {data.countPrevYearsMatchesSameSport ?
+                                    <Text>...in der selben
+                                        Sportart: {data.countPrevYearsMatchesSameSport + '\u2762'}</Text> : null}
+                            </View>
+                        }
 
                         {data.object.matchesCount > data.object.matchResultCount ?
                             <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
@@ -216,11 +245,13 @@ export default function AdminActionsScreen({navigation}) {
                         {data.object.matchesCount > data.object.matchResultCount ?
                             <Text>Fehlende SR: {data.object.missingRefereesCount}
                                 {data.object.missingRefereesCount === 0 ?
-                                    <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                    <Text style={styles.textGreen}> {'\u2714'}</Text>
+                                    : <Text style={styles.textRed}> {'\u2762'}</Text>
+                                }
                             </Text>
                             : null}
                         {data.object.matchesCount > data.object.matchResultCount && data.object.matchesRefChangeable.length > 0 ?
-                            <View><Text>Fehlende SR von abgesagten Spielen besetzen:</Text>
+                            <View><Text style={{fontSize: 26}}>Fehlende SR von abgesagten Spielen besetzen:</Text>
                                 {Object.entries(data.object.matchesRefChangeable).map(([key, val]) => (
                                     <Pressable key={key} style={[styles.button1, styles.buttonGrey]}
                                                onPress={() => adminAction('matches/changeReferees', val[0].id + '/' + val[1].id)}>
@@ -247,10 +278,11 @@ export default function AdminActionsScreen({navigation}) {
                         {data.year.settings.currentDay_id > 1 && data.object.matchesCount > data.object.matchResultCount ?
                             <Text>Abgesagte Spiele wg. 1 fehlenden Team: {data.object.matchesWith1CanceledCount}
                                 {data.object.matchesWith1CanceledCount === 0 ?
-                                    <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                    <Text style={styles.textGreen}> {'\u2714'}</Text>
+                                    : <Text style={styles.textRed}> {'\u2762'}</Text>}
                             </Text> : null}
                         {data.year.settings.currentDay_id > 1 && data.object.matchesCount > data.object.matchResultCount && data.object.matchesTeamsChangeable.length > 0 && data.object.matchesRefChangeable.length === 0 ?
-                            <View><Text>Abgesagte Spiele - Teams tauschen:</Text>
+                            <View><Text style={{fontSize: 26}}>Abgesagte Spiele - Teams tauschen:</Text>
                                 {Object.entries(data.object.matchesTeamsChangeable).map(([key, val]) => (
                                     <Pressable key={key} style={[styles.button1, styles.buttonGrey]}
                                                onPress={() => adminAction('matches/changeTeams', val[0].id + '/' + val[1].id)}>
@@ -288,7 +320,7 @@ export default function AdminActionsScreen({navigation}) {
                                     </Pressable>
                                 </View>
                                 <View style={[styles.viewStatus, {flex: 1}]}>
-                                    <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                    <Pressable style={[styles.button1, styles.buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/0')}>
                                         <Text style={styles.textButton1}><Icon name="file-pdf-box"
                                                                                size={25}/>Pdf-Download:{'\n'}Alle
@@ -296,7 +328,7 @@ export default function AdminActionsScreen({navigation}) {
                                     </Pressable>
                                 </View>
                                 <View style={[styles.viewStatus, {flex: 1}]}>
-                                    <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                    <Pressable style={[styles.button1, styles.buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/1')}>
                                         <Text style={styles.textButton1}><Icon name="file-pdf-box"
                                                                                size={25}/>Pdf-Download:{'\n'}Alle
@@ -310,7 +342,7 @@ export default function AdminActionsScreen({navigation}) {
                             <View style={styles.matchflexRowView}>
                                 <View style={[styles.viewStatus, {flex: 1}]}>
                                     {data.object.matchesCount > data.object.matchResultCount ?
-                                        <Pressable style={[styles.button1, styles.buttonGreyDark]}
+                                        <Pressable style={[styles.button1, styles.buttonGreyBright]}
                                                    onPress={() => downloadPdf('sports/pdfAllFieldsMatches')}>
                                             <Text style={styles.textButton1}><Icon name="file-pdf-box"
                                                                                    size={25}/>Pdf-Download:{'\n'}Alle
@@ -338,18 +370,12 @@ export default function AdminActionsScreen({navigation}) {
                             </View>
                             : null}
 
-                        <View style={{position: 'absolute', left: 0, top: '60%'}}>
-                            <Pressable style={[styles.button1, styles.buttonConfirm, styles.buttonGreen, {width: 120}]}
-                                       onPress={() => loadScreenData()}>
-                                <Icon name="reload" size={25}/>
-                                <Text style={styles.textButton1}>neu laden</Text>
-                            </Pressable>
-                        </View>
-
                         <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
-                        <Text>Spiele gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams}
+                        <Text>Spiele
+                            gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (matchResultCount
+                            / sumCalcMatchesGroupTeams)
                             {data.object.matchesCount === data.object.matchResultCount && data.object.matchResultCount > 0 ?
-                                <Text style={{color: '#3d8d02'}}> {'\u2714'}</Text> : null}
+                                <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
                         {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
                             <View>
@@ -373,7 +399,7 @@ export default function AdminActionsScreen({navigation}) {
                             <View>
                                 {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount ?
                                     <Text>Ergebnisse und Tabellen freigeschaltet<Text
-                                        style={{color: '#3d8d02'}}> {'\u2714'}</Text></Text>
+                                        style={styles.textGreen}> {'\u2714'}</Text></Text>
                                     :
                                     <Text>Ergebnisse und Tabellen freischalten</Text>
                                 }
@@ -404,7 +430,7 @@ export default function AdminActionsScreen({navigation}) {
                                         {data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ?
                                             <View>
                                                 <Text>Jahres-Endtabelle erstellt<Text
-                                                    style={{color: '#3d8d02'}}> {'\u2714'}</Text></Text>
+                                                    style={styles.textGreen}> {'\u2714'}</Text></Text>
                                                 <Pressable
                                                     style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
                                                     onPress={() => navigation.navigate('TeamYearsEndRankingAdmin', {
@@ -472,7 +498,7 @@ export default function AdminActionsScreen({navigation}) {
                         <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
                         {data.year.settings.isTest === 1 ?
                             <View>
-                                <Pressable style={[styles.button1, styles.buttonGreen]}
+                                <Pressable style={[styles.button1, styles.buttonRed]}
                                            onPress={() => adminAction('years/clearTest', '')}>
                                     <Text style={styles.textButton1}>Testmodus:
                                         Alle Testdaten löschen</Text>
