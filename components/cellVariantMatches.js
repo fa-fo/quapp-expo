@@ -50,9 +50,10 @@ export default function CellVariantMatches(props) {
                                     source={SportFunctions.getSportImage(props.item.sport.code)}
                                 />
                                 {props.item.sport.code}
-                                <Text style={styles.textViolet}>
-                                    {props.isRefereeJob ? 'SR' + (props.item.teams4 ? '-Ersatz ' : '') : ''}
-                                </Text>
+                                {props.isRefereeJob ?
+                                    <Text style={styles.textViolet}>
+                                        {'SR' + (props.item.teams4 ? '-E' : '') + (props.refereeGroupName !== props.item.group_name ? ' ' + props.item.group_name + '\u2762' : '')}
+                                    </Text> : null}
                             </Text>
                             }
                         </Text>
@@ -93,7 +94,7 @@ export default function CellVariantMatches(props) {
                         ) : null}
                     </View>
 
-                    {props.item.canceled && props.team1Result === null ? (
+                    {props.item.canceled && props.team1Result === null ?
                         <View style={{flex: 0.6, alignSelf: 'center'}}>
                             <Text
                                 numberOfLines={1}
@@ -101,39 +102,39 @@ export default function CellVariantMatches(props) {
                                 abg.
                             </Text>
                         </View>
-                    ) : (props.team1Result !== null ?
-                            <View style={{flex: 0.6, fontSize: 14}}>
-                                <Text
-                                    numberOfLines={1}
-                                    style={{
-                                        fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
-                                        textAlign: 'right',
-                                    }}>
-                                    {props.team1Result}
-                                </Text>
-                                <Text
-                                    numberOfLines={1}
-                                    style={{
-                                        fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
-                                        textAlign: 'right',
-                                    }}>
-                                    {props.team2Result}
-                                </Text>
-                            </View>
-                            : (props.localScore ?
-                                <View style={{flex: 1.6, fontSize: 14}}>
-                                    <Pressable
-                                        style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
-                                        onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
-                                            + encodeURIComponent('Ergebnis ' + props.item.id)
-                                            + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
-                                        <Text numberOfLines={2} style={styles.textButton1}>
-                                            Ergebnis per Mail senden
-                                        </Text>
-                                    </Pressable>
+                        : (props.team1Result !== null ?
+                                <View style={{flex: 0.6, fontSize: 14}}>
+                                    <Text
+                                        numberOfLines={1}
+                                        style={{
+                                            fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
+                                            textAlign: 'right',
+                                        }}>
+                                        {props.team1Result}
+                                    </Text>
+                                    <Text
+                                        numberOfLines={1}
+                                        style={{
+                                            fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
+                                            textAlign: 'right',
+                                        }}>
+                                        {props.team2Result}
+                                    </Text>
                                 </View>
-                                : null)
-                    )}
+                                : (props.localScore ?
+                                    <View style={{flex: 1.6, fontSize: 14}}>
+                                        <Pressable
+                                            style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                                            onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
+                                                + encodeURIComponent('Ergebnis ' + props.item.id)
+                                                + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
+                                            <Text numberOfLines={2} style={styles.textButton1}>
+                                                Ergebnis per Mail senden
+                                            </Text>
+                                        </Pressable>
+                                    </View>
+                                    : null)
+                        )}
 
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
                         <View style={{alignSelf: 'center', flex: 1}}>

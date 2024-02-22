@@ -141,6 +141,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                                             isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
                                                             isRefereeJob={item.isRefereeJob ? 1 : 0}
+                                                            refereeGroupName={data.object.referee_group_name}
                                                             localScore={localScore ? localScore[item.id] : null}
                                                             onPress={() => route.name !== 'ListMatchesByTeamAdmin' ? navigation.navigate('MatchDetails', {item}) : null}
                                                         /> : null)

@@ -237,11 +237,12 @@ export default function CustomDrawerContent(props) {
                         onPress={() => Linking.openURL('https://www.quattfo.de/infos/datenschutz.html')}>Datenschutz</Text>
                 </Text>
             </View>
-            <View style={styles.matchflexEventsView}>
-                <Text>
-                    Quapp V{Constants.expoConfig.version}
-                </Text>
-            </View>
+            {Constants?.expoConfig?.version ?
+                <View style={styles.matchflexEventsView}>
+                    <Text>
+                        Quapp V{Constants.expoConfig.version}
+                    </Text>
+                </View> : null}
         </DrawerContentScrollView>
     );
 }
