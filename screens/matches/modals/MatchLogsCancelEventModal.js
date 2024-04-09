@@ -11,7 +11,6 @@ export default function MatchLogsCancelEventModal({
                                                       setLiveLogsCalc,
                                                       setCancelEventModalVisible,
                                                       cancelEventModalVisible,
-                                                      setNextSendAlive,
                                                       setIsSendingEvent
                                                   }) {
 
@@ -27,7 +26,6 @@ export default function MatchLogsCancelEventModal({
                     if (json.status === 'success') {
                         AsyncStorageFunctions.syncScore(match, json.object.score);
                         setLiveLogsCalc(json.object);
-                        setNextSendAlive();
                     }
                 })
                 .catch((error) => console.error(error))

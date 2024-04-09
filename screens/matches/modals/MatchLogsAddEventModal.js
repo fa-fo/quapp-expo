@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
-import {format} from "date-fns";
+import * as DateFunctions from "../../../components/functions/DateFunctions";
 import {isNumber} from "../../../components/functions/CheckFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -26,7 +26,7 @@ export default function MatchLogsAddEventModal({
             let postData = {
                 'refereePIN': global['refereePIN' + match.id],
                 'matchEventCode': addEvent.code,
-                'datetimeSent': format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+                'datetimeSent': DateFunctions.getLocalDatetime(),
             };
             if (data.teamId !== null) {
                 postData = {'team_id': data.teamId, ...postData};

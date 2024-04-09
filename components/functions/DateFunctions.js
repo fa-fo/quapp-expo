@@ -17,3 +17,6 @@ export function getDateTimeFormatted(dateTime) {
 export function getDateYearFormatted(dateTime) {
     return format(parseISO(dateTime), "d.MM.yy", {locale: de})
 }
+export function getLocalDatetime(){
+    return format(new Date(), "yyyy-MM-dd HH:mm:ss", {locale: de})
+}
