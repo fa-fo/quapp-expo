@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
-import {format} from "date-fns";
+import * as DateFunctions from "../../../components/functions/DateFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function MatchDetailsLoginModal({setModalVisible, modalVisible, navigation, item}) {
@@ -16,7 +16,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
             let postData = {
                 'refereePIN': refereePin,
                 'matchEventCode': 'LOGIN',
-                'datetimeSent': format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+                'datetimeSent': DateFunctions.getLocalDatetime(),
             };
 
             fetchApi('matcheventLogs/login/' + item.id, 'POST', postData)
@@ -62,10 +62,9 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                     {textPinWrongVisible ? <Text style={styles.failureText}>falscher PIN?</Text> : null}
                     {textPinEmptyVisible && refereePin === '' ?
                         <Text style={styles.failureText}>Bitte PIN eingeben</Text> : null}
-                    <Pressable style={[styles.button1, styles.buttonGreen]}
+                    <Pressable style={[styles.button1, styles.buttonBig1, styles.buttonGreen]}
                                onPress={() => tryLogin(item)}>
-                        <Text style={styles.textButton1}><Icon name="login" size={15}/> Für Spielprotokollierung
-                            einloggen</Text>
+                        <Text style={[styles.textButton1, styles.teamInfos]}><Icon name="login" size={28}/> einloggen</Text>
                     </Pressable>
                     <Text> </Text>
                     <Pressable style={[styles.button1, styles.buttonGrey]}

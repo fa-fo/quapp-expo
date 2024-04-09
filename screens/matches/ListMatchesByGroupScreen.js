@@ -93,7 +93,9 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                     team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
                                                     team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                                     isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
-                                                    onPress={() => route.name === 'ListMatchesByGroup' ? navigation.navigate('MatchDetails', {item}) : null}
+                                                    onPress={() => route.name === 'ListMatchesByGroupAdmin' ?
+                                                        navigation.navigate('MatchDetailsAdmin', {item})
+                                                        : navigation.navigate('MatchDetails', {item})}
                                                 />
                                             ))
                                             :

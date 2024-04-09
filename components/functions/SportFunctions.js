@@ -19,6 +19,7 @@ export function getSportImage(code) {
 export function getChampionshipStars(countStars) {
     return [...Array(countStars)].map((e, i) =>
         <IconMat name="star"
+                 key={i}
                  size={15}
                  style={{color: 'rgba(224,196,13,0.37)'}}/>)
 }

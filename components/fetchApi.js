@@ -1,16 +1,14 @@
 import * as React from 'react';
 import * as DateFunctions from "./functions/DateFunctions";
-import Constants from 'expo-constants'
 
 export default function fetchApi(address, method, postData, docMode) {
     let url = '';
 
-    if (!__DEV__ || window?.location?.hostname === 'api.quattfo.de' || Constants.appOwnership === 'expo') {
-        url = 'https://api.quattfo.de/';
-    } else {
+    if (window?.location?.hostname === 'localhost') {
         url = 'http://localhost/quapp-cakephp/';
+    } else {
+        url = 'https://api.quattfo.de/';
     }
-
 
     if (method === 'POST') {
         let formData = new FormData();

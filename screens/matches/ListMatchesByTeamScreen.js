@@ -143,7 +143,9 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             isRefereeJob={item.isRefereeJob ? 1 : 0}
                                                             refereeGroupName={data.object.referee_group_name}
                                                             localScore={localScore ? localScore[item.id] : null}
-                                                            onPress={() => route.name !== 'ListMatchesByTeamAdmin' ? navigation.navigate('MatchDetails', {item}) : null}
+                                                            onPress={() => route.name === 'ListMatchesByTeamAdmin' ?
+                                                                navigation.navigate('MatchDetailsAdmin', {item})
+                                                                : navigation.navigate('MatchDetails', {item})}
                                                         /> : null)
                                                 )}
                                             </Section>

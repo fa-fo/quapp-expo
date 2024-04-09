@@ -203,6 +203,13 @@ export default function CustomDrawerContent(props) {
                         }
                     />
                     <DrawerItem
+                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}/>}
+                        label="Admin Fotos"
+                        onPress={() =>
+                            props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos'})
+                        }
+                    />
+                    <DrawerItem
                         icon={() => <Icon name="view-grid-outline" size={25}/>}
                         label="Admin Gruppen"
                         onPress={() =>
@@ -240,7 +247,7 @@ export default function CustomDrawerContent(props) {
             {Constants?.expoConfig?.version ?
                 <View style={styles.matchflexEventsView}>
                     <Text>
-                        Quapp V{Constants.expoConfig.version}
+                        Quapp v{Constants.expoConfig.version}
                     </Text>
                 </View> : null}
         </DrawerContentScrollView>

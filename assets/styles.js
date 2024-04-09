@@ -25,6 +25,7 @@ export default StyleSheet.create({
         maxWidth: '100%',
         shadowOffset: {width: 5, height: 5},
         shadowColor: 'black',
+        shadowRadius: 4,
         shadowOpacity: 0.1,
         backgroundColor: "white"
     },
@@ -263,4 +264,50 @@ export default StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
+    topleftButtonContainer: {
+        position: 'absolute',
+        width: 100,
+        top: 10,
+        left: 16,
+        marginTop: 10,
+        marginRight: 10,
+        alignItems: 'flex-start',
+    },
+    toprightButtonContainer: {
+        position: 'absolute',
+        width: 100,
+        top: 10,
+        right: 16,
+        marginTop: 10,
+        marginRight: 10,
+        alignItems: 'flex-end',
+    },
+    bottomButtonContainer: {
+        position: 'absolute',
+        bottom: 28,
+        right: 16,
+        width: '100%',
+        alignItems: 'flex-end',
+    },
+    matchImg: {
+        alignItems: 'center',
+        marginVertical: 6,
+        marginHorizontal: 4,
+        borderRadius: 4,
+        elevation: 4,
+        shadowOffset: {width: 5, height: 5},
+        shadowColor: 'black',
+        shadowRadius: 4,
+        shadowOpacity: 0.25,
+        backgroundColor: "white"
+    },
+    borderRed:{
+        borderColor: '#a33300',
+        borderWidth: 4
+    },
+    borderBlue:{
+        borderColor: '#0155fd',
+        borderWidth: 4
+    }
+
 });

@@ -6,11 +6,15 @@ import GroupsAllScreen from "../screens/initials/GroupsAllScreen";
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
 import PushNotificationsScreen from "../screens/initials/PushNotificationsScreen";
 
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AdminMatchPhotosScreen from "../screens/matches/AdminMatchPhotosScreen";
 import RankingInGroupsScreen from "../screens/matches/RankingInGroupsScreen";
 import ListMatchesByTeamScreen from "../screens/matches/ListMatchesByTeamScreen";
 import ListMatchesByGroupScreen from "../screens/matches/ListMatchesByGroupScreen";
 import TeamYearsEndRankingScreen from "../screens/years/TeamYearsEndRankingScreen";
+import MatchDetailsScreen from "../screens/matches/MatchDetailsScreen";
+import * as DateFunctions from "../components/functions/DateFunctions";
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +42,11 @@ export default function AdminStackNavigator({navigation}) {
                 name="AdminActions"
                 component={AdminActionsScreen}
                 options={{title: 'Admin: Aktionen'}}
+            />
+            <Stack.Screen
+                name="AdminMatchPhotos"
+                component={AdminMatchPhotosScreen}
+                options={{title: 'Admin: Fotos'}}
             />
             <Stack.Screen
                 name="TeamYearsEndRankingAdmin"
@@ -70,6 +79,18 @@ export default function AdminStackNavigator({navigation}) {
                 component={ListMatchesByGroupScreen}
                 options={({route}) => ({
                     title: 'Admin: Spiele der Gruppe ' + route.params.item.group_name,
+                })}
+            />
+            <Stack.Screen
+                name="MatchDetailsAdmin"
+                component={MatchDetailsScreen}
+                options={({route}) => ({
+                    title: 'Admin: ' +
+                        DateFunctions.getFormatted(route.params.item.matchStartTime) +
+                        ' Uhr: ' +
+                        route.params.item.sport.name +
+                        ' Gr. ' +
+                        route.params.item.group_name,
                 })}
             />
             <Stack.Screen

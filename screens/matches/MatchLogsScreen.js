@@ -14,13 +14,14 @@ import {useIsFocused, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchLogsAddEventModal from './modals/MatchLogsAddEventModal';
 import MatchLogsCancelEventModal from './modals/MatchLogsCancelEventModal';
+import MatchLogsPhotoModal from './modals/MatchLogsPhotoModal';
 import FouledOutModal from "../../components/modals/FouledOutModal";
 import DoubleYellowModal from "../../components/modals/DoubleYellowModal";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
+import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
 import IconIon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {format} from "date-fns";
 import {useKeepAwake} from 'expo-keep-awake';
 import styles from '../../assets/styles.js';
 
@@ -50,6 +51,7 @@ export default function MatchLogsScreen({navigation}) {
     const [addEventModalVisible, setAddEventModalVisible] = useState(false);
     const [cancelEventDirectly, setCancelEventDirectly] = useState(false);
     const [cancelEventModalVisible, setCancelEventModalVisible] = useState(false);
+    const [photoModalVisible, setPhotoModalVisible] = useState(false);
     const [fouledOutModalVisible, setFouledOutModalVisible] = useState(false);
     const [doubleYellowModalVisible, setDoubleYellowModalVisible] = useState(false);
 
@@ -77,11 +79,11 @@ export default function MatchLogsScreen({navigation}) {
 
         const interval = setInterval(() => {
             let now = new Date();
-            if (now > global.nextSendAliveTime && isFocused && !liveLogsCalc?.isMatchConcluded) {
+            if (now > global.nextSendAliveTime && isFocused) {
                 let postData = {
                     'refereePIN': global['refereePIN' + route.params.item.id],
                     'matchEventCode': 'IS_ALIVE',
-                    'datetimeSent': format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+                    'datetimeSent': DateFunctions.getLocalDatetime(),
                 };
 
                 fetchApi('matcheventLogs/add/' + route.params.item.id, 'POST', postData)
@@ -140,7 +142,7 @@ export default function MatchLogsScreen({navigation}) {
             let postData = {
                 'refereePIN': global['refereePIN' + route.params.item.id],
                 'matchEventCode': addEventDirectly.code,
-                'datetimeSent': format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+                'datetimeSent': DateFunctions.getLocalDatetime(),
             };
             if (data.teamId) {
                 postData = {'team_id': data.teamId, ...postData};
@@ -169,12 +171,16 @@ export default function MatchLogsScreen({navigation}) {
         }
 
         if (addEventDirectly.code) {
-            addMatcheventlogDirectly(submitData);
+            if (addEventDirectly.code === 'PHOTO_ADD') {
+                setPhotoModalVisible(true);
+            } else {
+                addMatcheventlogDirectly(submitData);
+            }
         }
 
         // initial
         if (allEvents.length === 0) {
-            fetchApi('matchevents/all/')
+            fetchApi('matchevents/all/1')
                 .then((json) => {
                     AsyncStorageFunctions.syncScore(route.params.item, route.params.item.logsCalc.score);
                     setAllEvents(json);
@@ -189,6 +195,7 @@ export default function MatchLogsScreen({navigation}) {
             setAddEventDirectly(false);
             setAddEventModalVisible(false);
             setCancelEventModalVisible(false);
+            //setPhotoModalVisible(false);
         };
     }, [navigation, allEvents, addEventDirectly]);
 
@@ -242,7 +249,6 @@ export default function MatchLogsScreen({navigation}) {
                 .then((json) => {
                     if (json.status === 'success') {
                         setLiveLogsCalc(json.object);
-                        setNextSendAlive();
                     }
                 })
                 .catch((error) => console.error(error))
@@ -291,6 +297,7 @@ export default function MatchLogsScreen({navigation}) {
             )
             || (code.substring(0, 11) === 'RESULT_WIN_' && liveLogsCalc.isMatchEnded && !liveLogsCalc.isMatchConcluded)
             || (code === 'MATCH_CONCLUDE' && liveLogsCalc.teamWon !== undefined && !liveLogsCalc.isMatchConcluded)
+            || (code === 'PHOTO_ADD' && liveLogsCalc.isMatchConcluded && (liveLogsCalc.photos?.length ?? 0) < global.settings.maxPhotos)
             || (code === 'LOGOUT' && liveLogsCalc.isMatchConcluded)
         );
     };
@@ -338,6 +345,9 @@ export default function MatchLogsScreen({navigation}) {
 
         } else if (code === 'MATCH_START' || code === 'MATCH_END' || code === 'MATCH_CONCLUDE') {
             return tagName === 'Text' ? [styles.textButton1, showButtonArrow(liveLogsCalc) ? styles.big22 : null] : styles.buttonGreen;
+
+        } else if (code === 'LOGOUT') {
+            return tagName === 'Text' ? styles.textButton1 : styles.buttonRed;
 
         } else {
             return tagName === 'Text' ? styles.textButton1 : styles.buttonGreen;
@@ -409,6 +419,8 @@ export default function MatchLogsScreen({navigation}) {
                 return <IconMat
                     name={liveLogsCalc.teamWon === 2 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
                     size={28}/>
+            case 'PHOTO_ADD':
+                return <IconIon name="add-circle-outline" size={28}/>
             case 'LOGOUT':
                 return <IconMat name="logout" size={28}/>
             default:
@@ -436,6 +448,7 @@ export default function MatchLogsScreen({navigation}) {
                 code === 'MATCH_START'
                 || code === 'MATCH_END'
                 || code === 'MATCH_CONCLUDE'
+                || code === 'PHOTO_ADD'
                 || code === 'LOGOUT'
             ) {
                 return styles.buttonBig1;
@@ -569,8 +582,15 @@ export default function MatchLogsScreen({navigation}) {
                     </View>
                     <View style={styles.matchflexEventsView}>
                         {!liveLogsCalc.isMatchStarted ?
-                            <Text style={styles.big3}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
-                        {liveLogsCalc.isMatchConcluded ? <Text style={styles.big3}>Vielen Dank!</Text> : null}
+                            <Text style={[styles.big3, {textAlign: 'center'}]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
+                        {liveLogsCalc.isMatchConcluded ?
+                            <Text style={[styles.big3, {textAlign: 'center'}]}>Das Spiel ist abgeschlossen, vielen Dank!{'\n'}</Text> : null}
+                        {liveLogsCalc.isMatchConcluded && liveLogsCalc.photos?.length > 0 ?
+                            <Text style={styles.big22}>
+                                <Text style={styles.textGreen}> {'\u2714'}</Text>
+                                {liveLogsCalc.photos.length} Foto{liveLogsCalc.photos?.length > 1 ? 's' : ''} hochgeladen
+                            </Text> : null}
+
                         {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
                             (allEvents.status === 'success' ?
                                 allEvents.object.map(eventItem =>
@@ -578,7 +598,7 @@ export default function MatchLogsScreen({navigation}) {
                                         showRelatedOnSports(eventItem.showOnSportsOnly) ?
                                             <View key={eventItem.id} style={{width: '100%'}}>
                                                 {eventItem.textHeaderBeforeButton !== null ?
-                                                    <Text>{eventItem.textHeaderBeforeButton}</Text> : null}
+                                                    <Text style={{textAlign: 'center'}}>{eventItem.textHeaderBeforeButton}</Text> : null}
                                                 {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
                                                     <View style={styles.matchflexRowView}>
                                                         <View style={[styles.viewRight, {flex: 1}]}>
@@ -611,6 +631,12 @@ export default function MatchLogsScreen({navigation}) {
                                                         />
                                                     </View>
                                                     : null}
+                                                {eventItem.code === 'MATCH_CONCLUDE' ?
+                                                    <View>
+                                                        <Text>Nach dem Abschließen könnt ihr noch Fotos
+                                                            hochladen.</Text>
+                                                    </View>
+                                                    : null}
                                             </View>
                                             : null : null
                                 )
@@ -639,8 +665,13 @@ export default function MatchLogsScreen({navigation}) {
                         setLiveLogsCalc={setLiveLogsCalc}
                         setCancelEventModalVisible={setCancelEventModalVisible}
                         cancelEventModalVisible={cancelEventModalVisible}
-                        setNextSendAlive={setNextSendAlive}
                         setIsSendingEvent={setIsSendingEvent}
+                    />
+                    <MatchLogsPhotoModal
+                        match={route.params.item}
+                        setLiveLogsCalc={setLiveLogsCalc}
+                        setModalVisible={setPhotoModalVisible}
+                        modalVisible={photoModalVisible}
                     />
                     <FouledOutModal
                         setModalVisible={setFouledOutModalVisible}

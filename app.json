@@ -34,11 +34,12 @@
       },
       "package": "de.quattfo.quapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 27002,
-      "permissions": [],
+      "versionCode": 27004,
+      "permissions": [
+        "android.permission.CAMERA"
+      ],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
-        "android.permission.CAMERA",
         "android.permission.MODIFY_AUDIO_SETTINGS"
       ]
     },
@@ -68,8 +69,15 @@
         "expo-build-properties",
         {
           "android": {
-            "targetSdkVersion": 33
+            "targetSdkVersion": 33,
+            "minSdkVersion": 26
           }
+        }
+      ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
         }
       ]
     ],

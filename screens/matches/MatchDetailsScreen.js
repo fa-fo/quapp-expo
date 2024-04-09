@@ -1,19 +1,23 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {ActivityIndicator, Image, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import styles from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchDetailsLoginModal from './modals/MatchDetailsLoginModal';
+import MatchDetailsPhotoModal from "./modals/MatchDetailsPhotoModal";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
 
 export default function MatchDetailsScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [photoModalVisible, setPhotoModalVisible] = useState(false);
+    const [photoSelected, setPhotoSelected] = useState(null);
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
@@ -102,9 +106,8 @@ export default function MatchDetailsScreen({navigation}) {
                             <Text style={styles.textRed}>{item.teams2.name} zurückgezogen</Text> : null}
 
                         {item.isTime2login
-                        && !item.canceled
-                        && !item.logsCalc.isMatchConcluded
-                        && !item.logsCalc.isResultConfirmed ?
+                        && (item.logsCalc.photos?.length ?? -1) < global.settings.maxPhotos
+                        && !item.canceled ?
                             (window?.location?.hostname === 'api.quattfo.de' ? null
                                 :
                                 <Pressable
@@ -114,18 +117,55 @@ export default function MatchDetailsScreen({navigation}) {
                                 >
                                     <Text style={styles.textButton1}>
                                         <Icon name="login" size={30}/>
-                                        {(item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
-                                            (item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
-                                                'Jetzt einloggen\nund Spielprotokollierung starten'))
+                                        {item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
+                                            item.logsCalc.isMatchConcluded ? 'Fotos hochladen' :
+                                                item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
+                                                    'Jetzt einloggen\nund Spielprotokollierung starten'
                                         }
                                     </Text>
                                 </Pressable>) : null}
+
+                        {(!item.isTime2login || global.settings.isTest) && item.logsCalc.photos?.length > 0 ?
+                            <View style={styles.matchflexRowView}>
+                                {item.logsCalc.photos?.map(photo =>
+                                    (route.name === 'MatchDetailsAdmin' || photo.checked !== 0 ?
+                                        <View key={photo.id} style={styles.matchImg}>
+                                            <Pressable
+                                                onPress={() => {
+                                                    if (route.name === 'MatchDetailsAdmin' || photo.checked) {
+                                                        setPhotoSelected(photo);
+                                                        setPhotoModalVisible(true);
+                                                    }
+                                                }}
+                                            >
+                                                <Image
+                                                    style={[{width: 120, height: 90, resizeMode: 'contain'},
+                                                        route.name === 'MatchDetailsAdmin' && photo.checked === 0 ? styles.borderRed : null,
+                                                        route.name === 'MatchDetailsAdmin' && photo.checked === null ? styles.borderBlue : null
+                                                    ]}
+                                                    source={photo.checked || route.name === 'MatchDetailsAdmin' ?
+                                                        {uri: 'https://api.quattfo.de/webroot/img/' + item.group.year.name + '/thumbs/' + item.id + '_' + photo.id + '.jpg'}
+                                                        : imgNotAvailable
+                                                    }
+                                                />
+                                            </Pressable>
+                                        </View> : null)
+                                )}
+                            </View>
+                            : null}
 
                         <MatchDetailsLoginModal
                             setModalVisible={setModalVisible}
                             modalVisible={modalVisible}
                             navigation={navigation}
                             item={item}
+                        />
+                        <MatchDetailsPhotoModal
+                            route={route}
+                            photoSelected={photoSelected}
+                            setModalVisible={setPhotoModalVisible}
+                            modalVisible={photoModalVisible}
+                            loadScreenData={loadScreenData}
                         />
                     </ScrollView>
                 )
