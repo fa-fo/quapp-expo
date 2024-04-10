@@ -3,10 +3,9 @@ import {Pressable, Text} from 'react-native';
 import styles from '../../assets/styles.js';
 import fetchApi from '../fetchApi';
 
-export const confirmResults = (matchIds, mode, setModalVisible, loadScreenData, postData) => {
+export const confirmResults = (matches, setModalVisible, loadScreenData, postData) => {
     postData = {'password': global.adminPW, ...postData};
-    postData = {'mode': mode, ...postData};
-    postData = {'matchIds': matchIds, ...postData};
+    postData = {'matches': JSON.stringify(matches), ...postData};
 
     return fetchApi('matches/confirmMulti', 'POST', postData)
         .then(data => {
@@ -21,6 +20,7 @@ export const confirmResults = (matchIds, mode, setModalVisible, loadScreenData, 
 };
 
 export function getConfirmButton(matchId, mode, text, setModalVisible, loadScreenData) {
+
     return (
         <Pressable
             style={[
@@ -32,7 +32,7 @@ export function getConfirmButton(matchId, mode, text, setModalVisible, loadScree
                     ? styles.buttonGreyDark
                     : styles.buttonRed,
             ]}
-            onPress={() => confirmResults(matchId, mode, setModalVisible, loadScreenData, null)}>
+            onPress={() => confirmResults([{'id': matchId, 'mode': mode}], setModalVisible, loadScreenData, null)}>
             <Text numberOfLines={1} style={styles.textButton1}>
                 {text}
             </Text>
@@ -54,4 +54,14 @@ export function getConfirmResultText(mode) {
                         : mode === 6
                             ? '0:0'
                             : '';
+}
+
+export function getConfirmModeFromCanceled(canceled) {
+    return canceled === 1
+        ? 4
+        : canceled === 2
+            ? 3
+            : canceled === 3
+                ? 5
+                : 0;
 }

@@ -125,9 +125,6 @@ export default function CellVariantMatchesAdmin(props) {
         <Cell
             {...props}
             cellStyle="RightDetail"
-            backgroundColor={
-                props.isRefereeJob ? 'rgba(210,134,134,0.15)' : props.backgroundColor
-            }
             cellContentView={
                 <View
                     style={{
@@ -311,7 +308,7 @@ export default function CellVariantMatchesAdmin(props) {
                                     ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
                                     0
                                     : 0}{' '}
-                                nach Toren
+                                im MatchLog
                             </Text>
                             {props.item.resultTrend > 2 ? (
                                 <Text numberOfLines={1} style={styles.textRed}>
@@ -360,29 +357,11 @@ export default function CellVariantMatchesAdmin(props) {
 
                             {props.item.canceled === 0 ? getSpecialConfirmModalButton() : null}
                             {props.item.canceled === 0 ? getInsertResultModalButton() : null}
-                            {props.item.canceled === 2
+                            {props.item.canceled > 0
                                 ? ConfirmFunctions.getConfirmButton(
                                     props.item.id,
-                                    3,
-                                    ConfirmFunctions.getConfirmResultText(3),
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
-                            {props.item.canceled === 1
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    4,
-                                    ConfirmFunctions.getConfirmResultText(4),
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
-                            {props.item.canceled === 3
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    5,
-                                    ConfirmFunctions.getConfirmResultText(5),
+                                    ConfirmFunctions.getConfirmModeFromCanceled(props.item.canceled),
+                                    ConfirmFunctions.getConfirmResultText(ConfirmFunctions.getConfirmModeFromCanceled(props.item.canceled)),
                                     setSpecialConfirmModalVisible,
                                     props.loadScreenData
                                 )

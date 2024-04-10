@@ -1,20 +1,22 @@
 import * as React from 'react';
 import {useCallback, useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
+import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
+import styles from '../../assets/styles.js';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import CellVariantMatchesAdmin from '../../components/cellVariantMatchesAdmin';
 import fetchApi from '../../components/fetchApi';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import {confirmResults} from "../../components/functions/ConfirmFunctions";
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function RoundsMatchesScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [matchesToConfirm, setMatchesToConfirm] = useState([]);
     let round_id_prev = 0; // previously called round_id
 
     useEffect(() => {
@@ -73,24 +75,34 @@ export default function RoundsMatchesScreen({navigation}) {
 
     const loadScreenData = (roundId) => {
         fetchApi('matches/byRound/' + (roundId ?? route.params.id) + (route.name === 'RoundsMatches' ? '' : '/1'))
-            .then((json) => setData(json))
+            .then((json) => {
+                setData(json);
+
+                if (route.name === 'RoundsMatchesAdmin') {
+                    let m = [];
+                    json.object?.groups?.map(group =>
+                        group.matches.map(item => {
+                            if (!item.logsCalc.isResultConfirmed) {
+                                if (item.isResultOk || item.canceled > 0) {
+                                    let a = {
+                                        'id': item.id,
+                                        'mode': item.isResultOk ? 0 : ConfirmFunctions.getConfirmModeFromCanceled(item.canceled),
+                                    };
+                                    m = [a, ...m];
+                                }
+                            }
+                        })
+                    )
+                    setMatchesToConfirm(m);
+                }
+            })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 
-    function confirmAllResults(groups) {
-        let matchIds = [];
-
-        groups.map(group =>
-            group.matches.map(item => {
-                if (item.isResultOk && !item.logsCalc.isResultConfirmed) {
-                    matchIds = [item.id, ...matchIds];
-                }
-            })
-        )
-
-        if (matchIds.length > 0) {
-            confirmResults(matchIds, 0, null, null, null);
+    function confirmAllResults() {
+        if (matchesToConfirm.length > 0) {
+            confirmResults(matchesToConfirm, null, loadScreenData, null);
         }
     }
 
@@ -139,11 +151,13 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 (route.name === 'RoundsMatchesAdmin' && group.name === 'A' ?
                                                                     <Pressable
                                                                         style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
-                                                                        onPress={() => confirmAllResults(data.object.groups)}
+                                                                        onPress={() => confirmAllResults()}
                                                                     >
                                                                         <Text numberOfLines={1}
                                                                               style={styles.textButton1}>
-                                                                            {'Alles regulär werten'}
+                                                                            {'Alles regulär werten: ' +
+                                                                            matchesToConfirm.length
+                                                                            }
                                                                         </Text>
                                                                     </Pressable>
                                                                     : null)
@@ -169,7 +183,6 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
                                                                 team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
                                                                 team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                                                isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
                                                                 fromRoute={route.name}
                                                                 loadScreenData={loadScreenData}
                                                             />

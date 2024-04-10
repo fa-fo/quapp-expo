@@ -22,7 +22,7 @@ export default function InsertResultModal({
                 'goals2': submitData.goals2,
             };
 
-            confirmResults(match.id, 1, setModalVisible, loadScreenData, postData)
+            confirmResults([{'id': match.id, 'mode': 1}], setModalVisible, loadScreenData, postData)
         }
 
         return () => {
@@ -31,8 +31,8 @@ export default function InsertResultModal({
         };
     }, [submitData, setSubmitData]);
 
-    let oldGoals1 = match.resultGoals1 !== null ? parseInt(match.resultGoals1 / match.sport.goalFactor) : null;
-    let oldGoals2 = match.resultGoals2 !== null ? parseInt(match.resultGoals2 / match.sport.goalFactor) : null;
+    let oldGoals1 = match.resultGoals1 !== null ? Number(match.resultGoals1 / match.sport.goalFactor) : null;
+    let oldGoals2 = match.resultGoals2 !== null ? Number(match.resultGoals2 / match.sport.goalFactor) : null;
 
     return (
         <Modal
