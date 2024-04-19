@@ -40,7 +40,7 @@ export default function MyTeamSelectScreen({navigation}) {
     return (
         <ScrollView>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
-                (data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <TableView appearance="light">
                         <Section header={'Bitte wähle jetzt dein Team aus:'}>
                             {data.object.map(item => (

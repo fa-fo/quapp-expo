@@ -44,7 +44,7 @@ export default function RankingInGroupsScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' ?
+                (data?.status === 'success' ?
                     <TableView appearance="light">
                         <Section headerComponent={
                             <View>

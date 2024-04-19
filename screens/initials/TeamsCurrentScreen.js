@@ -26,7 +26,7 @@ export default function TeamsCurrentScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data && data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <TableView appearance="light">
                         <Section header="Alle Teams (alphabetisch sortiert)">
                             {data.object.map(item => (

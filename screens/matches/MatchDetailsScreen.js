@@ -35,7 +35,7 @@ export default function MatchDetailsScreen({navigation}) {
 
     return (
         isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
-            (data.status === 'success' ?
+            (data?.status === 'success' ?
                 data.object.map(item =>
                     <ScrollView key={item.id}
                                 refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}

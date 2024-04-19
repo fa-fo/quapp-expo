@@ -20,7 +20,7 @@ export default function YearsAllScreen({navigation}) {
     return (
         <ScrollView>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
-                (data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <TableView appearance="light">
                         <Section>
                             {data.object.map(item => (

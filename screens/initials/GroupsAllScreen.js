@@ -38,7 +38,7 @@ export default function GroupsAllScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' && data.object.groups && data.object.groups.length > 0 ? (
+                (data?.status === 'success' && data?.object?.groups?.length > 0 ? (
                     <TableView appearance="light">
                         <Section
                             header={DateFunctions.getDateFormatted(data.yearSelected !== undefined ? data.yearSelected.day : data.year.day)}>

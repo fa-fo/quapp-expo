@@ -17,7 +17,7 @@ export default function UsernameLoginModal({
         if (usernamePW !== '') {
             fetchApi('logins/check', 'POST', {name: username, password: usernamePW})
                 .then(data => {
-                    if (data.status === 'success') {
+                    if (data?.status === 'success') {
                         setModalVisible(false);
                         setUsernamePW('');
                         global[username + 'PW'] = usernamePW;

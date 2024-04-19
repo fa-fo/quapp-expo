@@ -30,7 +30,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
     return (
         <ScrollView>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
-                (data && data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <TableView appearance="light">
                         <Section headerComponent={
                             <View>

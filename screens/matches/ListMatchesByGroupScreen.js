@@ -43,7 +43,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' ?
+                (data?.status === 'success' ?
                     (data.object?.showTime ?
                             <Text>Zeitpunkt der Veröffentlichung des
                                 Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</Text>

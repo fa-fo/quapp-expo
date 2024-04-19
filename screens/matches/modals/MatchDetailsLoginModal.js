@@ -21,7 +21,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
 
             fetchApi('matcheventLogs/login/' + item.id, 'POST', postData)
                 .then((data) => {
-                    if (data.status === 'success') {
+                    if (data?.status === 'success') {
                         setModalVisible(false);
                         global['refereePIN' + item.id] = refereePin;
                         navigation.navigate('MatchLogs', {item: data.object[0]});

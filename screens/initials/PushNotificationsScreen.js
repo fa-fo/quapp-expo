@@ -61,7 +61,7 @@ export default function PushNotificationsScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <View style={styles.centeredView}>
                         <Text>Push-Nachricht an Team:</Text>
                         <Picker

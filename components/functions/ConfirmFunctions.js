@@ -9,7 +9,7 @@ export const confirmResults = (matches, setModalVisible, loadScreenData, postDat
 
     return fetchApi('matches/confirmMulti', 'POST', postData)
         .then(data => {
-            if (data.status === 'success') {
+            if (data?.status === 'success') {
                 if (loadScreenData)
                     loadScreenData(data.object.round_id);
                 if (setModalVisible)

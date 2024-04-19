@@ -48,7 +48,7 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' && data.object.matches && data.object.matches.length > 0 ? (
+                (data?.status === 'success' && data.object.matches && data.object.matches.length > 0 ? (
                     <TableView appearance="light">
                         <Section header={'Hier werden alle Spiele mit SR von zurückgezogenen Teams angezeigt:'}>
                             {data.object.matches.map(item => (

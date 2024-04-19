@@ -52,7 +52,7 @@ export default function AdminActionsScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <View style={styles.matchflexEventsView}>
                         <View style={{position: 'absolute', left: 0, top: 10}}>
                             <Pressable style={[styles.button1, styles.buttonConfirm, styles.buttonGreen, {width: 120}]}

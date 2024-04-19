@@ -43,7 +43,7 @@ export default function RankingRefereeSubstScreenScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' && data.object?.teams?.length > 0 ? (
+                (data?.status === 'success' && data.object?.teams?.length > 0 ? (
                     <TableView appearance="light">
                         <Section header={'Rangliste der Ersatz-SR:'}>
                             {data.object.teams.map(item => (

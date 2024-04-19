@@ -58,7 +58,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                 }
             }} scrollEventThrottle={400}>
             {isLoading ? null :
-                (allData.status === 'success' ?
+                (allData?.status === 'success' ?
                     <TableView appearance="light">
                         <Section
                             header={'Für jeden 1. Platz gibt es 64 Punkte, für jeden 2. Platz 63 P., für jeden 3. Platz 62 P. usw.'}

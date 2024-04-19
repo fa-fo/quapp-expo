@@ -90,7 +90,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 <Text>{format(now, "HH:mm:ss")}</Text>
             </View>
             {isLoading ? null :
-                (data.status === 'success' ?
+                (data?.status === 'success' ?
                     <View style={styles.matchflexRowView}>
                         <View style={{flex: 3}}>
                             <Text

@@ -33,7 +33,7 @@ export default function TeamYearsInfoScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
-                (data.status === 'success' ? (
+                (data?.status === 'success' ? (
                     <View>
                         <TableView appearance="light">
                             <Section headerComponent={

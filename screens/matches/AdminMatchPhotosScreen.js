@@ -41,7 +41,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
             <Text>Noch {data?.object?.length - photoKey} Fotos zu prüfen</Text>
             <View style={[styles.matchflexEventsView, {height: 600}]}>
                 {isLoading ? null :
-                    (data.status === 'success' ?
+                    (data?.status === 'success' ?
                         (data.object[photoKey] ? (
                                 <View style={{
                                     position: 'absolute',

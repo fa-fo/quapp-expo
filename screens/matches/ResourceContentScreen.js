@@ -33,7 +33,7 @@ export default function ResourceContentScreen({navigation}) {
     return (
         <ScrollView style={[styles.headerComponentView, {minHeight: '100%'}]}>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
-                (data.status === 'success' ?
+                (data?.status === 'success' ?
                         <View>
                             <RenderHtml
                                 contentWidth={width}

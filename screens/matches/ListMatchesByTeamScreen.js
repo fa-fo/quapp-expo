@@ -85,7 +85,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 (route.params?.setMyTeam && team_name === '' ?
                     <Text>Einstellung erfolgreich geändert: kein Team mehr ausgewählt</Text>
                     :
-                    (data.status === 'success' ?
+                    (data?.status === 'success' ?
                             (data.object?.showTime ?
                                 <Text>Zeitpunkt der Veröffentlichung des
                                     Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</Text>
