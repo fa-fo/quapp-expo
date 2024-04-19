@@ -15,7 +15,7 @@ export async function registerForPushNotificationsAsync() {
         if (finalStatus !== 'granted') {
             return;
         }
-        const appConfig = require('../../app.json');
+        const appConfig = require('../../app.config.js');
         const projectId = appConfig?.expo?.extra?.eas?.projectId;
         token = (await Notifications.getExpoPushTokenAsync({
             projectId
