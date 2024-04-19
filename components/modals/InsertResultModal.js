@@ -56,7 +56,7 @@ export default function InsertResultModal({
                                    placeholder="Tore"
                                    keyboardType="numeric"
                                    maxLength={3}
-                                   value={goals1 !== null ? goals1 : (oldGoals1 !== null ? oldGoals1 : '')}
+                                   value={goals1 !== null ? goals1.toString() : (oldGoals1 !== null ? oldGoals1.toString() : '')}
                         />
                         <Text style={{flex: 1, width: '100%', alignContent: 'center', textAlign: 'center'}}> : </Text>
                         <TextInput style={[styles.textInput, {flex: 2}]}
@@ -64,14 +64,14 @@ export default function InsertResultModal({
                                    placeholder="Tore"
                                    keyboardType="numeric"
                                    maxLength={3}
-                                   value={goals2 !== null ? goals2 : (oldGoals2 !== null ? oldGoals2 : '')}
+                                   value={goals2 !== null ? goals2.toString() : (oldGoals2 !== null ? oldGoals2.toString() : '')}
                         />
                     </View>
                     <Pressable
                         style={[styles.button1, styles.buttonGreen, styles.buttonEvent, styles.buttonBig1, {width: '80%'}]}
                         onPress={async () => {
-                            let submitGoals1 = isNumber(goals1) ? parseInt(goals1) : oldGoals1;
-                            let submitGoals2 = isNumber(goals2) ? parseInt(goals2) : oldGoals2;
+                            let submitGoals1 = isNumber(goals1) ? parseInt(goals1.toString()) : oldGoals1;
+                            let submitGoals2 = isNumber(goals2) ? parseInt(goals2.toString()) : oldGoals2;
                             if (submitGoals1 !== null && submitGoals2 !== null) {
                                 await setSubmitData({
                                     'goals1': submitGoals1,
