@@ -105,25 +105,24 @@ export default function MatchDetailsScreen({navigation}) {
                         {item.canceled === 2 || item.canceled === 3 ?
                             <Text style={styles.textRed}>{item.teams2.name} zurückgezogen</Text> : null}
 
-                        {item.isTime2login
-                        && (item.logsCalc.photos?.length ?? -1) < global.settings.maxPhotos
-                        && !item.canceled ?
-                            (window?.location?.hostname === 'api.quattfo.de' ? null
-                                :
-                                <Pressable
-                                    style={[styles.button1, (item.logsCalc.isLoggedIn ? styles.buttonGrey : styles.buttonGreen)]}
-                                    onPress={() => setModalVisible(true)}
-                                    disabled={(!!item.logsCalc.isLoggedIn)}
-                                >
-                                    <Text style={styles.textButton1}>
-                                        <Icon name="login" size={30}/>
-                                        {item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
-                                            item.logsCalc.isMatchConcluded ? 'Fotos hochladen' :
-                                                item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
-                                                    'Jetzt einloggen\nund Spielprotokollierung starten'
-                                        }
-                                    </Text>
-                                </Pressable>) : null}
+                        {item.isTime2login && !item.canceled ?
+                            (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?
+                                (window?.location?.hostname === 'api.quattfo.de' ? null
+                                    :
+                                    <Pressable
+                                        style={[styles.button1, (item.logsCalc.isLoggedIn ? styles.buttonGrey : styles.buttonGreen)]}
+                                        onPress={() => setModalVisible(true)}
+                                        disabled={(!!item.logsCalc.isLoggedIn)}
+                                    >
+                                        <Text style={styles.textButton1}>
+                                            <Icon name="login" size={30}/>
+                                            {item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
+                                                item.logsCalc.isMatchConcluded ? 'Fotos hochladen' :
+                                                    item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
+                                                        'Jetzt einloggen\nund Spielprotokollierung starten'
+                                            }
+                                        </Text>
+                                    </Pressable>) : null) : null}
 
                         {(!item.isTime2login || global.settings.isTest) && item.logsCalc.photos?.length > 0 ?
                             <View style={styles.matchflexRowView}>
