@@ -63,11 +63,17 @@ export default function RoundsCurrentScreen({navigation}) {
                             {data.object.rounds.map(item => (
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"
-                                             title={'Spielrunde ' + item.id + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
+                                             title={'Runde ' + item.id + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
                                              accessory="DetailDisclosure"
-                                             backgroundColor={data.object.currentRoundId === item.id ? 'rgba(151,245,135,0.37)' : ''}
-                                             detail={item.matchesWithResult ? item.matchesWithResult + '/' + item.matchesCount + ' Spiele gewertet' : item.matchesCount + ' Spiele, Details'}
-                                             onPress={() => navigation.navigate((route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesSupervisor' : (route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAdmin' : 'RoundsMatches')), {
+                                             isCurrentRound={data.object.currentRoundId === item.id ? 1 : 0}
+                                             detail={route.name === 'RoundsCurrent' ? 'Details'
+                                                 : (item.matchesConfirmed ?? 0) + '/' + item.matchesCount + ' gewertet'}
+                                             detailColor={route.name === 'RoundsCurrent' || data.object.currentRoundId <= item.id ? null
+                                                 : item.matchesConfirmed === item.matchesCount ? 'green'
+                                                     : 'red'}
+                                             onPress={() => navigation.navigate((route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesSupervisor'
+                                                 : (route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAdmin'
+                                                     : 'RoundsMatches')), {
                                                  id: item.id,
                                                  roundsCount: data.object.rounds.length,
                                              })}

@@ -17,7 +17,7 @@ export default function CellVariantMatches(props) {
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
             backgroundColor={
-                props.isRefereeJob ? 'rgba(208,167,222,0.15)' : props.backgroundColor
+                props.isRefereeJob ? 'rgba(208,167,222,0.15)' : props.isCurrentRound && !props.item.canceled ? 'rgba(151,245,135,0.37)' : props.backgroundColor
             }
             cellContentView={
                 <View
@@ -59,7 +59,7 @@ export default function CellVariantMatches(props) {
                         </Text>
                     </View>
                     <View style={{
-                        flex: (props.item.canceled || props.team1Result !== null ? 3 : 3.6),
+                        flex: (props.item.canceled || props.team1Result !== null || props.isCurrentRound ? 3 : 3.6),
                         fontSize: 14
                     }}>
                         <Text
@@ -103,25 +103,25 @@ export default function CellVariantMatches(props) {
                             </Text>
                         </View>
                         : (props.team1Result !== null ?
-                                <View style={{flex: 0.6, fontSize: 14}}>
-                                    <Text
-                                        numberOfLines={1}
-                                        style={{
-                                            fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
-                                            textAlign: 'right',
-                                        }}>
-                                        {props.team1Result}
-                                    </Text>
-                                    <Text
-                                        numberOfLines={1}
-                                        style={{
-                                            fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
-                                            textAlign: 'right',
-                                        }}>
-                                        {props.team2Result}
-                                    </Text>
-                                </View>
-                                : (props.localScore ?
+                            <View style={{flex: 0.6, fontSize: 14}}>
+                                <Text
+                                    numberOfLines={1}
+                                    style={{
+                                        fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
+                                        textAlign: 'right',
+                                    }}>
+                                    {props.team1Result}
+                                </Text>
+                                <Text
+                                    numberOfLines={1}
+                                    style={{
+                                        fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
+                                        textAlign: 'right',
+                                    }}>
+                                    {props.team2Result}
+                                </Text>
+                            </View>
+                            : (props.localScore ?
                                     <View style={{flex: 1.6, fontSize: 14}}>
                                         <Pressable
                                             style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
@@ -133,8 +133,15 @@ export default function CellVariantMatches(props) {
                                             </Text>
                                         </Pressable>
                                     </View>
-                                    : null)
-                        )}
+                                    : (props.isCurrentRound ?
+                                        <View style={{flex: 0.6, alignSelf: 'center'}}>
+                                            <Text numberOfLines={1} style={[styles.textRed, {
+                                                fontSize: 16,
+                                                textAlign: 'right'
+                                            }]}>Live!</Text>
+                                        </View>
+                                        : null)
+                            ))}
 
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
                         <View style={{alignSelf: 'center', flex: 1}}>

@@ -17,6 +17,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
     const [now, setNow] = useState(new Date());
     const [lastUpdate, setLastUpdate] = useState(null); // check for too long time not updated
     const [matchesToConfirm, setMatchesToConfirm] = useState([]);
+    const [isConfirming, setIsConfirming] = useState(false); // prevent double auto-confirming
 
     useEffect(() => {
         setLoading(true);
@@ -86,8 +87,8 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
     }
 
     function confirmAllResults() {
-        if (matchesToConfirm.length > 0) {
-            ConfirmFunctions.confirmResults(matchesToConfirm, null, loadScreenData, null);
+        if (matchesToConfirm.length > 0 && !isConfirming) {
+            ConfirmFunctions.confirmResults(matchesToConfirm, setIsConfirming, loadScreenData, null);
         }
     }
 
@@ -121,9 +122,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                                 >
                                                     <Text numberOfLines={1}
                                                           style={styles.textButton1}>
-                                                        {'Alles regulär werten: ' +
-                                                        matchesToConfirm.length
-                                                        }
+                                                        {'Alles regulär werten: ' + matchesToConfirm.length}
                                                     </Text>
                                                 </Pressable> : null}
                                         </View>
@@ -131,15 +130,16 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                 }>
                                 {group.matches ?
                                     group.matches.map(item =>
-                                        <CellVariantMatchesAdmin
-                                            key={item.id}
-                                            item={item}
-                                            timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
-                                            team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
-                                            team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                            fromRoute={route.name}
-                                            loadScreenData={loadScreenData}
-                                        />
+                                        (!item.logsCalc.isResultConfirmed ?
+                                            <CellVariantMatchesAdmin
+                                                key={item.id}
+                                                item={item}
+                                                timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
+                                                team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
+                                                team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
+                                                fromRoute={route.name}
+                                                loadScreenData={loadScreenData}
+                                            /> : null)
                                     )
                                     :
                                     null
