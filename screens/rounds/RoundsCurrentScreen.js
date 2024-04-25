@@ -31,7 +31,7 @@ export default function RoundsCurrentScreen({navigation}) {
                     <TableView appearance="light">
                         <Section
                             header={global.currentDayName}
-                            headerComponent={route.name === 'RoundsCurrentSupervisor' ?
+                            headerComponent={route.name !== 'RoundsCurrent' ?
                                 <View style={[styles.matchflexRowView, styles.headerComponentView]}>
                                     <View style={{flex: 2}}>
                                         <Text>{global.currentDayName}</Text>
@@ -39,12 +39,22 @@ export default function RoundsCurrentScreen({navigation}) {
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                                         <Pressable
                                             style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
-                                            onPress={() => navigation.navigate('RoundsMatchesManager', {
-                                                roundsCount: data.object.rounds.length,
-                                            })}
+                                            onPress={() => navigation.navigate(
+                                                route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesManager'
+                                                    :
+                                                    route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAutoAdmin'
+                                                        :
+                                                        '', {
+                                                    roundsCount: data.object.rounds.length,
+                                                })}
                                         >
                                             <Text numberOfLines={1} style={styles.textButton1}>
-                                                {'zur Manager-Ansicht'}
+                                                {route.name === 'RoundsCurrentSupervisor' ? 'zur Manager-Ansicht'
+                                                    :
+                                                    route.name === 'RoundsCurrentAdmin' ? 'zur Admin-Auto-Ansicht'
+                                                        :
+                                                        ''
+                                                }
                                             </Text>
                                         </Pressable>
                                     </View>
@@ -55,6 +65,7 @@ export default function RoundsCurrentScreen({navigation}) {
                                              cellStyle="RightDetail"
                                              title={'Spielrunde ' + item.id + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
                                              accessory="DetailDisclosure"
+                                             backgroundColor={data.object.currentRoundId === item.id ? 'rgba(151,245,135,0.37)' : ''}
                                              detail={item.matchesWithResult ? item.matchesWithResult + '/' + item.matchesCount + ' Spiele gewertet' : item.matchesCount + ' Spiele, Details'}
                                              onPress={() => navigation.navigate((route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesSupervisor' : (route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAdmin' : 'RoundsMatches')), {
                                                  id: item.id,

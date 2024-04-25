@@ -3,6 +3,26 @@ import {Pressable, Text} from 'react-native';
 import styles from '../../assets/styles.js';
 import fetchApi from '../fetchApi';
 
+export function getMatches2Confirm(object) {
+    let matches = [];
+
+    object?.groups?.map(group =>
+        group.matches.map(item => {
+            if (!item.logsCalc.isResultConfirmed && item.isTime2confirm) {
+                if (item.isResultOk || item.canceled > 0) {
+                    let a = {
+                        'id': item.id,
+                        'mode': item.isResultOk ? 0 : getConfirmModeFromCanceled(item.canceled),
+                    };
+                    matches = [a, ...matches];
+                }
+            }
+        })
+    )
+
+    return matches;
+}
+
 export const confirmResults = (matches, setModalVisible, loadScreenData, postData) => {
     postData = {'password': global.adminPW, ...postData};
     postData = {'matches': JSON.stringify(matches), ...postData};

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import RoundsCurrentScreen from '../screens/rounds/RoundsCurrentScreen';
 import RoundsMatchesScreen from '../screens/rounds/RoundsMatchesScreen';
+import RoundsMatchesAutoAdminScreen from "../screens/rounds/RoundsMatchesAutoAdminScreen";
 import AdminActionsScreen from '../screens/initials/AdminActionsScreen';
 import GroupsAllScreen from "../screens/initials/GroupsAllScreen";
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
@@ -36,6 +37,13 @@ export default function AdminStackNavigator({navigation}) {
                 component={RoundsMatchesScreen}
                 options={({route}) => ({
                     title: 'Admin: Spiele der Runde ' + route.params.id,
+                })}
+            />
+            <Stack.Screen
+                name="RoundsMatchesAutoAdmin"
+                component={RoundsMatchesAutoAdminScreen}
+                options={({route}) => ({
+                    title: 'Admin-Auto: Aktuelle Spielrunde',
                 })}
             />
             <Stack.Screen

@@ -10,6 +10,7 @@ export default function CellVariant(props) {
             {...props}
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
+            backgroundColor={props.backgroundColor ?? ''}
             cellContentView={
                 <View
                     style={{

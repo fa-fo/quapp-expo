@@ -280,7 +280,7 @@ export default function MatchLogsScreen({navigation}) {
     let showButtonArrow = function (liveLogsCalc) {
         return !!(
             (liveLogsCalc.isMatchReadyToStart && !liveLogsCalc.isMatchStarted)
-            || (liveLogsCalc.isTime2confirm && liveLogsCalc.isMatchStarted && !liveLogsCalc.isMatchEnded)
+            || (liveLogsCalc.isTime2matchEnd && liveLogsCalc.isMatchStarted && !liveLogsCalc.isMatchEnded)
             || (liveLogsCalc.isMatchEnded && liveLogsCalc.teamWon !== undefined && !liveLogsCalc.isMatchConcluded)
         );
     };
@@ -406,7 +406,7 @@ export default function MatchLogsScreen({navigation}) {
                                 style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
             case 'MATCH_END':
                 return <IconMat name="arrow-right" size={28}
-                                style={{color: liveLogsCalc.isTime2confirm && showBlinking ? '#fff' : '#3d8d02'}}/>
+                                style={{color: liveLogsCalc.isTime2matchEnd && showBlinking ? '#fff' : '#3d8d02'}}/>
             case 'RESULT_WIN_NONE':
                 return <IconMat
                     name={liveLogsCalc.teamWon === 0 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}

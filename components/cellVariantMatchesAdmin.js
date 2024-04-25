@@ -82,7 +82,7 @@ export default function CellVariantMatchesAdmin(props) {
 
     function showOffsets() {
         return (
-            props.fromRoute === 'RoundsMatchesAdmin' && props.item.logsCalc.avgOffset !== undefined ?
+            props.fromRoute.includes('Admin') && props.item.logsCalc.avgOffset !== undefined ?
                 <Text style={styles.textRed}>{'Offset: '
                 + props.item.logsCalc.minOffset + '-'
                 + props.item.logsCalc.avgOffset + '-'
@@ -99,7 +99,7 @@ export default function CellVariantMatchesAdmin(props) {
 
     function getCardsAndRemarks() {
         return (
-            props.fromRoute === 'RoundsMatchesAdmin' ?
+            props.fromRoute.includes('Admin') ?
                 <Text adjustsFontSizeToFit numberOfLines={1}>
                     {props.item.remarks ?
                         <Pressable
@@ -191,7 +191,7 @@ export default function CellVariantMatchesAdmin(props) {
                     !props.item.canceled ? (
                         <View style={{alignSelf: 'center', flex: 2}}>
                             {getEventView('isMatchStarted', 'Spiel gestartet', 'Spiel nicht gestartet')}
-                            {props.fromRoute === 'RoundsMatchesSupervisor' ? (
+                            {props.fromRoute.includes('Supervisor') ? (
                                 <Pressable
                                     style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
                                     onPress={() => setSupervisorActionsModalVisible(true)}>
@@ -242,7 +242,7 @@ export default function CellVariantMatchesAdmin(props) {
                                     <Text style={styles.textRed}>Live!</Text>
                                     {showOffsets()}
                                     {getEventView('isLoggedIn', 'SR eingeloggt', 'SR nicht eingeloggt')}
-                                    {props.fromRoute === 'RoundsMatchesSupervisor' ? (
+                                    {props.fromRoute.includes('Supervisor') ? (
                                         <Pressable
                                             style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
                                             onPress={() => setSupervisorActionsModalVisible(true)}>
@@ -324,7 +324,7 @@ export default function CellVariantMatchesAdmin(props) {
                         </View>
                     ) : null}
 
-                    {props.fromRoute === 'RoundsMatchesAdmin' &&
+                    {props.fromRoute.includes('Admin') &&
                     props.item.isTime2confirm ? (
                         <View style={[styles.viewCentered, {alignSelf: 'center', flex: 2}]}>
                             {props.item.isResultOk
@@ -378,7 +378,7 @@ export default function CellVariantMatchesAdmin(props) {
                         </View>
                     ) : null}
 
-                    {props.fromRoute === 'RoundsMatchesAdmin' &&
+                    {props.fromRoute.includes('Admin') &&
                     props.item.isTime2confirm ? (
                         <SpecialConfirmModal
                             setModalVisible={setSpecialConfirmModalVisible}
@@ -387,7 +387,7 @@ export default function CellVariantMatchesAdmin(props) {
                             loadScreenData={props.loadScreenData}
                         />
                     ) : null}
-                    {props.fromRoute === 'RoundsMatchesAdmin' &&
+                    {props.fromRoute.includes('Admin') &&
                     props.item.isTime2confirm ? (
                         <InsertResultModal
                             setModalVisible={setInsertResultModalVisible}
@@ -396,7 +396,7 @@ export default function CellVariantMatchesAdmin(props) {
                             loadScreenData={props.loadScreenData}
                         />
                     ) : null}
-                    {props.fromRoute === 'RoundsMatchesSupervisor' ? (
+                    {props.fromRoute.includes('Supervisor') ? (
                         <SupervisorActionsModal
                             setModalVisible={setSupervisorActionsModalVisible}
                             modalVisible={supervisorActionsModalVisible}
@@ -404,14 +404,14 @@ export default function CellVariantMatchesAdmin(props) {
                             loadScreenData={props.loadScreenData}
                         />
                     ) : null}
-                    {props.fromRoute === 'RoundsMatchesAdmin' ?
+                    {props.fromRoute.includes('Admin') ?
                         <RemarksModal
                             setModalVisible={setRemarksModalVisible}
                             modalVisible={remarksModalVisible}
                             match={props.item}
                         />
                         : null}
-                    {props.fromRoute === 'RoundsMatchesAdmin' ?
+                    {props.fromRoute.includes('Admin') ?
                         <CardsModal
                             setModalVisible={setCardsModalVisible}
                             modalVisible={cardsModalVisible}

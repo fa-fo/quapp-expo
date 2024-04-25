@@ -9,7 +9,6 @@ import CellVariantMatchesAdmin from '../../components/cellVariantMatchesAdmin';
 import fetchApi from '../../components/fetchApi';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
-import {confirmResults} from "../../components/functions/ConfirmFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function RoundsMatchesScreen({navigation}) {
@@ -79,21 +78,7 @@ export default function RoundsMatchesScreen({navigation}) {
                 setData(json);
 
                 if (route.name === 'RoundsMatchesAdmin') {
-                    let m = [];
-                    json.object?.groups?.map(group =>
-                        group.matches.map(item => {
-                            if (!item.logsCalc.isResultConfirmed) {
-                                if (item.isResultOk || item.canceled > 0) {
-                                    let a = {
-                                        'id': item.id,
-                                        'mode': item.isResultOk ? 0 : ConfirmFunctions.getConfirmModeFromCanceled(item.canceled),
-                                    };
-                                    m = [a, ...m];
-                                }
-                            }
-                        })
-                    )
-                    setMatchesToConfirm(m);
+                    setMatchesToConfirm(ConfirmFunctions.getMatches2Confirm(json.object));
                 }
             })
             .catch((error) => console.error(error))
@@ -102,7 +87,7 @@ export default function RoundsMatchesScreen({navigation}) {
 
     function confirmAllResults() {
         if (matchesToConfirm.length > 0) {
-            confirmResults(matchesToConfirm, null, loadScreenData, null);
+            ConfirmFunctions.confirmResults(matchesToConfirm, null, loadScreenData, null);
         }
     }
 

@@ -62,9 +62,7 @@ export default function CellVariantMatchesManagerProblem(props) {
     return (
         props.item.canceled ||
         (getStatus('isLoggedIn')
-            && getStatus('isRefereeOnPlace')
-            && getStatus('isTeam1OnPlace')
-            && getStatus('isTeam2OnPlace')
+            && getStatus('isMatchReadyToStart')
             && getStatus('isMatchStarted')
             && !showOffset)
             ? null :

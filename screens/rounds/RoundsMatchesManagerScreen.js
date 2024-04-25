@@ -9,12 +9,13 @@ import {format} from "date-fns";
 import styles from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 
+
 export default function RoundsMatchesManagerScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [now, setNow] = useState(new Date());
-    const [lastUpdate, setLastUpdate] = useState(null);
+    const [lastUpdate, setLastUpdate] = useState(null); // check for too long time not updated
     const problemsRef = useRef(null);
 
     useEffect(() => {
@@ -45,12 +46,12 @@ export default function RoundsMatchesManagerScreen({navigation}) {
     );
 
     const loadScreenData = () => {
-        fetchApi('matches/byRound/0/1')
+        fetchApi('matches/byRound/0/1/0/0/10') // offset: 10
             .then((json) => {
                 setData(json);
 
                 let then = new Date();
-                then.setSeconds(Number(parseInt(then.getSeconds()) + 10));
+                then.setSeconds(Number(parseInt(then.getSeconds().toString()) + 10));
                 setLastUpdate(then);
 
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
@@ -76,15 +77,20 @@ export default function RoundsMatchesManagerScreen({navigation}) {
 
 
     function getTime() {
-        let now = new Date();
-        setNow(now);
+        let n = new Date();
+        setNow(n);
+    }
+
+    function hasNoIssues() {
+        return ((problemsRef?.current?.childNodes?.length ?? 0) === 0  // for Web
+            && (problemsRef?.current?._children?.length ?? 0) === 0)   // for Android
     }
 
     return (
         <ScrollView
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
             style={lastUpdate && data && now > lastUpdate ? styles.buttonRed
-                : (problemsRef?.current?.childNodes?.length ?? 0) === 0 ? styles.buttonGreen : null}
+                : hasNoIssues() ? styles.buttonGreen : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
                 <Text>{format(now, "HH:mm:ss")}</Text>
@@ -111,7 +117,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                     ))
                                 )}
                             </View>
-                            {(problemsRef?.current?.childNodes?.length ?? 0) === 0 ?
+                            {hasNoIssues() ?
                                 <Text style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</Text>
                                 : null}
                         </View>
