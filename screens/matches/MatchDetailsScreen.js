@@ -7,8 +7,8 @@ import fetchApi from '../../components/fetchApi';
 import MatchDetailsLoginModal from './modals/MatchDetailsLoginModal';
 import MatchDetailsPhotoModal from "./modals/MatchDetailsPhotoModal";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
 
 export default function MatchDetailsScreen({navigation}) {
@@ -44,14 +44,17 @@ export default function MatchDetailsScreen({navigation}) {
                             <Text style={styles.testMode}>{global.hintTestData}</Text> : null}
                         <Text>QuattFo {item.group.year.name}, Tag {item.group.day_id}</Text>
                         <Text>Runde {item.round.id}, Gruppe {item.group_name}</Text>
-                        <Text style={styles.big2} numberOfLines={2} adjustsFontSizeToFit>{item.teams1.name}</Text>
+                        <Text style={styles.big2} numberOfLines={2}
+                              adjustsFontSizeToFit>{item.teams1.name + (item.isTest ? '_test' : '')}</Text>
                         <Text style={styles.small}>vs</Text>
-                        <Text style={styles.big2} numberOfLines={2} adjustsFontSizeToFit>{item.teams2.name}</Text>
+                        <Text style={styles.big2} numberOfLines={2}
+                              adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</Text>
                         <Text> </Text>
-                        <Text>SR: {item.teams3.name}</Text>
+                        <Text>SR: {item.teams3.name + (item.isTest ? '_test' : '')}</Text>
                         {item.teams4 ?
                             <Text numberOfLines={1} style={styles.textGreen}>
-                                <Text style={styles.textViolet}>Ersatz-SR:</Text> {item.teams4.name}
+                                <Text
+                                    style={styles.textViolet}>Ersatz-SR:</Text> {item.teams4.name + (item.isTest ? '_test' : '')}
                             </Text>
                             : null}
                         <Text> </Text>
@@ -101,9 +104,9 @@ export default function MatchDetailsScreen({navigation}) {
                         <Text> </Text>
                         {item.canceled > 0 ? <Text style={styles.textRed}>Das Spiel fällt aus!</Text> : null}
                         {item.canceled === 1 || item.canceled === 3 ?
-                            <Text style={styles.textRed}>{item.teams1.name} zurückgezogen</Text> : null}
+                            <Text style={styles.textRed}>{item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
                         {item.canceled === 2 || item.canceled === 3 ?
-                            <Text style={styles.textRed}>{item.teams2.name} zurückgezogen</Text> : null}
+                            <Text style={styles.textRed}>{item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
 
                         {item.isTime2login && !item.canceled ?
                             (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?

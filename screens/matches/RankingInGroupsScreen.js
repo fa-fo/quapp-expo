@@ -104,6 +104,7 @@ export default function RankingInGroupsScreen({navigation}) {
                                     key={item.id}
                                     item={item}
                                     isMyTeam={(item.team_id === global.myTeamId ? 1 : 0)}
+                                    isTest={data.object.isTest}
                                     dayId={data.object.day_id}
                                     onPress={() => navigation.navigate((route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByTeamAdmin' : 'ListMatchesByTeam'), {
                                         item: item,

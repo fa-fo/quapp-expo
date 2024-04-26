@@ -10,7 +10,6 @@ export default function CellVariantMatches(props) {
     const [supervisorActionsModalVisible, setSupervisorActionsModalVisible] =
         useState(false);
 
-
     return (
         <Cell
             {...props}
@@ -70,7 +69,7 @@ export default function CellVariantMatches(props) {
                                     : null,
                                 props.isMyTeam === 1 ? {fontWeight: 'bold'} : null,
                             ]}>
-                            {props.item.teams1.name}
+                            {props.item.teams1.name + (props.item.isTest ? '_test' : '')}
                         </Text>
                         <Text
                             numberOfLines={1}
@@ -80,16 +79,18 @@ export default function CellVariantMatches(props) {
                                     : null,
                                 props.isMyTeam === 2 ? {fontWeight: 'bold'} : null,
                             ]}>
-                            {props.item.teams2.name}
+                            {props.item.teams2.name + (props.item.isTest ? '_test' : '')}
                         </Text>
                         {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
                             <Text numberOfLines={1} style={styles.textRed}>
-                                <Text style={styles.textViolet}>SR</Text> {props.item.teams3.name}
+                                <Text
+                                    style={styles.textViolet}>SR</Text> {props.item.teams3.name + (props.item.isTest ? '_test' : '')}
                             </Text>
                         ) : null}
                         {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' && props.item.teams4 ? (
                             <Text numberOfLines={1} style={styles.textGreen}>
-                                <Text style={styles.textViolet}>Ersatz-SR</Text> {props.item.teams4.name}
+                                <Text
+                                    style={styles.textViolet}>Ersatz-SR</Text> {props.item.teams4.name + (props.item.isTest ? '_test' : '')}
                             </Text>
                         ) : null}
                     </View>
