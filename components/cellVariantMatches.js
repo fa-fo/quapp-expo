@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Image, Linking, Pressable, Text, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 import styles from '../assets/styles.js';
@@ -7,8 +7,19 @@ import SupervisorActionsModal from './modals/SupervisorActionsModal';
 import * as SportFunctions from './functions/SportFunctions';
 
 export default function CellVariantMatches(props) {
+    const [showBlinking, setShowBlinking] = useState(true);
     const [supervisorActionsModalVisible, setSupervisorActionsModalVisible] =
         useState(false);
+
+    useEffect(() => {
+        if (props.item.isRefereeJobLoginRequired && (props.isCurrentRound || props.nextIsCurrentRound)) {
+            let i = 0;
+            const interval = setInterval(() => {
+                setShowBlinking(!!(++i % 2));
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, []);
 
     return (
         <Cell
@@ -58,7 +69,7 @@ export default function CellVariantMatches(props) {
                         </Text>
                     </View>
                     <View style={{
-                        flex: (props.item.canceled || props.team1Result !== null || props.isCurrentRound ? 3 : 3.6),
+                        flex: (props.item.canceled || props.team1Result !== null || props.isCurrentRound || props.item.isRefereeJobLoginRequired ? 3 : 3.6),
                         fontSize: 14
                     }}>
                         <Text
@@ -123,26 +134,34 @@ export default function CellVariantMatches(props) {
                                 </Text>
                             </View>
                             : (props.localScore ?
-                                    <View style={{flex: 1.6, fontSize: 14}}>
-                                        <Pressable
-                                            style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
-                                            onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
-                                                + encodeURIComponent('Ergebnis ' + props.item.id)
-                                                + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
-                                            <Text numberOfLines={2} style={styles.textButton1}>
-                                                Ergebnis per Mail senden
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                    : (props.isCurrentRound ?
+                                <View style={{flex: 1.6, fontSize: 14}}>
+                                    <Pressable
+                                        style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                                        onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
+                                            + encodeURIComponent('Ergebnis ' + props.item.id)
+                                            + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
+                                        <Text numberOfLines={2} style={styles.textButton1}>
+                                            Ergebnis per Mail senden
+                                        </Text>
+                                    </Pressable>
+                                </View>
+                                : (props.item.isRefereeJobLoginRequired ?
                                         <View style={{flex: 0.6, alignSelf: 'center'}}>
-                                            <Text numberOfLines={1} style={[styles.textRed, {
+                                            <Text numberOfLines={1} style={[styles.textViolet, {
                                                 fontSize: 16,
-                                                textAlign: 'right'
-                                            }]}>Live!</Text>
+                                                textAlign: 'right',
+                                                fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
+                                            }]}>{showBlinking ? 'Login!' : ''}</Text>
                                         </View>
-                                        : null)
-                            ))}
+                                        : (props.isCurrentRound ?
+                                            <View style={{flex: 0.6, alignSelf: 'center'}}>
+                                                <Text numberOfLines={1} style={[styles.textRed, {
+                                                    fontSize: 16,
+                                                    textAlign: 'right'
+                                                }]}>Live!</Text>
+                                            </View>
+                                            : null)
+                                )))}
 
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
                         <View style={{alignSelf: 'center', flex: 1}}>

@@ -140,6 +140,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
                                                             team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                                             isCurrentRound={data.object.currentRoundId === item.round_id ? 1 : 0}
+                                                            nextIsCurrentRound={(data.object.currentRoundId + 1) === item.round_id ? 1 : 0}
                                                             isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
                                                             isRefereeJob={item.isRefereeJob ? 1 : 0}
                                                             refereeGroupName={data.object.referee_group_name}
