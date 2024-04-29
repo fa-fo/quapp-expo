@@ -38,21 +38,16 @@ export default function CellVariantMatches(props) {
                         paddingVertical: 4,
                     }}>
                     <View style={{flex: 1}}>
-                        <Text
-                            adjustsFontSizeToFit
-                            numberOfLines={1}
-                            style={{
-                                fontWeight:
-                                    props.isMyTeam === 1 || props.isMyTeam === 2
-                                        ? 'bold'
-                                        : 'normal',
-                            }}>
+                        <Text adjustsFontSizeToFit numberOfLines={1}
+                              style={{
+                                  fontWeight:
+                                      props.isMyTeam === 1 || props.isMyTeam === 2
+                                          ? 'bold'
+                                          : 'normal',
+                              }}>
                             {props.timeText}
                         </Text>
-                        <Text
-                            adjustsFontSizeToFit
-                            numberOfLines={1}
-                        >
+                        <Text adjustsFontSizeToFit numberOfLines={1}>
                             {props.timeText2 ??
                             <Text>
                                 <Image
@@ -108,28 +103,25 @@ export default function CellVariantMatches(props) {
 
                     {props.item.canceled && props.team1Result === null ?
                         <View style={{flex: 0.6, alignSelf: 'center'}}>
-                            <Text
-                                numberOfLines={1}
-                                style={[styles.textRed, {fontSize: 16, textAlign: 'right'}]}>
+                            <Text numberOfLines={1} adjustsFontSizeToFit
+                                  style={[styles.textRed, {fontSize: 16, textAlign: 'right'}]}>
                                 abg.
                             </Text>
                         </View>
                         : (props.team1Result !== null ?
                             <View style={{flex: 0.6, fontSize: 14}}>
-                                <Text
-                                    numberOfLines={1}
-                                    style={{
-                                        fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
-                                        textAlign: 'right',
-                                    }}>
+                                <Text numberOfLines={1}
+                                      style={{
+                                          fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
+                                          textAlign: 'right',
+                                      }}>
                                     {props.team1Result}
                                 </Text>
-                                <Text
-                                    numberOfLines={1}
-                                    style={{
-                                        fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
-                                        textAlign: 'right',
-                                    }}>
+                                <Text numberOfLines={1}
+                                      style={{
+                                          fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
+                                          textAlign: 'right',
+                                      }}>
                                     {props.team2Result}
                                 </Text>
                             </View>
@@ -140,25 +132,27 @@ export default function CellVariantMatches(props) {
                                         onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
                                             + encodeURIComponent('Ergebnis ' + props.item.id)
                                             + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
-                                        <Text numberOfLines={2} style={styles.textButton1}>
+                                        <Text numberOfLines={2} adjustsFontSizeToFit style={styles.textButton1}>
                                             Ergebnis per Mail senden
                                         </Text>
                                     </Pressable>
                                 </View>
                                 : (props.item.isRefereeJobLoginRequired ?
                                         <View style={{flex: 0.6, alignSelf: 'center'}}>
-                                            <Text numberOfLines={1} style={[styles.textViolet, {
-                                                fontSize: 16,
-                                                textAlign: 'right',
-                                                fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
-                                            }]}>{showBlinking ? 'Login!' : ''}</Text>
+                                            <Text numberOfLines={1} adjustsFontSizeToFit
+                                                  style={[styles.textViolet, {
+                                                      fontSize: 16,
+                                                      textAlign: 'right',
+                                                      fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
+                                                  }]}>{showBlinking ? 'Login!' : ''}</Text>
                                         </View>
                                         : (props.isCurrentRound ?
                                             <View style={{flex: 0.6, alignSelf: 'center'}}>
-                                                <Text numberOfLines={1} style={[styles.textRed, {
-                                                    fontSize: 16,
-                                                    textAlign: 'right'
-                                                }]}>Live!</Text>
+                                                <Text numberOfLines={1} adjustsFontSizeToFit
+                                                      style={[styles.textRed, {
+                                                          fontSize: 16,
+                                                          textAlign: 'right'
+                                                      }]}>Live!</Text>
                                             </View>
                                             : null)
                                 )))}
