@@ -26,6 +26,7 @@ export default function AdminStackNavigator({navigation}) {
                 headerStyle: {
                     backgroundColor: 'violet',
                 },
+                headerBackTitleVisible: false
             }}>
             <Stack.Screen
                 name="RoundsCurrentAdmin"

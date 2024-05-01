@@ -28,6 +28,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                     backgroundColor: 'yellow',
                     height: 60,
                 },
+                headerBackTitleVisible: false
             }}>
             <Stack.Screen
                 name="MyTeamSelect"
