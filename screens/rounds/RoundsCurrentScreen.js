@@ -14,8 +14,11 @@ export default function RoundsCurrentScreen({navigation}) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        loadScreenData();
-    }, []);
+        return navigation.addListener('focus', () => {
+            setLoading(true);
+            loadScreenData();
+        });
+    }, [route]);
 
     const loadScreenData = () => {
         fetchApi('rounds/all' + (route.name === 'RoundsCurrent' ? '' : '/1'))
