@@ -88,6 +88,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
 
     function confirmAllResults() {
         if (matchesToConfirm.length > 0 && !isConfirming) {
+            setIsConfirming(true);
             ConfirmFunctions.confirmResults(matchesToConfirm, setIsConfirming, loadScreenData, null);
         }
     }
@@ -116,15 +117,10 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                         </View>
                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                             {group.name === 'A' ?
-                                                <Pressable
-                                                    style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
-                                                    onPress={() => confirmAllResults()}
-                                                >
-                                                    <Text numberOfLines={1}
-                                                          style={styles.textButton1}>
-                                                        {'Alles regulär werten: ' + matchesToConfirm.length}
-                                                    </Text>
-                                                </Pressable> : null}
+                                                <Text numberOfLines={1}
+                                                      style={styles.textGreen}>
+                                                    {'Regulär werten: ' + matchesToConfirm.length + ' (automatisch)'}
+                                                </Text> : null}
                                         </View>
                                     </View>
                                 }>
