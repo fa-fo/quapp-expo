@@ -519,8 +519,8 @@ export default function MatchLogsScreen({navigation}) {
             <KeyboardAvoidingView
                 behavior={'padding'}
                 style={{flex: 1}}
-                enabled={Platform.select({ios: true, android: false})}
-                keyboardVerticalOffset={Platform.select({ios: 120})}
+                enabled
+                keyboardVerticalOffset={Platform.select({ios: 120, android: 160})}
             >
                 <ScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}>
                     <View style={styles.matchflexRowView}>
@@ -582,11 +582,9 @@ export default function MatchLogsScreen({navigation}) {
                     </View>
                     <View style={styles.matchflexEventsView}>
                         {!liveLogsCalc.isMatchStarted ?
-                            <Text
-                                style={[styles.big3, {textAlign: 'center'}]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
+                            <Text style={[styles.big3, {textAlign: 'center'}]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
                         {liveLogsCalc.isMatchConcluded ?
-                            <Text style={[styles.big3, {textAlign: 'center'}]}>Das Spiel ist abgeschlossen, vielen
-                                Dank!{'\n'}</Text> : null}
+                            <Text style={[styles.big3, {textAlign: 'center'}]}>Das Spiel ist abgeschlossen, vielen Dank!{'\n'}</Text> : null}
                         {liveLogsCalc.isMatchConcluded && liveLogsCalc.photos?.length > 0 ?
                             <Text style={styles.big22}>
                                 <Text style={styles.textGreen}> {'\u2714'}</Text>
@@ -600,8 +598,7 @@ export default function MatchLogsScreen({navigation}) {
                                         showRelatedOnSports(eventItem.showOnSportsOnly) ?
                                             <View key={eventItem.id} style={{width: '100%'}}>
                                                 {eventItem.textHeaderBeforeButton !== null ?
-                                                    <Text
-                                                        style={{textAlign: 'center'}}>{eventItem.textHeaderBeforeButton}</Text> : null}
+                                                    <Text style={{textAlign: 'center'}}>{eventItem.textHeaderBeforeButton}</Text> : null}
                                                 {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
                                                     <View style={styles.matchflexRowView}>
                                                         <View style={[styles.viewRight, {flex: 1}]}>
