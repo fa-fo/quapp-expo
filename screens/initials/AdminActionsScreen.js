@@ -380,9 +380,14 @@ export default function AdminActionsScreen({navigation}) {
                         {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
                             <View>
                                 <Pressable style={[styles.button1, styles.buttonGreen]}
+                                           onPress={() => adminAction('matcheventLogs/insertTestLogs', '')}>
+                                    <Text style={styles.textButton1}>Testmodus:
+                                        Zufällig geloggte Tore eintragen</Text>
+                                </Pressable>
+                                <Pressable style={[styles.button1, styles.buttonGreen]}
                                            onPress={() => adminAction('matches/insertTestResults', '')}>
                                     <Text style={styles.textButton1}>Testmodus:
-                                        Zufallszahlen als Spielergebnisse eintragen</Text>
+                                        Zufallszahlen als bestätigte Spielergebnisse eintragen</Text>
                                 </Pressable>
                             </View> : null}
 
