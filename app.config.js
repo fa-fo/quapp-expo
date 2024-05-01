@@ -1,4 +1,5 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
+const versionCode = 27005;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
@@ -21,6 +22,7 @@ export default {
     ios: {
         supportsTablet: true,
         bundleIdentifier: IS_DEV ? 'de.quattfo.quapp.dev' : 'de.quattfo.quapp',
+        buildNumber: versionCode.toString(),
         infoPlist: {
             UIBackgroundModes: [
                 'remote-notification',
@@ -36,7 +38,7 @@ export default {
         },
         package: IS_DEV ? 'de.quattfo.quapp.dev' : 'de.quattfo.quapp',
         googleServicesFile: IS_DEV ? '' : './google-services.json',
-        versionCode: 27004,
+        versionCode: versionCode,
         permissions: [
             'android.permission.CAMERA'
         ],
