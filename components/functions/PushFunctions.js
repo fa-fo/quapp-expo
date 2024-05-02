@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Device from "expo-device";
 import {Platform} from "react-native";
 import * as Notifications from "expo-notifications";
+import appConfig from '../../app.config.js';
 
 export async function registerForPushNotificationsAsync() {
     let token;
@@ -15,8 +16,7 @@ export async function registerForPushNotificationsAsync() {
         if (finalStatus !== 'granted') {
             return;
         }
-        const appConfig = require('../../app.config.js');
-        const projectId = appConfig?.expo?.extra?.eas?.projectId;
+        const projectId = appConfig?.extra?.eas?.projectId;
         token = (await Notifications.getExpoPushTokenAsync({
             projectId
         })).data;
