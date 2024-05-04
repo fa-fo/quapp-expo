@@ -1,10 +1,10 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 27006;
+const versionCode = 27007;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '3.0.0',
+    version: '3.0.1',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
@@ -89,6 +89,9 @@ export default {
         eas: {
             projectId: '6e5271a6-5d4f-4a44-a517-0b2c7b9ec853'
         }
+    },
+    experiments: {
+        baseUrl: "/expo"
     },
     owner: 'fa-it'
 }
