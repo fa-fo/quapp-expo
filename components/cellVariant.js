@@ -11,7 +11,7 @@ export default function CellVariant(props) {
             {...props}
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
-            backgroundColor={props.isCurrentRound ? 'rgba(151,245,135,0.37)' : ''}
+            backgroundColor={props.isCurrentRound ? 'rgba(151,245,135,0.37)' : (props.backgroundColor ?? '')}
             cellContentView={
                 <View
                     style={{
