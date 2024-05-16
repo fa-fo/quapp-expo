@@ -68,6 +68,13 @@ export default function CustomDrawerContent(props) {
                 }
             />
             <DrawerItem
+                icon={() => <Icon name="picture-in-picture-bottom-right" size={25}/>}
+                label="Fotos"
+                onPress={() =>
+                    props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
+                }
+            />
+            <DrawerItem
                 icon={() => <Icon name="playlist-check" size={25}/>}
                 label="Spielregeln"
                 onPress={() =>

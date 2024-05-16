@@ -286,8 +286,15 @@ export default StyleSheet.create({
         position: 'absolute',
         bottom: 28,
         right: 16,
-        width: '100%',
+        width: '50%',
         alignItems: 'flex-end',
+    },
+    bottomLeftButtonContainer: {
+        position: 'absolute',
+        bottom: 28,
+        left: 16,
+        width: '50%',
+        alignItems: 'flex-start',
     },
     matchImg: {
         alignItems: 'center',

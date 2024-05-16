@@ -10,6 +10,7 @@ import GroupsAllScreen from '../screens/initials/GroupsAllScreen';
 import RoundsCurrentScreen from '../screens/rounds/RoundsCurrentScreen';
 import RoundsMatchesScreen from '../screens/rounds/RoundsMatchesScreen';
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
+import AllMatchPhotosScreen from "../screens/matches/AllMatchPhotosScreen";
 import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import SettingsScreen from "../screens/initials/SettingsScreen";
 import NoInternetModalScreen from "../screens/initials/modals/NoInternetModalScreen";
@@ -26,7 +27,6 @@ export default function MyMatchesStackNavigator({navigation}) {
             screenOptions={{
                 headerStyle: {
                     backgroundColor: 'yellow',
-                    height: 60,
                 },
                 headerBackTitleVisible: false
             }}>
@@ -106,6 +106,11 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="TeamsCurrent"
                 component={TeamsCurrentScreen}
                 options={{title: 'Teams am ' + global.currentDayName}}
+            />
+            <Stack.Screen
+                name="AllMatchPhotos"
+                component={AllMatchPhotosScreen}
+                options={{title: 'Fotos'}}
             />
             <Stack.Screen
                 name="ResourceContent"
