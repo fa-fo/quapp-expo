@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {Image, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Image, Pressable, RefreshControl, ScrollView, Text, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,6 +13,8 @@ export default function AdminActionsScreen({navigation}) {
     const [data, setData] = useState([]);
     const [selectedValue1, setSelectedValue1] = useState('standard');
     const [selectedValue2, setSelectedValue2] = useState('standard');
+    const [teamNames, setTeamNames] = useState('');
+    const [teamNamesSplit, setTeamNamesSplit] = useState([]);
 
     useEffect(() => {
         loadScreenData({});
@@ -27,7 +29,7 @@ export default function AdminActionsScreen({navigation}) {
 
     const adminAction = (url, parameter) => {
         let postData = {
-            'password': global['adminPW'],
+            'password': global.adminPW,
         };
 
         fetchApi(url + '/' + parameter, 'POST', postData)
@@ -37,7 +39,7 @@ export default function AdminActionsScreen({navigation}) {
 
     const downloadPdf = (url) => {
         let postData = {
-            'password': global['adminPW'],
+            'password': global.adminPW,
         };
 
         fetchApi(url, 'POST', postData, 'pdf')
@@ -49,14 +51,53 @@ export default function AdminActionsScreen({navigation}) {
             .catch((error) => console.error(error));
     };
 
+    const checkTeamNames = () => {
+        let postData = {'teamNames': teamNames};
+
+        fetchApi('teams/checkTeamNames/', 'POST', postData)
+            .then((json) => setTeamNamesSplit(json.object))
+            .catch((error) => console.error(error));
+    };
+
+    const addTeamName = (name, i) => {
+        let postData = {'password': global.adminPW, 'name': name};
+
+        fetchApi('teams/add/', 'POST', postData)
+            .then((json) => {
+                if (json.object.team_id > 0) {
+                    let a = teamNamesSplit.slice();
+                    a[i]['team_id'] = parseInt(json.object.team_id);
+                    setTeamNamesSplit(a);
+                }
+            })
+            .catch((error) => console.error(error));
+    };
+
+    const countTeamsFound = () => {
+        let count = 0;
+        teamNamesSplit.map(team =>
+            count += (team.team_id > 0 ? 1 : 0)
+        )
+        return count;
+    };
+
+    const insertTeamYears = () => {
+        let postData = {'password': global.adminPW, 'teamNamesSplit': JSON.stringify(teamNamesSplit)};
+
+        fetchApi('teamYears/insert/', 'POST', postData)
+            .then(() => loadScreenData())
+            .catch((error) => console.error(error));
+    };
+
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View style={styles.matchflexEventsView}>
                         <View style={{position: 'absolute', left: 0, top: 10}}>
-                            <Pressable style={[styles.button1, styles.buttonConfirm, styles.buttonGreen, {width: 120}]}
-                                       onPress={() => loadScreenData()}>
+                            <Pressable
+                                style={[styles.button1, styles.buttonConfirm, styles.buttonGreen, {width: 120}]}
+                                onPress={() => loadScreenData()}>
                                 <Icon name="reload" size={25}/>
                                 <Text style={styles.textButton1}>neu laden</Text>
                             </Pressable>
@@ -69,10 +110,49 @@ export default function AdminActionsScreen({navigation}) {
                         <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
                         {data.object.teamYearsCount === 0 ?
                             <View>
-                                <Pressable style={[styles.button1, styles.buttonGreen]}
-                                           onPress={() => adminAction('teamYears/insertTestValues', '')}>
-                                    <Text style={styles.textButton1}>Teams im aktuellen Jahr anlegen</Text>
-                                </Pressable>
+                                <Text>Teams anlegen:</Text>
+                                {teamNamesSplit.length !== data.year.teamsCount ?
+                                    <View>
+                                        {teamNames.split('\n').length !== data.year.teamsCount ?
+                                            <Text>{teamNames.split('\n').length} => {data.year.teamsCount}</Text>
+                                            :
+                                            <Pressable style={[styles.button1, styles.buttonGreen]}
+                                                       onPress={() => checkTeamNames()}>
+                                                <Text style={styles.textButton1}>Team-Namen überprüfen</Text>
+                                            </Pressable>
+                                        }
+                                        <TextInput
+                                            multiline
+                                            numberOfLines={data.year.teamsCount}
+                                            style={[styles.textInput]}
+                                            onChangeText={(value) => setTeamNames(value)}
+                                        />
+                                    </View>
+                                    :
+                                    <View>
+                                        {[...Array(data.year.teamsCount)].map((e, i) =>
+                                            <View key={i}>
+                                                <Text style={styles.textGreen}>
+                                                    <TextInput style={[styles.textInput]}
+                                                               value={teamNamesSplit[i]['name'] || ''}/>
+                                                    {teamNamesSplit[i]['team_id'] > 0 ? ' \u2714'
+                                                        :
+                                                        <Pressable style={[styles.button1, styles.buttonGreen]}
+                                                                   onPress={() => addTeamName(teamNamesSplit[i]['name'], i)}>
+                                                            <Text style={styles.textButton1}>anlegen</Text>
+                                                        </Pressable>
+                                                    }
+                                                </Text>
+                                            </View>
+                                        )}
+                                    </View>
+                                }
+                                {countTeamsFound() === data.year.teamsCount ?
+                                    <Pressable style={[styles.button1, styles.buttonGreen]}
+                                               onPress={() => insertTeamYears()}>
+                                        <Text style={styles.textButton1}>Teams im aktuellen Jahr anlegen</Text>
+                                    </Pressable>
+                                    : null}
                             </View>
                             :
                             <View>
@@ -216,7 +296,8 @@ export default function AdminActionsScreen({navigation}) {
                             {data.object.matchesPins === data.object.matchesCount ?
                                 <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
-                        <Text>Spiele je Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
+                        <Text>Spiele je
+                            Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
                             {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
                                 <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
@@ -512,5 +593,5 @@ export default function AdminActionsScreen({navigation}) {
                     </View>
                 ) : <Text>Fehler!</Text>)}
         </ScrollView>
-    );
+    )
 }
