@@ -1,10 +1,10 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 27007;
+const versionCode = 27008;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '3.0.1',
+    version: '3.0.2',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
@@ -28,6 +28,7 @@ export default {
                 'remote-notification',
                 'fetch'
             ],
+            ITSAppUsesNonExemptEncryption: false,
             NSCameraUsageDescription: 'Die Kamera wird benötigt für den optionalen Foto-Upload nach jeder Spielprotokollierung.'
         }
     },
