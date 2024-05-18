@@ -48,6 +48,7 @@ export default function AllMatchPhotosScreen({navigation}) {
 
     function getUriFile(matchId, photoId) {
         return global.baseUrl
+            + 'webroot/img/'
             + data?.year?.name + '/'
             + 'web/'
             + matchId + '_' + photoId
