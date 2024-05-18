@@ -6,7 +6,7 @@ import appConfig from '../../app.config.js';
 
 export async function registerForPushNotificationsAsync() {
     let token;
-    if (Device.isDevice && Platform.OS !== 'web') {
+    if (Device.isDevice && Platform.OS !== 'web' && process?.env?.NODE_ENV !== 'development') {
         const {status: existingStatus} = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== 'granted') {
