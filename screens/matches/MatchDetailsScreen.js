@@ -71,7 +71,7 @@ export default function MatchDetailsScreen({navigation}) {
                                     <View style={styles.viewCentered}>
                                         <Text style={styles.small}>Endstand</Text>
                                         <Text
-                                            style={styles.big3}>{item.logsCalc.score ? parseInt(item.logsCalc.score[route.params.item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[route.params.item.team2_id]) || 0 : 0}
+                                            style={styles.big3}>{item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
                                         </Text>
                                         <Text style={styles.small}>nach Toren</Text>
                                         {item.resultTrend > 2 ? (
@@ -90,7 +90,7 @@ export default function MatchDetailsScreen({navigation}) {
                             <View style={styles.viewCentered}>
                                 {item.round.autoUpdateResults || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
                                     <Text
-                                        style={[styles.big1, styles.textRed]}>{item.logsCalc.score ? parseInt(item.logsCalc.score[route.params.item.team1_id] ?? 0) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[route.params.item.team2_id]) || 0 : 0}
+                                        style={[styles.big1, styles.textRed]}>{item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id] ?? 0) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
                                     </Text>
                                     :
                                     <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>
@@ -104,9 +104,11 @@ export default function MatchDetailsScreen({navigation}) {
                         <Text> </Text>
                         {item.canceled > 0 ? <Text style={styles.textRed}>Das Spiel fällt aus!</Text> : null}
                         {item.canceled === 1 || item.canceled === 3 ?
-                            <Text style={styles.textRed}>{item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
+                            <Text
+                                style={styles.textRed}>{item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
                         {item.canceled === 2 || item.canceled === 3 ?
-                            <Text style={styles.textRed}>{item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
+                            <Text
+                                style={styles.textRed}>{item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
 
                         {item.isTime2login && !item.canceled ?
                             (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?
@@ -146,7 +148,7 @@ export default function MatchDetailsScreen({navigation}) {
                                                         route.name === 'MatchDetailsAdmin' && photo.checked === null ? styles.borderBlue : null
                                                     ]}
                                                     source={photo.checked || route.name === 'MatchDetailsAdmin' ?
-                                                        {uri: 'https://api.quattfo.de/webroot/img/' + item.group.year.name + '/thumbs/' + item.id + '_' + photo.id + '.jpg'}
+                                                        {uri: global.baseUrl + 'webroot/img/' + item.group.year.name + '/thumbs/' + item.id + '_' + photo.id + '.jpg'}
                                                         : imgNotAvailable
                                                     }
                                                 />

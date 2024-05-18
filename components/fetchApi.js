@@ -2,14 +2,6 @@ import * as React from 'react';
 import * as DateFunctions from "./functions/DateFunctions";
 
 export default function fetchApi(address, method, postData, docMode) {
-    let url = '';
-
-    if (window?.location?.hostname === 'localhost') {
-        url = 'http://localhost/quapp-cakephp/';
-    } else {
-        url = 'https://api.quattfo.de/';
-    }
-
     if (method === 'POST') {
         let formData = new FormData();
 
@@ -17,13 +9,13 @@ export default function fetchApi(address, method, postData, docMode) {
             formData.append(key, value);
         }
 
-        return fetch(url + address, {
+        return fetch(global.baseUrl + address, {
             method: 'POST',
             body: formData,
         }).then(response => docMode === 'pdf' ? response : response.json())
 
     } else {
-        return fetch(url + address, {
+        return fetch(global.baseUrl + address, {
             method: 'GET',
         })
             .then(response => response.json())

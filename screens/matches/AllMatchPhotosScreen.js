@@ -12,6 +12,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [progress, setProgress] = useState(0);
+    const [resizeMode, setResizeMode] = useState('contain');
     const ref = React.useRef();
 
     useEffect(() => {
@@ -19,6 +20,8 @@ export default function AllMatchPhotosScreen({navigation}) {
     }, []);
 
     const loadScreenData = () => {
+        setLoading(true);
+
         fetchApi('matcheventLogs/getPhotosAll/' + (global.myTeamId ?? 0))
             .then((json) => {
                 setData(json);
@@ -44,7 +47,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     };
 
     function getUriFile(matchId, photoId) {
-        return 'https://api.quattfo.de/webroot/img/'
+        return global.baseUrl
             + data?.year?.name + '/'
             + 'web/'
             + matchId + '_' + photoId
@@ -82,8 +85,12 @@ export default function AllMatchPhotosScreen({navigation}) {
         }
     }
 
+    const switchResizeMode = (mode) => {
+        setResizeMode(mode === 'contain' ? 'cover' : 'contain')
+    }
+
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
                 (data?.status === 'success' && data.object.photos.length ?
                         <Carousel
@@ -100,10 +107,12 @@ export default function AllMatchPhotosScreen({navigation}) {
                             }}
                             renderItem={({item}) => (
                                 <View style={{flex: 1}}>
-                                    <Image
-                                        source={{uri: getUriFile(item.match_id, item.id)}}
-                                        style={[{flex: 2, resizeMode: 'contain'}]}
-                                    />
+                                    <Pressable onPress={() => switchResizeMode(resizeMode)} style={{flex: 2}}>
+                                        <Image
+                                            source={{uri: getUriFile(item.match_id, item.id)}}
+                                            style={{flex: 1, resizeMode: resizeMode}}
+                                        />
+                                    </Pressable>
                                     <Text style={{flex: 1, textAlign: 'center'}}>
                                         {item.sport_name + ' Gr. ' + item.group_name + ', Runde ' + item.round_id}
                                         {'\n'}

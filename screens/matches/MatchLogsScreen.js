@@ -11,6 +11,7 @@ import {
     View
 } from 'react-native';
 import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useKeepAwake} from 'expo-keep-awake';
 import fetchApi from '../../components/fetchApi';
 import MatchLogsAddEventModal from './modals/MatchLogsAddEventModal';
 import MatchLogsCancelEventModal from './modals/MatchLogsCancelEventModal';
@@ -22,11 +23,9 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
 import IconIon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {useKeepAwake} from 'expo-keep-awake';
 import styles from '../../assets/styles.js';
 
 export default function MatchLogsScreen({navigation}) {
-    useKeepAwake();
     const isFocused = useIsFocused();
     const route = useRoute();
     const scrollRef = useRef();
@@ -54,6 +53,10 @@ export default function MatchLogsScreen({navigation}) {
     const [photoModalVisible, setPhotoModalVisible] = useState(false);
     const [fouledOutModalVisible, setFouledOutModalVisible] = useState(false);
     const [doubleYellowModalVisible, setDoubleYellowModalVisible] = useState(false);
+
+    if (Platform.OS !== 'web') {
+        useKeepAwake()
+    }
 
     function setNextSendAlive() {
         global.nextSendAliveTime = new Date();
@@ -582,9 +585,11 @@ export default function MatchLogsScreen({navigation}) {
                     </View>
                     <View style={styles.matchflexEventsView}>
                         {!liveLogsCalc.isMatchStarted ?
-                            <Text style={[styles.big3, {textAlign: 'center'}]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
+                            <Text
+                                style={[styles.big3, {textAlign: 'center'}]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
                         {liveLogsCalc.isMatchConcluded ?
-                            <Text style={[styles.big3, {textAlign: 'center'}]}>Das Spiel ist abgeschlossen, vielen Dank!{'\n'}</Text> : null}
+                            <Text style={[styles.big3, {textAlign: 'center'}]}>Das Spiel ist abgeschlossen, vielen
+                                Dank!{'\n'}</Text> : null}
                         {liveLogsCalc.isMatchConcluded && liveLogsCalc.photos?.length > 0 ?
                             <Text style={styles.big22}>
                                 <Text style={styles.textGreen}> {'\u2714'}</Text>
@@ -598,7 +603,8 @@ export default function MatchLogsScreen({navigation}) {
                                         showRelatedOnSports(eventItem.showOnSportsOnly) ?
                                             <View key={eventItem.id} style={{width: '100%'}}>
                                                 {eventItem.textHeaderBeforeButton !== null ?
-                                                    <Text style={{textAlign: 'center'}}>{eventItem.textHeaderBeforeButton}</Text> : null}
+                                                    <Text
+                                                        style={{textAlign: 'center'}}>{eventItem.textHeaderBeforeButton}</Text> : null}
                                                 {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
                                                     <View style={styles.matchflexRowView}>
                                                         <View style={[styles.viewRight, {flex: 1}]}>
@@ -667,12 +673,6 @@ export default function MatchLogsScreen({navigation}) {
                         cancelEventModalVisible={cancelEventModalVisible}
                         setIsSendingEvent={setIsSendingEvent}
                     />
-                    <MatchLogsPhotoModal
-                        match={route.params.item}
-                        setLiveLogsCalc={setLiveLogsCalc}
-                        setModalVisible={setPhotoModalVisible}
-                        modalVisible={photoModalVisible}
-                    />
                     <FouledOutModal
                         setModalVisible={setFouledOutModalVisible}
                         modalVisible={fouledOutModalVisible}
@@ -681,6 +681,13 @@ export default function MatchLogsScreen({navigation}) {
                         setModalVisible={setDoubleYellowModalVisible}
                         modalVisible={doubleYellowModalVisible}
                     />
+                    {Platform.OS !== 'web' ?
+                        <MatchLogsPhotoModal
+                            match={route.params.item}
+                            setLiveLogsCalc={setLiveLogsCalc}
+                            setModalVisible={setPhotoModalVisible}
+                            modalVisible={photoModalVisible}
+                        /> : null}
                 </ScrollView>
             </KeyboardAvoidingView>
             : null)

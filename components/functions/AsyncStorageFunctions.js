@@ -14,6 +14,10 @@ export async function loadStorageTeam() {
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
         .catch((error) => console.error(error));
+
+    if (window?.location?.hostname === 'api.quattfo.de') {
+        global.myTeamId = 0;  // reason: do not show TeamSelectScreen for this host!
+    }
 }
 
 // redundant Storage for emergency case if server is down

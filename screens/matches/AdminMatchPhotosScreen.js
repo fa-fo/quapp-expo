@@ -52,7 +52,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                 }}>
                                     <Image
                                         style={{width: '100%', height: 600, resizeMode: 'contain'}}
-                                        source={{uri: 'https://api.quattfo.de/webroot/img/' + data.year.name + '/original/' + data.object[photoKey].match_id + '_' + data.object[photoKey].id + '.jpg'}}
+                                        source={{uri: global.baseUrl + 'webroot/img/' + data.year.name + '/original/' + data.object[photoKey].match_id + '_' + data.object[photoKey].id + '.jpg'}}
                                     />
                                     <View style={styles.toprightButtonContainer}>
                                         <Pressable

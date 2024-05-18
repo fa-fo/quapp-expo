@@ -13,7 +13,8 @@ export default function MatchDetailsPhotoModal({
                                                    loadScreenData
                                                }) {
     let match = route.params.item;
-    let uriFile = 'https://api.quattfo.de/webroot/img/'
+    let uriFile = global.baseUrl
+        + 'webroot/img/'
         + match.group.year.name + '/'
         + (route.name === 'MatchDetailsAdmin' ? 'original' : 'web') + '/'
         + match.id + '_' + photoSelected?.id
