@@ -264,8 +264,8 @@ export default function AdminActionsScreen({navigation}) {
                                                 <Text
                                                     key={k}>{k}: {v}   </Text>))}</Text>
                                         ))}</Text> : null}</Text>
-                                <Text>{data.year.settings.currentDay_id === 2 && data.countDoubleMatches ?
-                                    <Text>{'\n'}Gleiche Paarungen wie am Vortag:
+                                <Text>{data.countDoubleMatches ?
+                                    <Text>{'\n'}Gleiche Paarungen wie zuvor:
                                         {Object.entries(data.countDoubleMatches).map(([key, val]) => (
                                             <Text key={key}>{'\n' + key}: {val}</Text>
                                         ))}</Text> : null}</Text>
@@ -310,15 +310,7 @@ export default function AdminActionsScreen({navigation}) {
                                         Rasterspielplan anlegen</Text>
                                 </Pressable>
                             </View>
-                            :
-                            <View>{data.countPrevYearsMatches ?
-                                <Text>Gleiche Paarungen wie in den
-                                    Vorjahren: {data.countPrevYearsMatches + '\u2762'}</Text> : null}
-                                {data.countPrevYearsMatchesSameSport ?
-                                    <Text>...in der selben
-                                        Sportart: {data.countPrevYearsMatchesSameSport + '\u2762'}</Text> : null}
-                            </View>
-                        }
+                            : null}
 
                         {data.object.matchesCount > data.object.matchResultCount ?
                             <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
