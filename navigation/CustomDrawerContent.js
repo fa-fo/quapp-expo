@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-import {Image, Linking, Text, View} from 'react-native';
+import {Image, Linking, Platform, Text, View} from 'react-native';
 import styles from '../assets/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Constants from "expo-constants";
@@ -67,13 +67,16 @@ export default function CustomDrawerContent(props) {
                     props.navigation.navigate('MyMatches', {screen: 'TeamsCurrent'})
                 }
             />
-            <DrawerItem
-                icon={() => <Icon name="picture-in-picture-bottom-right" size={25}/>}
-                label="Fotos"
-                onPress={() =>
-                    props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
-                }
-            />
+            {Platform.OS === 'web' && process?.env?.NODE_ENV !== 'development' ? null
+                :
+                <DrawerItem
+                    icon={() => <Icon name="picture-in-picture-bottom-right" size={25}/>}
+                    label="Fotos"
+                    onPress={() =>
+                        props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
+                    }
+                />
+            }
             <DrawerItem
                 icon={() => <Icon name="playlist-check" size={25}/>}
                 label="Spielregeln"
