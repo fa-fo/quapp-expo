@@ -46,7 +46,7 @@ export default function CellVariantRanking(props) {
                                 },
                                 props.item.canceled ? styles.textRed : null,
                             ]}>
-                            {props.item.team.name + (props.isTest ? '_test' : '')}
+                            {props.item.team.name}
                         </Text>
                         <View
                             style={{
