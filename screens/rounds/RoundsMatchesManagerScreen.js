@@ -8,6 +8,7 @@ import CellVariantMatchesManagerProblem from "../../components/cellVariantMatche
 import {format} from "date-fns";
 import styles from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import * as SportFunctions from "../../components/functions/SportFunctions";
 
 
 export default function RoundsMatchesManagerScreen({navigation}) {
@@ -97,44 +98,47 @@ export default function RoundsMatchesManagerScreen({navigation}) {
             </View>
             {isLoading ? null :
                 (data?.status === 'success' ?
-                    <View style={styles.matchflexRowView}>
-                        <View style={{flex: 3}}>
-                            <Text
-                                style={{
-                                    color: 'orange',
-                                    alignSelf: 'center'
-                                }}>
-                                {'Runde ' + data.object.round?.id + ' um '
-                                + DateFunctions.getFormatted(data.object.round['timeStartDay' + data.year.settings.currentDay_id]) + ' Uhr'}
-                            </Text>
-                            <View ref={problemsRef}>
+                    <View>
+                        <View style={styles.matchflexRowView}>
+                            <View style={{flex: 3}}>
+                                <Text
+                                    style={{
+                                        color: 'orange',
+                                        alignSelf: 'center'
+                                    }}>
+                                    {'Runde ' + data.object.round?.id + ' um '
+                                    + DateFunctions.getFormatted(data.object.round['timeStartDay' + data.year.settings.currentDay_id]) + ' Uhr'}
+                                </Text>
+                                <View ref={problemsRef}>
+                                    {data.object.groups?.map(group =>
+                                        group.matches.map(item => (
+                                            <CellVariantMatchesManagerProblem
+                                                key={item.id}
+                                                item={item}
+                                            />
+                                        ))
+                                    )}
+                                </View>
+                                {hasNoIssues() ?
+                                    <Text style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</Text>
+                                    : null}
+                            </View>
+                            <View style={{flex: 1}}>
                                 {data.object.groups?.map(group =>
-                                    group.matches.map(item => (
-                                        <CellVariantMatchesManagerProblem
+                                    group.matches.map((item, i) => (
+                                        <Pressable
                                             key={item.id}
-                                            item={item}
-                                        />
+                                            onPress={() => navigation.navigate('MatchDetailsSupervisor', {item})}>
+                                            <CellVariantMatchesManager
+                                                i={i}
+                                                item={item}
+                                            />
+                                        </Pressable>
                                     ))
                                 )}
                             </View>
-                            {hasNoIssues() ?
-                                <Text style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</Text>
-                                : null}
                         </View>
-                        <View style={{flex: 1}}>
-                            {data.object.groups?.map(group =>
-                                group.matches.map((item, i) => (
-                                    <Pressable
-                                        key={item.id}
-                                        onPress={() => navigation.navigate('MatchDetailsSupervisor', {item})}>
-                                        <CellVariantMatchesManager
-                                            i={i}
-                                            item={item}
-                                        />
-                                    </Pressable>
-                                ))
-                            )}
-                        </View>
+                        {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
                     : <Text>Fehler: keine Spiele gefunden!</Text>)}
         </ScrollView>

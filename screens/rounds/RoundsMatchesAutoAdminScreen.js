@@ -9,6 +9,7 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import {Section, TableView} from "react-native-tableview-simple";
 import CellVariantMatchesAdmin from "../../components/cellVariantMatchesAdmin";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
+import * as SportFunctions from "../../components/functions/SportFunctions";
 
 export default function RoundsMatchesAutoAdminScreen({navigation}) {
     const route = useRoute();
@@ -103,46 +104,49 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
             </View>
             {isLoading ? null :
                 (data?.status === 'success' ?
-                    <TableView appearance="light">
-                        {data.object.groups?.map(group => (
-                            <Section
-                                key={group.id}
-                                headerComponent={
-                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
-                                        <View style={{flex: 2}}>
-                                            <Text style={styles.textBlue}>
-                                                <Text
-                                                    style={{color: 'orange'}}>{'Runde ' + data.object.round.id}  </Text>
-                                                {'Gruppe ' + group.name + ':'}</Text>
+                    <View>
+                        <TableView appearance="light">
+                            {data.object.groups?.map(group => (
+                                <Section
+                                    key={group.id}
+                                    headerComponent={
+                                        <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                            <View style={{flex: 2}}>
+                                                <Text style={styles.textBlue}>
+                                                    <Text
+                                                        style={{color: 'orange'}}>{'Runde ' + data.object.round.id}  </Text>
+                                                    {'Gruppe ' + group.name + ':'}</Text>
+                                            </View>
+                                            <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                                {group.name === 'A' ?
+                                                    <Text numberOfLines={1}
+                                                          style={styles.textGreen}>
+                                                        {'Regulär werten: ' + matchesToConfirm.length + ' (automatisch)'}
+                                                    </Text> : null}
+                                            </View>
                                         </View>
-                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                            {group.name === 'A' ?
-                                                <Text numberOfLines={1}
-                                                      style={styles.textGreen}>
-                                                    {'Regulär werten: ' + matchesToConfirm.length + ' (automatisch)'}
-                                                </Text> : null}
-                                        </View>
-                                    </View>
-                                }>
-                                {group.matches ?
-                                    group.matches.map(item =>
-                                        (!item.logsCalc.isResultConfirmed ?
-                                            <CellVariantMatchesAdmin
-                                                key={item.id}
-                                                item={item}
-                                                timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
-                                                team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
-                                                team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                                fromRoute={route.name}
-                                                loadScreenData={loadScreenData}
-                                            /> : null)
-                                    )
-                                    :
-                                    null
-                                }
-                            </Section>
-                        ))}
-                    </TableView>
+                                    }>
+                                    {group.matches ?
+                                        group.matches.map(item =>
+                                            (!item.logsCalc.isResultConfirmed ?
+                                                <CellVariantMatchesAdmin
+                                                    key={item.id}
+                                                    item={item}
+                                                    timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
+                                                    team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
+                                                    team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
+                                                    fromRoute={route.name}
+                                                    loadScreenData={loadScreenData}
+                                                /> : null)
+                                        )
+                                        :
+                                        null
+                                    }
+                                </Section>
+                            ))}
+                        </TableView>
+                        {SportFunctions.getRemarksAdmin(data.object.remarks)}
+                    </View>
                     : <Text>Fehler: keine Spiele gefunden!</Text>)}
         </ScrollView>
     );

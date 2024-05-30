@@ -67,7 +67,8 @@ export default function MatchDetailsScreen({navigation}) {
 
                         {item.logsCalc.isResultConfirmed ?
                             <View>
-                                {item.round.autoUpdateResults ?
+                                {item.round.autoUpdateResults
+                                || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin' ?
                                     <View style={styles.viewCentered}>
                                         <Text style={styles.small}>Endstand</Text>
                                         <Text
@@ -88,7 +89,9 @@ export default function MatchDetailsScreen({navigation}) {
 
                         {item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
                             <View style={styles.viewCentered}>
-                                {item.round.autoUpdateResults || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
+                                {item.round.autoUpdateResults
+                                || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin'
+                                || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
                                     <Text
                                         style={[styles.big1, styles.textRed]}>{item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id] ?? 0) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
                                     </Text>
