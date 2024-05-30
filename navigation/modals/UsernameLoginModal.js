@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../assets/styles.js';
 import fetchApi from '../../components/fetchApi';
@@ -12,6 +12,7 @@ export default function UsernameLoginModal({
                                            }) {
     const [usernamePW, setUsernamePW] = useState(__DEV__ ? '' : '');
     const [textPWWrongVisible, setTextPWWrongVisible] = useState(false);
+    const inputRef = useRef();
 
     const tryLogin = () => {
         if (usernamePW !== '') {
@@ -41,6 +42,13 @@ export default function UsernameLoginModal({
             animationType="slide"
             transparent={true}
             visible={modalVisible}
+            onShow={() => {
+                if (usernamePW === '') {
+                    setTimeout(() => {
+                        inputRef?.current?.focus()
+                    }, 50)
+                }
+            }}
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
@@ -58,6 +66,7 @@ export default function UsernameLoginModal({
                         keyboardType="default"
                         value={usernamePW}
                         maxLength={16}
+                        ref={inputRef}
                         onSubmitEditing={() => tryLogin()}
                     />
                     {textPWWrongVisible ? (

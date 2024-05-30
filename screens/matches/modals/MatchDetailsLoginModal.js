@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
@@ -10,6 +10,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
     const [refereePin, setRefereePin] = useState(global.settings.isTest ? '12345' : (global['refereePIN' + item.id] ?? ''));
     const [textPinEmptyVisible, setTextPinEmptyVisible] = useState(false);
     const [textPinWrongVisible, setTextPinWrongVisible] = useState(false);
+    const inputRef = useRef();
 
     const tryLogin = (item) => {
         if (refereePin !== '') {
@@ -40,6 +41,13 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
             animationType="slide"
             transparent={true}
             visible={modalVisible}
+            onShow={() => {
+                if (refereePin === '') {
+                    setTimeout(() => {
+                        inputRef?.current?.focus()
+                    }, 50)
+                }
+            }}
             onRequestClose={() => {
                 setModalVisible(false);
             }}
@@ -49,7 +57,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                     <Text>Hier bitte 5-stelligen SR-PIN eingeben: </Text>
                     {global.settings.isTest ?
                         <Text style={styles.testMode}>Beim Turnier braucht ihr hier euren Team-PIN, den ihr zusammen mit
-                            dem endgültigen Spielplan bei Turnierbeginn bekommt! Mit dem Testmodus-PIN (12345) könnt ihr
+                            dem endgültigen Spielplan vor Turnierbeginn bekommt! Mit dem Testmodus-PIN (12345) könnt ihr
                             jetzt testen:</Text> : null}
                     <TextInput style={styles.textInput}
                                onChangeText={setRefereePin}
@@ -57,6 +65,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                                keyboardType="numeric"
                                value={refereePin}
                                maxLength={5}
+                               ref={inputRef}
                                onSubmitEditing={() => tryLogin(item)}
                     />
                     {textPinWrongVisible ? <Text style={styles.failureText}>falscher PIN?</Text> : null}
@@ -64,7 +73,8 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                         <Text style={styles.failureText}>Bitte PIN eingeben</Text> : null}
                     <Pressable style={[styles.button1, styles.buttonBig1, styles.buttonGreen]}
                                onPress={() => tryLogin(item)}>
-                        <Text style={[styles.textButton1, styles.teamInfos]}><Icon name="login" size={28}/> einloggen</Text>
+                        <Text style={[styles.textButton1, styles.teamInfos]}><Icon name="login"
+                                                                                   size={28}/> einloggen</Text>
                     </Pressable>
                     <Text> </Text>
                     <Pressable style={[styles.button1, styles.buttonGrey]}

@@ -1,5 +1,5 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 27010;
+const versionCode = 27011;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
