@@ -1,10 +1,10 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 27011;
+const versionCode = 27012;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '3.0.2',
+    version: '3.0.3',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
@@ -30,6 +30,9 @@ export default {
             ],
             ITSAppUsesNonExemptEncryption: false,
             NSCameraUsageDescription: 'Die Kamera wird benötigt für den optionalen Foto-Upload nach jeder Spielprotokollierung.'
+        },
+        config: {
+            googleServicesFile: "./GoogleService-Info.plist"
         }
     },
     android: {
