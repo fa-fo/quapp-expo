@@ -18,16 +18,18 @@ export default function SettingsScreen({navigation}) {
     return (
         <ScrollView style={[styles.headerComponentView, {minHeight: '100%'}]}>
             <View>
-                <Pressable style={[styles.button1, styles.buttonGreen]}
-                           onPress={() => {
-                               navigation.navigate('MyMatches', {screen: 'MyTeamSelect'})
-                           }}
-                >
-                    <Text style={styles.textButton1}>
-                        <Icon name="account-switch-outline" size={30}/>
-                        Mein Team ändern
-                    </Text>
-                </Pressable>
+                {window?.location?.hostname === 'api.quattfo.de' ? null :
+                    <Pressable style={[styles.button1, styles.buttonGreen]}
+                               onPress={() => {
+                                   navigation.navigate('MyMatches', {screen: 'MyTeamSelect'})
+                               }}
+                    >
+                        <Text style={styles.textButton1}>
+                            <Icon name="account-switch-outline" size={30}/>
+                            Mein Team ändern
+                        </Text>
+                    </Pressable>
+                }
 
                 <Text>{'\n\n'}</Text>
 
