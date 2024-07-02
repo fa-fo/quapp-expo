@@ -8,7 +8,7 @@ import styles from '../../assets/styles';
 export default function PushNotificationsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState(false);
-    const [selectedTeamId, swtSelectedTeamId] = useState(0);
+    const [selectedTeamId, setSelectedTeamId] = useState(0);
     const [mailTitle, setMailTitle] = useState('');
     const [mailBody, setMailBody] = useState('');
 
@@ -23,7 +23,7 @@ export default function PushNotificationsScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
-    function sendPushNotification(teamId, mailBody) {
+    function sendPushNotification(teamId) {
         let postData = {
             'password': global['adminPW'],
         };
@@ -66,7 +66,7 @@ export default function PushNotificationsScreen({navigation}) {
                         <Text>Push-Nachricht an Team:</Text>
                         <Picker
                             selectedValue={selectedTeamId}
-                            onValueChange={(itemValue) => swtSelectedTeamId(itemValue)}
+                            onValueChange={(itemValue) => setSelectedTeamId(itemValue)}
                             style={[styles.button1, styles.pickerSelect]}
                         >
                             <Picker.Item key="0" value="0" label="alle Teams"/>
@@ -94,7 +94,7 @@ export default function PushNotificationsScreen({navigation}) {
                             placeholder="Hier Text eingeben"
                         />
                         <Pressable style={[styles.button1, styles.buttonGreen]}
-                                   onPress={() => sendPushNotification(selectedTeamId, mailBody)}>
+                                   onPress={() => sendPushNotification(selectedTeamId)}>
                             <Text style={styles.textButton1}>Senden</Text>
                         </Pressable>
 
