@@ -27,12 +27,14 @@ export function getChampionshipStars(countStars) {
 }
 
 export function getRemarksAdmin(remarksMatches) {
-    return remarksMatches?.map(match => (
-        <View key={match.id}>
-            <Text style={{fontWeight: 'bold'}}>{match.sport.code} {match.group_name}, {DateFunctions.getFormatted(match.matchStartTime)} Uhr:</Text>
-            <Text>{match.teams1.name} vs {match.teams2.name}</Text>
-            <Text style={{fontStyle: 'italic'}}>SR: {match.teams3.name}</Text>
-            <Text style={{marginBottom: 20, fontSize: 20}}>"{match.remarks}"</Text>
-        </View>
-    ))
+    return remarksMatches.length ?
+        (remarksMatches.map(match => (
+            <View key={match.id}>
+                <Text
+                    style={{fontWeight: 'bold'}}>{match.sport.code} {match.group_name}, {DateFunctions.getFormatted(match.matchStartTime)} Uhr:</Text>
+                <Text>{match.teams1.name} vs {match.teams2.name}</Text>
+                <Text style={{fontStyle: 'italic'}}>SR: {match.teams3.name}</Text>
+                <Text style={{marginBottom: 20, fontSize: 20}}>"{match.remarks}"</Text>
+            </View>
+        ))) : null;
 }
