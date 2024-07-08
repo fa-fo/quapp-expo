@@ -1,11 +1,12 @@
 import * as React from 'react';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
-import {useFocusEffect, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import CellVariantMatchesManager from "../../components/cellVariantMatchesManager";
 import CellVariantMatchesManagerProblem from "../../components/cellVariantMatchesManagerProblem";
 import {format} from "date-fns";
+import * as Speech from 'expo-speech';
 import styles from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
@@ -14,8 +15,10 @@ import * as SportFunctions from "../../components/functions/SportFunctions";
 export default function RoundsMatchesManagerScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(false);
+    const [issuesLength, setIssuesLength] = useState(null);
     const [now, setNow] = useState(new Date());
+    const [speecher, setSpeecher] = useState('');
     const [lastUpdate, setLastUpdate] = useState(null); // check for too long time not updated
     const problemsRef = useRef(null);
 
@@ -29,22 +32,25 @@ export default function RoundsMatchesManagerScreen({navigation}) {
         };
     }, [navigation, route]);
 
-    useFocusEffect(
-        useCallback(() => {
-            const interval1 = setInterval(() => {
-                loadScreenData();
-            }, 3000);
+    useEffect(() => {
+        const interval1 = setInterval(() => {
+            loadScreenData();
+        }, 3000);
 
-            const interval2 = setInterval(() => {
-                getTime();
-            }, 1000);
+        const interval2 = setInterval(() => {
+            getTime();
+        }, 1000);
 
-            return () => {
-                clearInterval(interval1);
-                clearInterval(interval2);
-            };
-        }, [route]),
-    );
+        return () => {
+            clearInterval(interval1);
+            clearInterval(interval2);
+        };
+    }, [])
+
+    function getTime() {
+        let n = new Date();
+        setNow(n);
+    }
 
     const loadScreenData = () => {
         fetchApi('matches/byRound/0/1/0/0/10') // offset: 10
@@ -76,22 +82,48 @@ export default function RoundsMatchesManagerScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
+    useEffect(() => {
+        setIssuesLength(getIssuesLength());
+    }, [data]);
 
-    function getTime() {
-        let n = new Date();
-        setNow(n);
+    function getIssuesLength() {
+        return data ? parseInt((problemsRef?.current?.childNodes?.length ?? 0)  // for Web
+            + (problemsRef?.current?._children?.length ?? 0))   // for Android
+            : null
     }
 
-    function hasNoIssues() {
-        return ((problemsRef?.current?.childNodes?.length ?? 0) === 0  // for Web
-            && (problemsRef?.current?._children?.length ?? 0) === 0)   // for Android
-    }
+    useEffect(() => {
+        if (issuesLength !== null) {
+            setSpeecher(global.criticalIssuesCount > 0 ? global.criticalIssuesCount
+                : ('ok and ' + issuesLength));
+        }
+        global.criticalIssuesCount = 0;
+    }, [data, now]);
+
+    useEffect(() => {
+        if (speecher !== '') {
+            let min = parseInt(format(now, "mm")) % 30;
+            let sec = parseInt(format(now, "ss"));
+
+            if (([26, 27, 28, 29, 0, 1, 2].includes(min) && [10, 30, 50].includes(sec)) // before match start
+                || (min < 20 && min > 2 && [20, 50].includes(sec))) { // during the match
+
+                if ([27, 28, 29, 9, 19].includes(min)) {
+                    Speech.speak(min + ' min ' + sec, {rate: 1.0, language: 'de'});
+                }
+
+                setTimeout(() => {
+                    Speech.speak(speecher, {rate: 1.0, language: 'en'});
+                }, 2000);
+            }
+        }
+    }, [now]);
 
     return (
         <ScrollView
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
             style={lastUpdate && data && now > lastUpdate ? styles.buttonRed
-                : hasNoIssues() ? styles.buttonGreen : null}
+                : issuesLength === 0 ? styles.buttonGreen : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
                 <Text>{format(now, "HH:mm:ss")}</Text>
@@ -119,7 +151,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                         ))
                                     )}
                                 </View>
-                                {hasNoIssues() ?
+                                {issuesLength === 0 ?
                                     <Text style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</Text>
                                     : null}
                             </View>
