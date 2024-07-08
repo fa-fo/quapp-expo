@@ -1,25 +1,21 @@
 // re-add "expo-speech": "~11.3.0","expo-av": "~13.4.1",
-/*
+
 import * as React from 'react';
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import fetchApi from "../../components/fetchApi";
-import {useFocusEffect} from "@react-navigation/native";
 import {format} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import styles from "../../assets/styles";
-import {Audio} from 'expo-av';
+//import {Audio} from 'expo-av';
 import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-*/
 
 export default function AutoPilotSupervisorScreen({navigation}) {
-    /*
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [now, setNow] = useState(new Date());
     const [matchTime, setMatchTime] = useState(null);
-    const [soundFile, setSoundFile] = useState('');
     const [currentRoundId, setCurrentRoundId] = useState(null);
     const [autoPilot, setAutoPilot] = useState(true);
 
@@ -34,19 +30,16 @@ export default function AutoPilotSupervisorScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
-    useFocusEffect(
-        useCallback(() => {
-            const interval =
-                setInterval(() => {
-                    if (data.year?.settings?.currentDay_id)
-                        getMatchTime(data.year.settings.currentDay_id);
-                }, 1000);
+    useEffect(() => {
+        const interval =
+            setInterval(() => {
+                getMatchTime(data.year.settings.currentDay_id);
+            }, 1000);
 
-            return () => {
-                clearInterval(interval);
-            };
-        }, [currentRoundId, autoPilot, data]),
-    );
+        return () => {
+            clearInterval(interval);
+        };
+    }, [currentRoundId, autoPilot, data])
 
     function getCurrentRoundId(currentDay_id) {
         let time = new Date();
@@ -54,7 +47,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         time.setHours(time.getHours() - (currentDay_id === 2 ? 1 : 2));
         let cycle = Math.floor(time.getHours() / 8);
 
-        if (cycle !== 1 && data.day === format(now, "yyyy-MM-dd")) {
+        if (cycle !== 1 && global.settings.isTest === 0) {
             return 0; // on real match day only play real times
         }
 
@@ -106,81 +99,80 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     }
 
     function getSoundFileName(mainTimer) {
-        let file = ' ';
+        let file = '';
 
         if (global.settings.isTest) {
             if (mainTimer.substring(0, 1) === '-' && mainTimer.substring(2, 3) !== '0' && mainTimer.substring(4, 6) === '10') {
-                file = 'startRound' + currentRoundId + 'In' + mainTimer.substring(2, 3) + 'minutes';
+                file = 'Noch ' + mainTimer.substring(2, 3) + ' Minuten bis Spiel-Beginn Runde ' + currentRoundId;
             } else if (mainTimer.substring(0, 1) === '0' && mainTimer.substring(1, 2) !== '9' && mainTimer.substring(3, 5) === '50') {
-                file = 'changeSides-Round' + currentRoundId + 'In' + (10 - mainTimer.substring(1, 2)) + 'minutes';
+                file = 'Noch ' + (9 - mainTimer.substring(1, 2)) + ' Minuten bis zum Seitenwechsel Runde ' + currentRoundId;
             } else if (mainTimer.substring(0, 1) === '1' && mainTimer.substring(1, 2) !== '9' && mainTimer.substring(3, 5) === '50') {
-                file = 'endRound' + currentRoundId + 'In' + (10 - mainTimer.substring(1, 2)) + 'minutes';
+                file = 'Noch ' + (9 - mainTimer.substring(1, 2)) + ' Minuten bis Spiel-Ende Runde ' + currentRoundId;
             }
         }
 
         switch (mainTimer) {
-            case '-00:20':
-            case '09:40':
-            case '19:40':
-                file = 'countdown9and8and7and6and5and4and3and2and1and0';
+            case '-00:15':
+            case '09:45':
+            case '19:45':
+                file = 'Countdown';
                 break;
 
             case '-05:10':
-                file = 'startRound' + currentRoundId + 'In5minutes';
+                file = 'Noch 5 Minuten bis Spiel-Beginn Runde ' + currentRoundId;
                 break;
             case '-03:10':
-                file = 'startRound' + currentRoundId + 'In3minutes';
+                file = 'Noch 3 Minuten bis Spiel-Beginn Runde ' + currentRoundId;
                 break;
             case '-01:10':
-                file = 'startRound' + currentRoundId + 'In1minute';
+                file = 'Noch eine Minute bis Spiel-Beginn Runde ' + currentRoundId;
                 break;
             case '-00:10':
-                file = 'startRound' + currentRoundId;
+                file = 'Spiel-Beginn Runde ' + currentRoundId;
                 break;
 
             case '08:50':
-                file = 'changeSides-In1minute';
+                file = 'Noch eine Minute bis zum Seitenwechsel';
                 break;
             case '09:50':
-                file = 'changeSides';
+                file = 'Seitenwechsel';
                 break;
 
             case '18:50':
-                file = 'endIn1minute';
+                file = 'Noch eine Minute bis Spiel-Ende';
                 break;
             case '19:20':
-                file = 'endIn30seconds';
+                file = 'Noch 30 Sekunden bis Spiel-Ende';
                 break;
-            case '19:49':
-                file = 'endRound' + currentRoundId;
+            case '19:50':
+                file = 'Spiel-Ende Runde ' + currentRoundId;
                 break;
         }
-        //console.log(currentRoundId);
+
         return file;
     }
 
     async function playSound(mainTimer) {
         let file = getSoundFileName(mainTimer);
 
-        if (mainTimer.substring(mainTimer.length - 1) === '5') file = ' '; // reset status text file after 5 sec
-        if (mainTimer === '19:59') await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
+        if (mainTimer === '19:59')
+            await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
 
-        if (0 && file) {
-            setSoundFile(file);
-            if (file !== ' ') {
-                Speech.speak(file, {rate: 0.6});
-            }
+        if (file !== '') {
+            console.log(file);
+            Speech.speak(file, {rate: 1.0, language: 'de'});
         }
 
         try {
-            if (file && file !== ' ') {
-                setSoundFile(file);
+            if (file !== '') {
+                /*
                 const sound = new Audio.Sound();
                 await sound.loadAsync(
-                    require('./../../assets/sounds/alam.mp3'),
+                    require('./../../assets/sounds/alarm.mp3'),
                     {shouldPlay: true});
                 await sound.setPositionAsync(0);
                 await sound.playAsync();
+                 */
             }
         } catch (error) {
             console.error(error)
@@ -203,24 +195,22 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                 (data?.status === 'success' && data?.object?.rounds?.length > 0 ? (
                     <TableView appearance="light">
                         <Section header={global.currentDayName}>
-                            {data.object.rounds.map(item => (
-                                <View key={item.id}>
-                                    <Cell
-                                        title={'Spielrunde ' + item.id + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
-                                        titleTextColor={item.id === currentRoundId ? 'red' : null}
-                                    />
-                                    {item.id === currentRoundId ?
-                                        <View>
-                                            {matchTime}
-                                            <Text style={styles.textRankingStats}>{' ' + soundFile + ' '}</Text>
-                                        </View>
-                                        : null}
-                                </View>
-                            ))}
+                            {data.object.rounds.map(item =>
+                                (item.id >= currentRoundId ?
+                                        <View key={item.id}>
+                                            <Cell
+                                                title={'Spielrunde ' + item.id + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
+                                                titleTextColor={item.id === currentRoundId ? 'red' : null}
+                                            />
+                                            {item.id === currentRoundId ?
+                                                <View>
+                                                    {matchTime}
+                                                </View> : null}
+                                        </View> : null
+                                ))}
                         </Section>
                     </TableView>
                 ) : <Text>Keine Spielrunden gefunden!</Text>)}
         </ScrollView>
     );
-*/
 }
