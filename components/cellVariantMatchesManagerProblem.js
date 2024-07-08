@@ -33,12 +33,14 @@ export default function CellVariantMatchesManagerProblem(props) {
 
     let getButtonStyle = function (status) {
         if (status === 'isLoggedIn' && !getStatus('wasLoggedIn')) {
+            global.criticalIssuesCount++;
             return styles.buttonRed;
         } else if (status === 'isMatchStarted' || (status === 'isLoggedIn' && getStatus('wasLoggedIn'))) {
             return styles.buttonGreyDark;
         } else if ((status === 'isRefereeOnPlace' || status === 'isTeam1OnPlace' || status === 'isTeam2OnPlace')
             && (getStatus('isRefereeOnPlace') || getStatus('isTeam1OnPlace') || getStatus('isTeam2OnPlace'))) {
             // not all participants on place
+            global.criticalIssuesCount++;
             return styles.buttonRed;
         }
 
