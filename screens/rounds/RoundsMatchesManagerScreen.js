@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Platform, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
+import {useKeepAwake} from "expo-keep-awake";
 import fetchApi from '../../components/fetchApi';
 import CellVariantMatchesManager from "../../components/cellVariantMatchesManager";
 import CellVariantMatchesManagerProblem from "../../components/cellVariantMatchesManagerProblem";
@@ -10,7 +11,6 @@ import * as Speech from 'expo-speech';
 import styles from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
-
 
 export default function RoundsMatchesManagerScreen({navigation}) {
     const route = useRoute();
@@ -21,6 +21,10 @@ export default function RoundsMatchesManagerScreen({navigation}) {
     const [speecher, setSpeecher] = useState('');
     const [lastUpdate, setLastUpdate] = useState(null); // check for too long time not updated
     const problemsRef = useRef(null);
+
+    if (Platform.OS !== 'web') {
+        useKeepAwake()
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -49,12 +53,14 @@ export default function RoundsMatchesManagerScreen({navigation}) {
 
     function getTime() {
         let n = new Date();
+        global.criticalIssuesCount = 0;
         setNow(n);
     }
 
     const loadScreenData = () => {
         fetchApi('matches/byRound/0/1/0/0/10') // offset: 10
             .then((json) => {
+                global.criticalIssuesCount = 0;
                 setData(json);
 
                 let then = new Date();
@@ -94,10 +100,11 @@ export default function RoundsMatchesManagerScreen({navigation}) {
 
     useEffect(() => {
         if (issuesLength !== null) {
-            setSpeecher(global.criticalIssuesCount > 0 ? global.criticalIssuesCount
-                : ('ok and ' + issuesLength));
+            let s = global.criticalIssuesCount > 0 ? global.criticalIssuesCount
+                : ('ok and ' + issuesLength.toString());
+            global.criticalIssuesCount = 0;
+            setSpeecher(s);
         }
-        global.criticalIssuesCount = 0;
     }, [data, now]);
 
     useEffect(() => {
@@ -109,11 +116,11 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 || (min < 20 && min > 2 && [20, 50].includes(sec))) { // during the match
 
                 if ([27, 28, 29, 9, 19].includes(min)) {
-                    Speech.speak(min + ' min ' + sec, {rate: 1.0, language: 'de'});
+                    Speech.speak(min.toString() + ' min ' + sec.toString(), {rate: 1.5, language: 'de'});
                 }
 
                 setTimeout(() => {
-                    Speech.speak(speecher, {rate: 1.0, language: 'en'});
+                    Speech.speak(speecher.toString(), {rate: 1.5, language: 'en'});
                 }, 2000);
             }
         }
