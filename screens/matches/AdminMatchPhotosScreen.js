@@ -4,6 +4,8 @@ import {Image, Pressable, RefreshControl, ScrollView, Text, View} from 'react-na
 import fetchApi from '../../components/fetchApi';
 import styles from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import CellVariantMatches from "../../components/cellVariantMatches";
+import * as DateFunctions from "../../components/functions/DateFunctions";
 
 export default function AdminMatchPhotosScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
     const setCheck = async (isOk) => {
         setLoading(true);
         let postData = {password: global.adminPW};
-        fetchApi('matcheventLogs/setPhotoCheck/' + data.object[photoKey].id + '/' + isOk, 'POST', postData)
+        fetchApi('matcheventLogs/setPhotoCheck/' + data.object.toCheck[photoKey].id + '/' + isOk, 'POST', postData)
             .then((json) => {
                 setPhotoKey(photoKey + 1);
             })
@@ -38,52 +40,72 @@ export default function AdminMatchPhotosScreen({navigation}) {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
-            <Text>Noch {data?.object?.length - photoKey} Fotos zu prüfen</Text>
-            <View style={[styles.matchflexEventsView, {height: 600}]}>
+            <Text>Bisher {data?.object?.okCount} ok - {data?.object?.notOkCount} notOk --
+                noch {data?.object?.toCheck.length - photoKey} Fotos zu prüfen</Text>
+            <View>
                 {isLoading ? null :
                     (data?.status === 'success' ?
-                        (data.object[photoKey] ? (
-                                <View style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    width: '100%',
-                                    height: 600,
-                                    backgroundColor: 'green'
-                                }}>
-                                    <Image
-                                        style={{width: '100%', height: 600, resizeMode: 'contain'}}
-                                        source={{uri: global.baseUrl + 'webroot/img/' + data.year.name + '/original/' + data.object[photoKey].match_id + '_' + data.object[photoKey].id + '.jpg'}}
-                                    />
-                                    <View style={styles.toprightButtonContainer}>
-                                        <Pressable
-                                            style={[styles.button1, styles.buttonEvent, styles.buttonRed]}
-                                            onPress={() => setCheck(0)}
-                                        >
-                                            <IconMat name='delete-outline' size={48} color='#fff'/>
-                                        </Pressable>
+                        <View>
+                            <View style={[styles.matchflexEventsView, {height: 600}]}>
+                                {data.object.toCheck[photoKey] ?
+                                    <View style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        width: '100%',
+                                        height: 600,
+                                        backgroundColor: 'green'
+                                    }}>
+                                        <Image
+                                            style={{width: '100%', height: 600, resizeMode: 'contain'}}
+                                            source={{uri: global.baseUrl + 'webroot/img/' + data.year.name + '/original/' + data.object.toCheck[photoKey].match_id + '_' + data.object.toCheck[photoKey].id + '.jpg'}}
+                                        />
+                                        <View style={styles.toprightButtonContainer}>
+                                            <Pressable
+                                                style={[styles.button1, styles.buttonEvent, styles.buttonRed]}
+                                                onPress={() => setCheck(0)}
+                                            >
+                                                <IconMat name='delete-outline' size={48} color='#fff'/>
+                                            </Pressable>
+                                        </View>
+                                        <View style={styles.bottomButtonContainer}>
+                                            <Pressable
+                                                style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
+                                                onPress={() => setCheck(1)}
+                                            >
+                                                <IconMat name='eye-check' size={48} color='#fff'/>
+                                                <Text style={[styles.textButton1, {textAlign: 'center'}]}>OK</Text>
+                                            </Pressable>
+                                        </View>
                                     </View>
-                                    <View style={styles.bottomButtonContainer}>
+                                    :
+                                    <View>
+                                        <Text>keine Fotos zu prüfen</Text>
                                         <Pressable
                                             style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
-                                            onPress={() => setCheck(1)}
+                                            onPress={loadScreenData}
                                         >
-                                            <IconMat name='eye-check' size={48} color='#fff'/>
-                                            <Text style={[styles.textButton1, {textAlign: 'center'}]}>OK</Text>
+                                            <IconMat name='reload' size={48} color='#fff'/>
+                                            <Text style={[styles.textButton1, {textAlign: 'center'}]}>Suchen</Text>
                                         </Pressable>
                                     </View>
-                                </View>
-                            ) : (
-                                <View>
-                                    <Text>keine Fotos zu prüfen</Text>
-                                    <Pressable
-                                        style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
-                                        onPress={loadScreenData}
-                                    >
-                                        <IconMat name='reload' size={48} color='#fff'/>
-                                        <Text style={[styles.textButton1, {textAlign: 'center'}]}>Suchen</Text>
-                                    </Pressable>
-                                </View>)
-                        ) : <Text>Fehler!</Text>)}
+                                }
+                            </View>
+                            <View>
+                                <Text>Letzte Prüfergebnisse:</Text>
+                                {data.object?.lastChecked?.map(item =>
+                                    <CellVariantMatches
+                                        key={item.match.id}
+                                        item={item.match}
+                                        timeText={DateFunctions.getFormatted(item.match.matchStartTime) + ' Uhr: '}
+                                        team1Result={item.match.resultGoals1 !== null ? (parseInt(item.match.resultGoals1) || 0) : null}
+                                        team2Result={item.match.resultGoals2 !== null ? (parseInt(item.match.resultGoals2) || 0) : null}
+                                        onPress={() => navigation.navigate('MatchDetailsAdmin', {item: item.match})}
+                                        backgroundColor={item.playerNumber === 1 ? 'rgba(151,245,135,0.37)' : 'rgba(245,135,135,0.37)'}
+                                    />
+                                )}
+                            </View>
+                        </View>
+                        : <Text>Fehler!</Text>)}
             </View>
         </ScrollView>
     );
