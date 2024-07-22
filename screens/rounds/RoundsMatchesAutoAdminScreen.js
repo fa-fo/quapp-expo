@@ -103,7 +103,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                 <Text>{format(now, "HH:mm:ss")}</Text>
             </View>
             {isLoading ? null :
-                (data?.status === 'success' ?
+                (data?.status === 'success' && data.object.round ?
                     <View>
                         <TableView appearance="light">
                             {data.object.groups?.map(group => (
@@ -126,28 +126,24 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                             </View>
                                         </View>
                                     }>
-                                    {group.matches ?
-                                        group.matches.map(item =>
-                                            (!item.logsCalc.isResultConfirmed ?
-                                                <CellVariantMatchesAdmin
-                                                    key={item.id}
-                                                    item={item}
-                                                    timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
-                                                    team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
-                                                    team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
-                                                    fromRoute={route.name}
-                                                    loadScreenData={loadScreenData}
-                                                /> : null)
-                                        )
-                                        :
-                                        null
-                                    }
+                                    {group.matches?.map(item =>
+                                        (!item.logsCalc.isResultConfirmed ?
+                                            <CellVariantMatchesAdmin
+                                                key={item.id}
+                                                item={item}
+                                                timeText={DateFunctions.getFormatted(item.matchStartTime) + ' Uhr: '}
+                                                team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
+                                                team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
+                                                fromRoute={route.name}
+                                                loadScreenData={loadScreenData}
+                                            /> : null)
+                                    )}
                                 </Section>
                             ))}
                         </TableView>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
-                    : <Text>Fehler: keine Spiele gefunden!</Text>)}
+                    : <Text>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</Text>)}
         </ScrollView>
     );
 }

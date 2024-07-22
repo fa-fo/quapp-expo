@@ -7,7 +7,7 @@ export function getMatches2Confirm(object) {
     let matches = [];
 
     object?.groups?.map(group =>
-        group.matches.map(item => {
+        group.matches?.map(item => {
             if (!item.logsCalc.isResultConfirmed && item.isTime2confirm) {
                 if (item.isResultOk || item.canceled > 0) {
                     let a = {
