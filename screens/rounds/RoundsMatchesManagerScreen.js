@@ -136,7 +136,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 <Text>{format(now, "HH:mm:ss")}</Text>
             </View>
             {isLoading ? null :
-                (data?.status === 'success' ?
+                (data?.status === 'success' && data.object.round ?
                     <View>
                         <View style={styles.matchflexRowView}>
                             <View style={{flex: 3}}>
@@ -145,12 +145,12 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                         color: 'orange',
                                         alignSelf: 'center'
                                     }}>
-                                    {'Runde ' + data.object.round?.id + ' um '
+                                    {'Runde ' + data.object.round.id + ' um '
                                     + DateFunctions.getFormatted(data.object.round['timeStartDay' + data.year.settings.currentDay_id]) + ' Uhr'}
                                 </Text>
                                 <View ref={problemsRef}>
                                     {data.object.groups?.map(group =>
-                                        group.matches.map(item => (
+                                        group.matches?.map(item => (
                                             <CellVariantMatchesManagerProblem
                                                 key={item.id}
                                                 item={item}
@@ -164,7 +164,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                             </View>
                             <View style={{flex: 1}}>
                                 {data.object.groups?.map(group =>
-                                    group.matches.map((item, i) => (
+                                    group.matches?.map((item, i) => (
                                         <Pressable
                                             key={item.id}
                                             onPress={() => navigation.navigate('MatchDetailsSupervisor', {item})}>
@@ -179,7 +179,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                         </View>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
-                    : <Text>Fehler: keine Spiele gefunden!</Text>)}
+                    : <Text>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</Text>)}
         </ScrollView>
     );
 }

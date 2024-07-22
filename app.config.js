@@ -1,10 +1,10 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 27013;
+const versionCode = 27014;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '3.0.4',
+    version: '3.0.5',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
