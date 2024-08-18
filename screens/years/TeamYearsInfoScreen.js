@@ -30,48 +30,62 @@ export default function TeamYearsInfoScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
+    function getTeamsData(team, depth) {
+        return team ? (
+            <View>
+                <Section headerComponent={
+                    <View>
+                        <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                            <View style={{flex: 2}}>
+                                {depth === 1 ?
+                                    <Text style={styles.textViolet}>Frühere Team-Namen:</Text> : null}
+                                <Text style={{fontSize: 18}}>
+                                    {team.name}
+                                    {team.calcTotalChampionships ? SportFunctions.getChampionshipStars(team.calcTotalChampionships) : null}
+                                </Text>
+                                <Text>{'Teilnahmen: ' + team.calcTotalYears}</Text>
+                                <Text>{'Gesamtplatzierungspunkte: ' + (team.calcTotalRankingPoints ?? 0)}</Text>
+                                {team.calcTotalPointsPerYear ?
+                                    <Text>{'Platzierungspunkte/Jahr: ' + team.calcTotalPointsPerYear}</Text> : null}
+                                {team.calcTotalRanking ?
+                                    <Text>{'Platz in der Ewigen Tabelle: ' + team.calcTotalRanking}</Text> : null}
+                            </View>
+                            {depth === 0 && team.team_years[0].year_id > 24 ?
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <Pressable style={styles.buttonTopRight}
+                                               onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: route.params.item})}
+                                    >
+                                        <Text style={styles.textButtonTopRight}
+                                              numberOfLines={1}>{'Bilanz seit 2022'}</Text>
+                                    </Pressable>
+                                </View>
+                                : null}
+                        </View>
+                    </View>
+                }>
+                    {team.team_years.map(item => (
+                        <CellVariant
+                            key={item.id}
+                            title={item.year_name + (item.endRanking ? (': ' + item.endRanking + '. Platz') : '')}
+                            detail="Tabelle"
+                            backgroundColor={(item.endRanking === 1 ? 'rgba(224,196,13,0.37)' : '')}
+                            onPress={() => navigation.navigate('TeamYearsEndRanking', {item})}
+                        />
+                    ))}
+                </Section>
+
+                {getTeamsData(team.prev_team, depth + 1)}
+            </View>
+        ) : null
+    }
+
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
                         <TableView appearance="light">
-                            <Section headerComponent={
-                                <View>
-                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
-                                        <View style={{flex: 2}}>
-                                            <Text style={{fontSize: 18}}>{data.object[0].team_name}
-                                                {data.object[0].calcTotalChampionships ? SportFunctions.getChampionshipStars(data.object[0].calcTotalChampionships) : null}
-                                            </Text>
-                                            <Text>{'Teilnahmen: ' + data.object[0].calcTotalYears}</Text>
-                                            <Text>{'Gesamtplatzierungspunkte: ' + (data.object[0].calcTotalRankingPoints ? data.object[0].calcTotalRankingPoints : 0)}</Text>
-                                            <Text>{'Platzierungspunkte/Jahr: ' + (data.object[0].calcTotalPointsPerYear ? data.object[0].calcTotalPointsPerYear : 0)}</Text>
-                                            <Text>{'Platz in der Ewigen Tabelle: ' + (data.object[0].calcTotalRankingPoints ? data.object[0].calcTotalRanking : '-')}</Text>
-                                            <Text>{' '}</Text>
-                                        </View>
-                                        {data.object[0].team_years[0].year_id > 24 ?
-                                            <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                                <Pressable style={styles.buttonTopRight}
-                                                           onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: route.params.item})}
-                                                >
-                                                    <Text style={styles.textButtonTopRight}
-                                                          numberOfLines={1}>{'Bilanz seit 2022'}</Text>
-                                                </Pressable>
-                                            </View>
-                                            : null}
-                                    </View>
-                                </View>
-                            }>
-                                {data.object[0].team_years.map(item => (
-                                    <CellVariant
-                                        key={item.id}
-                                        title={item.year_name + (item.endRanking ? (': ' + item.endRanking + '. Platz') : '')}
-                                        detail="Tabelle"
-                                        backgroundColor={(item.endRanking === 1 ? 'rgba(224,196,13,0.37)' : '')}
-                                        onPress={() => navigation.navigate('TeamYearsEndRanking', {item})}
-                                    />
-                                ))}
-                            </Section>
+                            {getTeamsData(data.object[0], 0)}
                         </TableView>
                     </View>
                 ) : <Text>Fehler!</Text>)}
