@@ -1,10 +1,10 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 27014;
+const versionCode = 28001;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '3.0.5',
+    version: '4.0.0',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
@@ -77,7 +77,7 @@ export default {
             'expo-build-properties',
             {
                 android: {
-                    targetSdkVersion: 33,
+                    targetSdkVersion: 34,
                     minSdkVersion: 26
                 }
             }
