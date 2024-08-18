@@ -42,76 +42,99 @@ export default function MatchDetailsScreen({navigation}) {
                                 contentContainerStyle={styles.matchDetailsView}>
                         {global.settings.isTest && item.group.year.id === data.year.id ?
                             <Text style={styles.testMode}>{global.hintTestData}</Text> : null}
-                        <Text>QuattFo {item.group.year.name}, Tag {item.group.day_id}</Text>
-                        <Text>Runde {item.round.id}, Gruppe {item.group_name}</Text>
-                        <Text style={styles.big2} numberOfLines={2}
+                        <Text numberOfLines={1} style={styles.centeredText100}>QuattFo {item.group.year.name},
+                            Tag {item.group.day_id}</Text>
+                        <Text numberOfLines={1} style={styles.centeredText100}>Runde {item.round.id},
+                            Gruppe {item.group_name}</Text>
+                        <Text numberOfLines={2} style={[styles.centeredText100, styles.big2]}
                               adjustsFontSizeToFit>{item.teams1.name + (item.isTest ? '_test' : '')}</Text>
-                        <Text style={styles.small}>vs</Text>
-                        <Text style={styles.big2} numberOfLines={2}
+                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>vs</Text>
+                        <Text numberOfLines={2} style={[styles.centeredText100, styles.big2]}
                               adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</Text>
                         <Text> </Text>
-                        <Text>SR: {item.teams3.name + (item.isTest ? '_test' : '')}</Text>
+                        <Text numberOfLines={1}
+                              style={styles.centeredText100}>SR: {item.teams3.name + (item.isTest ? '_test' : '')}</Text>
                         {item.teams4 ?
-                            <Text numberOfLines={1} style={styles.textGreen}>
+                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textGreen]}>
                                 <Text
                                     style={styles.textViolet}>Ersatz-SR:</Text> {item.teams4.name + (item.isTest ? '_test' : '')}
                             </Text>
                             : null}
                         <Text> </Text>
-                        <Text>Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}</Text>
-                        <Text style={styles.big3}>{item.sport.name} Feld {item.group_name}</Text>
+                        <Text numberOfLines={1} style={styles.centeredText100}>
+                            Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}
+                        </Text>
+                        <Text numberOfLines={1} style={[styles.centeredText100, styles.big3]}>
+                            {item.sport.name} Feld {item.group_name}
+                        </Text>
 
                         {!item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
-                            <Text style={styles.big1}>_:_</Text>
+                            <Text numberOfLines={1} style={[styles.centeredText100, styles.big1]}>_:_</Text>
                             : null}
 
                         {item.logsCalc.isResultConfirmed ?
-                            <View>
+                            <View style={styles.centeredText100}>
                                 {item.round.autoUpdateResults
                                 || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin' ?
                                     <View style={styles.viewCentered}>
-                                        <Text style={styles.small}>Endstand</Text>
-                                        <Text
-                                            style={styles.big3}>{item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
+                                        <Text numberOfLines={1}
+                                              style={[styles.centeredText100, styles.small]}>Endstand</Text>
+                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.big3]}>
+                                            {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
                                         </Text>
-                                        <Text style={styles.small}>nach Toren</Text>
-                                        {item.resultTrend > 2 ? (
-                                            <Text
-                                                style={styles.textRed}>{ConfirmFunctions.getConfirmResultText(item.resultTrend)}-Wertung</Text>) : null}
+                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>nach
+                                            Toren</Text>
+                                        {item.resultTrend > 2 ?
+                                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                                {ConfirmFunctions.getConfirmResultText(item.resultTrend)}-Wertung
+                                            </Text> : null}
                                         <Text> </Text>
-                                        <Text style={styles.small}>Wertung mit Faktor {item.sport.goalFactor}</Text>
-                                        <Text
-                                            style={styles.big1}>{parseInt(item.resultGoals1) || 0} : {parseInt(item.resultGoals2) || 0}</Text>
-                                        <Text>Ergebnis bestätigt</Text>
+                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>Wertung
+                                            mit
+                                            Faktor {item.sport.goalFactor}</Text>
+                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.big1]}>
+                                            {parseInt(item.resultGoals1) || 0} : {parseInt(item.resultGoals2) || 0}
+                                        </Text>
+                                        <Text numberOfLines={1} style={styles.centeredText100}>Ergebnis bestätigt</Text>
                                     </View>
-                                    : <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>}
+                                    : <Text numberOfLines={1}
+                                            style={styles.textRed}>{global.hintAutoUpdateResults}</Text>}
                             </View> : null}
 
                         {item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
-                            <View style={styles.viewCentered}>
+                            <View style={[styles.centeredText100, styles.viewCentered]}>
                                 {item.round.autoUpdateResults
                                 || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin'
                                 || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
-                                    <Text
-                                        style={[styles.big1, styles.textRed]}>{item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id] ?? 0) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
+                                    <Text numberOfLines={1}
+                                          style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                        {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id] ?? 0) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
                                     </Text>
                                     :
                                     <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>
                                 }
-                                {item.logsCalc.isMatchLive ? <Text style={styles.textRed}>Live!</Text> : null}
+                                {item.logsCalc.isMatchLive ?
+                                    <Text numberOfLines={1}
+                                          style={[styles.centeredText100, styles.textRed]}>Live!</Text> : null}
                                 {item.logsCalc.isMatchEnded ?
-                                    <Text style={styles.textRed}>Spiel beendet</Text> : null}
+                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>Spiel
+                                        beendet</Text> : null}
                                 {item.logsCalc.isMatchEnded && !item.logsCalc.isResultConfirmed ?
-                                    <Text style={styles.textRed}>Ergebnis noch nicht bestätigt</Text> : null}
+                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>Ergebnis
+                                        noch nicht bestätigt</Text> : null}
                             </View> : null}
                         <Text> </Text>
-                        {item.canceled > 0 ? <Text style={styles.textRed}>Das Spiel fällt aus!</Text> : null}
+                        {item.canceled > 0 ?
+                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>Das Spiel fällt
+                                aus!</Text> : null}
                         {item.canceled === 1 || item.canceled === 3 ?
-                            <Text
-                                style={styles.textRed}>{item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
+                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                {item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen
+                            </Text> : null}
                         {item.canceled === 2 || item.canceled === 3 ?
-                            <Text
-                                style={styles.textRed}>{item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen</Text> : null}
+                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                {item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen
+                            </Text> : null}
 
                         {item.isTime2login && !item.canceled ?
                             (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?

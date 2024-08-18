@@ -528,38 +528,46 @@ export default function MatchLogsScreen({navigation}) {
                 <ScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}>
                     <View style={styles.matchflexRowView}>
                         <View style={{flex: 5}}>
-                            <Text style={styles.big2a} numberOfLines={2} adjustsFontSizeToFit
-                                  textBreakStrategy="simple">{teamA_name}</Text>
+                            <Text style={[styles.centeredText100, styles.big2a]} numberOfLines={2} adjustsFontSizeToFit>
+                                {teamA_name}
+                            </Text>
                         </View>
                         <View style={{flex: 1}}>
                             <Pressable style={[styles.button1, styles.viewStatus, styles.buttonGreen]}
                                        onPress={() => setTeamsSwapped(!teamsSwapped)}>
-                                <Text style={[styles.textButton1, {textAlign: 'center'}]}>
+                                <Text style={[styles.centeredText100, styles.textButton1]}>
                                     <IconMat name={'swap-horizontal-bold'} size={20}/>
                                 </Text>
                             </Pressable>
-                            <Text style={[styles.big2a, styles.small]}>vs</Text>
+                            <Text style={[styles.centeredText100, styles.big2a, styles.small]}>vs</Text>
                         </View>
                         <View style={{flex: 5}}>
-                            <Text style={styles.big2a} numberOfLines={2} adjustsFontSizeToFit
-                                  textBreakStrategy="simple">{teamB_name}</Text>
+                            <Text style={[styles.centeredText100, styles.big2a]} numberOfLines={2} adjustsFontSizeToFit>
+                                {teamB_name}
+                            </Text>
                         </View>
                     </View>
                     <View style={styles.matchflexEventsView}>
                         <Text> </Text>
-                        <Text adjustsFontSizeToFit>{liveLogsCalc.isMatchEnded ? 'Endstand' : 'Spielstand'}:</Text>
+                        <Text style={styles.centeredText100} adjustsFontSizeToFit>
+                            {liveLogsCalc.isMatchEnded ? 'Endstand' : 'Spielstand'}:
+                        </Text>
                         <View style={styles.matchflexRowView}>
                             <View style={{flex: 5}}>
-                                <Text
-                                    style={[styles.big1, styles.textRed]}>{teamsSwapped ? score2 : score1}</Text>
+                                <Text style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                    {teamsSwapped ? score2 : score1}
+                                </Text>
                             </View>
                             <View style={{flex: 1}}>
-                                <Text style={[styles.big1, styles.textRed]}>{isSendingEvent ?
-                                    <ActivityIndicator size="large" color="#00ff00"/> : ':'}</Text>
+                                <Text style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                    {isSendingEvent ?
+                                        <ActivityIndicator size="large" color="#00ff00"/> : ':'}
+                                </Text>
                             </View>
                             <View style={{flex: 5}}>
-                                <Text
-                                    style={[styles.big1, styles.textRed]}>{teamsSwapped ? score1 : score2}</Text>
+                                <Text style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                    {teamsSwapped ? score1 : score2}
+                                </Text>
                             </View>
                         </View>
                         {liveLogsCalc.isMatchLive
@@ -576,7 +584,7 @@ export default function MatchLogsScreen({navigation}) {
                                         setCancelEventModalVisible(true);
                                     }}
                                 >
-                                    <Text numberOfLines={1} style={[styles.small, {width: '100%'}]}>
+                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>
                                         <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
                                     </Text>
                                 </Pressable>
@@ -586,12 +594,12 @@ export default function MatchLogsScreen({navigation}) {
                     <View style={styles.matchflexEventsView}>
                         {!liveLogsCalc.isMatchStarted ?
                             <Text
-                                style={[styles.big3, {textAlign: 'center'}]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
+                                style={[styles.centeredText100, styles.big3]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
                         {liveLogsCalc.isMatchConcluded ?
-                            <Text style={[styles.big3, {textAlign: 'center'}]}>Das Spiel ist abgeschlossen, vielen
+                            <Text style={[styles.centeredText100, styles.big3]}>Das Spiel ist abgeschlossen, vielen
                                 Dank!{'\n'}</Text> : null}
                         {liveLogsCalc.isMatchConcluded && liveLogsCalc.photos?.length > 0 ?
-                            <Text style={styles.big22}>
+                            <Text style={[styles.centeredText100, styles.big22]}>
                                 <Text style={styles.textGreen}> {'\u2714'}</Text>
                                 {liveLogsCalc.photos.length} Foto{liveLogsCalc.photos?.length > 1 ? 's' : ''} hochgeladen
                             </Text> : null}
@@ -604,7 +612,7 @@ export default function MatchLogsScreen({navigation}) {
                                             <View key={eventItem.id} style={{width: '100%'}}>
                                                 {eventItem.textHeaderBeforeButton !== null ?
                                                     <Text
-                                                        style={{textAlign: 'center'}}>{eventItem.textHeaderBeforeButton}</Text> : null}
+                                                        style={styles.centeredText100}>{eventItem.textHeaderBeforeButton}</Text> : null}
                                                 {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
                                                     <View style={styles.matchflexRowView}>
                                                         <View style={[styles.viewRight, {flex: 1}]}>
@@ -625,8 +633,9 @@ export default function MatchLogsScreen({navigation}) {
                                                 }
                                                 {eventItem.code === 'RESULT_WIN_TEAM2' && liveLogsCalc.isMatchEnded && !liveLogsCalc.isMatchConcluded && liveLogsCalc.teamWon !== undefined ?
                                                     <View>
-                                                        <Text>Besondere Vorkommnisse bzw. Kommentar des
-                                                            Schiedsrichters:</Text>
+                                                        <Text style={styles.centeredText100}>
+                                                            Besondere Vorkommnisse bzw. Kommentar des Schiedsrichters:
+                                                        </Text>
                                                         <TextInput
                                                             style={styles.textInput}
                                                             multiline={true}
@@ -639,8 +648,9 @@ export default function MatchLogsScreen({navigation}) {
                                                     : null}
                                                 {eventItem.code === 'MATCH_CONCLUDE' ?
                                                     <View>
-                                                        <Text>Nach dem Abschließen könnt ihr noch Fotos
-                                                            hochladen.</Text>
+                                                        <Text style={styles.centeredText100}>
+                                                            Nach dem Abschließen könnt ihr noch Fotos hochladen.
+                                                        </Text>
                                                     </View>
                                                     : null}
                                             </View>
@@ -648,9 +658,10 @@ export default function MatchLogsScreen({navigation}) {
                                 )
                                 : <Text>Fehler!</Text>)}
                         {!liveLogsCalc.isMatchReadyToStart && !liveLogsCalc.isMatchStarted ?
-                            <Text>Alle 3 Buttons müssen <Text style={styles.textGreen}>grün</Text> sein, damit es
-                                losgehen
-                                kann!</Text>
+                            <Text style={styles.centeredText100}>
+                                Alle 3 Buttons müssen <Text style={styles.textGreen}>grün</Text> sein,
+                                damit es losgehen kann!
+                            </Text>
                             : null}
                     </View>
                     <Text> </Text>

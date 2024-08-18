@@ -132,6 +132,10 @@ export default StyleSheet.create({
         backgroundColor: '#a33300',
         color: '#fff'
     },
+    centeredText100:{
+        width: '100%',
+        textAlign: 'center'
+    },
     actInd: {
         marginTop: 200,
     },

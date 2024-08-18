@@ -27,6 +27,9 @@ export default function ResourceContentScreen({navigation}) {
     const tagsStyles = {
         h4: {
             marginBottom: 0
+        },
+        li: {
+            width: width - 50
         }
     };
 
