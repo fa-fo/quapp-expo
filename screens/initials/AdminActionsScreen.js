@@ -243,7 +243,8 @@ export default function AdminActionsScreen({navigation}) {
                                         <Picker.Item label="initial" value="initial"/>
                                         <Picker.Item label="Standard, wie Excel-Skript" value="standard"/>
                                         <Picker.Item label="ranking" value="ranking"/>
-                                        <Picker.Item label="random" value="random"/>
+                                        <Picker.Item label="random4 - only within a quartet" value="random4"/>
+                                        <Picker.Item label="random2 - overall" value="random2"/>
                                     </Picker>
                                     <Pressable style={[styles.button1, styles.buttonGreen]}
                                                onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', selectedValue2)}>
@@ -445,8 +446,7 @@ export default function AdminActionsScreen({navigation}) {
 
                         <Text style={{fontSize: 32}}>{'\u27F1'}</Text>
                         <Text>Spiele
-                            gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (matchResultCount
-                            / sumCalcMatchesGroupTeams)
+                            gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (gewertet / freigeschaltet)
                             {data.object.matchesCount === data.object.matchResultCount && data.object.matchResultCount > 0 ?
                                 <Text style={styles.textGreen}> {'\u2714'}</Text> : null}
                         </Text>
