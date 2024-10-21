@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Dimensions, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {ActivityIndicator, Dimensions, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
+import styles from "../../assets/styles";
 
 export default function TeamsAllTimeRankingScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [allData, setAllData] = useState([]);
+    const [myTeamData, setMyTeamData] = useState(false);
     const [fetchMoreData, setFetchMoreData] = useState(false);
 
     useEffect(() => {
@@ -21,16 +23,17 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
     }, []);
 
     useEffect(() => {
-        if (fetchMoreData && allData.object !== undefined) {
-            setTimeout(() => {
-                setData(data.concat(allData.object.slice(data.length, data.length + 20)));
-                setFetchMoreData(false);
-            }, 1000);
+        async function sliceData() {
+            if (fetchMoreData && allData.object !== undefined) {
+                setTimeout(() => {
+                    setData(data.concat(allData.object.slice(data.length, data.length + 20)));
+                }, 1000);
+
+                await new Promise(resolve => setTimeout(resolve, 3000));
+            }
         }
 
-        return () => {
-            setFetchMoreData(false);
-        };
+        sliceData().finally(() => setFetchMoreData(false));
     }, [fetchMoreData]);
 
     const loadScreenData = () => {
@@ -38,10 +41,16 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
             .then((json) => {
                 setAllData(json);
                 setData(json.object?.length ? json.object.slice(0, 20) : null);
+
+                setMyTeamData(global.myTeamId ? json.object.find((e) => e.id === global.myTeamId) : false);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
+
+    function myTeamIn(data) {
+        return data.find((e) => e.id === global.myTeamId);
+    }
 
     return (
         <ScrollView
@@ -52,11 +61,11 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                     let height = e.nativeEvent.contentSize.height;
                     let offset = e.nativeEvent.contentOffset.y;
 
-                    if (windowHeight + offset >= height) {
+                    if (windowHeight + offset >= height && (!myTeamData || myTeamIn(data))) {
                         setFetchMoreData(true);
                     }
                 }
-            }} scrollEventThrottle={400}>
+            }} scrollEventThrottle={3000}>
             {isLoading ? null :
                 (allData?.status === 'success' ?
                     <TableView appearance="light">
@@ -73,13 +82,38 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                                     onPress={() => navigation.navigate('TeamYearsInfo', {item})}
                                 />
                             )) : null}
+
+                            // show myTeam even if not scrolled down enough
+                            {data && myTeamData && !myTeamIn(data) ?
+                                <View>
+                                    <CellVariant title={'...'}/>
+                                    <CellVariant
+                                        key={myTeamData.id}
+                                        title={myTeamData.calcTotalRanking + '. ' + myTeamData.team_name}
+                                        countStars={myTeamData.calcTotalChampionships}
+                                        detail={myTeamData.calcTotalRankingPoints + ' P., ' + myTeamData.calcTotalYears + ' Teiln.'}
+                                        isMyTeam={1}
+                                        onPress={() => navigation.navigate('TeamYearsInfo', {item: myTeamData})}
+                                    />
+                                </View>
+                                : null}
                             {allData.object.showRanking === 0 ?
                                 <View style={{alignSelf: 'center'}}>
-                                    <Text style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>Bekanntgabe
-                                        der Tabelle nach der Siegerehrung!</Text>
+                                    <Text style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>
+                                        Bekanntgabe der Tabelle nach der Siegerehrung!</Text>
                                 </View> : null}
                             {allData.object.length > data?.length ?
-                                <Cell key="0"><ActivityIndicator size="large" color="#00ff00"/></Cell> : null}
+                                (fetchMoreData ?
+                                        <Cell key="0"><ActivityIndicator size="large" color="#00ff00"/></Cell>
+                                        :
+                                        <Pressable style={[styles.buttonTopRight, styles.buttonGreen]}
+                                                   onPress={() => setFetchMoreData(true)}
+                                        >
+                                            <Text style={styles.textButtonTopRight}
+                                                  numberOfLines={1}>{'mehr laden'}</Text>
+                                        </Pressable>
+                                )
+                                : null}
                         </Section>
                     </TableView>
                     : <Text>Fehler!</Text>)}

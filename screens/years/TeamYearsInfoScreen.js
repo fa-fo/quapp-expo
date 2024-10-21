@@ -40,7 +40,7 @@ export default function TeamYearsInfoScreen({navigation}) {
                                 {depth === 1 ?
                                     <Text style={styles.textViolet}>Frühere Team-Namen:</Text> : null}
                                 <Text style={{fontSize: 18}}>
-                                    {team.name}
+                                    {team.team_name ?? team.name ?? ''}
                                     {team.calcTotalChampionships ? SportFunctions.getChampionshipStars(team.calcTotalChampionships) : null}
                                 </Text>
                                 <Text>{'Teilnahmen: ' + team.calcTotalYears}</Text>
