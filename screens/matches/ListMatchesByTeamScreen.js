@@ -6,11 +6,10 @@ import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import styles from '../../assets/styles.js';
 import fetchApi from '../../components/fetchApi';
-import setAsyncStorage from '../../components/setAsyncStorage';
 import {setLocalPushNotifications} from "../../components/setLocalPushNotifications";
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function ListMatchesByTeamScreen({navigation}) {
     const route = useRoute();
@@ -41,8 +40,8 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 if (route.params?.setMyTeam && global.myTeamId !== (route.params?.item?.team_id ?? 0)) {
                     global.myTeamId = (route.params.item?.team_id ?? 0);
                     global.myTeamName = (route.params.item?.team?.name ?? '');
-                    setAsyncStorage('myTeamId', global.myTeamId);
-                    setAsyncStorage('myTeamName', global.myTeamName);
+                    AsyncStorageFunctions.setAsyncStorage('myTeamId', global.myTeamId);
+                    AsyncStorageFunctions.setAsyncStorage('myTeamName', global.myTeamName);
 
                     let postData = {
                         'my_team_id': global.myTeamId,
