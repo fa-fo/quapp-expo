@@ -4,6 +4,7 @@ import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import styles from '../../assets/styles.js';
 import {confirmResults} from "../functions/ConfirmFunctions";
 import {isNumber} from "../functions/CheckFunctions";
+import {Picker} from "@react-native-picker/picker";
 
 export default function InsertResultModal({
                                               setModalVisible,
@@ -14,12 +15,14 @@ export default function InsertResultModal({
     const [submitData, setSubmitData] = useState({'goals1': null, 'goals2': null});
     const [goals1, setGoals1] = useState(null);
     const [goals2, setGoals2] = useState(null);
+    const [selectedResultAdmin, setSelectedResultAdmin] = useState(match.resultAdmin === 0 ? 1 : match.resultAdmin);
 
     useEffect(() => {
         if (submitData.goals1 !== null && submitData.goals2 !== null) {
             let postData = {
                 'goals1': submitData.goals1,
                 'goals2': submitData.goals2,
+                'resultAdmin': submitData.resultAdmin,
             };
 
             confirmResults([{'id': match.id, 'mode': 1}], setModalVisible, loadScreenData, postData)
@@ -67,6 +70,17 @@ export default function InsertResultModal({
                                    value={goals2 !== null ? goals2.toString() : (oldGoals2 !== null ? oldGoals2.toString() : '')}
                         />
                     </View>
+                    <Text>{'\n'}</Text>
+                    <Text>Ergebniseingabe/-korrektur:</Text>
+                    <Picker
+                        selectedValue={selectedResultAdmin}
+                        onValueChange={(itemValue) => setSelectedResultAdmin(itemValue)}
+                        style={[styles.button1, styles.pickerSelect]}
+                    >
+                        <Picker.Item label="(0) nein" value="0"/>
+                        <Picker.Item label="(1) korrigiert" value="1"/>
+                        <Picker.Item label="(2) Übertrag von Papierbogen" value="2"/>
+                    </Picker>
                     <Pressable
                         style={[styles.button1, styles.buttonGreen, styles.buttonEvent, styles.buttonBig1, {width: '80%'}]}
                         onPress={async () => {
@@ -76,6 +90,7 @@ export default function InsertResultModal({
                                 await setSubmitData({
                                     'goals1': submitGoals1,
                                     'goals2': submitGoals2,
+                                    'resultAdmin': selectedResultAdmin,
                                 });
 
                                 setModalVisible(false);

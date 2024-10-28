@@ -82,20 +82,29 @@ export default function MatchDetailsScreen({navigation}) {
                                         <Text numberOfLines={1} style={[styles.centeredText100, styles.big3]}>
                                             {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
                                         </Text>
-                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>nach
-                                            Toren</Text>
+                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>
+                                            nach Toren</Text>
                                         {item.resultTrend > 2 ?
                                             <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
                                                 {ConfirmFunctions.getConfirmResultText(item.resultTrend)}-Wertung
                                             </Text> : null}
                                         <Text> </Text>
-                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>Wertung
-                                            mit
-                                            Faktor {item.sport.goalFactor}</Text>
+                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>
+                                            Wertung mit Faktor {item.sport.goalFactor}</Text>
                                         <Text numberOfLines={1} style={[styles.centeredText100, styles.big1]}>
                                             {parseInt(item.resultGoals1) || 0} : {parseInt(item.resultGoals2) || 0}
                                         </Text>
-                                        <Text numberOfLines={1} style={styles.centeredText100}>Ergebnis bestätigt</Text>
+                                        {item.resultAdmin === 1 ?
+                                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                                <Text style={styles.textRed}> {'\u2762'} </Text>
+                                                Ergebnis durch Admins korrigiert</Text> : null}
+                                        {item.resultAdmin === 2 ?
+                                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                                <Text style={styles.textRed}> {'\u2762'} </Text>
+                                                Ergebnisübertrag aus Papierbogen</Text> : null}
+                                        <Text numberOfLines={1} style={styles.centeredText100}>
+                                            <Text style={styles.textGreen}> {'\u2714'} </Text>Ergebnis bestätigt
+                                        </Text>
                                     </View>
                                     : <Text numberOfLines={1}
                                             style={styles.textRed}>{global.hintAutoUpdateResults}</Text>}
@@ -114,19 +123,19 @@ export default function MatchDetailsScreen({navigation}) {
                                     <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>
                                 }
                                 {item.logsCalc.isMatchLive ?
-                                    <Text numberOfLines={1}
-                                          style={[styles.centeredText100, styles.textRed]}>Live!</Text> : null}
+                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                        Live!</Text> : null}
                                 {item.logsCalc.isMatchEnded ?
-                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>Spiel
-                                        beendet</Text> : null}
+                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                        Spiel beendet</Text> : null}
                                 {item.logsCalc.isMatchEnded && !item.logsCalc.isResultConfirmed ?
-                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>Ergebnis
-                                        noch nicht bestätigt</Text> : null}
+                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                        Ergebnis noch nicht bestätigt</Text> : null}
                             </View> : null}
                         <Text> </Text>
                         {item.canceled > 0 ?
-                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>Das Spiel fällt
-                                aus!</Text> : null}
+                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                Das Spiel fällt aus!</Text> : null}
                         {item.canceled === 1 || item.canceled === 3 ?
                             <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
                                 {item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen
