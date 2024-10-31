@@ -5,6 +5,7 @@ import {Cell} from 'react-native-tableview-simple';
 import styles from '../assets/styles.js';
 import SupervisorActionsModal from './modals/SupervisorActionsModal';
 import * as SportFunctions from './functions/SportFunctions';
+import * as ColorFunctions from "./functions/ColorFunctions";
 
 export default function CellVariantMatches(props) {
     const [showBlinking, setShowBlinking] = useState(true);
@@ -27,7 +28,9 @@ export default function CellVariantMatches(props) {
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
             backgroundColor={
-                props.isRefereeJob ? 'rgba(208,167,222,0.15)' : props.isCurrentRound && !props.item.canceled ? 'rgba(151,245,135,0.37)' : props.backgroundColor
+                props.isRefereeJob ? ColorFunctions.getColor('VioletLightBg')
+                    : props.isCurrentRound && !props.item.canceled ? ColorFunctions.getColor('GreenLightBg')
+                    : props.backgroundColor
             }
             cellContentView={
                 <View

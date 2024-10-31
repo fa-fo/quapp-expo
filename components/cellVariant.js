@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 import * as SportFunctions from "./functions/SportFunctions";
 import styles from "../assets/styles";
+import * as ColorFunctions from "./functions/ColorFunctions";
 
 export default function CellVariant(props) {
 
@@ -11,7 +12,7 @@ export default function CellVariant(props) {
             {...props}
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
-            backgroundColor={props.isCurrentRound ? 'rgba(151,245,135,0.37)' : (props.backgroundColor ?? '')}
+            backgroundColor={props.isCurrentRound ? ColorFunctions.getColor('GreenLightBg') : (props.backgroundColor ?? '')}
             cellContentView={
                 <View
                     style={{

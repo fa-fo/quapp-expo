@@ -6,6 +6,7 @@ import styles from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import CellVariantMatches from "../../components/cellVariantMatches";
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import * as ColorFunctions from "../../components/functions/ColorFunctions";
 
 export default function AdminMatchPhotosScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -100,7 +101,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                         team1Result={item.match.resultGoals1 !== null ? (parseInt(item.match.resultGoals1) || 0) : null}
                                         team2Result={item.match.resultGoals2 !== null ? (parseInt(item.match.resultGoals2) || 0) : null}
                                         onPress={() => navigation.navigate('MatchDetailsAdmin', {item: item.match})}
-                                        backgroundColor={item.playerNumber === 1 ? 'rgba(151,245,135,0.37)' : 'rgba(245,135,135,0.37)'}
+                                        backgroundColor={item.playerNumber === 1 ? ColorFunctions.getColor('GreenLightBg') : ColorFunctions.getColor('RedLightBg')}
                                     />
                                 )}
                             </View>

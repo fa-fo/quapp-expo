@@ -30,6 +30,8 @@ export default function CustomDrawerContent(props) {
             <View style={styles.drawerSectionView}>
                 <Text style={{marginLeft: 10}}>
                     {'QuattFo ' + (currentDayId > 0 ? currentYearName + ', Tag ' + currentDayId : '')}
+                    {window?.location?.hostname === 'localhost' ?
+                        <Text style={[styles.big22, styles.textRed]}> localhost</Text> : null}
                 </Text>
                 <View style={styles.separatorLine}/>
             </View>

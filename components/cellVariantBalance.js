@@ -3,6 +3,7 @@ import {Image, Text, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 import styles from "../assets/styles";
 import * as SportFunctions from "./functions/SportFunctions";
+import * as ColorFunctions from "./functions/ColorFunctions";
 
 export default function CellVariantBalance(props) {
     return (
@@ -11,8 +12,8 @@ export default function CellVariantBalance(props) {
             cellStyle="RightDetail"
             accessory="DisclosureIndicator"
             backgroundColor={
-                props.object[props.item.id][1] > (props.object[props.item.id][2] ?? 0) ? 'rgba(151,245,135,0.37)'
-                    : (props.object[props.item.id][2] > (props.object[props.item.id][1] ?? 0) ? 'rgba(245,135,135,0.37)'
+                props.object[props.item.id][1] > (props.object[props.item.id][2] ?? 0) ? ColorFunctions.getColor('GreenLightBg')
+                    : (props.object[props.item.id][2] > (props.object[props.item.id][1] ?? 0) ? ColorFunctions.getColor('RedLightBg')
                     : '')
             }
             cellContentView={

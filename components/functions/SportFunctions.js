@@ -2,6 +2,7 @@ import * as React from 'react';
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {Text, View} from "react-native";
 import * as DateFunctions from "./DateFunctions";
+import * as ColorFunctions from "./ColorFunctions";
 
 export function getSportImage(code) {
     switch (code) {
@@ -23,7 +24,7 @@ export function getChampionshipStars(countStars) {
         <IconMat name="star"
                  key={i}
                  size={15}
-                 style={{color: 'rgba(224,196,13,0.37)'}}/>)
+                 style={{color: ColorFunctions.getColor('GoldBg')}}/>)
 }
 
 export function getRemarksAdmin(remarksMatches) {

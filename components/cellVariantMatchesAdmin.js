@@ -295,8 +295,18 @@ export default function CellVariantMatchesAdmin(props) {
                     ) : null}
                     {props.item.logsCalc.isResultConfirmed ? (
                         <View style={{alignSelf: 'center', flex: 3}}>
-                            <Text numberOfLines={1}>
-                                bestätigt
+                            {props.item.resultAdmin === 1 ?
+                                <Text numberOfLines={1} style={styles.textRed}>
+                                    <Text> {'\u2714'} </Text>
+                                    Ergebnis durch Admins korrigiert
+                                </Text> : null}
+                            {props.item.resultAdmin === 2 ?
+                                <Text numberOfLines={1} style={styles.textRed}>
+                                    <Text> {'\u2714'} </Text>
+                                    Ergebnisübertrag aus Papierbogen
+                                </Text> : null}
+                            <Text numberOfLines={1} style={styles.textGreen}>
+                                <Text> {'\u2714'} </Text>bestätigt
                             </Text>
                             <Text numberOfLines={1}>
                                 {props.item.logsCalc.score !== undefined

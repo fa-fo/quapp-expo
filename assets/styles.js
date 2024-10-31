@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+import * as ColorFunctions from "../components/functions/ColorFunctions";
 
 export default StyleSheet.create({
     bgYellow: {
@@ -75,6 +76,9 @@ export default StyleSheet.create({
     },
     buttonGreen: {
         backgroundColor: '#3d8d02'
+    },
+    buttonGreenLight: {
+        backgroundColor: ColorFunctions.getColor('GreenLightBg')
     },
     buttonOrange: {
         backgroundColor: 'orange'

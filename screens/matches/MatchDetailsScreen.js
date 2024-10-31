@@ -96,11 +96,11 @@ export default function MatchDetailsScreen({navigation}) {
                                         </Text>
                                         {item.resultAdmin === 1 ?
                                             <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                                <Text style={styles.textRed}> {'\u2762'} </Text>
+                                                <Text> {'\u2714'} </Text>
                                                 Ergebnis durch Admins korrigiert</Text> : null}
                                         {item.resultAdmin === 2 ?
                                             <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                                <Text style={styles.textRed}> {'\u2762'} </Text>
+                                                <Text> {'\u2714'} </Text>
                                                 Ergebnisübertrag aus Papierbogen</Text> : null}
                                         <Text numberOfLines={1} style={styles.centeredText100}>
                                             <Text style={styles.textGreen}> {'\u2714'} </Text>Ergebnis bestätigt
