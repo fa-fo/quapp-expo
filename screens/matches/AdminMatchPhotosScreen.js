@@ -14,7 +14,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
     const [photoKey, setPhotoKey] = useState(null);
 
     useEffect(() => {
-        loadScreenData({});
+        loadScreenData();
     }, []);
 
     const loadScreenData = () => {
@@ -27,6 +27,17 @@ export default function AdminMatchPhotosScreen({navigation}) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
+
+    useEffect(() => {
+        const interval =
+            setInterval(() => {
+                loadScreenData();
+            }, 1000 * 60 * 5);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [])
 
     const setCheck = async (isOk) => {
         setLoading(true);
@@ -95,7 +106,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                 <Text>Letzte Prüfergebnisse:</Text>
                                 {data.object?.lastChecked?.map(item =>
                                     <CellVariantMatches
-                                        key={item.match.id}
+                                        key={item.id}
                                         item={item.match}
                                         timeText={DateFunctions.getFormatted(item.match.matchStartTime) + ' Uhr: '}
                                         team1Result={item.match.resultGoals1 !== null ? (parseInt(item.match.resultGoals1) || 0) : null}
