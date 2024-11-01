@@ -4,7 +4,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
 import fetchApi from "../../components/fetchApi";
-import {format} from "date-fns";
+import {format, intervalToDuration, parseISO} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import styles from "../../assets/styles";
 //import {Audio} from 'expo-av';
@@ -20,12 +20,18 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     const [autoPilot, setAutoPilot] = useState(true);
 
     useEffect(() => {
-        loadScreenData();
+        return navigation.addListener('focus', () => {
+            loadScreenData();
+        });
     }, []);
 
     const loadScreenData = () => {
-        fetchApi('rounds/all')
-            .then((json) => setData(json))
+        setLoading(true);
+        fetchApi('rounds/all/0/10') // offset: 10
+            .then((json) => {
+                setData(json);
+                setCurrentRoundId(getCurrentRoundId(json) ?? 0);
+            })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
@@ -33,7 +39,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     useEffect(() => {
         const interval =
             setInterval(() => {
-                getMatchTime(data.year.settings.currentDay_id);
+                getMatchTime();
             }, 1000);
 
         return () => {
@@ -41,73 +47,83 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         };
     }, [currentRoundId, autoPilot, data])
 
-    function getCurrentRoundId(currentDay_id) {
+    function getCurrentRoundId(json) {
         let time = new Date();
         time.setMinutes(time.getMinutes() + 10);
-        time.setHours(time.getHours() - (currentDay_id === 2 ? 1 : 2));
+        time.setHours(time.getHours() - (json?.year?.settings?.currentDay_id === 2 ? 1 : 2));
         let cycle = Math.floor(time.getHours() / 8);
 
         if (cycle !== 1 && global.settings.isTest === 0) {
-            return 0; // on real match day only play real times
+            //return 0; // on real match day only play real times
         }
 
-        return (time.getHours() % 8 * 2 + 1) + Math.floor(time.getMinutes() / 30);
+        //return (time.getHours() % 8 * 2 + 1) + Math.floor(time.getMinutes() / 30);
+        return json?.object?.currentRoundId ?? null;
     }
 
-    function getMatchTime(currentDay_id) {
-        let now = new Date();
-        let mainTimer = '';
-        let neg = 0;
-        let countdown = '';
-        const zeroPad = (num) => String(num).padStart(2, "0");
+    function getMatchTime() {
+        let currentRound = data?.object?.rounds?.find((e) => e.id === currentRoundId);
 
-        if (now.getMinutes() % 30 < 20) {
-            // positive timer
-            mainTimer = zeroPad(now.getMinutes() % 30)
-                + ':'
-                + zeroPad(now.getSeconds())
-        } else {
-            // negative timer
-            neg = 1;
-            mainTimer = '-'
-                + zeroPad(30 - now.getMinutes() % 30 - 1)
-                + ':'
-                + zeroPad(59 - now.getSeconds())
-        }
+        if (currentRound) {
+            let mainTimer = '';
+            let neg = 0;
+            let countdown = '';
+            const zeroPad = (num) => String(num).padStart(2, "0");
 
-        if (mainTimer === '-09:59' || mainTimer === '-09:56' || currentRoundId === null) { // round change
-            setCurrentRoundId(getCurrentRoundId(currentDay_id));
-        }
+            let now = new Date();
+            let start = parseISO(currentRound.timeStart);
+            let timer = intervalToDuration({start: now, end: start});
 
-        if (autoPilot && currentRoundId !== 0) {
-            let arr = [9, 19];
-            if (arr.indexOf(now.getMinutes() % 30) > -1 && now.getSeconds() > 49) {
-                countdown = '-00:' + zeroPad(59 - now.getSeconds())
+            if (timer.hours % 8 === 0) {
+                // positive timer
+                mainTimer = zeroPad(timer.minutes)
+                    + ':'
+                    + zeroPad(timer.seconds)
+            } else {
+                // negative timer
+                neg = 1;
+                mainTimer = '-'
+                    + zeroPad(59 - timer.minutes)
+                    + ':'
+                    + zeroPad(59 - timer.seconds)
             }
 
-            playSound(mainTimer).then(r => {
-                //console.log(now.getSeconds())
-            });
-        }
+            if (!isLoading && (timer.minutes === 20 || currentRoundId === null)) {
+                // round change
+                loadScreenData();
+            }
 
-        setNow(now);
-        setMatchTime(
-            <View>
-                <Text style={[styles.big1, neg ? styles.textRed : null]}>{mainTimer}</Text>
-                <Text style={[styles.big1, styles.big3, styles.textRed]}>{countdown}</Text>
-            </View>);
+            if (autoPilot && currentRoundId !== 0) {
+                // additional countdown
+                let arr = [9, 19];
+                if (arr.indexOf(timer.minutes) > -1 && timer.seconds > 49) {
+                    countdown = '-00:' + zeroPad(59 - timer.seconds)
+                }
+
+                playSpeechAndSound(mainTimer).then(r => {
+                    //console.log(timer.seconds)
+                });
+            }
+
+            setNow(now);
+            setMatchTime(
+                <View>
+                    <Text style={[styles.big1, neg ? styles.textRed : null]}>{mainTimer}</Text>
+                    <Text style={[styles.big1, styles.big3, styles.textRed]}>{countdown}</Text>
+                </View>);
+        }
     }
 
-    function getSoundFileName(mainTimer) {
-        let file = '';
+    function getSpeechString(mainTimer) {
+        let spString = '';
 
         if (global.settings.isTest) {
             if (mainTimer.substring(0, 1) === '-' && mainTimer.substring(2, 3) !== '0' && mainTimer.substring(4, 6) === '10') {
-                file = 'Noch ' + mainTimer.substring(2, 3) + ' Minuten bis Spiel-Beginn Runde ' + currentRoundId;
+                spString = 'Noch ' + mainTimer.substring(2, 3) + ' Minuten bis Spiel-Beginn Runde ' + currentRoundId;
             } else if (mainTimer.substring(0, 1) === '0' && mainTimer.substring(1, 2) !== '9' && mainTimer.substring(3, 5) === '50') {
-                file = 'Noch ' + (9 - mainTimer.substring(1, 2)) + ' Minuten bis zum Seitenwechsel Runde ' + currentRoundId;
+                spString = 'Noch ' + (9 - mainTimer.substring(1, 2)) + ' Minuten bis zum Seitenwechsel Runde ' + currentRoundId;
             } else if (mainTimer.substring(0, 1) === '1' && mainTimer.substring(1, 2) !== '9' && mainTimer.substring(3, 5) === '50') {
-                file = 'Noch ' + (9 - mainTimer.substring(1, 2)) + ' Minuten bis Spiel-Ende Runde ' + currentRoundId;
+                spString = 'Noch ' + (9 - mainTimer.substring(1, 2)) + ' Minuten bis Spiel-Ende Runde ' + currentRoundId;
             }
         }
 
@@ -115,45 +131,45 @@ export default function AutoPilotSupervisorScreen({navigation}) {
             case '-00:15':
             case '09:45':
             case '19:45':
-                file = 'Countdown';
+                spString = 'Countdown';
                 break;
 
             case '-05:10':
-                file = 'Noch 5 Minuten bis Spiel-Beginn Runde ' + currentRoundId;
+                spString = 'Noch 5 Minuten bis Spiel-Beginn Runde ' + currentRoundId;
                 break;
             case '-03:10':
-                file = 'Noch 3 Minuten bis Spiel-Beginn Runde ' + currentRoundId;
+                spString = 'Noch 3 Minuten bis Spiel-Beginn Runde ' + currentRoundId;
                 break;
             case '-01:10':
-                file = 'Noch eine Minute bis Spiel-Beginn Runde ' + currentRoundId;
+                spString = 'Noch eine Minute bis Spiel-Beginn Runde ' + currentRoundId;
                 break;
             case '-00:10':
-                file = 'Spiel-Beginn Runde ' + currentRoundId;
+                spString = 'Spiel-Beginn Runde ' + currentRoundId;
                 break;
 
             case '08:50':
-                file = 'Noch eine Minute bis zum Seitenwechsel';
+                spString = 'Noch eine Minute bis zum Seitenwechsel';
                 break;
             case '09:50':
-                file = 'Seitenwechsel';
+                spString = 'Seitenwechsel';
                 break;
 
             case '18:50':
-                file = 'Noch eine Minute bis Spiel-Ende';
+                spString = 'Noch eine Minute bis Spiel-Ende';
                 break;
             case '19:20':
-                file = 'Noch 30 Sekunden bis Spiel-Ende';
+                spString = 'Noch 30 Sekunden bis Spiel-Ende';
                 break;
             case '19:50':
-                file = 'Spiel-Ende Runde ' + currentRoundId;
+                spString = 'Spiel-Ende Runde ' + currentRoundId;
                 break;
         }
 
-        return file;
+        return spString;
     }
 
-    async function playSound(mainTimer) {
-        let file = getSoundFileName(mainTimer);
+    async function playSpeechAndSound(mainTimer) {
+        let file = getSpeechString(mainTimer);
 
         if (mainTimer === '19:59')
             await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
