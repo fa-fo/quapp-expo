@@ -130,7 +130,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
         <ScrollView
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
             style={lastUpdate && data && now > lastUpdate ? styles.buttonRed
-                : issuesLength === 0 ? styles.buttonGreen : null}
+                : issuesLength === 0 ? styles.buttonGreenLight : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
                 <Text>{format(now, "HH:mm:ss")}</Text>
@@ -143,10 +143,18 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                 <Text
                                     style={{
                                         color: 'orange',
-                                        alignSelf: 'center'
+                                        alignSelf: 'center',
+                                        marginVertical: 6,
+                                        shadowOffset: {width: 5, height: 5},
+                                        shadowColor: 'black',
+                                        shadowRadius: 4,
+                                        shadowOpacity: 0.1,
+                                        backgroundColor: "white"
                                     }}>
-                                    {'Runde ' + data.object.round.id + ' um '
-                                    + DateFunctions.getFormatted(data.object.round['timeStartDay' + data.year.settings.currentDay_id]) + ' Uhr'}
+                                    {' Runde ' + data.object.round.id + ' um '
+                                    + DateFunctions.getFormatted(data.year.day + ' '
+                                        + data.object.round['timeStartDay'
+                                        + data.year.settings.currentDay_id]) + ' Uhr '}
                                 </Text>
                                 <View ref={problemsRef}>
                                     {data.object.groups?.map(group =>
