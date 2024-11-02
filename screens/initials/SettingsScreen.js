@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Platform, Pressable, ScrollView, View} from 'react-native';
+import {Appearance, Platform, Pressable, ScrollView, View} from 'react-native';
 import {style} from "../../assets/styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import UsernameLoginModal from "../../navigation/modals/UsernameLoginModal";
@@ -18,7 +18,7 @@ export default function SettingsScreen({navigation}) {
         if (global.colorSchemeSaved !== selectedScheme) {
             AsyncStorageFunctions.setAsyncStorage('colorScheme', selectedScheme);
             global.colorSchemeSaved = selectedScheme;
-            global.colorScheme = selectedScheme;
+            global.colorScheme = global.colorSchemeSaved === 'system' ? Appearance.getColorScheme() : global.colorSchemeSaved;
             setShowReloadButton(true);
         }
     }, [selectedScheme]);
@@ -50,10 +50,10 @@ export default function SettingsScreen({navigation}) {
                 <Picker
                     selectedValue={selectedScheme}
                     onValueChange={(itemValue) => setSelectedScheme(itemValue)}
-                    style={[style().button1, style().pickerSelect]}
+                    style={[style().button1, style().pickerSelect, {width: '100%'}]}
                     itemStyle={style().pickerItem}
                 >
-                    <Picker.Item label="wie Systemeinstellung" value="system"/>
+                    <Picker.Item label={'wie Systemeinstellung (' + Appearance.getColorScheme() + ')'} value="system"/>
                     <Picker.Item label="hell" value="light"/>
                     <Picker.Item label="dunkel" value="dark"/>
                 </Picker>
