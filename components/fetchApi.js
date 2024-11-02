@@ -1,4 +1,3 @@
-import * as React from 'react';
 import * as DateFunctions from "./functions/DateFunctions";
 
 export default function fetchApi(address, method, postData, docMode) {

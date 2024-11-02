@@ -1,10 +1,10 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Dimensions, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {ActivityIndicator, Dimensions, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 
 export default function TeamsAllTimeRankingScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
             }} scrollEventThrottle={3000}>
             {isLoading ? null :
                 (allData?.status === 'success' ?
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section
                             header={'Für jeden 1. Platz gibt es 64 Punkte, für jeden 2. Platz 63 P., für jeden 3. Platz 62 P. usw.'}
                         >
@@ -99,24 +99,24 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                                 : null}
                             {allData.object.showRanking === 0 ?
                                 <View style={{alignSelf: 'center'}}>
-                                    <Text style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>
-                                        Bekanntgabe der Tabelle nach der Siegerehrung!</Text>
+                                    <TextC style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>
+                                        Bekanntgabe der Tabelle nach der Siegerehrung!</TextC>
                                 </View> : null}
                             {allData.object.length > data?.length ?
                                 (fetchMoreData ?
                                         <Cell key="0"><ActivityIndicator size="large" color="#00ff00"/></Cell>
                                         :
-                                        <Pressable style={[styles.buttonTopRight, styles.buttonGreen]}
+                                        <Pressable style={[style().buttonTopRight, style().buttonGreen]}
                                                    onPress={() => setFetchMoreData(true)}
                                         >
-                                            <Text style={styles.textButtonTopRight}
-                                                  numberOfLines={1}>{'mehr laden'}</Text>
+                                            <TextC style={style().textButtonTopRight}
+                                                  numberOfLines={1}>{'mehr laden'}</TextC>
                                         </Pressable>
                                 )
                                 : null}
                         </Section>
                     </TableView>
-                    : <Text>Fehler!</Text>)}
+                    : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
 }

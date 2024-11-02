@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {format, parseISO} from "date-fns";
 import {de} from "date-fns/locale";
 

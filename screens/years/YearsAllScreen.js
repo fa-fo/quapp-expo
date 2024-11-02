@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView, Text} from 'react-native';
-import styles from '../../assets/styles.js';
+import {ActivityIndicator, ScrollView} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
@@ -19,9 +19,9 @@ export default function YearsAllScreen({navigation}) {
 
     return (
         <ScrollView>
-            {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
+            {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section>
                             {data.object.map(item => (
                                 <CellVariant key={item.id}
@@ -34,7 +34,7 @@ export default function YearsAllScreen({navigation}) {
                             ))}
                         </Section>
                     </TableView>
-                ) : <Text>Fehler!</Text>)}
+                ) : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
 }

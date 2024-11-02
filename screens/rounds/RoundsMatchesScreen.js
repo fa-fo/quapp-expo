@@ -1,9 +1,9 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
-import styles from '../../assets/styles.js';
+import {style} from '../../assets/styles.js';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import CellVariantMatchesAdmin from '../../components/cellVariantMatchesAdmin';
 import fetchApi from '../../components/fetchApi';
@@ -26,29 +26,29 @@ export default function RoundsMatchesScreen({navigation}) {
 
             navigation.setOptions({
                 headerRight: () => (
-                    <Text>
+                    <TextC>
                         {route.params.id > 1 ?
-                            <Pressable style={[styles.buttonTopRight, styles.buttonOrange]}
+                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
                                        onPress={() => navigation.navigate(route.name, {
                                            id: route.params.id - 1,
                                            roundsCount: route.params.roundsCount,
                                        })}
                             >
-                                <Text
-                                    style={styles.textButtonTopRight}>{'<'}</Text>
+                                <TextC
+                                    style={style().textButtonTopRight}>{'<'}</TextC>
                             </Pressable> : null}
-                        <Text> </Text>
+                        <TextC> </TextC>
                         {route.params.id < route.params.roundsCount ?
-                            <Pressable style={[styles.buttonTopRight, styles.buttonOrange]}
+                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
                                        onPress={() => navigation.navigate(route.name, {
                                            id: route.params.id + 1,
                                            roundsCount: route.params.roundsCount,
                                        })}
                             >
-                                <Text
-                                    style={styles.textButtonTopRight}>{'>'}</Text>
+                                <TextC
+                                    style={style().textButtonTopRight}>{'>'}</TextC>
                             </Pressable> : null}
-                    </Text>
+                    </TextC>
                 ),
             });
 
@@ -96,54 +96,54 @@ export default function RoundsMatchesScreen({navigation}) {
             {isLoading ? null :
                 (data?.status === 'success' ?
                     (data.object?.showTime ?
-                            <Text>Zeitpunkt der Veröffentlichung des
-                                Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</Text>
+                            <TextC>Zeitpunkt der Veröffentlichung des
+                                Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</TextC>
                             :
                             <View>
                                 {global.settings.isTest && data.yearSelected === undefined && route.name === 'RoundsMatches' ?
-                                    <Text style={styles.testMode}>{global.hintTestData}</Text> : null}
+                                    <TextC style={style().testMode}>{global.hintTestData}</TextC> : null}
                                 {data.yearSelected === undefined && !data.year.settings.alwaysAutoUpdateResults && data.object.round?.autoUpdateResults === 0 && route.name === 'RoundsMatches' ?
-                                    <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>
+                                    <TextC style={style().textRed}>{global.hintAutoUpdateResults}</TextC>
                                     : null}
                                 {data.object.groups ?
-                                    <TableView appearance="light">
+                                    <TableView appearance={global.colorScheme}>
                                         {data.object.groups?.map(group => (
                                             <Section
                                                 key={group.id}
                                                 headerComponent={
-                                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                                    <View style={[style().matchflexRowView, style().headerComponentView]}>
                                                         <View style={{flex: 2}}>
-                                                            <Text style={styles.textBlue}>
+                                                            <TextC style={style().textBlue}>
                                                                 {route.name !== 'RoundsMatches' ?
-                                                                    <Text
-                                                                        style={{color: 'orange'}}>{'Runde ' + route.params.id}  </Text>
+                                                                    <TextC
+                                                                        style={{color: 'orange'}}>{'Runde ' + route.params.id}  </TextC>
                                                                     : '\n'}
-                                                                {'Gruppe ' + group.name + ':'}</Text>
+                                                                {'Gruppe ' + group.name + ':'}</TextC>
                                                         </View>
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             {route.name === 'RoundsMatches' ?
                                                                 <Pressable
-                                                                    style={styles.buttonTopRight}
+                                                                    style={style().buttonTopRight}
                                                                     onPress={() => navigation.navigate('RankingInGroups', {item: group})}
                                                                 >
-                                                                    <Text style={styles.textButtonTopRight}
+                                                                    <TextC style={style().textButtonTopRight}
                                                                           numberOfLines={1}>
                                                                         <IconMat name="table-large"
                                                                                  size={15}/>{' Tabelle Gr. ' + group.name}
-                                                                    </Text>
+                                                                    </TextC>
                                                                 </Pressable>
                                                                 :
                                                                 (route.name === 'RoundsMatchesAdmin' && group.name === 'A' ?
                                                                     <Pressable
-                                                                        style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
+                                                                        style={[style().button1, style().buttonConfirm, style().buttonGreen]}
                                                                         onPress={() => confirmAllResults()}
                                                                     >
-                                                                        <Text numberOfLines={1}
-                                                                              style={styles.textButton1}>
+                                                                        <TextC numberOfLines={1}
+                                                                              style={style().textButton1}>
                                                                             {'Alles regulär werten: ' +
                                                                             matchesToConfirm.length
                                                                             }
-                                                                        </Text>
+                                                                        </TextC>
                                                                     </Pressable>
                                                                     : null)
                                                             }
@@ -175,7 +175,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                     ))
                                                     :
                                                     <View>
-                                                        <Text>{global.hintSchedule}</Text>
+                                                        <TextC>{global.hintSchedule}</TextC>
                                                     </View>
                                                 }
                                             </Section>
@@ -183,11 +183,11 @@ export default function RoundsMatchesScreen({navigation}) {
                                     </TableView>
                                     :
                                     <View>
-                                        <Text>{global.hintSchedule}</Text>
+                                        <TextC>{global.hintSchedule}</TextC>
                                     </View>
                                 }
                             </View>
-                    ) : <Text>Fehler: keine Spiele gefunden!</Text>)}
+                    ) : <TextC>Fehler: keine Spiele gefunden!</TextC>)}
         </ScrollView>
     );
 }

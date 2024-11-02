@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Text, View} from 'react-native';
-import styles from '../assets/styles';
+import {Image, View} from 'react-native';
+import {style} from '../assets/styles';
 import * as SportFunctions from "./functions/SportFunctions";
 
 export default function CellVariantMatchesManagerProblem(props) {
@@ -23,10 +23,10 @@ export default function CellVariantMatchesManagerProblem(props) {
     let getProblemEventView = function (status, nameProblem) {
         return (
             getStatus(status) ? null :
-                <View style={[styles.viewStatus, getButtonStyle(status), {maxWidth: getButtonWidth(status)}]}>
-                    <Text numberOfLines={1} style={styles.textButton1}>
+                <View style={[style().viewStatus, getButtonStyle(status), {maxWidth: getButtonWidth(status)}]}>
+                    <TextC numberOfLines={1} style={style().textButton1}>
                         {nameProblem}
-                    </Text>
+                    </TextC>
                 </View>
         );
     };
@@ -34,17 +34,17 @@ export default function CellVariantMatchesManagerProblem(props) {
     let getButtonStyle = function (status) {
         if (status === 'isLoggedIn' && !getStatus('wasLoggedIn')) {
             global.criticalIssuesCount++;
-            return styles.buttonRed;
+            return style().buttonRed;
         } else if (status === 'isMatchStarted' || (status === 'isLoggedIn' && getStatus('wasLoggedIn'))) {
-            return styles.buttonGreyDark;
+            return style().buttonGreyDark;
         } else if ((status === 'isRefereeOnPlace' || status === 'isTeam1OnPlace' || status === 'isTeam2OnPlace')
             && (getStatus('isRefereeOnPlace') || getStatus('isTeam1OnPlace') || getStatus('isTeam2OnPlace'))) {
             // not all participants on place
             global.criticalIssuesCount++;
-            return styles.buttonRed;
+            return style().buttonRed;
         }
 
-        return styles.buttonRed50;
+        return style().buttonRed50;
     };
 
     let getButtonWidth = function (status) {
@@ -57,11 +57,11 @@ export default function CellVariantMatchesManagerProblem(props) {
 
     function getOffsets() {
         return (
-            <Text style={styles.textRed}>{'Offset: '
+            <TextC style={style().textRed}>{'Offset: '
             + props.item.logsCalc.minOffset + '-'
             + props.item.logsCalc.avgOffset + '-'
             + props.item.logsCalc.maxOffset}
-            </Text>
+            </TextC>
         )
     }
 
@@ -72,17 +72,17 @@ export default function CellVariantMatchesManagerProblem(props) {
             && getStatus('isMatchStarted')
             && !showOffset)
             ? null :
-            <View style={styles.viewCentered}>
-                <View style={styles.matchflexRowView}>
-                    <View style={[styles.viewStatus, {flex: 1, alignItems: 'flex-end'}]}>
-                        <Text numberOfLines={1}>
+            <View style={style().viewCentered}>
+                <View style={style().matchflexRowView}>
+                    <View style={[style().viewStatus, {flex: 1, alignItems: 'flex-end'}]}>
+                        <TextC numberOfLines={1}>
                             <Image
-                                style={styles.sportImage}
+                                style={style().sportImage}
                                 source={SportFunctions.getSportImage(props.item.sport.code)}
                             />
                             {props.item.sport.code + ' '}
-                            <Text style={styles.textBlue}>{props.item.group_name}</Text>
-                        </Text>
+                            <TextC style={style().textBlue}>{props.item.group_name}</TextC>
+                        </TextC>
                     </View>
                     <View style={{flex: 4, alignSelf: 'flex-start', paddingRight: 20}}>
                         {getProblemEventView('isLoggedIn', (props.item.teams4 ? props.item.teams4.name : props.item.teams3.name) + ': ' + (props.item.teams4 ? 'Ersatz-' : '') + 'SR nicht eingeloggt')}

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import TextC from "../../components/customText";
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 
 export default function FouledOutModal({
                                            setModalVisible,
@@ -14,17 +14,17 @@ export default function FouledOutModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text style={styles.big3}>Foul Out!</Text>
-                    <Text>{'\n'}</Text>
-                    <Text>Die/der soeben bestrafte Spieler*in darf am laufenden Spiel nicht mehr teilnehmen!</Text>
-                    <Text>{'\n'}</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC style={style().big3}>Foul Out!</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>Die/der soeben bestrafte Spieler*in darf am laufenden Spiel nicht mehr teilnehmen!</TextC>
+                    <TextC>{'\n'}</TextC>
 
                     <Pressable
-                        style={[styles.button1, styles.buttonRed]}
+                        style={[style().button1, style().buttonRed]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>OK, schließen</Text>
+                        <TextC style={style().textButton1}>OK, schließen</TextC>
                     </Pressable>
                 </View>
             </View>

@@ -1,6 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useCallback, useState} from 'react';
-import {RefreshControl, ScrollView, Text} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
@@ -39,7 +39,7 @@ export default function GroupsAllScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.groups?.length > 0 ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section
                             header={DateFunctions.getDateFormatted(data.yearSelected !== undefined ? data.yearSelected.day : data.year.day)}>
                             {data.object.groups.map(item => (
@@ -53,7 +53,7 @@ export default function GroupsAllScreen({navigation}) {
                             ))}
                         </Section>
                     </TableView>
-                ) : <Text>Keine Gruppen gefunden!</Text>)}
+                ) : <TextC>Keine Gruppen gefunden!</TextC>)}
         </ScrollView>
     );
 }

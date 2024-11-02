@@ -1,8 +1,8 @@
-import * as React from 'react';
+import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Pressable, Text, View} from 'react-native';
+import {Image, Pressable, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import styles from '../assets/styles';
+import {style} from '../assets/styles';
 import SpecialConfirmModal from './modals/SpecialConfirmModal';
 import InsertResultModal from './modals/InsertResultModal';
 import SupervisorActionsModal from './modals/SupervisorActionsModal';
@@ -35,10 +35,10 @@ export default function CellVariantMatchesAdmin(props) {
     let getButtonStyle = function (status) {
         if (!props.item.logsCalc[status]) {
             return status === 'isMatchStarted'
-                ? styles.buttonGreyDark
-                : styles.buttonRed;
+                ? style().buttonGreyDark
+                : style().buttonRed;
         } else {
-            return styles.buttonGreen;
+            return style().buttonGreen;
         }
     };
 
@@ -48,10 +48,10 @@ export default function CellVariantMatchesAdmin(props) {
 
     let getEventView = function (status, nameTrue, nameFalse) {
         return (
-            <View style={[styles.viewStatus, getButtonStyle(status)]}>
-                <Text numberOfLines={1} style={styles.textButton1}>
+            <View style={[style().viewStatus, getButtonStyle(status)]}>
+                <TextC numberOfLines={1} style={style().textButton1}>
                     {getStatus(status) ? nameTrue : nameFalse}
-                </Text>
+                </TextC>
             </View>
         );
     };
@@ -59,11 +59,11 @@ export default function CellVariantMatchesAdmin(props) {
     function getSpecialConfirmModalButton() {
         return (
             <Pressable
-                style={[styles.button1, styles.buttonConfirm, styles.buttonGreyDark]}
+                style={[style().button1, style().buttonConfirm, style().buttonGreyDark]}
                 onPress={() => setSpecialConfirmModalVisible(true)}>
-                <Text numberOfLines={1} style={styles.textButton1}>
+                <TextC numberOfLines={1} style={style().textButton1}>
                     Sonderwertung
-                </Text>
+                </TextC>
             </Pressable>
         );
     }
@@ -71,11 +71,11 @@ export default function CellVariantMatchesAdmin(props) {
     function getInsertResultModalButton() {
         return (
             <Pressable
-                style={[styles.button1, styles.buttonConfirm, styles.buttonGreyDark]}
+                style={[style().button1, style().buttonConfirm, style().buttonGreyDark]}
                 onPress={() => setInsertResultModalVisible(true)}>
-                <Text numberOfLines={1} style={styles.textButton1}>
+                <TextC numberOfLines={1} style={style().textButton1}>
                     Ergebniseingabe
-                </Text>
+                </TextC>
             </Pressable>
         );
     }
@@ -83,11 +83,11 @@ export default function CellVariantMatchesAdmin(props) {
     function showOffsets() {
         return (
             props.fromRoute.includes('Admin') && props.item.logsCalc.avgOffset !== undefined ?
-                <Text style={styles.textRed}>{'Offset: '
+                <TextC style={style().textRed}>{'Offset: '
                 + props.item.logsCalc.minOffset + '-'
                 + props.item.logsCalc.avgOffset + '-'
                 + props.item.logsCalc.maxOffset}
-                </Text>
+                </TextC>
                 : null)
     }
 
@@ -100,24 +100,24 @@ export default function CellVariantMatchesAdmin(props) {
     function getCardsAndRemarks() {
         return (
             props.fromRoute.includes('Admin') ?
-                <Text adjustsFontSizeToFit numberOfLines={1}>
+                <TextC adjustsFontSizeToFit numberOfLines={1}>
                     {props.item.remarks ?
                         <Pressable
-                            style={[styles.button1, styles.buttonConfirm, styles.buttonRed]}
+                            style={[style().button1, style().buttonConfirm, style().buttonRed]}
                             onPress={() => setRemarksModalVisible(true)}>
-                            <Text style={styles.textButton1}><Icon name="exclamation-thick"
-                                                                   size={20}/></Text>
+                            <TextC style={style().textButton1}><Icon name="exclamation-thick"
+                                                                   size={20}/></TextC>
                         </Pressable>
                         : null}
                     {showCardsButton() ?
                         <Pressable
-                            style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                            style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                             onPress={() => setCardsModalVisible(true)}>
-                            <Text style={styles.textButton1}><Icon name="cards"
-                                                                   size={20}/></Text>
+                            <TextC style={style().textButton1}><Icon name="cards"
+                                                                   size={20}/></TextC>
                         </Pressable>
                         : null}
-                </Text>
+                </TextC>
                 : null)
     }
 
@@ -134,39 +134,39 @@ export default function CellVariantMatchesAdmin(props) {
                         paddingVertical: 2,
                     }}>
                     <View style={{flex: 3.5, fontSize: 14}}>
-                        <Text numberOfLines={1}>
+                        <TextC numberOfLines={1}>
                             {props.timeText}{' '}
                             <Image
-                                style={styles.sportImage}
+                                style={style().sportImage}
                                 source={SportFunctions.getSportImage(props.item.sport.code)}
                             />
-                            <Text style={{color: '#8E8E93'}}>{props.item.sport.code}</Text>
-                        </Text>
-                        <Text
+                            <TextC style={{color: '#8E8E93'}}>{props.item.sport.code}</TextC>
+                        </TextC>
+                        <TextC
                             numberOfLines={1}
                             style={
                                 props.item.canceled === 1 || props.item.canceled === 3
-                                    ? styles.textRed
+                                    ? style().textRed
                                     : null
                             }>
                             {props.item.teams1.name}
-                        </Text>
-                        <Text
+                        </TextC>
+                        <TextC
                             numberOfLines={1}
                             style={
                                 props.item.canceled === 2 || props.item.canceled === 3
-                                    ? styles.textRed
+                                    ? style().textRed
                                     : null
                             }>
                             {props.item.teams2.name}
-                        </Text>
-                        <Text numberOfLines={1} style={props.item.isRefereeCanceled ? styles.textRed : ''}>
-                            <Text style={styles.textViolet}>SR</Text> {props.item.teams3.name}
-                        </Text>
+                        </TextC>
+                        <TextC numberOfLines={1} style={props.item.isRefereeCanceled ? style().textRed : ''}>
+                            <TextC style={style().textViolet}>SR</TextC> {props.item.teams3.name}
+                        </TextC>
                         {props.item.teams4 ? (
-                            <Text numberOfLines={1} style={styles.textGreen}>
-                                <Text style={styles.textViolet}>Ersatz-SR</Text> {props.item.teams4.name}
-                            </Text>
+                            <TextC numberOfLines={1} style={style().textGreen}>
+                                <TextC style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name}
+                            </TextC>
                         ) : null}
 
                     </View>
@@ -193,11 +193,11 @@ export default function CellVariantMatchesAdmin(props) {
                             {getEventView('isMatchStarted', 'Spiel gestartet', 'Spiel nicht gestartet')}
                             {props.fromRoute.includes('Supervisor') ? (
                                 <Pressable
-                                    style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                                    style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                                     onPress={() => setSupervisorActionsModalVisible(true)}>
-                                    <Text numberOfLines={1} style={styles.textButton1}>
+                                    <TextC numberOfLines={1} style={style().textButton1}>
                                         Supervisor Aktionen
-                                    </Text>
+                                    </TextC>
                                 </Pressable>
                             ) : null}
                             {showOffsets()}
@@ -206,21 +206,21 @@ export default function CellVariantMatchesAdmin(props) {
 
                     {!props.item.logsCalc.isResultConfirmed && props.item.canceled ? (
                         <View style={{alignSelf: 'center', flex: 6}}>
-                            <Text
+                            <TextC
                                 numberOfLines={1}
-                                style={[styles.textRed, {fontSize: 16}]}>
+                                style={[style().textRed, {fontSize: 16}]}>
                                 abgesagt
-                            </Text>
+                            </TextC>
                         </View>
                     ) : null}
 
                     {props.item.logsCalc.isMatchStarted &&
                     !props.item.logsCalc.isResultConfirmed ? (
-                        <View style={[styles.viewCentered, {alignSelf: 'center', flex: 3}]}>
-                            <Text
+                        <View style={[style().viewCentered, {alignSelf: 'center', flex: 3}]}>
+                            <TextC
                                 adjustsFontSizeToFit
                                 numberOfLines={1}
-                                style={[styles.big1, styles.textRed]}>
+                                style={[style().big1, style().textRed]}>
                                 {props.item.logsCalc.score !== undefined
                                     ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
                                     0
@@ -230,7 +230,7 @@ export default function CellVariantMatchesAdmin(props) {
                                     ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
                                     0
                                     : 0}
-                            </Text>
+                            </TextC>
                             {getCardsAndRemarks()}
                         </View>
                     ) : null}
@@ -239,76 +239,76 @@ export default function CellVariantMatchesAdmin(props) {
                         <View style={{alignSelf: 'center', flex: 3}}>
                             {props.item.logsCalc.isMatchLive ? (
                                 <View>
-                                    <Text style={styles.textRed}>Live!</Text>
+                                    <TextC style={style().textRed}>Live!</TextC>
                                     {showOffsets()}
                                     {getEventView('isLoggedIn', 'SR eingeloggt', 'SR nicht eingeloggt')}
                                     {props.fromRoute.includes('Supervisor') ? (
                                         <Pressable
-                                            style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                                            style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                                             onPress={() => setSupervisorActionsModalVisible(true)}>
-                                            <Text numberOfLines={1} style={styles.textButton1}>
+                                            <TextC numberOfLines={1} style={style().textButton1}>
                                                 Supervisor Aktionen
-                                            </Text>
+                                            </TextC>
                                         </Pressable>
                                     ) : null}
                                 </View>
                             ) : null}
                             {props.item.logsCalc.isMatchEnded ? (
-                                <Text
+                                <TextC
                                     numberOfLines={1}
-                                    style={styles.textGreen}>
+                                    style={style().textGreen}>
                                     beendet
-                                </Text>
+                                </TextC>
                             ) : null}
                             {props.item.logsCalc.teamWon !== undefined ? (
-                                <Text
+                                <TextC
                                     numberOfLines={1}
-                                    style={styles.textGreen}>
+                                    style={style().textGreen}>
                                     Tendenz: {props.item.logsCalc.teamWon}
-                                </Text>
+                                </TextC>
                             ) : null}
                             {props.item.logsCalc.isMatchConcluded ? (
-                                <Text
+                                <TextC
                                     numberOfLines={1}
-                                    style={styles.textGreen}>
+                                    style={style().textGreen}>
                                     abgeschlossen
-                                </Text>
+                                </TextC>
                             ) : null}
                             {props.item.logsCalc.isMatchEnded &&
                             !props.item.logsCalc.isResultConfirmed ? (
-                                <Text numberOfLines={1} style={styles.textRed}>
+                                <TextC numberOfLines={1} style={style().textRed}>
                                     noch nicht bestätigt
-                                </Text>
+                                </TextC>
                             ) : null}
                         </View>
                     ) : null}
 
                     {props.item.logsCalc.isResultConfirmed ? (
-                        <View style={[styles.viewCentered, {alignSelf: 'center', flex: 3}]}>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.big1}>
+                        <View style={[style().viewCentered, {alignSelf: 'center', flex: 3}]}>
+                            <TextC adjustsFontSizeToFit numberOfLines={1} style={style().big1}>
                                 {parseInt(props.item.resultGoals1) || 0}
                                 {' '}:{' '}
                                 {parseInt(props.item.resultGoals2) || 0}
-                            </Text>
+                            </TextC>
                             {getCardsAndRemarks()}
                         </View>
                     ) : null}
                     {props.item.logsCalc.isResultConfirmed ? (
                         <View style={{alignSelf: 'center', flex: 3}}>
                             {props.item.resultAdmin === 1 ?
-                                <Text numberOfLines={1} style={styles.textRed}>
-                                    <Text> {'\u2714'} </Text>
+                                <TextC numberOfLines={1} style={style().textRed}>
+                                    <TextC> {'\u2714'} </TextC>
                                     Ergebnis durch Admins korrigiert
-                                </Text> : null}
+                                </TextC> : null}
                             {props.item.resultAdmin === 2 ?
-                                <Text numberOfLines={1} style={styles.textRed}>
-                                    <Text> {'\u2714'} </Text>
+                                <TextC numberOfLines={1} style={style().textRed}>
+                                    <TextC> {'\u2714'} </TextC>
                                     Ergebnisübertrag aus Papierbogen
-                                </Text> : null}
-                            <Text numberOfLines={1} style={styles.textGreen}>
-                                <Text> {'\u2714'} </Text>bestätigt
-                            </Text>
-                            <Text numberOfLines={1}>
+                                </TextC> : null}
+                            <TextC numberOfLines={1} style={style().textGreen}>
+                                <TextC> {'\u2714'} </TextC>bestätigt
+                            </TextC>
+                            <TextC numberOfLines={1}>
                                 {props.item.logsCalc.score !== undefined
                                     ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
                                     0
@@ -319,24 +319,24 @@ export default function CellVariantMatchesAdmin(props) {
                                     0
                                     : 0}{' '}
                                 im MatchLog
-                            </Text>
+                            </TextC>
                             {props.item.resultTrend > 2 ? (
-                                <Text numberOfLines={1} style={styles.textRed}>
+                                <TextC numberOfLines={1} style={style().textRed}>
                                     {ConfirmFunctions.getConfirmResultText(
                                         props.item.resultTrend,
                                     )}
                                     -Wertung
-                                </Text>
+                                </TextC>
                             ) : null}
-                            <Text numberOfLines={1}>
+                            <TextC numberOfLines={1}>
                                 Faktor {props.item.sport.goalFactor}
-                            </Text>
+                            </TextC>
                         </View>
                     ) : null}
 
                     {props.fromRoute.includes('Admin') &&
                     props.item.isTime2confirm ? (
-                        <View style={[styles.viewCentered, {alignSelf: 'center', flex: 2}]}>
+                        <View style={[style().viewCentered, {alignSelf: 'center', flex: 2}]}>
                             {props.item.isResultOk
                                 ? ConfirmFunctions.getConfirmButton(
                                     props.item.id,

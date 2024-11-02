@@ -1,9 +1,9 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, TextInput, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
-import styles from '../../assets/styles';
+import {style} from '../../assets/styles';
 
 export default function PushNotificationsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -62,12 +62,12 @@ export default function PushNotificationsScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
-                    <View style={styles.centeredView}>
-                        <Text>Push-Nachricht an Team:</Text>
+                    <View style={style().centeredView}>
+                        <TextC>Push-Nachricht an Team:</TextC>
                         <Picker
                             selectedValue={selectedTeamId}
                             onValueChange={(itemValue) => setSelectedTeamId(itemValue)}
-                            style={[styles.button1, styles.pickerSelect]}
+                            style={[style().button1, style().pickerSelect]}
                         >
                             <Picker.Item key="0" value="0" label="alle Teams"/>
                             {data ? data.object.map(item => (
@@ -75,31 +75,31 @@ export default function PushNotificationsScreen({navigation}) {
                                              label={item.team.name + '(' + item.countPushTokens + ')'}/>
                             )) : null}
                         </Picker>
-                        <Text>Nachrichtentitel:</Text>
+                        <TextC>Nachrichtentitel:</TextC>
                         <TextInput
-                            style={[styles.textInput, {width: '100%'}]}
+                            style={[style().textInput, {width: '100%'}]}
                             multiline={false}
                             numberOfLines={1}
                             onChangeText={setMailTitle}
                             value={mailTitle}
                             placeholder="Hier Titel der Nachricht eingeben"
                         />
-                        <Text>Nachrichtentext:</Text>
+                        <TextC>Nachrichtentext:</TextC>
                         <TextInput
-                            style={[styles.textInput, {width: '100%'}]}
+                            style={[style().textInput, {width: '100%'}]}
                             multiline={true}
                             numberOfLines={4}
                             onChangeText={setMailBody}
                             value={mailBody}
                             placeholder="Hier Text eingeben"
                         />
-                        <Pressable style={[styles.button1, styles.buttonGreen]}
+                        <Pressable style={[style().button1, style().buttonGreen]}
                                    onPress={() => sendPushNotification(selectedTeamId)}>
-                            <Text style={styles.textButton1}>Senden</Text>
+                            <TextC style={style().textButton1}>Senden</TextC>
                         </Pressable>
 
                     </View>
-                ) : <Text>Fehler!</Text>)}
+                ) : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
 }

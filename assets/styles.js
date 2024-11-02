@@ -1,9 +1,9 @@
 import {StyleSheet} from "react-native";
 import * as ColorFunctions from "../components/functions/ColorFunctions";
 
-export default StyleSheet.create({
-    bgYellow: {
-        backgroundColor: 'yellow'
+export const style = () => StyleSheet.create({
+    yellowBg: {
+        backgroundColor: ColorFunctions.getColor('YellowBg')
     },
     buttonTopRight: {
         alignItems: 'center',
@@ -13,7 +13,7 @@ export default StyleSheet.create({
         paddingHorizontal: 12,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: '#0155fd',
+        backgroundColor: ColorFunctions.getColor('blue'),
     },
     button1: {
         alignItems: 'center',
@@ -25,10 +25,10 @@ export default StyleSheet.create({
         elevation: 4,
         maxWidth: '100%',
         shadowOffset: {width: 5, height: 5},
-        shadowColor: 'black',
+        shadowColor: ColorFunctions.getColor('primary'),
         shadowRadius: 4,
-        shadowOpacity: 0.1,
-        backgroundColor: "white"
+        shadowOpacity: 0.25,
+        backgroundColor: ColorFunctions.getColor('primaryBg')
     },
     buttonEvent: {
         paddingVertical: 8,
@@ -48,7 +48,8 @@ export default StyleSheet.create({
         paddingHorizontal: 4,
     },
     pickerSelect: {
-        width: 300
+        width: 300,
+        color: ColorFunctions.getColor('primary'),
     },
     viewStatus: {
         alignItems: 'center',
@@ -56,7 +57,7 @@ export default StyleSheet.create({
         marginHorizontal: 4,
         paddingVertical: 2,
         paddingHorizontal: 4,
-        maxWidth: '95%'
+        maxWidth: '95%',
     },
     buttonBig1: {
         alignItems: 'center',
@@ -81,7 +82,7 @@ export default StyleSheet.create({
         backgroundColor: ColorFunctions.getColor('GreenLightBg')
     },
     buttonOrange: {
-        backgroundColor: 'orange'
+        backgroundColor: ColorFunctions.getColor('OrangeBg')
     },
     buttonRed: {
         backgroundColor: '#a33300'
@@ -102,7 +103,7 @@ export default StyleSheet.create({
         shadowColor: '#aaaaaa',
     },
     textButtonTopRight: {
-        color: '#fff',
+        color: ColorFunctions.getColor('buttonTxt'),
         width: '100%'
     },
     foulCards: {
@@ -122,13 +123,14 @@ export default StyleSheet.create({
         paddingVertical: 4,
         paddingHorizontal: 6,
         elevation: 3,
+        color: ColorFunctions.getColor('primary'),
         borderColor: '#3d8d02',
         borderWidth: 2,
     },
     testMode: {
         paddingVertical: 4,
         paddingHorizontal: 6,
-        backgroundColor: '#ffd700',
+        backgroundColor: ColorFunctions.getColor('TestHintBg'),
     },
     failureText: {
         paddingVertical: 4,
@@ -136,7 +138,7 @@ export default StyleSheet.create({
         backgroundColor: '#a33300',
         color: '#fff'
     },
-    centeredText100:{
+    centeredText100: {
         width: '100%',
         textAlign: 'center'
     },
@@ -221,7 +223,7 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
     },
     textBlue: {
-        color: 'blue',
+        color: ColorFunctions.getColor('blue'),
     },
     textViolet: {
         color: 'violet',
@@ -246,7 +248,7 @@ export default StyleSheet.create({
     },
     separatorLine: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: ColorFunctions.getColor('primary'),
         height: 1.2,
         marginLeft: 12,
         marginRight: 24,
@@ -259,16 +261,13 @@ export default StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: ColorFunctions.getColor('primaryBg'),
         borderRadius: 20,
         padding: 35,
         alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
+        shadowColor: ColorFunctions.getColor('primary'),
+        shadowOffset: {width: 5, height: 5},
+        shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 5,
     },
@@ -311,18 +310,17 @@ export default StyleSheet.create({
         borderRadius: 4,
         elevation: 4,
         shadowOffset: {width: 5, height: 5},
-        shadowColor: 'black',
+        shadowColor: ColorFunctions.getColor('primary'),
         shadowRadius: 4,
         shadowOpacity: 0.25,
-        backgroundColor: "white"
+        backgroundColor: ColorFunctions.getColor('primaryBg'),
     },
-    borderRed:{
+    borderRed: {
         borderColor: '#a33300',
         borderWidth: 4
     },
-    borderBlue:{
+    borderBlue: {
         borderColor: '#0155fd',
         borderWidth: 4
     }
-
 });

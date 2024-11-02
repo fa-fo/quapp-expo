@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantRanking from '../../components/cellVariantRanking';
@@ -45,56 +45,56 @@ export default function RankingInGroupsScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ?
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section headerComponent={
                             <View>
-                                <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                <View style={[style().matchflexRowView, style().headerComponentView]}>
                                     <View style={{flex: 1}}>
-                                        <Text>{DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
-                                            <Text
-                                                style={styles.textBlue}>{'\nGruppe ' + route.params.item.group_name + ':'}</Text>
-                                        </Text>
+                                        <TextC>{DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
+                                            <TextC
+                                                style={style().textBlue}>{'\nGruppe ' + route.params.item.group_name + ':'}</TextC>
+                                        </TextC>
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                        <Pressable style={styles.buttonTopRight}
+                                        <Pressable style={style().buttonTopRight}
                                                    onPress={() => navigation.navigate(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: route.params.item})}
                                         >
-                                            <Text style={styles.textButtonTopRight} numberOfLines={1}>
+                                            <TextC style={style().textButtonTopRight} numberOfLines={1}>
                                                 <IconMat name="format-list-bulleted"
                                                          size={15}/>{' Spielplan Gr. ' + route.params.item.group_name}
-                                            </Text>
+                                            </TextC>
                                         </Pressable>
                                     </View>
                                 </View>
                                 {global.settings.isTest && data.yearSelected === undefined && route.name === 'RankingInGroups' ?
-                                    <View><Text style={styles.testMode}>{global.hintTestData}</Text></View> : null}
+                                    <View><TextC style={style().testMode}>{global.hintTestData}</TextC></View> : null}
                                 {data.object.showRanking ?
-                                    <View style={styles.matchflexRowView}>
+                                    <View style={style().matchflexRowView}>
                                         <View style={{alignSelf: 'center', flex: 1}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}> </Text>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}> </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Spiele
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Torverh.
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Tordiff.
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Punkte
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{flex: 0.4}}>
-                                            <Text> </Text>
+                                            <TextC> </TextC>
                                         </View>
                                     </View> : null}
                             </View>
@@ -115,12 +115,12 @@ export default function RankingInGroupsScreen({navigation}) {
                             )}
                             {!data.object.showRanking ?
                                 <View style={{alignSelf: 'center'}}>
-                                    <Text style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>Bekanntgabe
-                                        der Endtabelle bei der Siegerehrung!</Text>
+                                    <TextC style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>Bekanntgabe
+                                        der Endtabelle bei der Siegerehrung!</TextC>
                                 </View> : null}
                         </Section>
                     </TableView>
-                    : <Text>Fehler!</Text>)}
+                    : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
 }

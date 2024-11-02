@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Pressable, Text} from 'react-native';
-import styles from '../../assets/styles.js';
+import TextC from "../../components/customText";
+import {Pressable} from 'react-native';
+import {style} from '../../assets/styles.js';
 import fetchApi from '../fetchApi';
 
 export function getMatches2Confirm(object) {
@@ -44,18 +44,18 @@ export function getConfirmButton(matchId, mode, text, setModalVisible, loadScree
     return (
         <Pressable
             style={[
-                styles.button1,
-                styles.buttonConfirm,
+                style().button1,
+                style().buttonConfirm,
                 mode === 0
-                    ? styles.buttonGreen
+                    ? style().buttonGreen
                     : (mode === 1) || (mode === 2)
-                    ? styles.buttonGreyDark
-                    : styles.buttonRed,
+                    ? style().buttonGreyDark
+                    : style().buttonRed,
             ]}
             onPress={() => confirmResults([{'id': matchId, 'mode': mode}], setModalVisible, loadScreenData, null)}>
-            <Text numberOfLines={1} style={styles.textButton1}>
+            <TextC numberOfLines={1} style={style().textButton1}>
                 {text}
-            </Text>
+            </TextC>
         </Pressable>
     );
 }

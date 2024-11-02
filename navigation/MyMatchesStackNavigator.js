@@ -1,5 +1,3 @@
-import * as React from 'react';
-import * as DateFunctions from "../components/functions/DateFunctions";
 import MyTeamSelectScreen from '../screens/initials/MyTeamSelectScreen';
 import ListMatchesByTeamScreen from '../screens/matches/ListMatchesByTeamScreen';
 import RankingInGroupsScreen from '../screens/matches/RankingInGroupsScreen';
@@ -15,6 +13,8 @@ import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import SettingsScreen from "../screens/initials/SettingsScreen";
 import NoInternetModalScreen from "../screens/initials/modals/NoInternetModalScreen";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import * as DateFunctions from "../components/functions/DateFunctions";
+import * as ColorFunctions from "../components/functions/ColorFunctions";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +26,7 @@ export default function MyMatchesStackNavigator({navigation}) {
             }
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: 'yellow',
+                    backgroundColor: ColorFunctions.getColor('YellowBg'),
                 },
                 headerBackTitleVisible: false
             }}>

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useState} from 'react';
-import {Modal, Pressable, Text, TextInput, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, TextInput, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import fetchApi from "../fetchApi";
 
 export default function CancelTeamYearModal({
@@ -36,15 +36,15 @@ export default function CancelTeamYearModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text style={styles.big3}>{props.title}</Text>
-                    <Text>Bist du sicher? Wirklich zurückziehen?</Text>
-                    <Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC style={style().big3}>{props.title}</TextC>
+                    <TextC>Bist du sicher? Wirklich zurückziehen?</TextC>
+                    <TextC>
                         {'Hier bitte Passwort eingeben:'}
-                    </Text>
+                    </TextC>
                     <TextInput
-                        style={styles.textInput}
+                        style={style().textInput}
                         onChangeText={setUsernamePW}
                         placeholder="Hier Passwort eingeben"
                         keyboardType="default"
@@ -54,21 +54,21 @@ export default function CancelTeamYearModal({
                     />
                     <Pressable
                         style={[
-                            styles.button1,
-                            canceled ? styles.buttonGreen : styles.buttonRed,
+                            style().button1,
+                            canceled ? style().buttonGreen : style().buttonRed,
                         ]}
                         onPress={() => cancelTeamYear(props.teamYearsId, canceled)}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
-                            style={styles.textButton1}>
+                            style={style().textButton1}>
                             {canceled ? 'Rückzug rückgängig' : 'zurückziehen'}
-                        </Text>
+                        </TextC>
                     </Pressable>
-                    <Text>{'\n'}</Text>
+                    <TextC>{'\n'}</TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

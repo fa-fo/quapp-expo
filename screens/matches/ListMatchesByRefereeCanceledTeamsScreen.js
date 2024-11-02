@@ -1,6 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, Text} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {format, parseISO} from 'date-fns';
 import CellVariantMatches from '../../components/cellVariantMatches';
@@ -49,7 +49,7 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data.object.matches && data.object.matches.length > 0 ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section header={'Hier werden alle Spiele mit SR von zurückgezogenen Teams angezeigt:'}>
                             {data.object.matches.map(item => (
                                 <CellVariantMatches
@@ -64,7 +64,7 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
                             ))}
                         </Section>
                     </TableView>
-                ) : <Text>keine Spiele gefunden!</Text>)}
+                ) : <TextC>keine Spiele gefunden!</TextC>)}
         </ScrollView>
     );
 }

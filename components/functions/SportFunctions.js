@@ -1,6 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import * as DateFunctions from "./DateFunctions";
 import * as ColorFunctions from "./ColorFunctions";
 
@@ -31,11 +31,11 @@ export function getRemarksAdmin(remarksMatches) {
     return remarksMatches.length ?
         (remarksMatches.map(match => (
             <View key={match.id}>
-                <Text
-                    style={{fontWeight: 'bold'}}>{match.sport.code} {match.group_name}, {DateFunctions.getFormatted(match.matchStartTime)} Uhr:</Text>
-                <Text>{match.teams1.name} vs {match.teams2.name}</Text>
-                <Text style={{fontStyle: 'italic'}}>SR: {match.teams3.name}</Text>
-                <Text style={{marginBottom: 20, fontSize: 20}}>"{match.remarks}"</Text>
+                <TextC
+                    style={{fontWeight: 'bold'}}>{match.sport.code} {match.group_name}, {DateFunctions.getFormatted(match.matchStartTime)} Uhr:</TextC>
+                <TextC>{match.teams1.name} vs {match.teams2.name}</TextC>
+                <TextC style={{fontStyle: 'italic'}}>SR: {match.teams3.name}</TextC>
+                <TextC style={{marginBottom: 20, fontSize: 20}}>"{match.remarks}"</TextC>
             </View>
         ))) : null;
 }

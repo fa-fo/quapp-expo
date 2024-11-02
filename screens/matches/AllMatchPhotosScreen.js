@@ -1,9 +1,9 @@
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {ActivityIndicator, Dimensions, Image, Linking, Platform, Pressable, Text, View} from 'react-native';
+import TextC from "../../components/customText";
+import {useEffect, useRef, useState} from 'react';
+import {ActivityIndicator, Dimensions, Image, Linking, Platform, Pressable, View} from 'react-native';
 import fetchApi from '../../components/fetchApi';
 import Carousel from "react-native-reanimated-carousel";
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 const width = Dimensions.get("window").width;
@@ -13,7 +13,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     const [data, setData] = useState([]);
     const [progress, setProgress] = useState(0);
     const [resizeMode, setResizeMode] = useState('contain');
-    const ref = React.useRef();
+    const ref = useRef();
 
     useEffect(() => {
         loadScreenData();
@@ -28,16 +28,16 @@ export default function AllMatchPhotosScreen({navigation}) {
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
                 navigation.setOptions({
                     headerRight: () => (
-                        <Text>
+                        <TextC>
                             <Pressable
-                                style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
+                                style={[style().button1, style().buttonEvent, style().buttonGreen]}
                                 onPress={() => loadScreenData()}
                             >
-                                <Text style={styles.textButton1}>
+                                <TextC style={style().textButton1}>
                                     <IconMat name='reload' size={24} color='#fff'/>
-                                </Text>
+                                </TextC>
                             </Pressable>
-                        </Text>
+                        </TextC>
                     ),
                 });
 
@@ -92,7 +92,7 @@ export default function AllMatchPhotosScreen({navigation}) {
 
     return (
         <View style={{flex: 1, alignItems: 'center'}}>
-            {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
+            {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' && data.object.photos.length ?
                         <Carousel
                             ref={ref}
@@ -114,7 +114,7 @@ export default function AllMatchPhotosScreen({navigation}) {
                                             style={{flex: 1, resizeMode: resizeMode}}
                                         />
                                     </Pressable>
-                                    <Text style={{flex: 1, textAlign: 'center'}}>
+                                    <TextC style={{flex: 1, textAlign: 'center'}}>
                                         {item.sport_name + ' Gr. ' + item.group_name + ', Runde ' + item.round_id}
                                         {'\n'}
                                         {item.team1_name + ' vs ' + item.team2_name}
@@ -123,39 +123,39 @@ export default function AllMatchPhotosScreen({navigation}) {
                                         {'\n'}
                                         {'SR: ' + item.team3_name}
                                         {'\n'}
-                                    </Text>
+                                    </TextC>
                                 </View>
                             )}
                         />
                         :
-                        <Text>Hier findet ihr am Turniertag alle Fotos, die über die App nach der
+                        <TextC>Hier findet ihr am Turniertag alle Fotos, die über die App nach der
                             Spielprotokollierung
-                            hochgeladen werden können.</Text>
+                            hochgeladen werden können.</TextC>
                 )}
 
-            <View style={styles.bottomLeftButtonContainer}>
+            <View style={style().bottomLeftButtonContainer}>
                 {data?.object?.myPhotos?.length > 1 ?
                     <Pressable
-                        style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
+                        style={[style().button1, style().buttonEvent, style().buttonGreen]}
                         onPress={() => scrollToMyNextPhoto(progress)}
                     >
-                        <Text style={[styles.textButton1, {textAlign: 'center'}]}>
+                        <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                             Mein Team
                             <IconMat name='skip-next' size={24} color='#fff'/>
-                        </Text>
+                        </TextC>
                     </Pressable>
                     : null}
             </View>
 
-            <View style={styles.bottomButtonContainer}>
+            <View style={style().bottomButtonContainer}>
                 {data?.object?.photos?.length ?
                     <Pressable
-                        style={[styles.button1, styles.buttonGreen]}
+                        style={[style().button1, style().buttonGreen]}
                         onPress={() => downloadFile(getUriFile(data.object.photos[progress].match_id, data.object.photos[progress].id))}
                     >
-                        <Text style={[styles.textButton1, {textAlign: 'center'}]}>
+                        <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                             <IconMat name='download' size={24} color='#fff'/>
-                        </Text>
+                        </TextC>
                     </Pressable>
                     : null}
             </View>

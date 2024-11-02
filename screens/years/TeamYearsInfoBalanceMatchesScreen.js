@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, RefreshControl, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Image, RefreshControl, ScrollView, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
@@ -36,20 +36,20 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
-                        <TableView appearance="light">
+                        <TableView appearance={global.colorScheme}>
                             <Section headerComponent={
                                 <View>
-                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                    <View style={[style().matchflexRowView, style().headerComponentView]}>
                                         <View style={{flex: 2}}>
-                                            <Text style={{fontSize: 18}}>{route.params.team.team_name}</Text>
-                                            <Text>
+                                            <TextC style={{fontSize: 18}}>{route.params.team.team_name}</TextC>
+                                            <TextC>
                                                 <Image
-                                                    style={styles.sportImage}
+                                                    style={style().sportImage}
                                                     source={SportFunctions.getSportImage(route.params.sport.code)}
                                                 />
                                                 {route.params.sport.name}
-                                            </Text>
-                                            <Text>Alle ausgetragene Spiele seit 2022: </Text>
+                                            </TextC>
+                                            <TextC>Alle ausgetragene Spiele seit 2022: </TextC>
                                         </View>
                                     </View>
                                 </View>
@@ -69,7 +69,7 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
                             </Section>
                         </TableView>
                     </View>
-                ) : <Text>Fehler!</Text>)}
+                ) : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
 }

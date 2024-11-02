@@ -1,10 +1,11 @@
-import * as React from 'react';
 import {useEffect, useState} from 'react';
+import TextC from "../components/customText";
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Image, Linking, Platform, Text, View} from 'react-native';
-import styles from '../assets/styles';
+import {style} from '../assets/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Constants from "expo-constants";
+import * as ColorFunctions from "../components/functions/ColorFunctions";
 
 export default function CustomDrawerContent(props) {
     const [currentYearId, setCurrentYearId] = useState(0);
@@ -21,24 +22,24 @@ export default function CustomDrawerContent(props) {
 
     return (
         <DrawerContentScrollView {...props}>
-            <View style={styles.logoView}>
+            <View style={style().logoView}>
                 <Image
-                    style={styles.logoImage}
+                    style={style().logoImage}
                     source={require('../assets/images/logo2024.png')}
                 />
             </View>
-            <View style={styles.drawerSectionView}>
-                <Text style={{marginLeft: 10}}>
+            <View style={style().drawerSectionView}>
+                <TextC style={{marginLeft: 10}}>
                     {'QuattFo ' + (currentDayId > 0 ? currentYearName + ', Tag ' + currentDayId : '')}
                     {window?.location?.hostname === 'localhost' ?
-                        <Text style={[styles.big22, styles.textRed]}> localhost</Text> : null}
-                </Text>
-                <View style={styles.separatorLine}/>
+                        <TextC style={[style().big22, style().textRed]}> localhost</TextC> : null}
+                </TextC>
+                <View style={style().separatorLine}/>
             </View>
             {global.myTeamId === 0 ? null
                 :
                 <DrawerItem
-                    icon={() => <Icon name="exclamation-thick" size={25} style={styles.bgYellow}/>}
+                    icon={() => <Icon name="exclamation-thick" size={25} style={style().yellowBg}/>}
                     label="Meine Spiele"
                     onPress={() =>
                         props.navigation.reset({
@@ -49,21 +50,21 @@ export default function CustomDrawerContent(props) {
                 />
             }
             <DrawerItem
-                icon={() => <Icon name="timetable" size={25}/>}
+                icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Alle Spielrunden"
                 onPress={() =>
                     props.navigation.navigate('MyMatches', {screen: 'RoundsCurrent'})
                 }
             />
             <DrawerItem
-                icon={() => <Icon name="view-grid-outline" size={25}/>}
+                icon={() => <Icon name="view-grid-outline" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Alle Gruppen"
                 onPress={() =>
                     props.navigation.navigate('MyMatches', {screen: 'GroupsAll'})
                 }
             />
             <DrawerItem
-                icon={() => <Icon name="cpu-64-bit" size={25}/>}
+                icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Alle Teams"
                 onPress={() =>
                     props.navigation.navigate('MyMatches', {screen: 'TeamsCurrent'})
@@ -72,7 +73,8 @@ export default function CustomDrawerContent(props) {
             {Platform.OS === 'web' && process?.env?.NODE_ENV !== 'development' ? null
                 :
                 <DrawerItem
-                    icon={() => <Icon name="picture-in-picture-bottom-right" size={25}/>}
+                    icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                      color={ColorFunctions.getColor('primary')}/>}
                     label="Fotos"
                     onPress={() =>
                         props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
@@ -80,7 +82,7 @@ export default function CustomDrawerContent(props) {
                 />
             }
             <DrawerItem
-                icon={() => <Icon name="playlist-check" size={25}/>}
+                icon={() => <Icon name="playlist-check" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Spielregeln"
                 onPress={() =>
                     props.navigation.navigate('MyMatches', {
@@ -93,7 +95,7 @@ export default function CustomDrawerContent(props) {
                 }
             />
             <DrawerItem
-                icon={() => <Icon name="food-fork-drink" size={25}/>}
+                icon={() => <Icon name="food-fork-drink" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Speisekarte"
                 onPress={() =>
                     props.navigation.navigate('MyMatches', {
@@ -107,7 +109,7 @@ export default function CustomDrawerContent(props) {
             />
             {currentDayId > 1 ?
                 <DrawerItem
-                    icon={() => <Icon name="history" size={25}/>}
+                    icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
                     label="Archiv Tag 1"
                     onPress={() => props.navigation.navigate('Years', {
                         screen: 'GroupsAll',
@@ -118,28 +120,29 @@ export default function CustomDrawerContent(props) {
                     })}
                 />
                 : null}
-            <View style={styles.drawerSectionView}>
-                <Text style={{marginLeft: 10}}>QuattFo Historie</Text>
-                <View style={styles.separatorLine}/>
+            <View style={style().drawerSectionView}>
+                <TextC style={{marginLeft: 10}}>QuattFo Historie</TextC>
+                <View style={style().separatorLine}/>
             </View>
             <DrawerItem
-                icon={() => <Icon name="history" size={25}/>}
+                icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Archiv"
                 onPress={() => props.navigation.navigate('Years', {screen: 'YearsAll'})}
             />
             <DrawerItem
-                icon={() => <Icon name="table-star" size={25}/>}
+                icon={() => <Icon name="table-star" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Ewige Tabelle"
                 onPress={() =>
                     props.navigation.navigate('Years', {screen: 'TeamsAllTimeRanking'})
                 }
             />
             <View>
-                <View style={styles.drawerSectionView}>
-                    <View style={styles.separatorLine}/>
+                <View style={style().drawerSectionView}>
+                    <View style={style().separatorLine}/>
                 </View>
                 <DrawerItem
-                    icon={() => <Icon name="account-settings-outline" size={25}/>}
+                    icon={() => <Icon name="account-settings-outline" size={25}
+                                      color={ColorFunctions.getColor('primary')}/>}
                     label="Einstellungen"
                     onPress={() => {
                         props.navigation.navigate('MyMatches', {screen: 'Settings'})
@@ -150,12 +153,12 @@ export default function CustomDrawerContent(props) {
                 null
                 :
                 <View>
-                    <View style={styles.drawerSectionView}>
-                        <Text style={{marginLeft: 10}}>Supervisor</Text>
-                        <View style={styles.separatorLine}/>
+                    <View style={style().drawerSectionView}>
+                        <TextC style={{marginLeft: 10}}>Supervisor</TextC>
+                        <View style={style().separatorLine}/>
                     </View>
                     <DrawerItem
-                        icon={() => <Icon name="timetable" size={25}/>}
+                        icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Supervisor Spielrunden"
                         onPress={() =>
                             props.navigation.navigate('Supervisor', {
@@ -164,7 +167,7 @@ export default function CustomDrawerContent(props) {
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="phone-missed" size={25}/>}
+                        icon={() => <Icon name="phone-missed" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Fehlende SR"
                         onPress={() =>
                             props.navigation.navigate('Supervisor', {
@@ -173,7 +176,8 @@ export default function CustomDrawerContent(props) {
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="clipboard-list-outline" size={25}/>}
+                        icon={() => <Icon name="clipboard-list-outline" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
                         label="Ersatz-SR-Rangliste"
                         onPress={() =>
                             props.navigation.navigate('Supervisor', {
@@ -182,7 +186,7 @@ export default function CustomDrawerContent(props) {
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="refresh-auto" size={25}/>}
+                        icon={() => <Icon name="refresh-auto" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Supervisor Auto-Pilot"
                         onPress={() =>
                             props.navigation.navigate('Supervisor', {
@@ -196,47 +200,50 @@ export default function CustomDrawerContent(props) {
                 null
                 :
                 <View>
-                    <View style={styles.drawerSectionView}>
-                        <Text style={{marginLeft: 10}}>Admin</Text>
-                        <View style={styles.separatorLine}/>
+                    <View style={style().drawerSectionView}>
+                        <TextC style={{marginLeft: 10}}>Admin</TextC>
+                        <View style={style().separatorLine}/>
                     </View>
                     <DrawerItem
-                        icon={() => <Icon name="timetable" size={25}/>}
+                        icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Spielrunden"
                         onPress={() =>
                             props.navigation.navigate('Admin', {screen: 'RoundsCurrentAdmin'})
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="heart-flash" size={25}/>}
+                        icon={() => <Icon name="heart-flash" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Aktionen"
                         onPress={() =>
                             props.navigation.navigate('Admin', {screen: 'AdminActions'})
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}/>}
+                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Fotos"
                         onPress={() =>
                             props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos'})
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="view-grid-outline" size={25}/>}
+                        icon={() => <Icon name="view-grid-outline" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Gruppen"
                         onPress={() =>
                             props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin'})
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="cpu-64-bit" size={25}/>}
+                        icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Teams"
                         onPress={() =>
                             props.navigation.navigate('Admin', {screen: 'TeamsCurrentAdmin'})
                         }
                     />
                     <DrawerItem
-                        icon={() => <Icon name="email-send-outline" size={25}/>}
+                        icon={() => <Icon name="email-send-outline" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
                         label="Push Notifications"
                         onPress={() =>
                             props.navigation.navigate('Admin', {screen: 'PushNotifications'})
@@ -244,11 +251,11 @@ export default function CustomDrawerContent(props) {
                     />
                 </View>
             }
-            <View style={styles.drawerSectionView}>
-                <View style={styles.separatorLine}/>
+            <View style={style().drawerSectionView}>
+                <View style={style().separatorLine}/>
             </View>
-            <View style={styles.matchflexEventsView}>
-                <Text style={{color: '#0155fd'}}>
+            <View style={style().matchflexEventsView}>
+                <Text style={style().textBlue}>
                     <Text
                         onPress={() => Linking.openURL('https://www.quattfo.de/infos/impressum.html')}>Impressum</Text>
                     {'  -  '}
@@ -257,10 +264,10 @@ export default function CustomDrawerContent(props) {
                 </Text>
             </View>
             {Constants?.expoConfig?.version ?
-                <View style={styles.matchflexEventsView}>
-                    <Text>
+                <View style={style().matchflexEventsView}>
+                    <TextC>
                         Quapp v{Constants.expoConfig.version}
-                    </Text>
+                    </TextC>
                 </View> : null}
         </DrawerContentScrollView>
     );

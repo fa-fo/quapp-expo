@@ -1,7 +1,7 @@
-import * as React from 'react';
-import {Image, Text, View} from 'react-native';
+import TextC from "../components/customText";
+import {Image, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import styles from "../assets/styles";
+import {style} from "../assets/styles";
 import * as SportFunctions from "./functions/SportFunctions";
 import * as ColorFunctions from "./functions/ColorFunctions";
 
@@ -25,15 +25,15 @@ export default function CellVariantBalance(props) {
                         paddingVertical: 6,
                     }}>
                     <View style={{alignSelf: 'center', flex: 0.4}}>
-                        <Text style={{textAlign: 'right'}}>
+                        <TextC style={{textAlign: 'right'}}>
                             <Image
-                                style={styles.sportImage}
+                                style={style().sportImage}
                                 source={SportFunctions.getSportImage(props.item.code)}
                             />
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
-                        <Text
+                        <TextC
                             adjustsFontSizeToFit
                             numberOfLines={1}
                             style={{
@@ -41,10 +41,10 @@ export default function CellVariantBalance(props) {
                                 textAlign: 'right',
                             }}>
                             {props.item.name + ': '}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
-                        <Text
+                        <TextC
                             adjustsFontSizeToFit
                             numberOfLines={1}
                             style={{
@@ -52,10 +52,10 @@ export default function CellVariantBalance(props) {
                                 textAlign: 'center',
                             }}>
                             {(props.object[props.item.id][1] ?? 0)}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
-                        <Text
+                        <TextC
                             adjustsFontSizeToFit
                             numberOfLines={1}
                             style={{
@@ -63,10 +63,10 @@ export default function CellVariantBalance(props) {
                                 textAlign: 'center',
                             }}>
                             {(props.object[props.item.id][0] ?? 0)}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
-                        <Text
+                        <TextC
                             adjustsFontSizeToFit
                             numberOfLines={1}
                             style={{
@@ -74,14 +74,14 @@ export default function CellVariantBalance(props) {
                                 textAlign: 'center',
                             }}>
                             {(props.object[props.item.id][2] ?? 0)}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{alignSelf: 'center'}}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
                             style={{color: '#8E8E93', fontSize: 14}}>
                             {props.detail}
-                        </Text>
+                        </TextC>
                     </View>
                 </View>
             }

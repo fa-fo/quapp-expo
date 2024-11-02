@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Pressable, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {ActivityIndicator, Pressable, ScrollView, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
@@ -29,25 +29,25 @@ export default function TeamYearsEndRankingScreen({navigation}) {
 
     return (
         <ScrollView>
-            {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
+            {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section headerComponent={
                             <View>
-                                <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                <View style={[style().matchflexRowView, style().headerComponentView]}>
                                     <View style={{flex: 1}}>
-                                        <Text>{route.params.item.year_name}</Text>
+                                        <TextC>{route.params.item.year_name}</TextC>
                                     </View>
                                     {data.yearSelected?.daysWithGroups > 0 ? ([...Array(data.yearSelected.daysWithGroups).keys()]).map(day_id => (
                                         <View key={day_id} style={{flex: 1, alignItems: 'center'}}>
-                                            <Pressable style={styles.buttonTopRight}
+                                            <Pressable style={style().buttonTopRight}
                                                        onPress={() => navigation.navigate('GroupsAll', {
                                                            year_id: route.params.item.year_id,
                                                            day_id: (day_id + 1)
                                                        })}
                                             >
-                                                <Text style={styles.textButtonTopRight}
-                                                      numberOfLines={1}>{'Archiv Tag ' + (day_id + 1)}</Text>
+                                                <TextC style={style().textButtonTopRight}
+                                                      numberOfLines={1}>{'Archiv Tag ' + (day_id + 1)}</TextC>
                                             </Pressable>
                                         </View>
                                     )) : null}
@@ -65,12 +65,12 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                             )) : null}
                             {data.object.showRanking === 0 ?
                                 <View style={{alignSelf: 'center'}}>
-                                    <Text style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>Bekanntgabe
-                                        der Endtabelle bei der Siegerehrung!</Text>
+                                    <TextC style={{marginTop: 30, marginBottom: 30, fontWeight: 'bold', fontSize: 24}}>Bekanntgabe
+                                        der Endtabelle bei der Siegerehrung!</TextC>
                                 </View> : null}
                         </Section>
                     </TableView>
-                ) : <Text>Keine Teams gefunden!</Text>)}
+                ) : <TextC>Keine Teams gefunden!</TextC>)}
         </ScrollView>
     );
 }

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import TextC from "../../components/customText";
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 
 export default function DoubleYellowModal({
                                               setModalVisible,
@@ -14,17 +14,17 @@ export default function DoubleYellowModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text style={styles.big3}>Hat schon Gelb!</Text>
-                    <Text>{'\n'}</Text>
-                    <Text>Die/der soeben bestrafte Spieler*in hat bereits vorher eine gelbe Karte erhalten!</Text>
-                    <Text>{'\n'}</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC style={style().big3}>Hat schon Gelb!</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>Die/der soeben bestrafte Spieler*in hat bereits vorher eine gelbe Karte erhalten!</TextC>
+                    <TextC>{'\n'}</TextC>
 
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>OK, schließen</Text>
+                        <TextC style={style().textButton1}>OK, schließen</TextC>
                     </Pressable>
                 </View>
             </View>

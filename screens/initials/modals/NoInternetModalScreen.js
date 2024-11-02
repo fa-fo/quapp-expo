@@ -1,16 +1,16 @@
-import * as React from 'react';
-import {Pressable, Text, View} from 'react-native';
-import styles from '../../../assets/styles.js';
+import TextC from "../../../components/customText";
+import {Pressable, View} from 'react-native';
+import {style} from '../../../assets/styles.js';
 
 export default function NoInternetModalScreen({navigation}) {
 
     return (
-        <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-                <Text style={styles.big3}>Keine Verbindung zum QuattFo-Server oder kein Internet!</Text>
-                <Pressable style={[styles.button1, styles.buttonGreen]}
+        <View style={style().centeredView}>
+            <View style={style().modalView}>
+                <TextC style={style().big3}>Keine Verbindung zum QuattFo-Server oder kein Internet!</TextC>
+                <Pressable style={[style().button1, style().buttonGreen]}
                            onPress={() => navigation.goBack()}>
-                    <Text style={styles.textButton1}>zurück</Text>
+                    <TextC style={style().textButton1}>zurück</TextC>
                 </Pressable>
             </View>
         </View>

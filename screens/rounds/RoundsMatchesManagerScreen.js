@@ -1,6 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
-import {Platform, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useKeepAwake} from "expo-keep-awake";
 import fetchApi from '../../components/fetchApi';
@@ -8,7 +8,7 @@ import CellVariantMatchesManager from "../../components/cellVariantMatchesManage
 import CellVariantMatchesManagerProblem from "../../components/cellVariantMatchesManagerProblem";
 import {format} from "date-fns";
 import * as Speech from 'expo-speech';
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
 
@@ -70,17 +70,17 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
                 navigation.setOptions({
                     headerRight: () => (
-                        <Text>
-                            <Pressable style={[styles.buttonTopRight, styles.buttonOrange]}
+                        <TextC>
+                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
                                        onPress={() => navigation.navigate('RoundsMatchesSupervisor', {
                                            id: json.object?.round?.id,
                                            roundsCount: route.params.roundsCount,
                                        })}
                             >
-                                <Text
-                                    style={styles.textButtonTopRight}>{'zur klassischen Ansicht'}</Text>
+                                <TextC
+                                    style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
                             </Pressable>
-                        </Text>
+                        </TextC>
                     ),
                 });
             })
@@ -129,18 +129,18 @@ export default function RoundsMatchesManagerScreen({navigation}) {
     return (
         <ScrollView
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
-            style={lastUpdate && data && now > lastUpdate ? styles.buttonRed
-                : issuesLength === 0 ? styles.buttonGreenLight : null}
+            style={lastUpdate && data && now > lastUpdate ? style().buttonRed
+                : issuesLength === 0 ? style().buttonGreenLight : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
-                <Text>{format(now, "HH:mm:ss")}</Text>
+                <TextC>{format(now, "HH:mm:ss")}</TextC>
             </View>
             {isLoading ? null :
                 (data?.status === 'success' && data.object.round ?
                     <View>
-                        <View style={styles.matchflexRowView}>
+                        <View style={style().matchflexRowView}>
                             <View style={{flex: 3}}>
-                                <Text
+                                <TextC
                                     style={{
                                         color: 'orange',
                                         alignSelf: 'center',
@@ -155,7 +155,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                     + DateFunctions.getFormatted(data.year.day + ' '
                                         + data.object.round['timeStartDay'
                                         + data.year.settings.currentDay_id]) + ' Uhr '}
-                                </Text>
+                                </TextC>
                                 <View ref={problemsRef}>
                                     {data.object.groups?.map(group =>
                                         group.matches?.map(item => (
@@ -167,7 +167,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                     )}
                                 </View>
                                 {issuesLength === 0 ?
-                                    <Text style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</Text>
+                                    <TextC style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</TextC>
                                     : null}
                             </View>
                             <View style={{flex: 1}}>
@@ -187,7 +187,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                         </View>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
-                    : <Text>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</Text>)}
+                    : <TextC>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</TextC>)}
         </ScrollView>
     );
 }

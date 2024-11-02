@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useState} from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import fetchApi from "../fetchApi";
 import {Picker} from "@react-native-picker/picker";
 
@@ -47,32 +47,32 @@ export default function RefereeTeamSubstModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text>Team des neuen SR eintragen:</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>Team des neuen SR eintragen:</TextC>
                     <Picker
                         selectedValue={selectedValue}
                         onValueChange={(itemValue) => setSelectedValue(itemValue)}
-                        style={[styles.button1, styles.pickerSelect]}
+                        style={[style().button1, style().pickerSelect]}
                     >
                         <Picker.Item key="0" value="" label="bitte hier auswählen..."/>
                         {data ? data.object.map(item => (
                             <Picker.Item key={item.id} value={item.team_id} label={item.team.name}/>
                         )) : null}
                     </Picker>
-                    <Pressable style={[styles.button1, styles.buttonGreen]}
+                    <Pressable style={[style().button1, style().buttonGreen]}
                                onPress={() => setRefereeTeamSubst(selectedValue)}>
-                        <Text style={styles.textButton1}>Speichern</Text>
+                        <TextC style={style().textButton1}>Speichern</TextC>
                     </Pressable>
 
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

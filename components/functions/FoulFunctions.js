@@ -1,28 +1,28 @@
-import * as React from 'react';
-import styles from "../../assets/styles";
-import {Text, View} from "react-native";
+import TextC from "../../components/customText";
+import {style} from "../../assets/styles";
+import {View} from "react-native";
 
 export function getFoulCards(logsCalc, eventItemCode, teamId, diff) {
     eventItemCode += '_V2';
 
     return (
-        <View style={styles.matchflexRowView}>
+        <View style={style().matchflexRowView}>
             {logsCalc[eventItemCode] !== undefined && logsCalc[eventItemCode][teamId] !== undefined ?
                 Object.entries(logsCalc[eventItemCode][teamId]).map(([key, val]) => (
                     <View key={key}>
-                        <Text style={getStyles(eventItemCode, val.count)}>
-                            <Text>{key}</Text>
-                            <Text style={{
+                        <TextC style={getStyles(eventItemCode, val.count)}>
+                            <TextC>{key}</TextC>
+                            <TextC style={{
                                 fontSize: 10,
                                 marginTop: -16
-                            }}>{'\n' + 'X'.repeat(Math.abs(Number(val.count)))}</Text>
-                        </Text>
+                            }}>{'\n' + 'X'.repeat(Math.abs(Number(val.count)))}</TextC>
+                        </TextC>
                         {val.reEntryTime !== undefined ?
                             Object.entries(val.reEntryTime).map(([k, v]) => (
-                                <Text key={k}>{getSuspTime(v, diff)}</Text>
+                                <TextC key={k}>{getSuspTime(v, diff)}</TextC>
                             )) : null}
                     </View>
-                )) : <Text> </Text>}
+                )) : <TextC> </TextC>}
         </View>
     )
 }
@@ -35,7 +35,7 @@ export function getFoulColor(code) {
 }
 
 function getStyles(code, val) {
-    return [styles.foulCards, {borderColor: getBorderColor(val)}, {backgroundColor: getFoulColor(code)}];
+    return [style().foulCards, {borderColor: getBorderColor(val)}, {backgroundColor: getFoulColor(code)}];
 }
 
 function getBorderColor(val) {

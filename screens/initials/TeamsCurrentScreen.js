@@ -1,6 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, Text} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
@@ -27,7 +27,7 @@ export default function TeamsCurrentScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section header="Alle Teams (alphabetisch sortiert)">
                             {data.object.map(item => (
                                 (route.name === 'TeamsCurrentAdmin' ?
@@ -50,7 +50,7 @@ export default function TeamsCurrentScreen({navigation}) {
                             ))}
                         </Section>
                     </TableView>
-                ) : <Text>Keine Teams gefunden!</Text>)}
+                ) : <TextC>Keine Teams gefunden!</TextC>)}
         </ScrollView>
     );
 }

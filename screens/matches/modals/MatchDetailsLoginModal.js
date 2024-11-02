@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../../components/customText";
 import {useRef, useState} from 'react';
-import {Modal, Pressable, Text, TextInput, View} from 'react-native';
-import styles from '../../../assets/styles.js';
+import {Modal, Pressable, TextInput, View} from 'react-native';
+import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -52,14 +52,14 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                 setModalVisible(false);
             }}
         >
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>Hier bitte 5-stelligen SR-PIN eingeben: </Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>Hier bitte 5-stelligen SR-PIN eingeben: </TextC>
                     {global.settings.isTest ?
-                        <Text style={styles.testMode}>Beim Turnier braucht ihr hier euren Team-PIN, den ihr zusammen mit
+                        <TextC style={style().testMode}>Beim Turnier braucht ihr hier euren Team-PIN, den ihr zusammen mit
                             dem endgültigen Spielplan vor Turnierbeginn bekommt! Mit dem Testmodus-PIN (12345) könnt ihr
-                            jetzt testen:</Text> : null}
-                    <TextInput style={styles.textInput}
+                            jetzt testen:</TextC> : null}
+                    <TextInput style={style().textInput}
                                onChangeText={setRefereePin}
                                placeholder="Hier PIN eingeben"
                                keyboardType="numeric"
@@ -68,18 +68,18 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                                ref={inputRef}
                                onSubmitEditing={() => tryLogin(item)}
                     />
-                    {textPinWrongVisible ? <Text style={styles.failureText}>falscher PIN?</Text> : null}
+                    {textPinWrongVisible ? <TextC style={style().failureText}>falscher PIN?</TextC> : null}
                     {textPinEmptyVisible && refereePin === '' ?
-                        <Text style={styles.failureText}>Bitte PIN eingeben</Text> : null}
-                    <Pressable style={[styles.button1, styles.buttonBig1, styles.buttonGreen]}
+                        <TextC style={style().failureText}>Bitte PIN eingeben</TextC> : null}
+                    <Pressable style={[style().button1, style().buttonBig1, style().buttonGreen]}
                                onPress={() => tryLogin(item)}>
-                        <Text style={[styles.textButton1, styles.teamInfos]}><Icon name="login"
-                                                                                   size={28}/> einloggen</Text>
+                        <TextC style={[style().textButton1, style().teamInfos]}><Icon name="login"
+                                                                                   size={28}/> einloggen</TextC>
                     </Pressable>
-                    <Text> </Text>
-                    <Pressable style={[styles.button1, styles.buttonGrey]}
+                    <TextC> </TextC>
+                    <Pressable style={[style().button1, style().buttonGrey]}
                                onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

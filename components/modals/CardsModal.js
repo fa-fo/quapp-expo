@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import * as FoulFunctions from '../functions/FoulFunctions';
 
 export default function CardsModal({
@@ -38,18 +38,18 @@ export default function CardsModal({
                 setModalVisible(false);
                 setFouls(null);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
                     {fouls ?
                         fouls.map(code => (
-                            <View key={code} style={styles.matchflexRowView}>
+                            <View key={code} style={style().matchflexRowView}>
                                 {FoulFunctions.getFoulCards(match.logsCalc, code.substring(0, code.length - 3), match.team1_id, diff)}
-                                <View style={[styles.viewCentered, {flex: 2}]}>
-                                    <Text>{'\n ' + match.logsCalc[code]['name'] + ' '}</Text>
+                                <View style={[style().viewCentered, {flex: 2}]}>
+                                    <TextC>{'\n ' + match.logsCalc[code]['name'] + ' '}</TextC>
                                 </View>
                                 {FoulFunctions.getFoulCards(match.logsCalc, code.substring(0, code.length - 3), match.team2_id, diff)}
                             </View>
@@ -57,9 +57,9 @@ export default function CardsModal({
                         : null}
 
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

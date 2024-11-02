@@ -1,5 +1,5 @@
-import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Appearance} from "react-native";
 
 let scoreName = 'score';
 
@@ -16,7 +16,14 @@ export async function setAsyncStorage(key, value, merge) {
     }
 }
 
-export async function loadStorageTeam() {
+export async function loadStorageData() {
+    await AsyncStorage.getItem('colorScheme')
+        .then(response => response !== null ? response.toString() : null)
+        .then((string) => global.colorSchemeSaved = (string !== null ? JSON.parse(string) : 'system'))
+        .catch((error) => console.error(error));
+
+    global.colorScheme = global.colorSchemeSaved === 'system' ? Appearance.getColorScheme() : global.colorSchemeSaved;
+
     await AsyncStorage.getItem('myTeamId')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))

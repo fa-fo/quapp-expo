@@ -1,9 +1,10 @@
-import * as React from 'react';
+import TextC from "../../../components/customText";
 import {useEffect} from 'react';
-import {Image, Linking, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
-import styles from '../../../assets/styles.js';
+import {Image, Linking, Modal, Pressable, StyleSheet, View} from 'react-native';
+import {style} from '../../../assets/styles.js';
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import fetchApi from "../../../components/fetchApi";
+import * as ColorFunctions from "../../../components/functions/ColorFunctions";
 
 export default function MatchDetailsPhotoModal({
                                                    route,
@@ -46,50 +47,50 @@ export default function MatchDetailsPhotoModal({
             setModalVisible(false);
         }}
     >
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{flex: 1, backgroundColor: ColorFunctions.getColor('primaryBg')}}>
             <View style={{flex: 1, width: '100%', height: '100%'}}>
                 <Image
                     source={{uri: uriFile}}
                     style={[StyleSheet.absoluteFillObject, {resizeMode: 'contain'}]}
                 />
-                <View style={styles.toprightButtonContainer}>
+                <View style={style().toprightButtonContainer}>
                     <Pressable onPress={() => {
                         setModalVisible(false)
                     }}>
-                        <IconMat name='close' size={48} color='#000'/>
+                        <IconMat name='close' size={48} color={ColorFunctions.getColor('primary')}/>
                     </Pressable>
                 </View>
                 {route.name === 'MatchDetailsAdmin' ?
-                    <View style={styles.toprightButtonContainer}>
+                    <View style={style().toprightButtonContainer}>
                         <Pressable
-                            style={[styles.button1, styles.buttonEvent, styles.buttonRed]}
+                            style={[style().button1, style().buttonEvent, style().buttonRed]}
                             onPress={() => setCheck(0)}
                         >
                             <IconMat name='delete-outline' size={48} color='#fff'/>
                         </Pressable>
                     </View> : null}
 
-                <View style={styles.bottomButtonContainer}>
+                <View style={style().bottomButtonContainer}>
                     {route.name === 'MatchDetailsAdmin' ?
                         <Pressable
-                            style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
+                            style={[style().button1, style().buttonEvent, style().buttonGreen]}
                             onPress={() => setCheck(1)}
                         >
                             <IconMat name='eye-check' size={48} color='#fff'/>
-                            <Text style={[styles.textButton1, {textAlign: 'center'}]}>OK</Text>
+                            <TextC style={[style().textButton1, {textAlign: 'center'}]}>OK</TextC>
                         </Pressable>
                         :
                         <View>
-                            <Text style={{textAlign: 'right', width: 130}}>
+                            <TextC style={{textAlign: 'right', width: 130}}>
                                 Im Browser{'\n'}öffnen (dort{'\n'}herunterladen):
-                            </Text>
+                            </TextC>
                             <Pressable
-                                style={[styles.button1, styles.buttonGreen]}
+                                style={[style().button1, style().buttonGreen]}
                                 onPress={() => downloadFile()}
                             >
-                                <Text style={[styles.textButton1, {textAlign: 'center'}]}>
+                                <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                                     <IconMat name='download' size={48} color='#fff'/>
-                                </Text>
+                                </TextC>
                             </Pressable>
                         </View>
                     }

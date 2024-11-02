@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Modal, Pressable, Text, TextInput, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, TextInput, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {confirmResults} from "../functions/ConfirmFunctions";
 import {isNumber} from "../functions/CheckFunctions";
 import {Picker} from "@react-native-picker/picker";
@@ -45,24 +45,24 @@ export default function InsertResultModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text>Ergebniseingabe ohne Faktor:</Text>
-                    <Text>{'\n'}</Text>
-                    <View style={[styles.matchflexRowView, {flex: 1, alignItems: 'center'}]}>
-                        <TextInput style={[styles.textInput, {flex: 2}]}
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>Ergebniseingabe ohne Faktor:</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
+                        <TextInput style={[style().textInput, {flex: 2}]}
                                    onChangeText={setGoals1}
                                    placeholder="Tore"
                                    keyboardType="numeric"
                                    maxLength={3}
                                    value={goals1 !== null ? goals1.toString() : (oldGoals1 !== null ? oldGoals1.toString() : '')}
                         />
-                        <Text style={{flex: 1, width: '100%', alignContent: 'center', textAlign: 'center'}}> : </Text>
-                        <TextInput style={[styles.textInput, {flex: 2}]}
+                        <TextC style={{flex: 1, width: '100%', alignContent: 'center', textAlign: 'center'}}> : </TextC>
+                        <TextInput style={[style().textInput, {flex: 2}]}
                                    onChangeText={setGoals2}
                                    placeholder="Tore"
                                    keyboardType="numeric"
@@ -70,19 +70,19 @@ export default function InsertResultModal({
                                    value={goals2 !== null ? goals2.toString() : (oldGoals2 !== null ? oldGoals2.toString() : '')}
                         />
                     </View>
-                    <Text>{'\n'}</Text>
-                    <Text>Ergebniseingabe/-korrektur:</Text>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>Ergebniseingabe/-korrektur:</TextC>
                     <Picker
                         selectedValue={selectedResultAdmin}
                         onValueChange={(itemValue) => setSelectedResultAdmin(itemValue)}
-                        style={[styles.button1, styles.pickerSelect]}
+                        style={[style().button1, style().pickerSelect]}
                     >
                         <Picker.Item label="(0) nein" value="0"/>
                         <Picker.Item label="(1) korrigiert" value="1"/>
                         <Picker.Item label="(2) Übertrag von Papierbogen" value="2"/>
                     </Picker>
                     <Pressable
-                        style={[styles.button1, styles.buttonGreen, styles.buttonEvent, styles.buttonBig1, {width: '80%'}]}
+                        style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1, {width: '80%'}]}
                         onPress={async () => {
                             let submitGoals1 = isNumber(goals1) ? parseInt(goals1.toString()) : oldGoals1;
                             let submitGoals2 = isNumber(goals2) ? parseInt(goals2.toString()) : oldGoals2;
@@ -96,14 +96,14 @@ export default function InsertResultModal({
                                 setModalVisible(false);
                             }
                         }}>
-                        <Text
-                            style={[styles.textButton1, {textAlign: 'center'}]}>Eintragen und werten</Text>
+                        <TextC
+                            style={[style().textButton1, {textAlign: 'center'}]}>Eintragen und werten</TextC>
                     </Pressable>
-                    <Text>{'\n'}</Text>
+                    <TextC>{'\n'}</TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

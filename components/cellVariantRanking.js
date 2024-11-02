@@ -1,7 +1,7 @@
-import * as React from 'react';
-import {Text, View} from 'react-native';
+import TextC from "../components/customText";
+import {View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import styles from '../assets/styles';
+import {style} from '../assets/styles';
 
 export default function CellVariantRanking(props) {
     return (
@@ -25,7 +25,7 @@ export default function CellVariantRanking(props) {
                                 : 0,
                     }}>
                     <View style={{alignSelf: 'center', flex: 2.5}}>
-                        <Text
+                        <TextC
                             adjustsFontSizeToFit
                             numberOfLines={1}
                             style={{
@@ -34,51 +34,51 @@ export default function CellVariantRanking(props) {
                                 textAlign: 'right',
                             }}>
                             {props.item.calcRanking ?? 0}.{' '}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 16}}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
                             style={[
                                 {
                                     fontWeight: props.isMyTeam ? 'bold' : 'normal',
                                     fontSize: 16,
                                 },
-                                props.item.canceled ? styles.textRed : null,
+                                props.item.canceled ? style().textRed : null,
                             ]}>
                             {props.item.team.name}
-                        </Text>
+                        </TextC>
                         <View
                             style={{
                                 alignSelf: 'flex-start',
                                 flexDirection: 'row',
                                 width: '100%',
                             }}>
-                            <Text
+                            <TextC
                                 numberOfLines={1}
-                                style={styles.textRankingStats}>
+                                style={style().textRankingStats}>
                                 {parseInt(props.item.calcCountMatches) || 0}
-                            </Text>
-                            <Text
+                            </TextC>
+                            <TextC
                                 numberOfLines={1}
-                                style={styles.textRankingStats}>
+                                style={style().textRankingStats}>
                                 {(parseInt(props.item.calcGoalsScored) || 0) +
                                 ':' +
                                 (parseInt(props.item.calcGoalsReceived) || 0)}
-                            </Text>
-                            <Text
+                            </TextC>
+                            <TextC
                                 numberOfLines={1}
-                                style={styles.textRankingStats}>
+                                style={style().textRankingStats}>
                                 {(props.item.calcGoalsDiff > 0 ? '+' : '') +
                                 (parseInt(props.item.calcGoalsDiff) || 0)}
-                            </Text>
-                            <Text
+                            </TextC>
+                            <TextC
                                 numberOfLines={1}
-                                style={styles.textRankingStats}>
+                                style={style().textRankingStats}>
                                 {(parseInt(props.item.calcPointsPlus) || 0) +
                                 ':' +
                                 (parseInt(props.item.calcPointsMinus) || 0)}
-                            </Text>
+                            </TextC>
                         </View>
                     </View>
                 </View>

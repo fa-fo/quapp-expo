@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import fetchApi from "../fetchApi";
 
 export default function PinModal({
@@ -41,17 +41,17 @@ export default function PinModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big2}>Spiel-PIN: {pin}</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big2}>Spiel-PIN: {pin}</TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

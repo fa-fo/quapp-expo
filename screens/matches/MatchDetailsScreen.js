@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {ActivityIndicator, Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchDetailsLoginModal from './modals/MatchDetailsLoginModal';
@@ -34,141 +34,141 @@ export default function MatchDetailsScreen({navigation}) {
     };
 
     return (
-        isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
+        isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
             (data?.status === 'success' ?
                 data.object.map(item =>
                     <ScrollView key={item.id}
                                 refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
-                                contentContainerStyle={styles.matchDetailsView}>
+                                contentContainerStyle={style().matchDetailsView}>
                         {global.settings.isTest && item.group.year.id === data.year.id ?
-                            <Text style={styles.testMode}>{global.hintTestData}</Text> : null}
-                        <Text numberOfLines={1} style={styles.centeredText100}>QuattFo {item.group.year.name},
-                            Tag {item.group.day_id}</Text>
-                        <Text numberOfLines={1} style={styles.centeredText100}>Runde {item.round.id},
-                            Gruppe {item.group_name}</Text>
-                        <Text numberOfLines={2} style={[styles.centeredText100, styles.big2]}
-                              adjustsFontSizeToFit>{item.teams1.name + (item.isTest ? '_test' : '')}</Text>
-                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>vs</Text>
-                        <Text numberOfLines={2} style={[styles.centeredText100, styles.big2]}
-                              adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</Text>
-                        <Text> </Text>
-                        <Text numberOfLines={1}
-                              style={styles.centeredText100}>SR: {item.teams3.name + (item.isTest ? '_test' : '')}</Text>
+                            <TextC style={style().testMode}>{global.hintTestData}</TextC> : null}
+                        <TextC numberOfLines={1} style={style().centeredText100}>QuattFo {item.group.year.name},
+                            Tag {item.group.day_id}</TextC>
+                        <TextC numberOfLines={1} style={style().centeredText100}>Runde {item.round.id},
+                            Gruppe {item.group_name}</TextC>
+                        <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
+                               adjustsFontSizeToFit>{item.teams1.name + (item.isTest ? '_test' : '')}</TextC>
+                        <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>vs</TextC>
+                        <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
+                               adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</TextC>
+                        <TextC> </TextC>
+                        <TextC numberOfLines={1}
+                               style={style().centeredText100}>SR: {item.teams3.name + (item.isTest ? '_test' : '')}</TextC>
                         {item.teams4 ?
-                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textGreen]}>
-                                <Text
-                                    style={styles.textViolet}>Ersatz-SR:</Text> {item.teams4.name + (item.isTest ? '_test' : '')}
-                            </Text>
+                            <TextC numberOfLines={1} style={[style().centeredText100, style().textGreen]}>
+                                <TextC
+                                    style={style().textViolet}>Ersatz-SR:</TextC> {item.teams4.name + (item.isTest ? '_test' : '')}
+                            </TextC>
                             : null}
-                        <Text> </Text>
-                        <Text numberOfLines={1} style={styles.centeredText100}>
+                        <TextC> </TextC>
+                        <TextC numberOfLines={1} style={style().centeredText100}>
                             Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}
-                        </Text>
-                        <Text numberOfLines={1} style={[styles.centeredText100, styles.big3]}>
+                        </TextC>
+                        <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
                             {item.sport.name} Feld {item.group_name}
-                        </Text>
+                        </TextC>
 
                         {!item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
-                            <Text numberOfLines={1} style={[styles.centeredText100, styles.big1]}>_:_</Text>
+                            <TextC numberOfLines={1} style={[style().centeredText100, style().big1]}>_:_</TextC>
                             : null}
 
                         {item.logsCalc.isResultConfirmed ?
-                            <View style={styles.centeredText100}>
+                            <View style={style().centeredText100}>
                                 {item.round.autoUpdateResults
                                 || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin' ?
-                                    <View style={styles.viewCentered}>
-                                        <Text numberOfLines={1}
-                                              style={[styles.centeredText100, styles.small]}>Endstand</Text>
-                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.big3]}>
+                                    <View style={style().viewCentered}>
+                                        <TextC numberOfLines={1}
+                                               style={[style().centeredText100, style().small]}>Endstand</TextC>
+                                        <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
                                             {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
-                                        </Text>
-                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>
-                                            nach Toren</Text>
+                                        </TextC>
+                                        <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>
+                                            nach Toren</TextC>
                                         {item.resultTrend > 2 ?
-                                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                                            <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
                                                 {ConfirmFunctions.getConfirmResultText(item.resultTrend)}-Wertung
-                                            </Text> : null}
-                                        <Text> </Text>
-                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>
-                                            Wertung mit Faktor {item.sport.goalFactor}</Text>
-                                        <Text numberOfLines={1} style={[styles.centeredText100, styles.big1]}>
+                                            </TextC> : null}
+                                        <TextC> </TextC>
+                                        <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>
+                                            Wertung mit Faktor {item.sport.goalFactor}</TextC>
+                                        <TextC numberOfLines={1} style={[style().centeredText100, style().big1]}>
                                             {parseInt(item.resultGoals1) || 0} : {parseInt(item.resultGoals2) || 0}
-                                        </Text>
+                                        </TextC>
                                         {item.resultAdmin === 1 ?
-                                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                                <Text> {'\u2714'} </Text>
-                                                Ergebnis durch Admins korrigiert</Text> : null}
+                                            <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                                                <TextC> {'\u2714'} </TextC>
+                                                Ergebnis durch Admins korrigiert</TextC> : null}
                                         {item.resultAdmin === 2 ?
-                                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                                <Text> {'\u2714'} </Text>
-                                                Ergebnisübertrag aus Papierbogen</Text> : null}
-                                        <Text numberOfLines={1} style={styles.centeredText100}>
-                                            <Text style={styles.textGreen}> {'\u2714'} </Text>Ergebnis bestätigt
-                                        </Text>
+                                            <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                                                <TextC> {'\u2714'} </TextC>
+                                                Ergebnisübertrag aus Papierbogen</TextC> : null}
+                                        <TextC numberOfLines={1} style={style().centeredText100}>
+                                            <TextC style={style().textGreen}> {'\u2714'} </TextC>Ergebnis bestätigt
+                                        </TextC>
                                     </View>
-                                    : <Text numberOfLines={1}
-                                            style={styles.textRed}>{global.hintAutoUpdateResults}</Text>}
+                                    : <TextC numberOfLines={1}
+                                             style={style().textRed}>{global.hintAutoUpdateResults}</TextC>}
                             </View> : null}
 
                         {item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
-                            <View style={[styles.centeredText100, styles.viewCentered]}>
+                            <View style={[style().centeredText100, style().viewCentered]}>
                                 {item.round.autoUpdateResults
                                 || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin'
                                 || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
-                                    <Text numberOfLines={1}
-                                          style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                    <TextC numberOfLines={1}
+                                           style={[style().centeredText100, style().big1, style().textRed]}>
                                         {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id] ?? 0) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
-                                    </Text>
+                                    </TextC>
                                     :
-                                    <Text style={styles.textRed}>{global.hintAutoUpdateResults}</Text>
+                                    <TextC style={style().textRed}>{global.hintAutoUpdateResults}</TextC>
                                 }
                                 {item.logsCalc.isMatchLive ?
-                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                        Live!</Text> : null}
+                                    <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                                        Live!</TextC> : null}
                                 {item.logsCalc.isMatchEnded ?
-                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                        Spiel beendet</Text> : null}
+                                    <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                                        Spiel beendet</TextC> : null}
                                 {item.logsCalc.isMatchEnded && !item.logsCalc.isResultConfirmed ?
-                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                        Ergebnis noch nicht bestätigt</Text> : null}
+                                    <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                                        Ergebnis noch nicht bestätigt</TextC> : null}
                             </View> : null}
-                        <Text> </Text>
+                        <TextC> </TextC>
                         {item.canceled > 0 ?
-                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
-                                Das Spiel fällt aus!</Text> : null}
+                            <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                                Das Spiel fällt aus!</TextC> : null}
                         {item.canceled === 1 || item.canceled === 3 ?
-                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                            <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
                                 {item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen
-                            </Text> : null}
+                            </TextC> : null}
                         {item.canceled === 2 || item.canceled === 3 ?
-                            <Text numberOfLines={1} style={[styles.centeredText100, styles.textRed]}>
+                            <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
                                 {item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen
-                            </Text> : null}
+                            </TextC> : null}
 
                         {item.isTime2login && !item.canceled ?
                             (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?
                                 (window?.location?.hostname === 'api.quattfo.de' ? null
                                     :
                                     <Pressable
-                                        style={[styles.button1, (item.logsCalc.isLoggedIn ? styles.buttonGrey : styles.buttonGreen)]}
+                                        style={[style().button1, (item.logsCalc.isLoggedIn ? style().buttonGrey : style().buttonGreen)]}
                                         onPress={() => setModalVisible(true)}
                                         disabled={(!!item.logsCalc.isLoggedIn)}
                                     >
-                                        <Text style={styles.textButton1}>
+                                        <TextC style={style().textButton1}>
                                             <Icon name="login" size={30}/>
                                             {item.logsCalc.isLoggedIn ? 'Spielprotokollierung bereits gestartet' :
                                                 item.logsCalc.isMatchConcluded ? 'Fotos hochladen' :
                                                     item.logsCalc.isMatchStarted ? 'Spielprotokollierung fortsetzen' :
                                                         'Jetzt einloggen\nund Spielprotokollierung starten'
                                             }
-                                        </Text>
+                                        </TextC>
                                     </Pressable>) : null) : null}
 
                         {(!item.isTime2login || global.settings.isTest) && item.logsCalc.photos?.length > 0 ?
-                            <View style={styles.matchflexRowView}>
+                            <View style={style().matchflexRowView}>
                                 {item.logsCalc.photos?.map(photo =>
                                     (route.name === 'MatchDetailsAdmin' || photo.checked !== 0 ?
-                                        <View key={photo.id} style={styles.matchImg}>
+                                        <View key={photo.id} style={style().matchImg}>
                                             <Pressable
                                                 onPress={() => {
                                                     if (route.name === 'MatchDetailsAdmin' || photo.checked) {
@@ -179,8 +179,8 @@ export default function MatchDetailsScreen({navigation}) {
                                             >
                                                 <Image
                                                     style={[{width: 120, height: 90, resizeMode: 'contain'},
-                                                        route.name === 'MatchDetailsAdmin' && photo.checked === 0 ? styles.borderRed : null,
-                                                        route.name === 'MatchDetailsAdmin' && photo.checked === null ? styles.borderBlue : null
+                                                        route.name === 'MatchDetailsAdmin' && photo.checked === 0 ? style().borderRed : null,
+                                                        route.name === 'MatchDetailsAdmin' && photo.checked === null ? style().borderBlue : null
                                                     ]}
                                                     source={photo.checked || route.name === 'MatchDetailsAdmin' ?
                                                         {uri: global.baseUrl + 'webroot/img/' + item.group.year.name + '/thumbs/' + item.id + '_' + photo.id + '.jpg'}
@@ -208,6 +208,6 @@ export default function MatchDetailsScreen({navigation}) {
                         />
                     </ScrollView>
                 )
-                : <Text>Fehler!</Text>)
+                : <TextC>Fehler!</TextC>)
     );
 }

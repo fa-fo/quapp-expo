@@ -1,8 +1,8 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import fetchApi from '../../components/fetchApi';
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import CellVariantMatches from "../../components/cellVariantMatches";
 import * as DateFunctions from "../../components/functions/DateFunctions";
@@ -52,13 +52,13 @@ export default function AdminMatchPhotosScreen({navigation}) {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
-            <Text>Bisher {data?.object?.okCount} ok - {data?.object?.notOkCount} notOk --
-                noch {data?.object?.toCheck.length - photoKey} Fotos zu prüfen</Text>
+            <TextC>Bisher {data?.object?.okCount} ok - {data?.object?.notOkCount} notOk --
+                noch {data?.object?.toCheck.length - photoKey} Fotos zu prüfen</TextC>
             <View>
                 {isLoading ? null :
                     (data?.status === 'success' ?
                         <View>
-                            <View style={[styles.matchflexEventsView, {height: 600}]}>
+                            <View style={[style().matchflexEventsView, {height: 600}]}>
                                 {data.object.toCheck[photoKey] ?
                                     <View style={{
                                         position: 'absolute',
@@ -71,39 +71,39 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                             style={{width: '100%', height: 600, resizeMode: 'contain'}}
                                             source={{uri: global.baseUrl + 'webroot/img/' + data.year.name + '/original/' + data.object.toCheck[photoKey].match_id + '_' + data.object.toCheck[photoKey].id + '.jpg'}}
                                         />
-                                        <View style={styles.toprightButtonContainer}>
+                                        <View style={style().toprightButtonContainer}>
                                             <Pressable
-                                                style={[styles.button1, styles.buttonEvent, styles.buttonRed]}
+                                                style={[style().button1, style().buttonEvent, style().buttonRed]}
                                                 onPress={() => setCheck(0)}
                                             >
                                                 <IconMat name='delete-outline' size={48} color='#fff'/>
                                             </Pressable>
                                         </View>
-                                        <View style={styles.bottomButtonContainer}>
+                                        <View style={style().bottomButtonContainer}>
                                             <Pressable
-                                                style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
+                                                style={[style().button1, style().buttonEvent, style().buttonGreen]}
                                                 onPress={() => setCheck(1)}
                                             >
                                                 <IconMat name='eye-check' size={48} color='#fff'/>
-                                                <Text style={[styles.textButton1, {textAlign: 'center'}]}>OK</Text>
+                                                <TextC style={[style().textButton1, {textAlign: 'center'}]}>OK</TextC>
                                             </Pressable>
                                         </View>
                                     </View>
                                     :
                                     <View>
-                                        <Text>keine Fotos zu prüfen</Text>
+                                        <TextC>keine Fotos zu prüfen</TextC>
                                         <Pressable
-                                            style={[styles.button1, styles.buttonEvent, styles.buttonGreen]}
+                                            style={[style().button1, style().buttonEvent, style().buttonGreen]}
                                             onPress={loadScreenData}
                                         >
                                             <IconMat name='reload' size={48} color='#fff'/>
-                                            <Text style={[styles.textButton1, {textAlign: 'center'}]}>Suchen</Text>
+                                            <TextC style={[style().textButton1, {textAlign: 'center'}]}>Suchen</TextC>
                                         </Pressable>
                                     </View>
                                 }
                             </View>
                             <View>
-                                <Text>Letzte Prüfergebnisse:</Text>
+                                <TextC>Letzte Prüfergebnisse:</TextC>
                                 {data.object?.lastChecked?.map(item =>
                                     <CellVariantMatches
                                         key={item.id}
@@ -117,7 +117,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                 )}
                             </View>
                         </View>
-                        : <Text>Fehler!</Text>)}
+                        : <TextC>Fehler!</TextC>)}
             </View>
         </ScrollView>
     );

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {RefreshControl, ScrollView, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantBalance from '../../components/cellVariantBalance';
@@ -34,38 +34,38 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
-                        <TableView appearance="light">
+                        <TableView appearance={global.colorScheme}>
                             <Section headerComponent={
                                 <View>
-                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                    <View style={[style().matchflexRowView, style().headerComponentView]}>
                                         <View style={{flex: 2}}>
-                                            <Text style={{fontSize: 18}}>{route.params.team.team_name}</Text>
-                                            <Text>{'Gesamtbilanz seit 2022 (nur ausgetragene Spiele):'}</Text>
-                                            <Text>{(data.object['total'][1] ?? 0) + ' Siege'} - {(data.object['total'][0] ?? 0) + ' Unentschieden'} - {(data.object['total'][2] ?? 0) + ' Niederlagen'}</Text>
-                                            <Text>{'\n'}</Text>
+                                            <TextC style={{fontSize: 18}}>{route.params.team.team_name}</TextC>
+                                            <TextC>{'Gesamtbilanz seit 2022 (nur ausgetragene Spiele):'}</TextC>
+                                            <TextC>{(data.object['total'][1] ?? 0) + ' Siege'} - {(data.object['total'][0] ?? 0) + ' Unentschieden'} - {(data.object['total'][2] ?? 0) + ' Niederlagen'}</TextC>
+                                            <TextC>{'\n'}</TextC>
                                         </View>
                                     </View>
-                                    <View style={styles.matchflexRowView}>
+                                    <View style={style().matchflexRowView}>
                                         <View style={{alignSelf: 'center', flex: 2.4}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}> </Text>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}> </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Siege
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Unent.
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{alignSelf: 'center', flex: 2}}>
-                                            <Text numberOfLines={1} style={styles.textRankingStats}>
+                                            <TextC numberOfLines={1} style={style().textRankingStats}>
                                                 Nied.
-                                            </Text>
+                                            </TextC>
                                         </View>
                                         <View style={{flex: 1}}>
-                                            <Text> </Text>
+                                            <TextC> </TextC>
                                         </View>
                                     </View>
                                 </View>
@@ -85,7 +85,7 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
                             </Section>
                         </TableView>
                     </View>
-                ) : <Text>keine Spiele gefunden!</Text>)}
+                ) : <TextC>keine Spiele gefunden!</TextC>)}
         </ScrollView>
     );
 }

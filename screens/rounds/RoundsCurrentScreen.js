@@ -1,12 +1,12 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import {useRoute} from '@react-navigation/native';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 
 export default function RoundsCurrentScreen({navigation}) {
     const route = useRoute();
@@ -31,17 +31,17 @@ export default function RoundsCurrentScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.rounds?.length > 0 ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section
                             header={global.currentDayName}
                             headerComponent={route.name !== 'RoundsCurrent' ?
-                                <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                <View style={[style().matchflexRowView, style().headerComponentView]}>
                                     <View style={{flex: 2}}>
-                                        <Text>{global.currentDayName}</Text>
+                                        <TextC>{global.currentDayName}</TextC>
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                                         <Pressable
-                                            style={[styles.button1, styles.buttonConfirm, styles.buttonGreen]}
+                                            style={[style().button1, style().buttonConfirm, style().buttonGreen]}
                                             onPress={() => navigation.navigate(
                                                 route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesManager'
                                                     :
@@ -51,14 +51,14 @@ export default function RoundsCurrentScreen({navigation}) {
                                                     roundsCount: data.object.rounds.length,
                                                 })}
                                         >
-                                            <Text numberOfLines={1} style={styles.textButton1}>
+                                            <TextC numberOfLines={1} style={style().textButton1}>
                                                 {route.name === 'RoundsCurrentSupervisor' ? 'zur Manager-Ansicht'
                                                     :
                                                     route.name === 'RoundsCurrentAdmin' ? 'zur Admin-Auto-Ansicht'
                                                         :
                                                         ''
                                                 }
-                                            </Text>
+                                            </TextC>
                                         </Pressable>
                                     </View>
                                 </View> : null
@@ -84,7 +84,7 @@ export default function RoundsCurrentScreen({navigation}) {
                             ))}
                         </Section>
                     </TableView>
-                ) : <Text>Keine Spielrunden gefunden!</Text>)}
+                ) : <TextC>Keine Spielrunden gefunden!</TextC>)}
         </ScrollView>
     );
 }

@@ -1,15 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
-import {
-    ActivityIndicator,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View
-} from 'react-native';
+import {ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput, View} from 'react-native';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {useKeepAwake} from 'expo-keep-awake';
 import fetchApi from '../../components/fetchApi';
@@ -23,7 +14,7 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
 import IconIon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import styles from '../../assets/styles.js';
+import {style} from '../../assets/styles.js';
 
 export default function MatchLogsScreen({navigation}) {
     const isFocused = useIsFocused();
@@ -336,24 +327,24 @@ export default function MatchLogsScreen({navigation}) {
         if ((code === 'ON_PLACE_REF' && !liveLogsCalc.isRefereeOnPlace)
             || (code === 'ON_PLACE_TEAM1' && !liveLogsCalc.isTeam1OnPlace)
             || (code === 'ON_PLACE_TEAM2' && !liveLogsCalc.isTeam2OnPlace)) {
-            return tagName === 'Text' ? styles.textButton1 : styles.buttonGreyDark;
+            return tagName === 'Text' ? style().textButton1 : style().buttonGreyDark;
 
         } else if ((code === 'RESULT_WIN_NONE' && liveLogsCalc.teamWon !== 0)
             || (code === 'RESULT_WIN_TEAM1' && liveLogsCalc.teamWon !== 1)
             || (code === 'RESULT_WIN_TEAM2' && liveLogsCalc.teamWon !== 2)) {
-            return tagName === 'Text' ? styles.textButton1 : [styles.buttonGreyDark, {borderWidth: getButtonBorderWidth(code)}];
+            return tagName === 'Text' ? style().textButton1 : [style().buttonGreyDark, {borderWidth: getButtonBorderWidth(code)}];
 
         } else if (code.substring(0, 5) === 'FOUL_') {
-            return tagName === 'Text' ? [styles.textButton1, styles.textButtonFoul, {textDecorationColor: FoulFunctions.getFoulColor(code)}] : styles.buttonGrey;
+            return tagName === 'Text' ? [style().textButton1, style().textButtonFoul, {textDecorationColor: FoulFunctions.getFoulColor(code)}] : style().buttonGrey;
 
         } else if (code === 'MATCH_START' || code === 'MATCH_END' || code === 'MATCH_CONCLUDE') {
-            return tagName === 'Text' ? [styles.textButton1, showButtonArrow(liveLogsCalc) ? styles.big22 : null] : styles.buttonGreen;
+            return tagName === 'Text' ? [style().textButton1, showButtonArrow(liveLogsCalc) ? style().big22 : null] : style().buttonGreen;
 
         } else if (code === 'LOGOUT') {
-            return tagName === 'Text' ? styles.textButton1 : styles.buttonRed;
+            return tagName === 'Text' ? style().textButton1 : style().buttonRed;
 
         } else {
-            return tagName === 'Text' ? styles.textButton1 : styles.buttonGreen;
+            return tagName === 'Text' ? style().textButton1 : style().buttonGreen;
         }
     };
 
@@ -385,16 +376,16 @@ export default function MatchLogsScreen({navigation}) {
                         return null;
                 }
             case 'GOAL_2POINT':
-                return <Text>
+                return <TextC>
                     <IconIon name="basketball" size={15}/>
                     <IconIon name="basketball" size={15}/>
-                </Text>
+                </TextC>
             case 'GOAL_3POINT':
-                return <Text>
+                return <TextC>
                     <IconIon name="basketball" size={15}/>
                     <IconIon name="basketball" size={15}/>
                     <IconIon name="basketball" size={15}/>
-                </Text>
+                </TextC>
             case 'FOUL_CARD_YELLOW':
             case 'FOUL_CARD_RED_FB':
             case 'FOUL_CARD_RED_HB':
@@ -440,13 +431,13 @@ export default function MatchLogsScreen({navigation}) {
 
     let getButtonSize = function (code) {
             if (code === 'GOAL_1POINT' && route.params.item.sport.name !== 'Basketball') {
-                return styles.buttonBigBB3;
+                return style().buttonBigBB3;
             } else if (code === 'GOAL_1POINT' && route.params.item.sport.name === 'Basketball') {
-                return styles.buttonBigBB1;
+                return style().buttonBigBB1;
             } else if (code === 'GOAL_2POINT' && route.params.item.sport.name === 'Basketball') {
-                return styles.buttonBigBB2;
+                return style().buttonBigBB2;
             } else if (code === 'GOAL_3POINT' && route.params.item.sport.name === 'Basketball') {
-                return styles.buttonBigBB3;
+                return style().buttonBigBB3;
             } else if (
                 code === 'MATCH_START'
                 || code === 'MATCH_END'
@@ -454,7 +445,7 @@ export default function MatchLogsScreen({navigation}) {
                 || code === 'PHOTO_ADD'
                 || code === 'LOGOUT'
             ) {
-                return styles.buttonBig1;
+                return style().buttonBig1;
             } else {
                 return '';
             }
@@ -483,7 +474,7 @@ export default function MatchLogsScreen({navigation}) {
     function getButton(eventItem, teamId, teamName) {
         return (
             <Pressable
-                style={[styles.button1, styles.buttonEvent, {width: '80%'},
+                style={[style().button1, style().buttonEvent, {width: '80%'},
                     getButtonStyle(eventItem.code, 'Pressable'),
                     getButtonSize(eventItem.code)]}
                 onPress={async () => {
@@ -503,7 +494,7 @@ export default function MatchLogsScreen({navigation}) {
                 }}
                 disabled={isButtonDisabled(eventItem.code)}
             >
-                <Text
+                <TextC
                     style={getButtonStyle(eventItem.code, 'Text')}
                     adjustsFontSizeToFit={eventItem.code === 'MATCH_START'}
                     numberOfLines={eventItem.code.substring(0, 5) === 'FOUL_' || eventItem.code === 'MATCH_START' ? 1 : 2}
@@ -511,8 +502,8 @@ export default function MatchLogsScreen({navigation}) {
                     {getButtonIcon(eventItem.code)}
                     {getButtonText(eventItem.code, eventItem.name)}
                     {teamName !== null ? '\n' : null}
-                    {teamName !== null ? <Text numberOfLines={1}>{teamName}</Text> : null}
-                </Text>
+                    {teamName !== null ? <TextC numberOfLines={1}>{teamName}</TextC> : null}
+                </TextC>
             </Pressable>
         );
     }
@@ -525,49 +516,51 @@ export default function MatchLogsScreen({navigation}) {
                 enabled
                 keyboardVerticalOffset={Platform.select({ios: 120, android: 160})}
             >
-                <ScrollView ref={scrollRef} contentContainerStyle={styles.matchDetailsView}>
-                    <View style={styles.matchflexRowView}>
+                <ScrollView ref={scrollRef} contentContainerStyle={style().matchDetailsView}>
+                    <View style={style().matchflexRowView}>
                         <View style={{flex: 5}}>
-                            <Text style={[styles.centeredText100, styles.big2a]} numberOfLines={2} adjustsFontSizeToFit>
+                            <TextC style={[style().centeredText100, style().big2a]} numberOfLines={2}
+                                   adjustsFontSizeToFit>
                                 {teamA_name}
-                            </Text>
+                            </TextC>
                         </View>
                         <View style={{flex: 1}}>
-                            <Pressable style={[styles.button1, styles.viewStatus, styles.buttonGreen]}
+                            <Pressable style={[style().button1, style().viewStatus, style().buttonGreen]}
                                        onPress={() => setTeamsSwapped(!teamsSwapped)}>
-                                <Text style={[styles.centeredText100, styles.textButton1]}>
+                                <TextC style={[style().centeredText100, style().textButton1]}>
                                     <IconMat name={'swap-horizontal-bold'} size={20}/>
-                                </Text>
+                                </TextC>
                             </Pressable>
-                            <Text style={[styles.centeredText100, styles.big2a, styles.small]}>vs</Text>
+                            <TextC style={[style().centeredText100, style().big2a, style().small]}>vs</TextC>
                         </View>
                         <View style={{flex: 5}}>
-                            <Text style={[styles.centeredText100, styles.big2a]} numberOfLines={2} adjustsFontSizeToFit>
+                            <TextC style={[style().centeredText100, style().big2a]} numberOfLines={2}
+                                   adjustsFontSizeToFit>
                                 {teamB_name}
-                            </Text>
+                            </TextC>
                         </View>
                     </View>
-                    <View style={styles.matchflexEventsView}>
-                        <Text> </Text>
-                        <Text style={styles.centeredText100} adjustsFontSizeToFit>
+                    <View style={style().matchflexEventsView}>
+                        <TextC> </TextC>
+                        <TextC style={style().centeredText100} adjustsFontSizeToFit>
                             {liveLogsCalc.isMatchEnded ? 'Endstand' : 'Spielstand'}:
-                        </Text>
-                        <View style={styles.matchflexRowView}>
+                        </TextC>
+                        <View style={style().matchflexRowView}>
                             <View style={{flex: 5}}>
-                                <Text style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                <TextC style={[style().centeredText100, style().big1, style().textRed]}>
                                     {teamsSwapped ? score2 : score1}
-                                </Text>
+                                </TextC>
                             </View>
                             <View style={{flex: 1}}>
-                                <Text style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                <TextC style={[style().centeredText100, style().big1, style().textRed]}>
                                     {isSendingEvent ?
                                         <ActivityIndicator size="large" color="#00ff00"/> : ':'}
-                                </Text>
+                                </TextC>
                             </View>
                             <View style={{flex: 5}}>
-                                <Text style={[styles.centeredText100, styles.big1, styles.textRed]}>
+                                <TextC style={[style().centeredText100, style().big1, style().textRed]}>
                                     {teamsSwapped ? score1 : score2}
-                                </Text>
+                                </TextC>
                             </View>
                         </View>
                         {liveLogsCalc.isMatchLive
@@ -577,55 +570,55 @@ export default function MatchLogsScreen({navigation}) {
                             (score1 <= (parseInt(liveLogsCalc.score[teamsSwapped ? teamB_id : teamA_id]) || 0)
                                 && score2 <= (parseInt(liveLogsCalc.score[teamsSwapped ? teamA_id : teamB_id]) || 0)))
                             ?
-                            <View style={styles.matchPressableView}>
+                            <View style={style().matchPressableView}>
                                 <Pressable
-                                    style={[styles.button1, styles.buttonConfirm, styles.buttonGreyBright, {width: '50%'}]}
+                                    style={[style().button1, style().buttonConfirm, style().buttonGreyBright, {width: '50%'}]}
                                     onPress={() => {
                                         setCancelEventModalVisible(true);
                                     }}
                                 >
-                                    <Text numberOfLines={1} style={[styles.centeredText100, styles.small]}>
+                                    <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>
                                         <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
-                                    </Text>
+                                    </TextC>
                                 </Pressable>
                             </View>
                             : null}
                     </View>
-                    <View style={styles.matchflexEventsView}>
+                    <View style={style().matchflexEventsView}>
                         {!liveLogsCalc.isMatchStarted ?
-                            <Text
-                                style={[styles.centeredText100, styles.big3]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</Text> : null}
+                            <TextC
+                                style={[style().centeredText100, style().big3]}>{'Herzlich Willkommen zum heutigen Spiel!\n  '}</TextC> : null}
                         {liveLogsCalc.isMatchConcluded ?
-                            <Text style={[styles.centeredText100, styles.big3]}>Das Spiel ist abgeschlossen, vielen
-                                Dank!{'\n'}</Text> : null}
+                            <TextC style={[style().centeredText100, style().big3]}>Das Spiel ist abgeschlossen, vielen
+                                Dank!{'\n'}</TextC> : null}
                         {liveLogsCalc.isMatchConcluded && liveLogsCalc.photos?.length > 0 ?
-                            <Text style={[styles.centeredText100, styles.big22]}>
-                                <Text style={styles.textGreen}> {'\u2714'}</Text>
+                            <TextC style={[style().centeredText100, style().big22]}>
+                                <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                 {liveLogsCalc.photos.length} Foto{liveLogsCalc.photos?.length > 1 ? 's' : ''} hochgeladen
-                            </Text> : null}
+                            </TextC> : null}
 
-                        {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={styles.actInd}/> :
+                        {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                             (allEvents.status === 'success' ?
                                 allEvents.object.map(eventItem =>
                                     showRelatedOnMatchPhase(eventItem.code) ?
                                         showRelatedOnSports(eventItem.showOnSportsOnly) ?
                                             <View key={eventItem.id} style={{width: '100%'}}>
                                                 {eventItem.textHeaderBeforeButton !== null ?
-                                                    <Text
-                                                        style={styles.centeredText100}>{eventItem.textHeaderBeforeButton}</Text> : null}
+                                                    <TextC
+                                                        style={style().centeredText100}>{eventItem.textHeaderBeforeButton}</TextC> : null}
                                                 {eventItem.code.substring(0, 5) === 'GOAL_' ? // two buttons (for each Team) for goals events
-                                                    <View style={styles.matchflexRowView}>
-                                                        <View style={[styles.viewRight, {flex: 1}]}>
+                                                    <View style={style().matchflexRowView}>
+                                                        <View style={[style().viewRight, {flex: 1}]}>
                                                             {getButton(eventItem, teamA_id, teamA_name)}
                                                         </View>
-                                                        <View style={[styles.viewLeft, {flex: 1}]}>
+                                                        <View style={[style().viewLeft, {flex: 1}]}>
                                                             {getButton(eventItem, teamB_id, teamB_name)}
                                                         </View>
                                                     </View>
                                                     :
-                                                    <View style={styles.matchflexRowView}>
+                                                    <View style={style().matchflexRowView}>
                                                         {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, teamA_id, diff)}
-                                                        <View style={[styles.viewCentered, {flex: 2}]}>
+                                                        <View style={[style().viewCentered, {flex: 2}]}>
                                                             {getButton(eventItem, null, null)}
                                                         </View>
                                                         {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, teamB_id, diff)}
@@ -633,11 +626,11 @@ export default function MatchLogsScreen({navigation}) {
                                                 }
                                                 {eventItem.code === 'RESULT_WIN_TEAM2' && liveLogsCalc.isMatchEnded && !liveLogsCalc.isMatchConcluded && liveLogsCalc.teamWon !== undefined ?
                                                     <View>
-                                                        <Text style={styles.centeredText100}>
+                                                        <TextC style={style().centeredText100}>
                                                             Besondere Vorkommnisse bzw. Kommentar des Schiedsrichters:
-                                                        </Text>
+                                                        </TextC>
                                                         <TextInput
-                                                            style={styles.textInput}
+                                                            style={style().textInput}
                                                             multiline={true}
                                                             numberOfLines={4}
                                                             onChangeText={setRemarks}
@@ -648,23 +641,23 @@ export default function MatchLogsScreen({navigation}) {
                                                     : null}
                                                 {eventItem.code === 'MATCH_CONCLUDE' ?
                                                     <View>
-                                                        <Text style={styles.centeredText100}>
+                                                        <TextC style={style().centeredText100}>
                                                             Nach dem Abschließen könnt ihr noch Fotos hochladen.
-                                                        </Text>
+                                                        </TextC>
                                                     </View>
                                                     : null}
                                             </View>
                                             : null : null
                                 )
-                                : <Text>Fehler!</Text>)}
+                                : <TextC>Fehler!</TextC>)}
                         {!liveLogsCalc.isMatchReadyToStart && !liveLogsCalc.isMatchStarted ?
-                            <Text style={styles.centeredText100}>
-                                Alle 3 Buttons müssen <Text style={styles.textGreen}>grün</Text> sein,
+                            <TextC style={style().centeredText100}>
+                                Alle 3 Buttons müssen <TextC style={style().textGreen}>grün</TextC> sein,
                                 damit es losgehen kann!
-                            </Text>
+                            </TextC>
                             : null}
                     </View>
-                    <Text> </Text>
+                    <TextC> </TextC>
 
                     <MatchLogsAddEventModal
                         match={route.params.item}

@@ -1,12 +1,12 @@
 // re-add "expo-speech": "~11.3.0","expo-av": "~13.4.1",
 
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import fetchApi from "../../components/fetchApi";
 import {format, intervalToDuration, parseISO} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 //import {Audio} from 'expo-av';
 import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
@@ -108,8 +108,8 @@ export default function AutoPilotSupervisorScreen({navigation}) {
             setNow(now);
             setMatchTime(
                 <View>
-                    <Text style={[styles.big1, neg ? styles.textRed : null]}>{mainTimer}</Text>
-                    <Text style={[styles.big1, styles.big3, styles.textRed]}>{countdown}</Text>
+                    <TextC style={[style().big1, neg ? style().textRed : null]}>{mainTimer}</TextC>
+                    <TextC style={[style().big1, style().big3, style().textRed]}>{countdown}</TextC>
                 </View>);
         }
     }
@@ -198,18 +198,18 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             <View style={{position: 'absolute', right: 5, top: 5}}>
-                <Text>{format(now, "HH:mm:ss")}</Text>
+                <TextC>{format(now, "HH:mm:ss")}</TextC>
             </View>
             <Pressable
-                style={[styles.button1, styles.buttonBigBB1, (autoPilot ? styles.buttonRed : styles.buttonGreen)]}
+                style={[style().button1, style().buttonBigBB1, (autoPilot ? style().buttonRed : style().buttonGreen)]}
                 onPress={() => setAutoPilot(!autoPilot)}>
-                <Text numberOfLines={1} style={styles.textButton1}>
+                <TextC numberOfLines={1} style={style().textButton1}>
                     Auto-Pilot {autoPilot ? 'ausschalten' : 'einschalten'}
-                </Text>
+                </TextC>
             </Pressable>
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.rounds?.length > 0 ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section header={global.currentDayName}>
                             {data.object.rounds.map(item =>
                                 (item.id >= currentRoundId ?
@@ -226,7 +226,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                                 ))}
                         </Section>
                     </TableView>
-                ) : <Text>Keine Spielrunden gefunden!</Text>)}
+                ) : <TextC>Keine Spielrunden gefunden!</TextC>)}
         </ScrollView>
     );
 }

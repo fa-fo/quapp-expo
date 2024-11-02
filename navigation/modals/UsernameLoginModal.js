@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useRef, useState} from 'react';
-import {Modal, Pressable, Text, TextInput, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, TextInput, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import fetchApi from '../../components/fetchApi';
 
 export default function UsernameLoginModal({
@@ -52,15 +52,15 @@ export default function UsernameLoginModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>
                         {'Hier bitte ' +
                         capitalizeFirstLetter(username) +
                         '-Passwort eingeben:'}
-                    </Text>
+                    </TextC>
                     <TextInput
-                        style={styles.textInput}
+                        style={style().textInput}
                         onChangeText={setUsernamePW}
                         placeholder="Hier Passwort eingeben"
                         keyboardType="default"
@@ -70,25 +70,25 @@ export default function UsernameLoginModal({
                         onSubmitEditing={() => tryLogin()}
                     />
                     {textPWWrongVisible ? (
-                        <Text style={styles.failureText}>falsches PW?</Text>
+                        <TextC style={style().failureText}>falsches PW?</TextC>
                     ) : null}
-                    <Text>
+                    <TextC>
                         {usernamePW === '' ?
-                            <Text style={styles.failureText}>Bitte Passwort eingeben</Text>
+                            <TextC style={style().failureText}>Bitte Passwort eingeben</TextC>
                             : ''}
-                    </Text>
+                    </TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGreen]}
+                        style={[style().button1, style().buttonGreen]}
                         onPress={() => tryLogin()}>
-                        <Text style={styles.textButton1}>
+                        <TextC style={style().textButton1}>
                             {'Als ' + capitalizeFirstLetter(username) + ' einloggen'}
-                        </Text>
+                        </TextC>
                     </Pressable>
-                    <Text> </Text>
+                    <TextC> </TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

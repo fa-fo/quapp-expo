@@ -1,13 +1,14 @@
-import * as React from 'react';
+import TextC from "../../../components/customText";
 import {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, Image, Modal, Pressable, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
-import styles from '../../../assets/styles.js';
+import {ActivityIndicator, Image, Modal, Pressable, StyleSheet, useWindowDimensions, View} from 'react-native';
+import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {Camera, CameraType} from "expo-camera";
 
 import * as ScreenOrientation from 'expo-screen-orientation';
+import * as ColorFunctions from "../../../components/functions/ColorFunctions";
 
 
 export default function MatchLogsPhotoModal({
@@ -107,23 +108,23 @@ export default function MatchLogsPhotoModal({
             setModalVisible(false);
         }}
     >
-        <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{flex: 1, backgroundColor: ColorFunctions.getColor('primaryBg')}}>
             {hasPermission && !hasPermission.granted ? (
-                    <View style={[styles.modalView, StyleSheet.absoluteFill, styles.centeredView]}>
-                        <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Bitte die Fotos im Querformat
-                            aufnehmen.</Text>
-                        <Text style={{textAlign: 'center'}}>Wir brauchen deine Erlaubnis, um die Kamera zu
-                            nutzen:</Text>
-                        <Pressable style={[styles.button1, styles.buttonBig1, styles.buttonGreen]}
+                    <View style={[style().modalView, StyleSheet.absoluteFill, style().centeredView]}>
+                        <TextC style={{textAlign: 'center', fontWeight: 'bold'}}>Bitte die Fotos im Querformat
+                            aufnehmen.</TextC>
+                        <TextC style={{textAlign: 'center'}}>Wir brauchen deine Erlaubnis, um die Kamera zu
+                            nutzen:</TextC>
+                        <Pressable style={[style().button1, style().buttonBig1, style().buttonGreen]}
                                    onPress={requestPermission}>
-                            <Text style={[styles.textButton1, styles.teamInfos, {textAlign: 'center'}]}>Erlaubnis
-                                gewähren</Text>
+                            <TextC style={[style().textButton1, style().teamInfos, {textAlign: 'center'}]}>Erlaubnis
+                                gewähren</TextC>
                         </Pressable>
-                        <Pressable style={[styles.button1, styles.buttonGrey]}
+                        <Pressable style={[style().button1, style().buttonGrey]}
                                    onPress={() => {
                                        setModalVisible(false);
                                    }}>
-                            <Text style={styles.textButton1}>abbrechen</Text>
+                            <TextC style={style().textButton1}>abbrechen</TextC>
                         </Pressable>
                     </View>)
                 :
@@ -142,32 +143,32 @@ export default function MatchLogsPhotoModal({
                             enableZoomGesture={true}
                             orientation="landscape-right"
                         />
-                        <View style={styles.topleftButtonContainer}>
+                        <View style={style().topleftButtonContainer}>
                             <Pressable onPress={toggleCameraType}>
                                 <IconMat name='camera-flip' size={48} color='green'/>
                             </Pressable>
                         </View>
-                        <View style={styles.toprightButtonContainer}>
+                        <View style={style().toprightButtonContainer}>
                             <Pressable onPress={() => {
                                 setModalVisible(false)
                             }}>
-                                <IconMat name='close' size={48} color='#000000'/>
+                                <IconMat name='close' size={48} color={ColorFunctions.getColor('primary')}/>
                             </Pressable>
                         </View>
-                        <View style={styles.bottomButtonContainer}>
-                            <Text style={{textAlign: 'right', width: 100}}>Bitte Foto im Querformat
-                                aufnehmen:</Text>
+                        <View style={style().bottomButtonContainer}>
+                            <TextC style={{textAlign: 'right', width: 100}}>Bitte Foto im Querformat
+                                aufnehmen:</TextC>
                             <Pressable
-                                style={[styles.button1, styles.buttonGreen]}
+                                style={[style().button1, style().buttonGreen]}
                                 onPress={onSnap}
                             >
                                 {isBusy ?
                                     <ActivityIndicator size={55} color="white"/>
                                     :
                                     <IconMat name='camera' size={55} color='white'/>}
-                                <Text style={[styles.textButton1, {textAlign: 'center'}]}>
+                                <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                                     Snap
-                                </Text>
+                                </TextC>
                             </Pressable>
                         </View>
                     </View>
@@ -185,24 +186,24 @@ export default function MatchLogsPhotoModal({
                                 alignSelf: "center"
                             }}
                         /> : null}
-                    <View style={styles.toprightButtonContainer}>
+                    <View style={style().toprightButtonContainer}>
                         <Pressable
-                            style={[styles.button1, styles.buttonEvent, styles.buttonRed]}
+                            style={[style().button1, style().buttonEvent, style().buttonRed]}
                             onPress={cancelPreview}
                         >
                             <IconMat name='delete-forever-outline' size={48} color='#fff'/>
                         </Pressable>
                     </View>
-                    <View style={styles.bottomButtonContainer}>
+                    <View style={style().bottomButtonContainer}>
                         <Pressable
-                            style={[styles.button1, styles.buttonGreen]}
+                            style={[style().button1, style().buttonGreen]}
                             onPress={onSend}
                         >
                             {isBusy ?
                                 <ActivityIndicator size={55} color="white"/>
                                 :
                                 <IconMat name='send-check' size={55} color='#fff'/>}
-                            <Text style={styles.textButton1}>Absenden</Text>
+                            <TextC style={style().textButton1}>Absenden</TextC>
                         </Pressable>
                     </View>
                 </View>

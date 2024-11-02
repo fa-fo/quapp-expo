@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {Text, View} from 'react-native';
+import TextC from "../components/customText";
+import {View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 
 export default function CellVariantRankingSubst(props) {
@@ -15,25 +15,25 @@ export default function CellVariantRankingSubst(props) {
                         paddingVertical: 10,
                     }}>
                     <View style={{flex: 1, alignSelf: 'right'}}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
                             style={{fontSize: 16}}>
                             {props.rank}.
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{flex: 10, alignSelf: 'left'}}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
                             style={{fontSize: 16}}>
                             {props.title}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{flex: 1, alignSelf: 'left'}}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
                             style={{fontSize: 16}}>
                             {props.count}
-                        </Text>
+                        </TextC>
                     </View>
                 </View>
             }

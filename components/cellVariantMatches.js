@@ -1,8 +1,8 @@
-import * as React from 'react';
+import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Linking, Pressable, Text, View} from 'react-native';
+import {Image, Linking, Pressable, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import styles from '../assets/styles.js';
+import {style} from '../assets/styles.js';
 import SupervisorActionsModal from './modals/SupervisorActionsModal';
 import * as SportFunctions from './functions/SportFunctions';
 import * as ColorFunctions from "./functions/ColorFunctions";
@@ -41,7 +41,7 @@ export default function CellVariantMatches(props) {
                         paddingVertical: 4,
                     }}>
                     <View style={{flex: 1}}>
-                        <Text adjustsFontSizeToFit numberOfLines={1}
+                        <TextC adjustsFontSizeToFit numberOfLines={1}
                               style={{
                                   fontWeight:
                                       props.isMyTeam === 1 || props.isMyTeam === 2
@@ -49,113 +49,113 @@ export default function CellVariantMatches(props) {
                                           : 'normal',
                               }}>
                             {props.timeText}
-                        </Text>
-                        <Text adjustsFontSizeToFit numberOfLines={1}>
+                        </TextC>
+                        <TextC adjustsFontSizeToFit numberOfLines={1}>
                             {props.timeText2 ??
-                            <Text>
+                            <TextC>
                                 <Image
-                                    style={styles.sportImage}
+                                    style={style().sportImage}
                                     source={SportFunctions.getSportImage(props.item.sport.code)}
                                 />
                                 {props.item.sport.code}
                                 {props.isRefereeJob ?
-                                    <Text style={styles.textViolet}>
+                                    <TextC style={style().textViolet}>
                                         {'SR' + (props.item.teams4 ? '-E' : '') + (props.refereeGroupName !== props.item.group_name ? ' ' + props.item.group_name + '\u2762' : '')}
-                                    </Text> : null}
-                            </Text>
+                                    </TextC> : null}
+                            </TextC>
                             }
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{
                         flex: (props.item.canceled || props.team1Result !== null || props.isCurrentRound || props.item.isRefereeJobLoginRequired ? 3 : 3.6),
                         fontSize: 14
                     }}>
-                        <Text
+                        <TextC
                             numberOfLines={1}
                             style={[
                                 props.item.canceled === 1 || props.item.canceled === 3
-                                    ? styles.textRed
+                                    ? style().textRed
                                     : null,
                                 props.isMyTeam === 1 ? {fontWeight: 'bold'} : null,
                             ]}>
                             {props.item.teams1.name + (props.item.isTest ? '_test' : '')}
-                        </Text>
-                        <Text
+                        </TextC>
+                        <TextC
                             numberOfLines={1}
                             style={[
                                 props.item.canceled === 2 || props.item.canceled === 3
-                                    ? styles.textRed
+                                    ? style().textRed
                                     : null,
                                 props.isMyTeam === 2 ? {fontWeight: 'bold'} : null,
                             ]}>
                             {props.item.teams2.name + (props.item.isTest ? '_test' : '')}
-                        </Text>
+                        </TextC>
                         {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
-                            <Text numberOfLines={1} style={styles.textRed}>
-                                <Text
-                                    style={styles.textViolet}>SR</Text> {props.item.teams3.name + (props.item.isTest ? '_test' : '')}
-                            </Text>
+                            <TextC numberOfLines={1} style={style().textRed}>
+                                <TextC
+                                    style={style().textViolet}>SR</TextC> {props.item.teams3.name + (props.item.isTest ? '_test' : '')}
+                            </TextC>
                         ) : null}
                         {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' && props.item.teams4 ? (
-                            <Text numberOfLines={1} style={styles.textGreen}>
-                                <Text
-                                    style={styles.textViolet}>Ersatz-SR</Text> {props.item.teams4.name + (props.item.isTest ? '_test' : '')}
-                            </Text>
+                            <TextC numberOfLines={1} style={style().textGreen}>
+                                <TextC
+                                    style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name + (props.item.isTest ? '_test' : '')}
+                            </TextC>
                         ) : null}
                     </View>
 
                     {props.item.canceled && props.team1Result === null ?
                         <View style={{flex: 0.6, alignSelf: 'center'}}>
-                            <Text numberOfLines={1} adjustsFontSizeToFit
-                                  style={[styles.textRed, {fontSize: 16, textAlign: 'right'}]}>
+                            <TextC numberOfLines={1} adjustsFontSizeToFit
+                                  style={[style().textRed, {fontSize: 16, textAlign: 'right'}]}>
                                 abg.
-                            </Text>
+                            </TextC>
                         </View>
                         : (props.team1Result !== null ?
                             <View style={{flex: 0.6, fontSize: 14}}>
-                                <Text numberOfLines={1}
+                                <TextC numberOfLines={1}
                                       style={{
                                           fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
                                           textAlign: 'right',
                                       }}>
                                     {props.team1Result}
-                                </Text>
-                                <Text numberOfLines={1}
+                                </TextC>
+                                <TextC numberOfLines={1}
                                       style={{
                                           fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
                                           textAlign: 'right',
                                       }}>
                                     {props.team2Result}
-                                </Text>
+                                </TextC>
                             </View>
                             : (props.localScore ?
                                 <View style={{flex: 1.6, fontSize: 14}}>
                                     <Pressable
-                                        style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                                        style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                                         onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
                                             + encodeURIComponent('Ergebnis ' + props.item.id)
                                             + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
-                                        <Text numberOfLines={2} adjustsFontSizeToFit style={styles.textButton1}>
+                                        <TextC numberOfLines={2} adjustsFontSizeToFit style={style().textButton1}>
                                             Ergebnis per Mail senden
-                                        </Text>
+                                        </TextC>
                                     </Pressable>
                                 </View>
                                 : (props.item.isRefereeJobLoginRequired ?
                                         <View style={{flex: 0.6, alignSelf: 'center'}}>
-                                            <Text numberOfLines={1} adjustsFontSizeToFit
-                                                  style={[styles.textViolet, {
+                                            <TextC numberOfLines={1} adjustsFontSizeToFit
+                                                  style={[style().textViolet, {
                                                       fontSize: 16,
                                                       textAlign: 'right',
                                                       fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
-                                                  }]}>{showBlinking ? 'Login!' : ''}</Text>
+                                                  }]}>{showBlinking ? 'Login!' : ''}</TextC>
                                         </View>
                                         : (props.isCurrentRound ?
                                             <View style={{flex: 0.6, alignSelf: 'center'}}>
-                                                <Text numberOfLines={1} adjustsFontSizeToFit
-                                                      style={[styles.textRed, {
+                                                <TextC numberOfLines={1} adjustsFontSizeToFit
+                                                      style={[style().textRed, {
                                                           fontSize: 16,
                                                           textAlign: 'right'
-                                                      }]}>Live!</Text>
+                                                      }]}>Live!</TextC>
                                             </View>
                                             : null)
                                 )))}
@@ -163,11 +163,11 @@ export default function CellVariantMatches(props) {
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
                         <View style={{alignSelf: 'center', flex: 1}}>
                             <Pressable
-                                style={[styles.button1, styles.buttonConfirm, styles.buttonOrange]}
+                                style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                                 onPress={() => setSupervisorActionsModalVisible(true)}>
-                                <Text numberOfLines={1} style={styles.textButton1}>
+                                <TextC numberOfLines={1} style={style().textButton1}>
                                     Supervisor Aktionen
-                                </Text>
+                                </TextC>
                             </Pressable>
                         </View>
                     ) : null}
@@ -175,11 +175,11 @@ export default function CellVariantMatches(props) {
 
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ?
                         <View style={{alignSelf: 'center', flex: 1}}>
-                            <Text
+                            <TextC
                                 numberOfLines={1}
-                                style={[styles.textBlue, {fontSize: 16, textAlign: 'right'}]}>
+                                style={[style().textBlue, {fontSize: 16, textAlign: 'right'}]}>
                                 Gr. {props.item.group_name}
-                            </Text>
+                            </TextC>
                         </View>
                         : null}
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (

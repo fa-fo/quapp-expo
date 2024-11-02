@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import TextC from "../../components/customText";
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 
 export default function RemarksModal({
                                          setModalVisible,
@@ -16,17 +16,17 @@ export default function RemarksModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text>{match.remarks}</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>{match.remarks}</TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

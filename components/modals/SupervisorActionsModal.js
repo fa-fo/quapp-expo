@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useState} from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import PinModal from "./PinModal";
 import RefereeTeamSubstModal from "./RefereeTeamSubstModal";
 import fetchApi from "../fetchApi";
@@ -39,45 +39,45 @@ export default function SupervisorActionsModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGreen]}
+                        style={[style().button1, style().buttonGreen]}
                         onPress={() => setPinModalVisible(true)}>
-                        <Text numberOfLines={1} style={styles.textButton1}>
+                        <TextC numberOfLines={1} style={style().textButton1}>
                             Spiel-PIN anzeigen
-                        </Text>
+                        </TextC>
                     </Pressable>
 
                     {match.logsCalc !== undefined && match.logsCalc['isLoggedIn'] ?
                         <Pressable
-                            style={[styles.button1, styles.buttonRed]}
+                            style={[style().button1, style().buttonRed]}
                             onPress={() => forceLogout()}>
-                            <Text numberOfLines={1} style={styles.textButton1}>
+                            <TextC numberOfLines={1} style={style().textButton1}>
                                 Logout erzwingen
-                            </Text>
+                            </TextC>
                         </Pressable>
                         : null}
 
                     {match.logsCalc === undefined || !match.logsCalc['isLoggedIn'] ?
                         <Pressable
-                            style={[styles.button1, styles.buttonGreen]}
+                            style={[style().button1, style().buttonGreen]}
                             onPress={() => setRefereeTeamSubstModalVisible(true)}>
-                            <Text numberOfLines={1} style={styles.textButton1}>
+                            <TextC numberOfLines={1} style={style().textButton1}>
                                 Ersatz-SR eintragen
-                            </Text>
+                            </TextC>
                         </Pressable>
                         : null
                     }
 
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

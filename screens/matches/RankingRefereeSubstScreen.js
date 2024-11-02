@@ -1,6 +1,6 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, Text} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariantRankingSubst from "../../components/cellVariantRefereeSubst";
@@ -44,7 +44,7 @@ export default function RankingRefereeSubstScreenScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data.object?.teams?.length > 0 ? (
-                    <TableView appearance="light">
+                    <TableView appearance={global.colorScheme}>
                         <Section header={'Rangliste der Ersatz-SR:'}>
                             {data.object.teams.map(item => (
                                 <CellVariantRankingSubst
@@ -56,7 +56,7 @@ export default function RankingRefereeSubstScreenScreen({navigation}) {
                             ))}
                         </Section>
                     </TableView>
-                ) : <Text>keine Teams gefunden!</Text>)}
+                ) : <TextC>keine Teams gefunden!</TextC>)}
         </ScrollView>
     );
 }

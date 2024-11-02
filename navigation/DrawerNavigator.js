@@ -1,25 +1,38 @@
-import * as React from 'react';
-import {Text, useWindowDimensions} from 'react-native';
-
+import TextC from "../components/customText";
+import {Pressable, useWindowDimensions} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawerContent from './CustomDrawerContent';
 import MyMatchesStackNavigator from "./MyMatchesStackNavigator";
 import YearsStackNavigator from "./YearsStackNavigator";
 import SupervisorStackNavigator from "./SupervisorStackNavigator";
 import AdminStackNavigator from "./AdminStackNavigator";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ColorFunctions from "../components/functions/ColorFunctions";
-import styles from "../assets/styles";
+import {style} from "../assets/styles";
+import {useNavigation} from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();
+
+function HeaderLeft() {
+    const navigation = useNavigation();
+
+    const toggleMenu = () => {
+        navigation.toggleDrawer();
+    };
+
+    return <Pressable onPress={() => toggleMenu()}>
+        <Icon name="menu" size={30} color={ColorFunctions.getColor('primary')}/>
+    </Pressable>;
+}
 
 export default function MyDrawer() {
     const dimensions = useWindowDimensions();
     const title = () => {
-        return <Text>
+        return <TextC>
             {'QuattFo'}
             {window?.location?.hostname === 'localhost' ?
-                <Text style={[styles.big22, styles.textRed]}> localhost</Text> : null}
-        </Text>
+                <TextC style={[style().big22, style().textRed]}> localhost</TextC> : null}
+        </TextC>
     }
 
     return (
@@ -31,31 +44,32 @@ export default function MyDrawer() {
                     window?.location?.hostname === 'localhost' ? {
                         backgroundColor: ColorFunctions.getColor('RedLightBg'),
                     } : {},
+                headerLeft: () => <HeaderLeft/>
             }}>
             <Drawer.Screen
                 name="MyMatches"
                 component={MyMatchesStackNavigator}
-                options={{title: <Text>{title()} {global.currentYearName}</Text>}}
+                options={{title: <TextC>{title()} {global.currentYearName}</TextC>}}
             />
             <Drawer.Screen
                 name="Years"
                 component={YearsStackNavigator}
                 options={{
-                    title: <Text>{title()} {'Historie'}</Text>,
+                    title: <TextC>{title()} {'Historie'}</TextC>,
                 }}
             />
             <Drawer.Screen
                 name="Supervisor"
                 component={SupervisorStackNavigator}
                 options={{
-                    title: <Text>{title()} {'Supervisor'}</Text>,
+                    title: <TextC>{title()} {'Supervisor'}</TextC>,
                 }}
             />
             <Drawer.Screen
                 name="Admin"
                 component={AdminStackNavigator}
                 options={{
-                    title: <Text>{title()} {'Admin'}</Text>,
+                    title: <TextC>{title()} {'Admin'}</TextC>,
                 }}
             />
         </Drawer.Navigator>

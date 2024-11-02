@@ -1,10 +1,10 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
-import styles from '../../assets/styles.js';
+import {style} from '../../assets/styles.js';
 import fetchApi from '../../components/fetchApi';
 import {setLocalPushNotifications} from "../../components/setLocalPushNotifications";
 import * as DateFunctions from "../../components/functions/DateFunctions";
@@ -82,52 +82,53 @@ export default function ListMatchesByTeamScreen({navigation}) {
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (route.params?.setMyTeam && team_name === '' ?
-                    <Text>Einstellung erfolgreich geändert: kein Team mehr ausgewählt</Text>
+                    <TextC>Einstellung erfolgreich geändert: kein Team mehr ausgewählt</TextC>
                     :
                     (data?.status === 'success' ?
                             (data.object?.showTime ?
-                                <Text>Zeitpunkt der Veröffentlichung des
-                                    Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</Text>
+                                <TextC>Zeitpunkt der Veröffentlichung des
+                                    Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</TextC>
                                 :
                                 (data.object.group && data.object.matches ?
-                                        <TableView appearance="light">
+                                        <TableView appearance={global.colorScheme}>
                                             <Section headerComponent={
                                                 <View>
-                                                    <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                                    <View
+                                                        style={[style().matchflexRowView, style().headerComponentView]}>
                                                         <View style={{flex: 2}}>
-                                                            <Text>
+                                                            <TextC>
                                                                 {DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
                                                                 {'\n'}
                                                                 {
                                                                     (team_name === global.myTeamName ? 'Mein Team: ' : '')
                                                                     + team_name + '\n'
                                                                     + 'Spielen in '}
-                                                                <Text
-                                                                    style={styles.textBlue}>{'Gruppe ' + data.object.group.group_name}</Text>{'\n'}
+                                                                <TextC
+                                                                    style={style().textBlue}>{'Gruppe ' + data.object.group.group_name}</TextC>{'\n'}
                                                                 {data.yearSelected === undefined ?
-                                                                    <Text>
-                                                                        <Text
-                                                                            style={styles.textViolet}>SR</Text>{' in Gruppe ' + data.object.referee_group_name}
-                                                                    </Text>
+                                                                    <TextC>
+                                                                        <TextC
+                                                                            style={style().textViolet}>SR</TextC>{' in Gruppe ' + data.object.referee_group_name}
+                                                                    </TextC>
                                                                     : null}
-                                                            </Text>
+                                                            </TextC>
                                                         </View>
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             <Pressable
-                                                                style={styles.buttonTopRight}
+                                                                style={style().buttonTopRight}
                                                                 onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group})}
                                                             >
-                                                                <Text style={styles.textButtonTopRight}
-                                                                      numberOfLines={1}>
+                                                                <TextC style={style().textButtonTopRight}
+                                                                       numberOfLines={1}>
                                                                     <IconMat name="table-large"
                                                                              size={15}/>{' Tabelle Gr. ' + data.object.group.group_name}
-                                                                </Text>
+                                                                </TextC>
                                                             </Pressable>
                                                         </View>
                                                     </View>
                                                     {global.settings.isTest && data.yearSelected === undefined && route.name !== 'ListMatchesByTeamAdmin' ?
-                                                        <View><Text
-                                                            style={styles.testMode}>{global.hintTestData}</Text></View> : null}
+                                                        <View><TextC
+                                                            style={style().testMode}>{global.hintTestData}</TextC></View> : null}
                                                 </View>
                                             }>
                                                 {data.object.matches.map(item =>
@@ -154,25 +155,25 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                         :
                                         data.year.settings.currentDay_id === 1 ? //  todo: better index for not-available teamYearsId
                                             <View>
-                                                <Text>Team nicht gefunden!</Text>
+                                                <TextC>Team nicht gefunden!</TextC>
                                                 {team_name === global.myTeamName ?
                                                     <View>
-                                                        <Text>Bitte Team neu auswählen:</Text>
-                                                        <Pressable style={[styles.button1, styles.buttonGreen]}
+                                                        <TextC>Bitte Team neu auswählen:</TextC>
+                                                        <Pressable style={[style().button1, style().buttonGreen]}
                                                                    onPress={() => navigation.navigate('MyTeamSelect')}>
-                                                            <Text
-                                                                style={styles.textButton1}>{'Mein Team auswählen'}</Text>
+                                                            <TextC
+                                                                style={style().textButton1}>{'Mein Team auswählen'}</TextC>
                                                         </Pressable>
                                                     </View>
                                                     : null}
                                             </View>
                                             :
                                             <View>
-                                                <Text>{global.hintSchedule}</Text>
+                                                <TextC>{global.hintSchedule}</TextC>
                                             </View>
                                 ))
                             :
-                            <Text>Fehler: keine Spiele gefunden!</Text>
+                            <TextC>Fehler: keine Spiele gefunden!</TextC>
                     ))
             }
         </ScrollView>

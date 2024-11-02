@@ -1,13 +1,27 @@
-import * as React from 'react';
-import {useState} from 'react';
-import {Pressable, ScrollView, Text, View} from 'react-native';
-import styles from "../../assets/styles";
+import TextC from "../../components/customText";
+import {useEffect, useState} from 'react';
+import {Platform, Pressable, ScrollView, View} from 'react-native';
+import {reloadAsync} from 'expo-updates';
+import {style} from "../../assets/styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import UsernameLoginModal from "../../navigation/modals/UsernameLoginModal";
+import {Picker} from "@react-native-picker/picker";
+import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 
 export default function SettingsScreen({navigation}) {
+    const [selectedScheme, setSelectedScheme] = useState(global.colorSchemeSaved);
+    const [showReloadButton, setShowReloadButton] = useState(false);
     const [usernameModalVisible, setUsernameModalVisible] = useState(false);
     const [username, setUsername] = useState(null);
+
+    useEffect(() => {
+        if (global.colorSchemeSaved !== selectedScheme) {
+            AsyncStorageFunctions.setAsyncStorage('colorScheme', selectedScheme);
+            global.colorSchemeSaved = selectedScheme;
+            global.colorScheme = selectedScheme;
+            setShowReloadButton(true);
+        }
+    }, [selectedScheme]);
 
     function logout(username) {
         delete global[username + 'PW'];
@@ -16,69 +30,93 @@ export default function SettingsScreen({navigation}) {
     }
 
     return (
-        <ScrollView style={[styles.headerComponentView, {minHeight: '100%'}]}>
+        <ScrollView style={[style().headerComponentView, {minHeight: '100%'}]}>
             <View>
                 {window?.location?.hostname === 'api.quattfo.de' ? null :
-                    <Pressable style={[styles.button1, styles.buttonGreen]}
+                    <Pressable style={[style().button1, style().buttonGreen]}
                                onPress={() => {
                                    navigation.navigate('MyMatches', {screen: 'MyTeamSelect'})
                                }}
                     >
-                        <Text style={styles.textButton1}>
+                        <TextC style={style().textButton1}>
                             <Icon name="account-switch-outline" size={30}/>
                             Mein Team ändern
-                        </Text>
+                        </TextC>
                     </Pressable>
                 }
 
-                <Text>{'\n\n'}</Text>
+                <TextC>{'\n\n'}</TextC>
+                <TextC>Farbschema ändern (Neustart erforderlich):</TextC>
+                <Picker
+                    selectedValue={selectedScheme}
+                    onValueChange={(itemValue) => setSelectedScheme(itemValue)}
+                    style={[style().button1, style().pickerSelect]}
+                >
+                    <Picker.Item label="wie Systemeinstellung" value="system"/>
+                    <Picker.Item label="hell" value="light"/>
+                    <Picker.Item label="dunkel" value="dark"/>
+                </Picker>
+                {showReloadButton ?
+                    <Pressable
+                        style={[style().button1, style().buttonConfirm, style().buttonGreen, {width: 120}]}
+                        onPress={() => {
+                            if (Platform.OS === 'web')
+                                window?.location?.reload()
+                            else reloadAsync();
+                        }}>
+                        <Icon name="reload" size={25}/>
+                        <TextC style={style().textButton1}>App neu starten</TextC>
+                    </Pressable>
+                    : null
+                }
+                <TextC>{'\n\n'}</TextC>
 
                 {global.supervisorPW === undefined ?
-                    <Pressable style={[styles.button1, styles.buttonRed50]}
+                    <Pressable style={[style().button1, style().buttonRed50]}
                                onPress={() => {
                                    setUsername('supervisor');
                                    setUsernameModalVisible(true);
                                }}
                     >
-                        <Text style={styles.textButton1}>
+                        <TextC style={style().textButton1}>
                             <Icon name="login" size={30}/>
                             Supervisor Login
-                        </Text>
+                        </TextC>
                     </Pressable>
                     :
-                    <Text>Du bist als Supervisor eingeloggt.
-                        <Pressable style={[styles.button1, styles.buttonRed50]}
+                    <TextC>Du bist als Supervisor eingeloggt.
+                        <Pressable style={[style().button1, style().buttonRed50]}
                                    onPress={() => logout('supervisor')}
                         >
-                            <Text style={styles.textButton1}>
+                            <TextC style={style().textButton1}>
                                 <Icon name="login" size={15}/> Logout
-                            </Text>
+                            </TextC>
                         </Pressable>
-                    </Text>
+                    </TextC>
                 }
 
                 {global.adminPW === undefined ?
-                    <Pressable style={[styles.button1, styles.buttonRed]}
+                    <Pressable style={[style().button1, style().buttonRed]}
                                onPress={() => {
                                    setUsername('admin');
                                    setUsernameModalVisible(true);
                                }}
                     >
-                        <Text style={styles.textButton1}>
+                        <TextC style={style().textButton1}>
                             <Icon name="login-variant" size={30}/>
                             Admin Login
-                        </Text>
+                        </TextC>
                     </Pressable>
                     :
-                    <Text>Du bist als Admin eingeloggt.
-                        <Pressable style={[styles.button1, styles.buttonRed]}
+                    <TextC>Du bist als Admin eingeloggt.
+                        <Pressable style={[style().button1, style().buttonRed]}
                                    onPress={() => logout('admin')}
                         >
-                            <Text style={styles.textButton1}>
+                            <TextC style={style().textButton1}>
                                 <Icon name="login" size={15}/> Logout
-                            </Text>
+                            </TextC>
                         </Pressable>
-                    </Text>
+                    </TextC>
                 }
 
                 <UsernameLoginModal

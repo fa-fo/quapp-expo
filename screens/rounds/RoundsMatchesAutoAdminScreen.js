@@ -1,10 +1,10 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import {format} from "date-fns";
-import styles from "../../assets/styles";
+import {style} from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {Section, TableView} from "react-native-tableview-simple";
 import CellVariantMatchesAdmin from "../../components/cellVariantMatchesAdmin";
@@ -60,17 +60,17 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
                 navigation.setOptions({
                     headerRight: () => (
-                        <Text>
-                            <Pressable style={[styles.buttonTopRight, styles.buttonOrange]}
+                        <TextC>
+                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
                                        onPress={() => navigation.navigate('RoundsMatchesAdmin', {
                                            id: json.object?.round?.id,
                                            roundsCount: route.params.roundsCount,
                                        })}
                             >
-                                <Text
-                                    style={styles.textButtonTopRight}>{'zur klassischen Ansicht'}</Text>
+                                <TextC
+                                    style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
                             </Pressable>
-                        </Text>
+                        </TextC>
                     ),
                 });
             })
@@ -97,32 +97,32 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
     return (
         <ScrollView
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
-            style={lastUpdate && data && now > lastUpdate ? styles.buttonRed : null}
+            style={lastUpdate && data && now > lastUpdate ? style().buttonRed : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
-                <Text>{format(now, "HH:mm:ss")}</Text>
+                <TextC>{format(now, "HH:mm:ss")}</TextC>
             </View>
             {isLoading ? null :
                 (data?.status === 'success' && data.object.round ?
                     <View>
-                        <TableView appearance="light">
+                        <TableView appearance={global.colorScheme}>
                             {data.object.groups?.map(group => (
                                 <Section
                                     key={group.id}
                                     headerComponent={
-                                        <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                                        <View style={[style().matchflexRowView, style().headerComponentView]}>
                                             <View style={{flex: 2}}>
-                                                <Text style={styles.textBlue}>
-                                                    <Text
-                                                        style={{color: 'orange'}}>{'Runde ' + data.object.round.id}  </Text>
-                                                    {'Gruppe ' + group.name + ':'}</Text>
+                                                <TextC style={style().textBlue}>
+                                                    <TextC
+                                                        style={{color: 'orange'}}>{'Runde ' + data.object.round.id}  </TextC>
+                                                    {'Gruppe ' + group.name + ':'}</TextC>
                                             </View>
                                             <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                 {group.name === 'A' ?
-                                                    <Text numberOfLines={1}
-                                                          style={styles.textGreen}>
+                                                    <TextC numberOfLines={1}
+                                                          style={style().textGreen}>
                                                         {'Regulär werten: ' + matchesToConfirm.length + ' (automatisch)'}
-                                                    </Text> : null}
+                                                    </TextC> : null}
                                             </View>
                                         </View>
                                     }>
@@ -143,7 +143,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                         </TableView>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
-                    : <Text>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</Text>)}
+                    : <TextC>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</TextC>)}
         </ScrollView>
     );
 }

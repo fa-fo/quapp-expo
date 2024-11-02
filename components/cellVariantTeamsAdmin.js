@@ -1,8 +1,8 @@
-import * as React from 'react';
+import TextC from "../components/customText";
 import {useState} from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import styles from '../assets/styles';
+import {style} from '../assets/styles';
 import fetchApi from './fetchApi';
 import CancelTeamYearModal from "./modals/CancelTeamYearModal";
 
@@ -31,7 +31,7 @@ export default function CellVariantTeamsAdmin(props) {
                         paddingVertical: 10,
                     }}>
                     <View style={{flex: 1, alignSelf: 'center'}}>
-                        <Text
+                        <TextC
 
                             numberOfLines={1}
                             style={{
@@ -40,26 +40,26 @@ export default function CellVariantTeamsAdmin(props) {
                             }}>
                             {props.title}
                             {canceled ?
-                                <Text style={{color: '#a33300', fontSize: 10}}>
+                                <TextC style={{color: '#a33300', fontSize: 10}}>
                                     {' '}
                                     zurückgezogen
-                                </Text>
+                                </TextC>
                                 : null}
-                        </Text>
+                        </TextC>
                     </View>
                     <View style={{flex: 0.6, alignSelf: 'center'}}>
                         <Pressable
                             style={[
-                                styles.button1,
-                                styles.buttonCancel,
-                                canceled ? styles.buttonGreen : styles.buttonRed,
+                                style().button1,
+                                style().buttonCancel,
+                                canceled ? style().buttonGreen : style().buttonRed,
                             ]}
                             onPress={() => setCancelTeamYearModalVisible(true)}>
-                            <Text
+                            <TextC
                                 numberOfLines={1}
-                                style={styles.textButton1}>
+                                style={style().textButton1}>
                                 {canceled ? 'Rückzug rückgängig' : 'zurückziehen'}
-                            </Text>
+                            </TextC>
                         </Pressable>
                     </View>
                     <CancelTeamYearModal

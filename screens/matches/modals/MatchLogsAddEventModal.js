@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../../components/customText";
 import {useEffect, useState} from 'react';
-import {Modal, Pressable, Text, TextInput, View} from 'react-native';
-import styles from '../../../assets/styles.js';
+import {Modal, Pressable, TextInput, View} from 'react-native';
+import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
 import {isNumber} from "../../../components/functions/CheckFunctions";
@@ -78,28 +78,28 @@ export default function MatchLogsAddEventModal({
                 setAddEventModalVisible(false);
             }}
         >
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{addEvent.textConfirmHeader !== null ? addEvent.textConfirmHeader : 'Event für Team'}</Text>
-                    <Text> </Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{addEvent.textConfirmHeader !== null ? addEvent.textConfirmHeader : 'Event für Team'}</TextC>
+                    <TextC> </TextC>
                     {addEvent.needsPlayerAssoc ? (
                         <View>
-                            <TextInput style={styles.textInput}
+                            <TextInput style={style().textInput}
                                        onChangeText={setPlayerNumber}
                                        placeholder="Hier zuerst Nummer eingeben"
                                        keyboardType="numeric"
                                        maxLength={3}
                                        value={playerNumber !== null ? playerNumber : ''}
                             />
-                            <Text>{(playerNumber === '' ? (
-                                <Text style={styles.failureText}>Bitte Spieler*innen-Nummer
-                                    eingeben</Text>) : '')}</Text>
+                            <TextC>{(playerNumber === '' ? (
+                                <TextC style={style().failureText}>Bitte Spieler*innen-Nummer
+                                    eingeben</TextC>) : '')}</TextC>
                         </View>
                     ) : null}
 
                     {teamArray.slice(0, addEvent.needsTeamAssoc + 1).map(team => (
                         <Pressable key={team.id}
-                                   style={[styles.button1, styles.buttonGreen, styles.buttonEvent, styles.buttonBig1, {width: '80%'}]}
+                                   style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1, {width: '80%'}]}
                                    onPress={async () => {
                                        let submitNumber = isNumber(playerNumber) ? parseInt(playerNumber) : null;
                                        if (!addEvent.needsPlayerAssoc || submitNumber !== null) {
@@ -113,21 +113,21 @@ export default function MatchLogsAddEventModal({
                                            setPlayerNumber('');
                                        }
                                    }}>
-                            <Text style={[styles.textButton1, (addEvent.needsTeamAssoc ? null : styles.big3)]}>
+                            <TextC style={[style().textButton1, (addEvent.needsTeamAssoc ? null : style().big3)]}>
                                 {addEvent.needsTeamAssoc ?
                                     team.name
                                     :
-                                    <Text><IconMat name="arrow-right" size={30}
-                                                   style={{color: showBlinking ? '#fff' : '#3d8d02'}}/> Bestätigen</Text>}
-                            </Text>
+                                    <TextC><IconMat name="arrow-right" size={30}
+                                                   style={{color: showBlinking ? '#fff' : '#3d8d02'}}/> Bestätigen</TextC>}
+                            </TextC>
                         </Pressable>
                     ))}
-                    <Text> </Text>
-                    <Pressable style={[styles.button1, styles.buttonGrey]}
+                    <TextC> </TextC>
+                    <Pressable style={[style().button1, style().buttonGrey]}
                                onPress={() => {
                                    setAddEventModalVisible(false);
                                }}>
-                        <Text style={styles.textButton1}>abbrechen</Text>
+                        <TextC style={style().textButton1}>abbrechen</TextC>
                     </Pressable>
                 </View>
             </View>

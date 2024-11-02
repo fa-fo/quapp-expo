@@ -1,4 +1,3 @@
-import * as React from 'react';
 
 import YearsAllScreen from '../screens/years/YearsAllScreen';
 import TeamsAllTimeRankingScreen from '../screens/years/TeamsAllTimeRankingScreen';

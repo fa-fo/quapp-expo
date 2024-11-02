@@ -1,4 +1,3 @@
-import * as React from 'react';
 import RoundsCurrentScreen from '../screens/rounds/RoundsCurrentScreen';
 import RoundsMatchesScreen from '../screens/rounds/RoundsMatchesScreen';
 import RoundsMatchesManagerScreen from "../screens/rounds/RoundsMatchesManagerScreen";

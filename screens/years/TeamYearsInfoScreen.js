@@ -1,7 +1,7 @@
-import * as React from 'react';
+import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariant from '../../components/cellVariant';
@@ -36,27 +36,27 @@ export default function TeamYearsInfoScreen({navigation}) {
             <View>
                 <Section headerComponent={
                     <View>
-                        <View style={[styles.matchflexRowView, styles.headerComponentView]}>
+                        <View style={[style().matchflexRowView, style().headerComponentView]}>
                             <View style={{flex: 2}}>
                                 {depth === 1 ?
-                                    <Text style={styles.textViolet}>Frühere Team-Namen:</Text> : null}
-                                <Text style={{fontSize: 18}}>
+                                    <TextC style={style().textViolet}>Frühere Team-Namen:</TextC> : null}
+                                <TextC style={{fontSize: 18}}>
                                     {team.team_name ?? team.name ?? ''}
                                     {team.calcTotalChampionships ? SportFunctions.getChampionshipStars(team.calcTotalChampionships) : null}
-                                </Text>
-                                <Text>{'Teilnahmen: ' + team.calcTotalYears}</Text>
-                                <Text>{'Gesamtplatzierungspunkte: ' + (team.calcTotalRankingPoints ?? 0)}</Text>
+                                </TextC>
+                                <TextC>{'Teilnahmen: ' + team.calcTotalYears}</TextC>
+                                <TextC>{'Gesamtplatzierungspunkte: ' + (team.calcTotalRankingPoints ?? 0)}</TextC>
                                 {team.calcTotalPointsPerYear ?
-                                    <Text>{'Platzierungspunkte/Jahr: ' + team.calcTotalPointsPerYear}</Text> : null}
+                                    <TextC>{'Platzierungspunkte/Jahr: ' + team.calcTotalPointsPerYear}</TextC> : null}
                                 {team.calcTotalRanking ?
-                                    <Text>{'Platz in der Ewigen Tabelle: ' + team.calcTotalRanking}</Text> : null}
+                                    <TextC>{'Platz in der Ewigen Tabelle: ' + team.calcTotalRanking}</TextC> : null}
                             </View>
                             {depth === 0 && team.team_years[0].year_id > 24 ?
                                 <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                    <Pressable style={styles.buttonTopRight}
+                                    <Pressable style={style().buttonTopRight}
                                                onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: route.params.item})}
                                     >
-                                        <Text style={styles.textButtonTopRight}>{'Bilanz seit 2022'}</Text>
+                                        <TextC style={style().textButtonTopRight}>{'Bilanz seit 2022'}</TextC>
                                     </Pressable>
                                 </View>
                                 : null}
@@ -84,11 +84,11 @@ export default function TeamYearsInfoScreen({navigation}) {
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
-                        <TableView appearance="light">
+                        <TableView appearance={global.colorScheme}>
                             {getTeamsData(data.object[0], 0)}
                         </TableView>
                     </View>
-                ) : <Text>Fehler!</Text>)}
+                ) : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
 }

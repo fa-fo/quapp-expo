@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../assets/styles.js';
+import TextC from "../../components/customText";
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../assets/styles.js';
 import * as ConfirmFunctions from '../functions/ConfirmFunctions';
 
 export default function SpecialConfirmModal({
@@ -17,13 +17,13 @@ export default function SpecialConfirmModal({
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>{match.sport.code} Feld {match.group_name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text style={styles.big3}>{match.teams1.name} - {match.teams2.name}</Text>
-                    <Text>{'\n'}</Text>
-                    <Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>{match.sport.code} Feld {match.group_name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>
                         Erstgenanntes Team siegt:{' '}
                         {ConfirmFunctions.getConfirmButton(
                             match.id,
@@ -32,8 +32,8 @@ export default function SpecialConfirmModal({
                             setModalVisible,
                             loadScreenData
                         )}
-                    </Text>
-                    <Text>
+                    </TextC>
+                    <TextC>
                         Zweitgenanntes Team siegt:{' '}
                         {ConfirmFunctions.getConfirmButton(
                             match.id,
@@ -42,8 +42,8 @@ export default function SpecialConfirmModal({
                             setModalVisible,
                             loadScreenData
                         )}
-                    </Text>
-                    <Text>
+                    </TextC>
+                    <TextC>
                         Beide Teams verlieren:{' '}
                         {ConfirmFunctions.getConfirmButton(
                             match.id,
@@ -52,8 +52,8 @@ export default function SpecialConfirmModal({
                             setModalVisible,
                             loadScreenData
                         )}
-                    </Text>
-                    <Text>
+                    </TextC>
+                    <TextC>
                         Unentschieden:{' '}
                         {ConfirmFunctions.getConfirmButton(
                             match.id,
@@ -62,12 +62,12 @@ export default function SpecialConfirmModal({
                             setModalVisible,
                             loadScreenData
                         )}
-                    </Text>
-                    <Text> </Text>
+                    </TextC>
+                    <TextC> </TextC>
                     <Pressable
-                        style={[styles.button1, styles.buttonGrey]}
+                        style={[style().button1, style().buttonGrey]}
                         onPress={() => setModalVisible(false)}>
-                        <Text style={styles.textButton1}>Schließen</Text>
+                        <TextC style={style().textButton1}>Schließen</TextC>
                     </Pressable>
                 </View>
             </View>

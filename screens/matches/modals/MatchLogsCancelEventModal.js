@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
-import styles from '../../../assets/styles.js';
+import TextC from "../../../components/customText";
+import {Modal, Pressable, View} from 'react-native';
+import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AsyncStorageFunctions from "../../../components/functions/AsyncStorageFunctions";
@@ -47,28 +47,28 @@ export default function MatchLogsCancelEventModal({
                 setCancelEventModalVisible(false);
             }}
         >
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text>Bitte Rückgängigmachen bestätigen</Text>
+            <View style={style().centeredView}>
+                <View style={style().modalView}>
+                    <TextC>Bitte Rückgängigmachen bestätigen</TextC>
 
                     <Pressable
-                        style={[styles.button1, styles.buttonGreen, styles.buttonEvent, styles.buttonBig1, {width: '80%'}]}
+                        style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1, {width: '80%'}]}
                         onPress={() => {
                             cancelMatcheventlog();
                             setCancelEventModalVisible(false);
                         }}>
-                        <Text style={styles.textButton1}>
+                        <TextC style={style().textButton1}>
                             <IconMat name="arrow-right" size={15}/>
                             {' '}
                             Bestätigen
-                        </Text>
+                        </TextC>
                     </Pressable>
-                    <Text> </Text>
-                    <Pressable style={[styles.button1, styles.buttonGrey]}
+                    <TextC> </TextC>
+                    <Pressable style={[style().button1, style().buttonGrey]}
                                onPress={() => {
                                    setCancelEventModalVisible(false);
                                }}>
-                        <Text style={styles.textButton1}>abbrechen</Text>
+                        <TextC style={style().textButton1}>abbrechen</TextC>
                     </Pressable>
                 </View>
             </View>

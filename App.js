@@ -1,12 +1,12 @@
 import 'expo-dev-client';
 import 'react-native-gesture-handler';
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import MyDrawer from "./navigation/DrawerNavigator";
-import {NavigationContainer} from "@react-navigation/native";
+import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import * as SplashScreen from 'expo-splash-screen';
 import * as PushFunctions from './components/functions/PushFunctions';
 import {setGlobalVariables} from "./components/functions/GlobalVariablesFunctions";
-import {loadStorageTeam} from "./components/functions/AsyncStorageFunctions";
+import {loadStorageData} from "./components/functions/AsyncStorageFunctions";
 
 SplashScreen.preventAutoHideAsync().then(r => null);
 
@@ -25,7 +25,7 @@ export default function App() {
                         global.expoPushToken = (token !== undefined ? token : '');
                     })
 
-                await loadStorageTeam().then(r => null);
+                await loadStorageData().then(r => null);
 
                 await new Promise(resolve => setTimeout(resolve, 2000));
             } catch (e) {
@@ -49,8 +49,10 @@ export default function App() {
         return null;
     }
 
+    const myTheme = global.colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+
     return (
-        <NavigationContainer onReady={onLayoutRootView}>
+        <NavigationContainer theme={myTheme} onReady={onLayoutRootView}>
             <MyDrawer/>
         </NavigationContainer>
     );
