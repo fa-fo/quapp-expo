@@ -48,7 +48,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
-    function myTeamIn(data) {
+    function myTeamIn() {
         return data.find((e) => e.id === global.myTeamId);
     }
 
@@ -61,7 +61,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                     let height = e.nativeEvent.contentSize.height;
                     let offset = e.nativeEvent.contentOffset.y;
 
-                    if (windowHeight + offset >= height && (!myTeamData || myTeamIn(data))) {
+                    if (windowHeight + offset >= height && (!myTeamData || myTeamIn())) {
                         setFetchMoreData(true);
                     }
                 }
