@@ -21,7 +21,7 @@ function HeaderLeft() {
     };
 
     return <Pressable onPress={() => toggleMenu()}>
-        <Icon name="menu" size={30} color={ColorFunctions.getColor('primary')}/>
+        <Icon name="menu" size={40} style={{paddingHorizontal: 10}} color={ColorFunctions.getColor('primary')}/>
     </Pressable>;
 }
 

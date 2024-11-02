@@ -1,12 +1,12 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {Platform, Pressable, ScrollView, View} from 'react-native';
-import {reloadAsync} from 'expo-updates';
 import {style} from "../../assets/styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import UsernameLoginModal from "../../navigation/modals/UsernameLoginModal";
 import {Picker} from "@react-native-picker/picker";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
+import {reloadAppAsync} from "expo";
 
 export default function SettingsScreen({navigation}) {
     const [selectedScheme, setSelectedScheme] = useState(global.colorSchemeSaved);
@@ -51,6 +51,7 @@ export default function SettingsScreen({navigation}) {
                     selectedValue={selectedScheme}
                     onValueChange={(itemValue) => setSelectedScheme(itemValue)}
                     style={[style().button1, style().pickerSelect]}
+                    itemStyle={style().pickerItem}
                 >
                     <Picker.Item label="wie Systemeinstellung" value="system"/>
                     <Picker.Item label="hell" value="light"/>
@@ -62,7 +63,7 @@ export default function SettingsScreen({navigation}) {
                         onPress={() => {
                             if (Platform.OS === 'web')
                                 window?.location?.reload()
-                            else reloadAsync();
+                            else reloadAppAsync();
                         }}>
                         <Icon name="reload" size={25}/>
                         <TextC style={style().textButton1}>App neu starten</TextC>

@@ -50,6 +50,11 @@ export const style = () => StyleSheet.create({
     pickerSelect: {
         width: 300,
         color: ColorFunctions.getColor('primary'),
+        backgroundColor: ColorFunctions.getColor('primaryBg'),
+    },
+    pickerItem: {
+        color: ColorFunctions.getColor('primary'),
+        backgroundColor: ColorFunctions.getColor('primaryBg'),
     },
     viewStatus: {
         alignItems: 'center',

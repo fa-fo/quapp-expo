@@ -7,7 +7,7 @@ export function getColor(name) {
         case 'buttonTxt':
             return global.colorScheme === 'dark' ? 'rgba(229, 229, 231, 0.68)' : 'rgb(255, 255, 255)'
         case 'blue':
-            return global.colorScheme === 'dark' ? 'rgba(142,142,241,0.68)' : 'rgb(1, 85, 253)'
+            return global.colorScheme === 'dark' ? 'rgb(59,59,109)' : 'rgb(1, 85, 253)'
         case 'GreenLightBg':
             return global.colorScheme === 'dark' ? 'rgba(51,82,45,0.37)' : 'rgba(151,245,135,0.37)'
         case 'RedLightBg':
@@ -15,9 +15,9 @@ export function getColor(name) {
         case 'GoldBg':
             return global.colorScheme === 'dark' ? 'rgba(109,96,7,0.91)' : 'rgba(224,196,13,0.37)'
         case 'VioletLightBg':
-            return global.colorScheme === 'dark' ? 'rgba(68,55,73,0.15)' : 'rgba(208,167,222,0.15)'
+            return global.colorScheme === 'dark' ? 'rgba(208,167,222,0.28)' : 'rgba(208,167,222,0.15)'
         case 'YellowBg':
-            return global.colorScheme === 'dark' ? 'rgb(85,85,2)' : 'rgb(255,255,0)'
+            return global.colorScheme === 'dark' ? 'rgba(255,255,0,0.45)' : 'rgb(255,255,0)'
         case 'TestHintBg':
             return global.colorScheme === 'dark' ? 'rgb(73,62,1)' : 'rgb(255, 215, 0)'
         case 'OrangeBg':
