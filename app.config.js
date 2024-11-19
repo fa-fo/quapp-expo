@@ -8,11 +8,6 @@ export default {
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
-    splash: {
-        image: './assets/images/splash.png',
-        resizeMode: 'contain',
-        backgroundColor: '#ffffff'
-    },
     updates: {
         fallbackToCacheTimeout: 0
     },
@@ -66,14 +61,6 @@ export default {
             ]
         ],
         [
-            'expo-notifications',
-            {
-                icon: './assets/images/notification-icon.png',
-                color: '#ffffff',
-                androidMode: 'default'
-            }
-        ],
-        [
             'expo-build-properties',
             {
                 android: {
@@ -83,9 +70,29 @@ export default {
             }
         ],
         [
+            'expo-notifications',
+            {
+                icon: './assets/images/notification-icon.png',
+                color: '#ffffff',
+                androidMode: 'default'
+            }
+        ],
+        [
             'expo-screen-orientation',
             {
                 initialOrientation: 'DEFAULT'
+            }
+        ],
+        [
+            'expo-splash-screen',
+            {
+                imageWidth: 282,
+                image: './assets/images/splash.png',
+                backgroundColor: '#ffffff',
+                dark: {
+                    image: './assets/images/splash-dark.png',
+                    backgroundColor: '#000000'
+                }
             }
         ]
     ],

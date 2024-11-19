@@ -1,6 +1,5 @@
 import "@expo/metro-runtime";
-import 'expo/build/Expo.fx';
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
+import {registerRootComponent} from 'expo';
 import {createRoot} from 'react-dom/client';
 import {createElement} from 'react';
 import {Platform} from 'react-native';

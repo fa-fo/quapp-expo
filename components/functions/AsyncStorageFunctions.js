@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Appearance} from "react-native";
+import {setStatusBarBackgroundColor, setStatusBarStyle} from "expo-status-bar";
+import * as ColorFunctions from "./ColorFunctions";
 
 let scoreName = 'score';
 
@@ -23,6 +25,8 @@ export async function loadStorageData() {
         .catch((error) => console.error(error));
 
     global.colorScheme = global.colorSchemeSaved === 'system' ? Appearance.getColorScheme() : global.colorSchemeSaved;
+    setStatusBarStyle(global.colorScheme === 'dark' ? 'light' : 'dark');
+    setStatusBarBackgroundColor(ColorFunctions.getColor('primaryBg'));
 
     await AsyncStorage.getItem('myTeamId')
         .then(response => response !== null ? response.toString() : null)

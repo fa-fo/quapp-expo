@@ -8,7 +8,10 @@ import * as PushFunctions from './components/functions/PushFunctions';
 import {setGlobalVariables} from "./components/functions/GlobalVariablesFunctions";
 import {loadStorageData} from "./components/functions/AsyncStorageFunctions";
 
-SplashScreen.preventAutoHideAsync().then(r => null);
+// Instruct SplashScreen not to hide yet, we want to do this manually
+SplashScreen.preventAutoHideAsync().catch(() => {
+    /* reloading the app might trigger some race conditions, ignore them */
+});
 
 export default function App() {
     const [appIsReady, setAppIsReady] = useState(false);
@@ -57,5 +60,3 @@ export default function App() {
         </NavigationContainer>
     );
 }
-
-

@@ -49,7 +49,7 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
                                                 />
                                                 {route.params.sport.name}
                                             </TextC>
-                                            <TextC>Alle ausgetragene Spiele seit 2022: </TextC>
+                                            <TextC>Alle ausgetragenen Spiele seit 2022: </TextC>
                                         </View>
                                     </View>
                                 </View>
