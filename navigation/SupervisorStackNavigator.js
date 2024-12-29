@@ -18,7 +18,7 @@ export default function SupervisorStackNavigator({navigation}) {
                 headerStyle: {
                     backgroundColor: 'thistle',
                 },
-                headerBackTitleVisible: false
+                headerBackButtonDisplayMode: 'minimal'
             }}>
             <Stack.Screen
                 name="RoundsCurrentSupervisor"

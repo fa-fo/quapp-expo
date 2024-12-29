@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 
 export default function YearsStackNavigator({navigation}) {
     return (
-        <Stack.Navigator screenOptions={{headerBackTitleVisible: false}}>
+        <Stack.Navigator screenOptions={{headerBackButtonDisplayMode: 'minimal'}}>
             <Stack.Screen
                 name="YearsAll"
                 component={YearsAllScreen}
