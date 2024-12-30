@@ -111,7 +111,8 @@ export default function AllMatchPhotosScreen({navigation}) {
                                     <Pressable onPress={() => switchResizeMode(resizeMode)} style={{flex: 2}}>
                                         <Image
                                             source={{uri: getUriFile(item.match_id, item.id)}}
-                                            style={{flex: 1, resizeMode: resizeMode}}
+                                            style={{flex: 1}}
+                                            resizeMode={resizeMode}
                                         />
                                     </Pressable>
                                     <TextC style={{flex: 1, textAlign: 'center'}}>

@@ -51,7 +51,8 @@ export default function MatchDetailsPhotoModal({
             <View style={{flex: 1, width: '100%', height: '100%'}}>
                 <Image
                     source={{uri: uriFile}}
-                    style={[StyleSheet.absoluteFillObject, {resizeMode: 'contain'}]}
+                    style={[StyleSheet.absoluteFillObject]}
+                    resizeMode={'contain'}
                 />
                 <View style={style().toprightButtonContainer}>
                     <Pressable onPress={() => {

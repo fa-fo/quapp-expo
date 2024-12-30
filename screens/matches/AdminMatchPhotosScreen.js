@@ -68,7 +68,8 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                         backgroundColor: 'green'
                                     }}>
                                         <Image
-                                            style={{width: '100%', height: 600, resizeMode: 'contain'}}
+                                            style={{width: '100%', height: 600}}
+                                            resizeMode={'contain'}
                                             source={{uri: global.baseUrl + 'webroot/img/' + data.year.name + '/original/' + data.object.toCheck[photoKey].match_id + '_' + data.object.toCheck[photoKey].id + '.jpg'}}
                                         />
                                         <View style={style().toprightButtonContainer}>

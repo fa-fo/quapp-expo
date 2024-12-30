@@ -178,7 +178,8 @@ export default function MatchDetailsScreen({navigation}) {
                                                 }}
                                             >
                                                 <Image
-                                                    style={[{width: 120, height: 90, resizeMode: 'contain'},
+                                                    resizeMode={'contain'}
+                                                    style={[{width: 120, height: 90},
                                                         route.name === 'MatchDetailsAdmin' && photo.checked === 0 ? style().borderRed : null,
                                                         route.name === 'MatchDetailsAdmin' && photo.checked === null ? style().borderBlue : null
                                                     ]}

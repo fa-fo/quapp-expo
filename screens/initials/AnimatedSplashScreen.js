@@ -97,9 +97,9 @@ export default function AnimatedSplashScreen({image}) {
                             flex: 1,
                             width: 200,
                             height: 200,
-                            resizeMode: 'contain',
                             transform: [{scale: animation}],
                         }}
+                        resizeMode={'contain'}
                         source={image.uri}
                         onLoadEnd={onImageLoaded}
                     />
