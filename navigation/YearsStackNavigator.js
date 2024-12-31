@@ -1,10 +1,10 @@
-
 import YearsAllScreen from '../screens/years/YearsAllScreen';
 import TeamsAllTimeRankingScreen from '../screens/years/TeamsAllTimeRankingScreen';
 import TeamYearsEndRankingScreen from '../screens/years/TeamYearsEndRankingScreen';
 import TeamYearsInfoScreen from '../screens/years/TeamYearsInfoScreen';
 import TeamYearsInfoBalanceScreen from '../screens/years/TeamYearsInfoBalanceScreen';
 import TeamYearsInfoBalanceMatchesScreen from "../screens/years/TeamYearsInfoBalanceMatchesScreen";
+import AllMatchPhotosScreen from "../screens/matches/AllMatchPhotosScreen";
 
 import GroupsAllScreen from "../screens/initials/GroupsAllScreen";
 import RankingInGroupsScreen from "../screens/matches/RankingInGroupsScreen";
@@ -82,7 +82,7 @@ export default function YearsStackNavigator({navigation}) {
                 name="ListMatchesByTeam"
                 component={ListMatchesByTeamScreen}
                 options={({route}) => ({
-                    title: 'Archiv:  Spiele des Teams ' + route.params.item.team.name,
+                    title: 'Archiv: Spiele des Teams ' + route.params.item.team.name,
                 })}
             />
             <Stack.Screen
@@ -95,6 +95,13 @@ export default function YearsStackNavigator({navigation}) {
                         route.params.item.sport.name +
                         ' Gruppe ' +
                         route.params.item.group_name,
+                })}
+            />
+            <Stack.Screen
+                name="AllMatchPhotos"
+                component={AllMatchPhotosScreen}
+                options={({route}) => ({
+                    title: 'Fotos ' + route.params.item.year_name
                 })}
             />
         </Stack.Navigator>

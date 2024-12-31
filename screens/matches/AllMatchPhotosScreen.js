@@ -5,10 +5,12 @@ import fetchApi from '../../components/fetchApi';
 import Carousel from "react-native-reanimated-carousel";
 import {style} from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import {useRoute} from "@react-navigation/native";
 
 const width = Dimensions.get("window").width;
 
 export default function AllMatchPhotosScreen({navigation}) {
+    const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [progress, setProgress] = useState(0);
@@ -22,7 +24,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     const loadScreenData = () => {
         setLoading(true);
 
-        fetchApi('matcheventLogs/getPhotosAll/' + (global.myTeamId ?? 0))
+        fetchApi('matcheventLogs/getPhotosAll/' + (global.myTeamId ?? 0) + '/' + (route.params?.item?.year_id ?? 0))
             .then((json) => {
                 setData(json);
                 navigation.setOptions({headerRight: () => null}); // needed for iOS

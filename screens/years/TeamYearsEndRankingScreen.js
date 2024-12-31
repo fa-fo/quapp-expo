@@ -47,10 +47,21 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                                        })}
                                             >
                                                 <TextC style={style().textButtonTopRight}
-                                                      numberOfLines={1}>{'Archiv Tag ' + (day_id + 1)}</TextC>
+                                                       numberOfLines={1}>{'Archiv Tag ' + (day_id + 1)}</TextC>
                                             </Pressable>
                                         </View>
                                     )) : null}
+                                    {route.params.item.year_id >= 27 ?
+                                        <View style={{flex: 1, alignItems: 'center'}}>
+                                            <Pressable style={style().buttonTopRight}
+                                                       onPress={() => navigation.navigate('AllMatchPhotos', {
+                                                           item: route.params.item
+                                                       })}
+                                            >
+                                                <TextC style={style().textButtonTopRight}
+                                                       numberOfLines={1}>{'Fotos'}</TextC>
+                                            </Pressable>
+                                        </View> : null}
                                 </View>
                             </View>
                         }>
