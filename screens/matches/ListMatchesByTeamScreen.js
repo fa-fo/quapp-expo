@@ -42,14 +42,19 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     global.myTeamName = (route.params.item?.team?.name ?? '');
                     AsyncStorageFunctions.setAsyncStorage('myTeamId', global.myTeamId);
                     AsyncStorageFunctions.setAsyncStorage('myTeamName', global.myTeamName);
+                }
 
+                // set pushToken
+                if (route.params?.setMyTeam || global.myYearId !== json.year?.settings?.currentYear_id) {
                     let postData = {
                         'my_team_id': global.myTeamId,
-                        'expoPushToken': global.expoPushToken,
+                        'expoPushToken': global.expoPushToken
                     };
 
                     fetchApi('pushTokens/add', 'POST', postData)
                         .catch((error) => console.error(error));
+
+                    AsyncStorageFunctions.setAsyncStorage('myYearId', json.year?.settings?.currentYear_id);
                 }
 
                 if (global.myTeamId === team_id || (route.params?.setMyTeam && global.myTeamId === 0)) {

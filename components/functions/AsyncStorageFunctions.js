@@ -34,6 +34,11 @@ export async function loadStorageData() {
         .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
         .catch((error) => console.error(error));
 
+    await AsyncStorage.getItem('myYearId')
+        .then(response => response !== null ? response.toString() : null)
+        .then((string) => global.myYearId = (string !== null ? parseInt(JSON.parse(string)) : null))
+        .catch((error) => console.error(error));
+
     if (window?.location?.hostname === 'api.quattfo.de') {
         global.myTeamId = 0;  // reason: do not show TeamSelectScreen for this host!
     }
