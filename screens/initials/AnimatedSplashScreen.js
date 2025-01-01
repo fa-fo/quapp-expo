@@ -86,12 +86,12 @@ export default function AnimatedSplashScreen({image}) {
                 : null}
 
             {showSplash ?
-                <Animated.View pointerEvents="none"
-                               style={[StyleSheet.absoluteFill,
-                                   {
-                                       backgroundColor: ColorFunctions.getColor('primaryBgBlackWhite'),
-                                       height: '100%', alignItems: 'center', display: 'flex'
-                                   }]}>
+                <Animated.View style={[StyleSheet.absoluteFill,
+                    {
+                        backgroundColor: ColorFunctions.getColor('primaryBgBlackWhite'),
+                        height: '100%', alignItems: 'center', display: 'flex',
+                        pointerEvents: 'none'
+                    }]}>
                     <Animated.Image
                         style={{
                             flex: 1,
