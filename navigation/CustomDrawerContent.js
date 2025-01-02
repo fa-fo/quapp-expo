@@ -25,7 +25,7 @@ export default function CustomDrawerContent(props) {
             <View style={style().logoView}>
                 <Image
                     style={style().logoImage}
-                    source={require('../assets/images/logo2024.png')}
+                    source={require('../assets/images/logo.png')}
                 />
             </View>
             <View style={style().drawerSectionView}>
