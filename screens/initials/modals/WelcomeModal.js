@@ -13,14 +13,12 @@ export default function WelcomeModal({setModalVisible, modalVisible}) {
         >
             <View style={style().centeredView}>
                 <View style={style().modalView}>
-                    <TextC style={style().big3}>Herzlich Willkommen in der QuattFo-App!</TextC>
-                    <TextC>Bitte wähle zunächst dein Team aus. Die App-Darstellung und -Benachrichtigungen werden danach
-                        ausgerichtet.</TextC>
+                    <TextC style={style().big2a}>Herzlich Willkommen in der QuattFo-App!</TextC>
+                    <TextC style={style().big22}>{'\n'}Bitte wähle zunächst dein Team aus.{'\n\n'}</TextC>
                     {global.settings.isTest ?
                         <TextC style={style().testMode}>{global.hintTestData}</TextC> : null}
-                    <TextC>Vom linken Bildschirmrand wischen, um das Menü zu öffnen!</TextC>
                     <Pressable style={[style().button1, style().buttonGreen]} onPress={() => setModalVisible(false)}>
-                        <TextC style={style().textButton1}>OK, alles klar!</TextC>
+                        <TextC style={style().textButton1}>OK</TextC>
                     </Pressable>
                 </View>
             </View>

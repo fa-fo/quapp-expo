@@ -1,4 +1,3 @@
-import MyTeamSelectScreen from '../screens/initials/MyTeamSelectScreen';
 import ListMatchesByTeamScreen from '../screens/matches/ListMatchesByTeamScreen';
 import RankingInGroupsScreen from '../screens/matches/RankingInGroupsScreen';
 import ListMatchesByGroupScreen from '../screens/matches/ListMatchesByGroupScreen';
@@ -30,11 +29,6 @@ export default function MyMatchesStackNavigator({navigation}) {
                 },
                 headerBackButtonDisplayMode: 'minimal'
             }}>
-            <Stack.Screen
-                name="MyTeamSelect"
-                component={MyTeamSelectScreen}
-                options={{title: 'Bitte Team auswählen'}}
-            />
             <Stack.Screen
                 name="MyMatchesCurrent"
                 component={ListMatchesByTeamScreen}

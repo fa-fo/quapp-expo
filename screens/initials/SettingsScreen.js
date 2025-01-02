@@ -4,6 +4,7 @@ import {Appearance, Platform, Pressable, ScrollView, View} from 'react-native';
 import {style} from "../../assets/styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import UsernameLoginModal from "../../navigation/modals/UsernameLoginModal";
+import MyTeamSelectModal from "./modals/MyTeamSelectModal";
 import {Picker} from "@react-native-picker/picker";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import {reloadAppAsync} from "expo";
@@ -12,6 +13,7 @@ export default function SettingsScreen({navigation}) {
     const [selectedScheme, setSelectedScheme] = useState(global.colorSchemeSaved);
     const [showReloadButton, setShowReloadButton] = useState(false);
     const [usernameModalVisible, setUsernameModalVisible] = useState(false);
+    const [myTeamSelectModalVisible, setMyTeamSelectModalVisible] = useState(false);
     const [username, setUsername] = useState(null);
 
     useEffect(() => {
@@ -35,7 +37,7 @@ export default function SettingsScreen({navigation}) {
                 {window?.location?.hostname === 'api.quattfo.de' ? null :
                     <Pressable style={[style().button1, style().buttonGreen]}
                                onPress={() => {
-                                   navigation.navigate('MyMatches', {screen: 'MyTeamSelect'})
+                                   setMyTeamSelectModalVisible(true)
                                }}
                     >
                         <TextC style={style().textButton1}>
@@ -127,6 +129,12 @@ export default function SettingsScreen({navigation}) {
                     navigation={navigation}
                 />
             </View>
+            {window?.location?.hostname === 'api.quattfo.de' ? null :
+                <MyTeamSelectModal
+                    navigation={navigation}
+                    setModalVisible={setMyTeamSelectModalVisible}
+                    modalVisible={myTeamSelectModalVisible}
+                />}
         </ScrollView>
     );
 }

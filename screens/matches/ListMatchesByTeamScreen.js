@@ -10,26 +10,29 @@ import {setLocalPushNotifications} from "../../components/setLocalPushNotificati
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
 
 export default function ListMatchesByTeamScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [localScore, setLocalScore] = useState(null);
+    const [myTeamSelectModalVisible, setMyTeamSelectModalVisible] = useState(false);
 
     let team_id_prev = 0; // previously called team_id
     let team_id = route.params?.item?.team_id ?? global.myTeamId;
     let team_name = route.params?.item?.team?.name ?? global.myTeamName;
 
     useEffect(() => {
-        return navigation.addListener('focus', () => {
-            if (team_id_prev !== team_id) {
-                team_id_prev = team_id;
-                setLoading(true);
-                loadScreenData();
-            }
-        });
-    }, [navigation, route]);
+        if (team_id === null) {
+            // first app start
+            setMyTeamSelectModalVisible(true);
+        } else if (team_id_prev !== team_id || route.params?.setMyTeam) {
+            team_id_prev = team_id;
+            setLoading(true);
+            loadScreenData();
+        }
+    }, [route]);
 
     const loadScreenData = () => {
         fetchApi('matches/byTeam/' + (team_id ?? 0) + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0) + (route.name === 'ListMatchesByTeamAdmin' ? '/1' : ''))
@@ -80,9 +83,6 @@ export default function ListMatchesByTeamScreen({navigation}) {
             })
             .finally(() => {
                 setLoading(false);
-                if (global.myTeamId === null) {
-                    navigation.navigate('MyMatches', {screen: 'MyTeamSelect'});
-                }
             });
     }
 
@@ -184,6 +184,12 @@ export default function ListMatchesByTeamScreen({navigation}) {
                             <TextC>Fehler: keine Spiele gefunden!</TextC>
                     ))
             }
+            {window?.location?.hostname === 'api.quattfo.de' ? null :
+                <MyTeamSelectModal
+                    navigation={navigation}
+                    setModalVisible={setMyTeamSelectModalVisible}
+                    modalVisible={myTeamSelectModalVisible}
+                />}
         </ScrollView>
     );
 }
