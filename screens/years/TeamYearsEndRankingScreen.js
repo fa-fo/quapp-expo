@@ -39,7 +39,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                         <TextC>{route.params.item.year_name}</TextC>
                                     </View>
                                     {data.yearSelected?.daysWithGroups > 0 ? ([...Array(data.yearSelected.daysWithGroups).keys()]).map(day_id => (
-                                        <View key={day_id} style={{flex: 1, alignItems: 'center'}}>
+                                        <View key={day_id} style={{flex: 2, alignItems: 'center'}}>
                                             <Pressable style={style().buttonTopRight}
                                                        onPress={() => navigation.navigate('GroupsAll', {
                                                            year_id: route.params.item.year_id,
@@ -51,7 +51,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                             </Pressable>
                                         </View>
                                     )) : null}
-                                    {route.params.item.year_id >= 27 ?
+                                    {data.yearSelected && route.params.item.year_id >= 27 ?
                                         <View style={{flex: 1, alignItems: 'center'}}>
                                             <Pressable style={style().buttonTopRight}
                                                        onPress={() => navigation.navigate('AllMatchPhotos', {
