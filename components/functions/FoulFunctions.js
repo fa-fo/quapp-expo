@@ -1,6 +1,6 @@
+import {Text, View} from 'react-native';
 import TextC from "../../components/customText";
 import {style} from "../../assets/styles";
-import {View} from "react-native";
 
 export function getFoulCards(logsCalc, eventItemCode, teamId, diff) {
     eventItemCode += '_V2';
@@ -10,13 +10,12 @@ export function getFoulCards(logsCalc, eventItemCode, teamId, diff) {
             {logsCalc[eventItemCode] !== undefined && logsCalc[eventItemCode][teamId] !== undefined ?
                 Object.entries(logsCalc[eventItemCode][teamId]).map(([key, val]) => (
                     <View key={key}>
-                        <TextC style={getStyles(eventItemCode, val.count)}>
-                            <TextC>{key}</TextC>
-                            <TextC style={{
-                                fontSize: 10,
-                                marginTop: -16
-                            }}>{'\n' + 'X'.repeat(Math.abs(Number(val.count)))}</TextC>
-                        </TextC>
+                        <Text style={getStyles(eventItemCode, val.count)}>
+                            <Text>{key}</Text>
+                            <Text style={{fontSize: 10, marginTop: -16}}>
+                                {'\n' + 'X'.repeat(Math.abs(Number(val.count)))}
+                            </Text>
+                        </Text>
                         {val.reEntryTime !== undefined ?
                             Object.entries(val.reEntryTime).map(([k, v]) => (
                                 <TextC key={k}>{getSuspTime(v, diff)}</TextC>

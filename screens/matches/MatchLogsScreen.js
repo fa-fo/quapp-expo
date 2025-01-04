@@ -1,6 +1,15 @@
 import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput, View} from 'react-native';
+import {
+    ActivityIndicator,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    View
+} from 'react-native';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {useKeepAwake} from 'expo-keep-awake';
 import fetchApi from '../../components/fetchApi';
@@ -172,6 +181,17 @@ export default function MatchLogsScreen({navigation}) {
             }
         }
 
+        return () => {
+            setSubmitData(false);
+            setAddEvent(false);
+            setAddEventDirectly(false);
+            setAddEventModalVisible(false);
+            setCancelEventModalVisible(false);
+            //setPhotoModalVisible(false);
+        };
+    }, [addEventDirectly, navigation]);
+
+    useEffect(() => {
         // initial
         if (allEvents.length === 0) {
             fetchApi('matchevents/all/1')
@@ -182,19 +202,10 @@ export default function MatchLogsScreen({navigation}) {
                 .catch((error) => console.error(error))
                 .finally(() => setLoading(false));
         }
-
-        return () => {
-            setSubmitData(false);
-            setAddEvent(false);
-            setAddEventDirectly(false);
-            setAddEventModalVisible(false);
-            setCancelEventModalVisible(false);
-            //setPhotoModalVisible(false);
-        };
-    }, [navigation, allEvents, addEventDirectly]);
+    }, []);
 
     useEffect(() => {
-        if (allEvents.object) {
+        if (allEvents?.object) {
             navigation.addListener('beforeRemove', (e) => {
                 if (isFocused) {
                     e.preventDefault();
@@ -376,16 +387,16 @@ export default function MatchLogsScreen({navigation}) {
                         return null;
                 }
             case 'GOAL_2POINT':
-                return <TextC>
+                return <Text>
                     <IconIon name="basketball" size={15}/>
                     <IconIon name="basketball" size={15}/>
-                </TextC>
+                </Text>
             case 'GOAL_3POINT':
-                return <TextC>
+                return <Text>
                     <IconIon name="basketball" size={15}/>
                     <IconIon name="basketball" size={15}/>
                     <IconIon name="basketball" size={15}/>
-                </TextC>
+                </Text>
             case 'FOUL_CARD_YELLOW':
             case 'FOUL_CARD_RED_FB':
             case 'FOUL_CARD_RED_HB':
@@ -502,7 +513,7 @@ export default function MatchLogsScreen({navigation}) {
                     {getButtonIcon(eventItem.code)}
                     {getButtonText(eventItem.code, eventItem.name)}
                     {teamName !== null ? '\n' : null}
-                    {teamName !== null ? <TextC numberOfLines={1}>{teamName}</TextC> : null}
+                    {teamName !== null ? <Text numberOfLines={1}>{teamName}</Text> : null}
                 </TextC>
             </Pressable>
         );
@@ -577,9 +588,9 @@ export default function MatchLogsScreen({navigation}) {
                                         setCancelEventModalVisible(true);
                                     }}
                                 >
-                                    <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>
+                                    <Text numberOfLines={1} style={[style().centeredText100, style().small]}>
                                         <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
-                                    </TextC>
+                                    </Text>
                                 </Pressable>
                             </View>
                             : null}
