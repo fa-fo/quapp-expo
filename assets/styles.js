@@ -105,7 +105,7 @@ export const style = () => StyleSheet.create({
     },
     buttonGreyBright: {
         backgroundColor: '#c9c9c9',
-        shadowColor: '#aaaaaa',
+        shadowColor: '#aaaaaa'
     },
     textButtonTopRight: {
         color: ColorFunctions.getColor('buttonTxt'),
@@ -131,6 +131,11 @@ export const style = () => StyleSheet.create({
         color: ColorFunctions.getColor('primary'),
         borderColor: '#3d8d02',
         borderWidth: 2,
+    },
+    textInputLarge: {
+        fontSize: 36,
+        textAlign: 'center',
+        width: '100%'
     },
     testMode: {
         paddingVertical: 4,

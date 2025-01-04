@@ -1,6 +1,6 @@
 import TextC from "../../../components/customText";
 import {useEffect, useState} from 'react';
-import {Modal, Pressable, TextInput, View} from 'react-native';
+import {Modal, Pressable, Text, TextInput, View} from 'react-native';
 import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
@@ -84,7 +84,7 @@ export default function MatchLogsAddEventModal({
                     <TextC> </TextC>
                     {addEvent.needsPlayerAssoc ? (
                         <View>
-                            <TextInput style={style().textInput}
+                            <TextInput style={[style().textInput, style().textInputLarge]}
                                        onChangeText={setPlayerNumber}
                                        placeholder="Hier zuerst Nummer eingeben"
                                        keyboardType="numeric"
@@ -117,8 +117,12 @@ export default function MatchLogsAddEventModal({
                                 {addEvent.needsTeamAssoc ?
                                     team.name
                                     :
-                                    <TextC><IconMat name="arrow-right" size={30}
-                                                   style={{color: showBlinking ? '#fff' : '#3d8d02'}}/> Bestätigen</TextC>}
+                                    <Text>
+                                        <IconMat name="arrow-right" size={30}
+                                                 style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
+                                        {' '}Bestätigen
+                                    </Text>
+                                }
                             </TextC>
                         </Pressable>
                     ))}
