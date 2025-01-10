@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {style} from "../../assets/styles";
 import * as SportFunctions from "../../components/functions/SportFunctions";
+import ClearLogsModal from "./modals/ClearLogsModal";
 
 export default function AdminActionsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -15,6 +16,7 @@ export default function AdminActionsScreen({navigation}) {
     const [selectedValue2, setSelectedValue2] = useState('standard');
     const [teamNames, setTeamNames] = useState('');
     const [teamNamesSplit, setTeamNamesSplit] = useState([]);
+    const [clearLogsModalVisible, setClearLogsModalVisible] = useState(false);
 
     useEffect(() => {
         loadScreenData({});
@@ -102,6 +104,16 @@ export default function AdminActionsScreen({navigation}) {
                                 <TextC style={style().textButton1}>neu laden</TextC>
                             </Pressable>
                         </View>
+
+                        {data.object.roundsWithPossibleLogsDelete.length ?
+                            <View style={{position: 'absolute', right: 0, top: 10}}>
+                                <Pressable
+                                    style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 120}]}
+                                    onPress={() => setClearLogsModalVisible(true)}>
+                                    <Icon name="delete" size={25}/>
+                                    <TextC style={style().textButton1}>Logs leeren</TextC>
+                                </Pressable>
+                            </View> : null}
 
                         <TextC style={{fontSize: 32}}>{data.year.name}</TextC>
                         <TextC style={{fontSize: 26}}>{'Tag ' + data.year.settings.currentDay_id}</TextC>
@@ -302,6 +314,12 @@ export default function AdminActionsScreen({navigation}) {
                             {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
+                        <TextC>Max. Jobs je Team je
+                            Runde: {data.object.maxJobsByTeamPerRound}
+                            {data.object.maxJobsByTeamPerRound === 1 ?
+                                <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                        </TextC>
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
                             <View>
@@ -389,7 +407,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGreyDark]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatches')}>
                                         <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                                                                 size={25}/>Pdf-Download:{'\n'}Alle
                                             Team-Spielpläne </TextC>
                                     </Pressable>
                                 </View>
@@ -397,7 +415,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/0')}>
                                         <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                                                                 size={25}/>Pdf-Download:{'\n'}Alle
                                             Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 1</TextC>
                                     </Pressable>
                                 </View>
@@ -405,7 +423,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/1')}>
                                         <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                                                                 size={25}/>Pdf-Download:{'\n'}Alle
                                             Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 2</TextC>
                                     </Pressable>
                                 </View>
@@ -419,7 +437,7 @@ export default function AdminActionsScreen({navigation}) {
                                         <Pressable style={[style().button1, style().buttonGreyBright]}
                                                    onPress={() => downloadPdf('sports/pdfAllFieldsMatches')}>
                                             <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                                   size={25}/>Pdf-Download:{'\n'}Alle
+                                                                                     size={25}/>Pdf-Download:{'\n'}Alle
                                                 Feld-Spielpläne </TextC>
                                         </Pressable>
                                         : null}
@@ -428,7 +446,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGreyDark]}
                                                onPress={() => downloadPdf('groupTeams/pdfAllRankings')}>
                                         <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                                                                 size={25}/>Pdf-Download:{'\n'}Alle
                                             Tabellen
                                         </TextC>
                                     </Pressable>
@@ -437,7 +455,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGreyDark]}
                                                onPress={() => downloadPdf('matches/pdfMatchesByGroup')}>
                                         <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                               size={25}/>Pdf-Download:{'\n'}Alle
+                                                                                 size={25}/>Pdf-Download:{'\n'}Alle
                                             Gruppen-Spielpläne </TextC>
                                     </Pressable>
                                 </View>
@@ -446,7 +464,8 @@ export default function AdminActionsScreen({navigation}) {
 
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         <TextC>Spiele
-                            gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (gewertet / freigeschaltet)
+                            gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (gewertet
+                            / freigeschaltet)
                             {data.object.matchesCount === data.object.matchResultCount && data.object.matchResultCount > 0 ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
@@ -523,7 +542,7 @@ export default function AdminActionsScreen({navigation}) {
                                                 <Pressable style={[style().button1, style().buttonGreyDark]}
                                                            onPress={() => downloadPdf('teamYears/pdfEndRanking')}>
                                                     <TextC style={style().textButton1}><Icon name="file-pdf-box"
-                                                                                           size={25}/>Pdf-Download:{'\n'}Jahres-Endtabelle</TextC>
+                                                                                             size={25}/>Pdf-Download:{'\n'}Jahres-Endtabelle</TextC>
                                                 </Pressable>
                                             </View> : null}
                                     </View> : null}
@@ -584,6 +603,12 @@ export default function AdminActionsScreen({navigation}) {
                             </View> : null}
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
+            <ClearLogsModal
+                setModalVisible={setClearLogsModalVisible}
+                modalVisible={clearLogsModalVisible}
+                loadScreenData={loadScreenData}
+                roundsWithPossibleLogsDelete={data?.object?.roundsWithPossibleLogsDelete}
+            />
         </ScrollView>
     )
 }

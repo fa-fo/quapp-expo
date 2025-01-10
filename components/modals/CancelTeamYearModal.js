@@ -21,6 +21,7 @@ export default function CancelTeamYearModal({
                 .then(json => {
                     if (json && json.status === 'success') {
                         setModalVisible(false);
+                        setUsernamePW('');
                         setCanceled(json.object ? json.object.canceled : undo);
                     }
                 })
