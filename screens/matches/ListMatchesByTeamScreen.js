@@ -6,9 +6,9 @@ import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import {style} from '../../assets/styles.js';
 import fetchApi from '../../components/fetchApi';
-import {setLocalPushNotifications} from "../../components/setLocalPushNotifications";
-import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
+import * as DateFunctions from "../../components/functions/DateFunctions";
+import * as PushFunctions from "../../components/functions/PushFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
 
@@ -34,47 +34,59 @@ export default function ListMatchesByTeamScreen({navigation}) {
         }
     }, [route]);
 
+    function setMyTeam() {
+        if (route.params?.setMyTeam && global.myTeamId !== (route.params?.item?.team_id ?? 0)) {
+            global.myTeamId = (route.params.item?.team_id ?? 0);
+            global.myTeamName = (route.params.item?.team?.name ?? '');
+            AsyncStorageFunctions.setAsyncStorage('myTeamId', global.myTeamId);
+            AsyncStorageFunctions.setAsyncStorage('myTeamName', global.myTeamName);
+        }
+    }
+
+    function setPushToken(settings) {
+        if (route.params?.setMyTeam || global.myYearId !== settings?.currentYear_id) {
+            if (settings?.currentYear_id) {
+                if (global.myYearId !== settings.currentYear_id) {
+                    global.myYearId = settings.currentYear_id;
+                    AsyncStorageFunctions.clearScores();
+                    AsyncStorageFunctions.setAsyncStorage('myYearId', global.myYearId);
+                }
+
+                let postData = {
+                    'my_team_id': global.myTeamId,
+                    'my_year_id': global.myYearId,
+                    'expoPushToken': global.expoPushToken
+                };
+
+                fetchApi('pushTokens/add', 'POST', postData)
+                    .catch((error) => console.error(error));
+            }
+        }
+    }
+
+    function showLocalStorageScore(settings) {
+        if (settings?.showLocalStorageScore) {
+            AsyncStorageFunctions.getScore()
+                .then(response => response !== null ? response.toString() : null)
+                .then((string) => {
+                    let jsonScore = string !== null ? JSON.parse(string) : null;
+                    setLocalScore(jsonScore);
+                })
+                .catch((error) => console.error(error));
+        }
+    }
+
     const loadScreenData = () => {
         fetchApi('matches/byTeam/' + (team_id ?? 0) + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0) + (route.name === 'ListMatchesByTeamAdmin' ? '/1' : ''))
             .then((json) => {
                 setData(json);
-
-                // set MyTeam
-                if (route.params?.setMyTeam && global.myTeamId !== (route.params?.item?.team_id ?? 0)) {
-                    global.myTeamId = (route.params.item?.team_id ?? 0);
-                    global.myTeamName = (route.params.item?.team?.name ?? '');
-                    AsyncStorageFunctions.setAsyncStorage('myTeamId', global.myTeamId);
-                    AsyncStorageFunctions.setAsyncStorage('myTeamName', global.myTeamName);
-                }
-
-                // set pushToken
-                if (route.params?.setMyTeam || global.myYearId !== json.year?.settings?.currentYear_id) {
-                    global.myYearId = json.year?.settings?.currentYear_id;
-
-                    let postData = {
-                        'my_team_id': global.myTeamId,
-                        'my_year_id': global.myYearId,
-                        'expoPushToken': global.expoPushToken
-                    };
-
-                    fetchApi('pushTokens/add', 'POST', postData)
-                        .catch((error) => console.error(error));
-
-                    AsyncStorageFunctions.setAsyncStorage('myYearId', global.myYearId);
-                }
+                setMyTeam();
+                setPushToken(json.year?.settings);
+                showLocalStorageScore(json.year?.settings);
 
                 if (global.myTeamId === team_id || (route.params?.setMyTeam && global.myTeamId === 0)) {
-                    setLocalPushNotifications(json.object.matches);
-                }
-
-                if (json.year?.settings?.showLocalStorageScore) {
-                    AsyncStorageFunctions.getScore()
-                        .then(response => response !== null ? response.toString() : null)
-                        .then((string) => {
-                            let jsonScore = string !== null ? JSON.parse(string) : null;
-                            setLocalScore(jsonScore);
-                        })
-                        .catch((error) => console.error(error));
+                    PushFunctions.setLocalPushNotifications(json.object.matches);
+                    AsyncStorageFunctions.setAsyncStorage('myMatches', json.object.matches);
                 }
             })
             .catch((error) => {
