@@ -19,47 +19,80 @@ export default function ListMatchesByTeamScreen({navigation}) {
     const [localScore, setLocalScore] = useState(null);
     const [myTeamSelectModalVisible, setMyTeamSelectModalVisible] = useState(false);
 
-    let team_id_prev = 0; // previously called team_id
     let team_id = route.params?.item?.team_id ?? global.myTeamId;
     let team_name = route.params?.item?.team?.name ?? global.myTeamName;
+    let new_team_id = route.params?.setMyTeam ? route.params.item?.team_id ?? 0 : global.myTeamId; // for team change
+    let new_team_name = route.params?.setMyTeam ? route.params.item?.team?.name ?? '' : global.myTeamName;
 
     useEffect(() => {
-        if (team_id === null) {
-            // first app start
-            setMyTeamSelectModalVisible(true);
-        } else if (team_id_prev !== team_id || route.params?.setMyTeam) {
-            team_id_prev = team_id;
+        setMyTeamSelectModalVisible(team_id === null); // first app start
+
+        const loadData = () => {
             setLoading(true);
             loadScreenData();
+        };
+
+        return route.name === 'MyMatchesCurrent' ? navigation.addListener('focus', loadData) : loadData();
+    }, []);
+
+    const loadScreenData = () => {
+        if (team_id !== null) {
+            fetchApi('matches/byTeam/' + (team_id ?? 0) + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0) + (route.name === 'ListMatchesByTeamAdmin' ? '/1' : ''))
+                .then((json) => {
+                    setData(json);
+                    setMyTeam();
+                    setPushToken(json.year?.settings);
+                    updateGlobalVariables(json.year?.settings);
+                    showLocalStorageScore(json.year?.settings);
+                    setMatchesServices(json.object.matches);
+                })
+                .catch((error) => {
+                    console.error(error)
+                    navigation.navigate('MyMatches', {screen: 'NoInternetModal'});
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
-    }, [route]);
+    }
 
     function setMyTeam() {
-        if (route.params?.setMyTeam && global.myTeamId !== (route.params?.item?.team_id ?? 0)) {
-            global.myTeamId = (route.params.item?.team_id ?? 0);
-            global.myTeamName = (route.params.item?.team?.name ?? '');
-            AsyncStorageFunctions.setAsyncStorage('myTeamId', global.myTeamId);
-            AsyncStorageFunctions.setAsyncStorage('myTeamName', global.myTeamName);
+        if (route.params?.setMyTeam && global.myTeamId !== new_team_id) {
+            AsyncStorageFunctions.setAsyncStorage('myTeamId', new_team_id);
+            AsyncStorageFunctions.setAsyncStorage('myTeamName', new_team_name);
         }
     }
 
     function setPushToken(settings) {
-        if (route.params?.setMyTeam || global.myYearId !== settings?.currentYear_id) {
+        if ((route.params?.setMyTeam && global.myTeamId !== new_team_id) || global.myYearId !== settings?.currentYear_id) {
             if (settings?.currentYear_id) {
                 if (global.myYearId !== settings.currentYear_id) {
-                    global.myYearId = settings.currentYear_id;
                     AsyncStorageFunctions.clearScores();
-                    AsyncStorageFunctions.setAsyncStorage('myYearId', global.myYearId);
+                    AsyncStorageFunctions.setAsyncStorage('myYearId', settings.currentYear_id);
                 }
 
                 let postData = {
-                    'my_team_id': global.myTeamId,
-                    'my_year_id': global.myYearId,
+                    'my_team_id': new_team_id,
+                    'my_year_id': settings.currentYear_id,
                     'expoPushToken': global.expoPushToken
                 };
 
                 fetchApi('pushTokens/add', 'POST', postData)
                     .catch((error) => console.error(error));
+            }
+        }
+    }
+
+    function updateGlobalVariables(settings) {
+        if (route.params?.setMyTeam && global.myTeamId !== new_team_id) {
+            global.myTeamId = new_team_id;
+            global.myTeamName = new_team_name;
+        }
+        if ((route.params?.setMyTeam && global.myTeamId !== new_team_id) || global.myYearId !== settings?.currentYear_id) {
+            if (settings?.currentYear_id) {
+                if (global.myYearId !== settings.currentYear_id) {
+                    global.myYearId = settings.currentYear_id;
+                }
             }
         }
     }
@@ -76,26 +109,11 @@ export default function ListMatchesByTeamScreen({navigation}) {
         }
     }
 
-    const loadScreenData = () => {
-        fetchApi('matches/byTeam/' + (team_id ?? 0) + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0) + (route.name === 'ListMatchesByTeamAdmin' ? '/1' : ''))
-            .then((json) => {
-                setData(json);
-                setMyTeam();
-                setPushToken(json.year?.settings);
-                showLocalStorageScore(json.year?.settings);
-
-                if (global.myTeamId === team_id || (route.params?.setMyTeam && global.myTeamId === 0)) {
-                    PushFunctions.setLocalPushNotifications(json.object.matches);
-                    AsyncStorageFunctions.setAsyncStorage('myMatches', json.object.matches);
-                }
-            })
-            .catch((error) => {
-                console.error(error)
-                navigation.navigate('MyMatches', {screen: 'NoInternetModal'});
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+    function setMatchesServices(matches) {
+        if (global.myTeamId === team_id || (route.params?.setMyTeam && global.myTeamId === 0)) {
+            PushFunctions.setLocalPushNotifications(matches);
+            AsyncStorageFunctions.setAsyncStorage('myMatches', matches);
+        }
     }
 
     return (
