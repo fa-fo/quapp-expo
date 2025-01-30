@@ -2,7 +2,7 @@ import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {ActivityIndicator, Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {style} from '../../assets/styles.js';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchDetailsLoginModal from './modals/MatchDetailsLoginModal';
 import MatchDetailsPhotoModal from "./modals/MatchDetailsPhotoModal";
@@ -13,6 +13,7 @@ import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
 
 export default function MatchDetailsScreen({navigation}) {
     const route = useRoute();
+    const isFocused = useIsFocused();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,6 +26,20 @@ export default function MatchDetailsScreen({navigation}) {
             loadScreenData();
         });
     }, [route]);
+
+    // reload to check for result confirmation
+    useEffect(() => {
+        if (data?.object && data.object[0].logsCalc.isMatchEnded && !data.object[0].logsCalc.isResultConfirmed) {
+            const timer = setTimeout(() => {
+                if (isFocused && !modalVisible && !photoModalVisible) {
+                    setLoading(true);
+                    loadScreenData();
+                }
+            }, 60000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [data]);
 
     const loadScreenData = () => {
         fetchApi('matches/byId/' + route.params.item.id)
