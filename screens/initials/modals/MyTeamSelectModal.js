@@ -68,10 +68,13 @@ export default function MyTeamSelectModal({
                                                      detail={'auswählen'}
                                                      onPress={() => {
                                                          setModalVisible(false);
-                                                         navigation.popTo('MyMatchesCurrent', {
-                                                             item: item,
-                                                             setMyTeam: 1,
-                                                         });
+                                                         navigation.reset({
+                                                             index: 0,
+                                                             routes: [{
+                                                                 name: 'MyMatchesCurrent',
+                                                                 params: {setMyTeam: 1, item: item}
+                                                             }],
+                                                         })
                                                      }}
                                         />
                                     ))}
@@ -82,10 +85,13 @@ export default function MyTeamSelectModal({
                                                  detail={'auswählen'}
                                                  onPress={() => {
                                                      setModalVisible(false);
-                                                     navigation.popTo((global.myTeamId ? 'MyMatchesCurrent' : 'GroupsAll'), {
-                                                         item: null,
-                                                         setMyTeam: 1,
-                                                     });
+                                                     navigation.reset({
+                                                         index: 0,
+                                                         routes: [{
+                                                             name: 'MyMatchesCurrent',
+                                                             params: {setMyTeam: 1, item: null}
+                                                         }],
+                                                     })
                                                  }}
                                     />
                                 </Section>
