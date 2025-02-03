@@ -34,7 +34,7 @@ export default function RoundsCurrentScreen({navigation}) {
                     <TableView appearance={global.colorScheme}>
                         <Section
                             header={global.currentDayName}
-                            headerComponent={route.name !== 'RoundsCurrent' ?
+                            headerComponent={route.name !== 'RoundsCurrent' && global.settings.useLiveScouting ?
                                 <View style={[style().matchflexRowView, style().headerComponentView]}>
                                     <View style={{flex: 2}}>
                                         <TextC>{global.currentDayName}</TextC>

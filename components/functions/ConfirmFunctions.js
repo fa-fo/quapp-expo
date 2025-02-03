@@ -1,7 +1,11 @@
 import TextC from "../../components/customText";
-import {Pressable} from 'react-native';
+import {ActivityIndicator, Pressable, TextInput, View} from 'react-native';
 import {style} from '../../assets/styles.js';
 import fetchApi from '../fetchApi';
+import {useEffect, useState} from "react";
+import * as SportFunctions from "./SportFunctions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {isNumber} from "./CheckFunctions";
 
 export function getMatches2Confirm(object) {
     let matches = [];
@@ -23,7 +27,7 @@ export function getMatches2Confirm(object) {
     return matches;
 }
 
-export const confirmResults = (matches, setModalVisible, loadScreenData, postData) => {
+export const confirmResults = (matches, setModalVisible, loadScreenData, postData, setSaved) => {
     postData = {'password': global.adminPW, ...postData};
     postData = {'matches': JSON.stringify(matches), ...postData};
 
@@ -34,9 +38,13 @@ export const confirmResults = (matches, setModalVisible, loadScreenData, postDat
                     loadScreenData(data.object.round_id);
                 if (setModalVisible)
                     setModalVisible(false);
+                if (setSaved)
+                    setSaved(true);
+
+                return data.object[1] ?? null;
             }
         })
-        .catch(error => console.error(error));
+    //.catch(error => console.error(error));
 };
 
 export function getConfirmButton(matchId, mode, text, setModalVisible, loadScreenData) {
@@ -84,4 +92,183 @@ export function getConfirmModeFromCanceled(canceled) {
             : canceled === 3
                 ? 5
                 : 0;
+}
+
+export function getInsertRefereeNameField(match) {
+    const [oldRefName, setOldRefName] = useState(match.refereeName ?? '');
+    const [refName, setRefName] = useState(oldRefName);
+    const [isTryingSave, setIsTryingSave] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    const submit = () => {
+        if (refName !== oldRefName) {
+            setIsTryingSave(true);
+            let postData = {'refereeName': refName};
+
+            SportFunctions.saveRefereeName(match, postData, setSaved)
+                .finally(() => {
+                    setOldRefName(refName);
+                    setIsTryingSave(false)
+                });
+        }
+    }
+
+    return (
+        match.isTime2confirm ?
+            (match.refereeName ?
+                <TextC numberOfLines={1} style={style().textGreen}>
+                    <TextC style={style().textViolet}>SR: </TextC> {match.refereeName}
+                </TextC> : null)
+            :
+            <TextC>SR:{' '}
+                <View>
+                    <TextInput style={[style().textInput, {borderColor: refName !== '' ? 'green' : 'red'}]}
+                               disabled={isTryingSave}
+                               onChangeText={setRefName}
+                               onFocus={() => setSaved(false)}
+                               onBlur={submit}
+                               keyboardType="default"
+                               maxLength={32}
+                               value={refName ?? ''}
+                    />
+                    {saved ?
+                        <Icon name="checkbox-marked-circle" size={24}
+                              style={{position: 'absolute', right: 2, top: 2, color: 'green'}}/>
+                        : null}
+                    {isTryingSave ?
+                        <ActivityIndicator size={24} color="green"
+                                           style={{
+                                               position: 'absolute',
+                                               right: 2,
+                                               top: 2,
+                                               color: 'green'
+                                           }}/> : null}
+                </View>
+            </TextC>
+    );
+}
+
+export function getInsertResultFields(match0) { // for non-useLiveScouting
+    const [match, setMatch] = useState(match0);
+    const [oldGoals1, setOldGoals1] = useState('');
+    const [oldGoals2, setOldGoals2] = useState('');
+    const [goals1, setGoals1] = useState('');
+    const [goals2, setGoals2] = useState('');
+    const [okGoals1, setOkGoals1] = useState(false);
+    const [okGoals2, setOkGoals2] = useState(false);
+    const [isTryingSave, setIsTryingSave] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    function getGoalsFromResultGoals(resultGoals) {
+        return resultGoals !== null ? Number(resultGoals / match.sport.goalFactor) : '';
+    }
+
+    useEffect(() => {
+        let g1 = getGoalsFromResultGoals(match.resultGoals1);
+        let g2 = getGoalsFromResultGoals(match.resultGoals2);
+        setOldGoals1(g1);
+        setOldGoals2(g2);
+        setGoals1(g1);
+        setGoals2(g2);
+        setOkGoals1(g1 !== '')
+        setOkGoals2(g2 !== '')
+    }, [match]);
+
+    useEffect(() => {
+        setMatch(match0);
+    }, [match0]);
+
+    const submit = () => {
+        let submitGoals1 = isNumber(goals1.toString()) ? parseInt(goals1.toString()) : '';
+        let submitGoals2 = isNumber(goals2.toString()) ? parseInt(goals2.toString()) : '';
+
+        setOkGoals1(submitGoals1 !== '');
+        setOkGoals2(submitGoals2 !== '');
+
+        if (submitGoals1 !== '' && submitGoals2 !== '' && (submitGoals1 !== oldGoals1 || submitGoals2 !== oldGoals2)) {
+            setIsTryingSave(true);
+
+            let postData = {
+                'goals1': submitGoals1,
+                'goals2': submitGoals2,
+                'resultAdmin': 0
+            };
+
+            confirmResults([{'id': match.id, 'mode': 1}], null, null, postData, setSaved)
+                .then(m => setMatch(m))
+                .finally(() => setIsTryingSave(false))
+        }
+    }
+
+    return (
+        <View style={{flex: 5}}>
+            <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
+                <View style={{flex: 2}}>
+                    <TextC
+                        numberOfLines={1}
+                        style={[{textAlign: 'right'},
+                            (match.canceled === 1 || match.canceled === 3
+                                ? style().textRed
+                                : null)
+                        ]}>
+                        {match.teams1.name}
+                    </TextC>
+                    {match.isTime2confirm ?
+                        <TextInput
+                            style={[style().textInput, {textAlign: 'right', borderColor: okGoals1 ? 'green' : 'red'}]}
+                            disabled={isTryingSave}
+                            onChangeText={setGoals1}
+                            onFocus={() => setSaved(false)}
+                            onBlur={submit}
+                            keyboardType="numeric"
+                            maxLength={3}
+                            value={goals1?.toString() ?? ''}
+                        /> : <TextC style={{fontSize: 22, textAlign: 'right'}}>{match.resultGoals2}</TextC>}
+                </View>
+                <View style={{flex: 1}}>
+                    <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
+                        <TextC style={{flex: 2, fontSize: 22, textAlign: 'right'}}>{match.resultGoals1}</TextC>
+                        <TextC style={{flex: 1, fontSize: 22, textAlign: 'center'}}>{':'}</TextC>
+                        <TextC style={{flex: 2, fontSize: 22, textAlign: 'left'}}>{match.resultGoals2}</TextC>
+                    </View>
+                </View>
+                <View style={{flex: 2}}>
+                    <TextC
+                        numberOfLines={1}
+                        style={
+                            match.canceled === 2 || match.canceled === 3
+                                ? style().textRed
+                                : null
+                        }>
+                        {match.teams2.name}
+                    </TextC>
+                    {match.isTime2confirm ?
+                        <View>
+                            <TextInput style={[style().textInput, {borderColor: okGoals2 ? 'green' : 'red'}]}
+                                       disabled={isTryingSave}
+                                       onChangeText={setGoals2}
+                                       onFocus={() => setSaved(false)}
+                                       onBlur={submit}
+                                       keyboardType="numeric"
+                                       maxLength={3}
+                                       value={goals2?.toString() ?? ''}
+                            />
+                            {saved ?
+                                <Icon name="checkbox-marked-circle" size={24}
+                                      style={{position: 'absolute', right: 2, top: 2, color: 'green'}}/>
+                                : null}
+                            {isTryingSave ?
+                                <ActivityIndicator size={24} color="green"
+                                                   style={{
+                                                       position: 'absolute',
+                                                       right: 2,
+                                                       top: 2,
+                                                       color: 'green'
+                                                   }}/> : null}
+                        </View>
+                        : <TextC style={{fontSize: 22}}>{match.resultGoals2}</TextC>}
+                </View>
+            </View>
+        </View>
+    );
 }

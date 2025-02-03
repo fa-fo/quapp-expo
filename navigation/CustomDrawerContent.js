@@ -72,14 +72,15 @@ export default function CustomDrawerContent(props) {
             />
             {Platform.OS === 'web' && process?.env?.NODE_ENV !== 'development' ? null
                 :
-                <DrawerItem
-                    icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
-                                      color={ColorFunctions.getColor('primary')}/>}
-                    label="Fotos"
-                    onPress={() =>
-                        props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
-                    }
-                />
+                (global.settings.useLiveScouting ?
+                    <DrawerItem
+                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
+                        label="Fotos"
+                        onPress={() =>
+                            props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
+                        }
+                    /> : null)
             }
             <DrawerItem
                 icon={() => <Icon name="playlist-check" size={25} color={ColorFunctions.getColor('primary')}/>}
@@ -120,22 +121,25 @@ export default function CustomDrawerContent(props) {
                     })}
                 />
                 : null}
-            <View style={style().drawerSectionView}>
-                <TextC style={{marginLeft: 10}}>QuattFo Historie</TextC>
-                <View style={style().separatorLine}/>
-            </View>
-            <DrawerItem
-                icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Archiv"
-                onPress={() => props.navigation.navigate('Years', {screen: 'YearsAll'})}
-            />
-            <DrawerItem
-                icon={() => <Icon name="table-star" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Ewige Tabelle"
-                onPress={() =>
-                    props.navigation.navigate('Years', {screen: 'TeamsAllTimeRanking'})
-                }
-            />
+            {global.settings.showArchieve ?
+                <View>
+                    <View style={style().drawerSectionView}>
+                        <TextC style={{marginLeft: 10}}>QuattFo Historie</TextC>
+                        <View style={style().separatorLine}/>
+                    </View>
+                    <DrawerItem
+                        icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
+                        label="Archiv"
+                        onPress={() => props.navigation.navigate('Years', {screen: 'YearsAll'})}
+                    />
+                    <DrawerItem
+                        icon={() => <Icon name="table-star" size={25} color={ColorFunctions.getColor('primary')}/>}
+                        label="Ewige Tabelle"
+                        onPress={() =>
+                            props.navigation.navigate('Years', {screen: 'TeamsAllTimeRanking'})
+                        }
+                    />
+                </View> : null}
             <View>
                 <View style={style().drawerSectionView}>
                     <View style={style().separatorLine}/>
@@ -218,22 +222,24 @@ export default function CustomDrawerContent(props) {
                             props.navigation.navigate('Admin', {screen: 'AdminActions'})
                         }
                     />
-                    <DrawerItem
-                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
-                                          color={ColorFunctions.getColor('primary')}/>}
-                        label="Admin Fotos"
-                        onPress={() =>
-                            props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos'})
-                        }
-                    />
-                    <DrawerItem
-                        icon={() => <Icon name="view-grid-outline" size={25}
-                                          color={ColorFunctions.getColor('primary')}/>}
-                        label="Admin Gruppen"
-                        onPress={() =>
-                            props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin'})
-                        }
-                    />
+                    {global.settings.useLiveScouting ?
+                        <DrawerItem
+                            icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Fotos"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos'})
+                            }
+                        /> : null}
+                    {global.settings.useLiveScouting ?
+                        <DrawerItem
+                            icon={() => <Icon name="view-grid-outline" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Gruppen"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin'})
+                            }
+                        /> : null}
                     <DrawerItem
                         icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Teams"

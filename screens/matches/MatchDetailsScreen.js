@@ -67,14 +67,19 @@ export default function MatchDetailsScreen({navigation}) {
                         <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
                                adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</TextC>
                         <TextC> </TextC>
-                        <TextC numberOfLines={1}
-                               style={style().centeredText100}>SR: {item.teams3.name + (item.isTest ? '_test' : '')}</TextC>
+                        {item.teams3 ?
+                            <TextC numberOfLines={1}
+                                   style={style().centeredText100}>SR: {item.teams3.name + (item.isTest ? '_test' : '')}
+                            </TextC> : null}
                         {item.teams4 ?
                             <TextC numberOfLines={1} style={[style().centeredText100, style().textGreen]}>
                                 <TextC
                                     style={style().textViolet}>Ersatz-SR:</TextC> {item.teams4.name + (item.isTest ? '_test' : '')}
-                            </TextC>
-                            : null}
+                            </TextC> : null}
+                        {item.refereeName ?
+                            <TextC numberOfLines={1}
+                                   style={style().centeredText100}>SR: {item.refereeName}
+                            </TextC> : null}
                         <TextC> </TextC>
                         <TextC numberOfLines={1} style={style().centeredText100}>
                             Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}

@@ -18,39 +18,56 @@ export default function RoundsMatchesScreen({navigation}) {
     const [matchesToConfirm, setMatchesToConfirm] = useState([]);
     let round_id_prev = 0; // previously called round_id
 
+    function getHeaderButtons() {
+        return (
+            <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
+                {route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ?
+                    <View style={[style().viewCentered, {flex: 1}]}>
+                        <Pressable
+                            style={[style().button1, style().buttonEvent, style().buttonGreen]}
+                            onPress={() => loadScreenData()}
+                        >
+                            <TextC style={style().textButton1}>
+                                <IconMat name='reload' size={24} color='#fff'/>
+                            </TextC>
+                        </Pressable>
+                    </View> : null}
+
+                <TextC style={{flex: 1, textAlign: 'right'}}>
+                    {route.params.id > 1 ?
+                        <Pressable style={[style().buttonTopRight, style().buttonOrange]}
+                                   onPress={() => navigation.navigate(route.name, {
+                                       id: route.params.id - 1,
+                                       roundsCount: route.params.roundsCount,
+                                   })}
+                        >
+                            <TextC
+                                style={style().textButtonTopRight}>{'<'}</TextC>
+                        </Pressable> : null}
+                    <TextC> </TextC>
+                    {route.params.id < route.params.roundsCount ?
+                        <Pressable style={[style().buttonTopRight, style().buttonOrange]}
+                                   onPress={() => navigation.navigate(route.name, {
+                                       id: route.params.id + 1,
+                                       roundsCount: route.params.roundsCount,
+                                   })}
+                        >
+                            <TextC
+                                style={style().textButtonTopRight}>{'>'}</TextC>
+                        </Pressable> : null}
+                </TextC>
+            </View>
+        )
+    }
+
     useEffect(() => {
         if (round_id_prev !== route.params.id) {
             round_id_prev = route.params.id;
             setLoading(true);
             loadScreenData(route.params.id);
 
-            navigation.setOptions({
-                headerRight: () => (
-                    <TextC>
-                        {route.params.id > 1 ?
-                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                       onPress={() => navigation.navigate(route.name, {
-                                           id: route.params.id - 1,
-                                           roundsCount: route.params.roundsCount,
-                                       })}
-                            >
-                                <TextC
-                                    style={style().textButtonTopRight}>{'<'}</TextC>
-                            </Pressable> : null}
-                        <TextC> </TextC>
-                        {route.params.id < route.params.roundsCount ?
-                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                       onPress={() => navigation.navigate(route.name, {
-                                           id: route.params.id + 1,
-                                           roundsCount: route.params.roundsCount,
-                                       })}
-                            >
-                                <TextC
-                                    style={style().textButtonTopRight}>{'>'}</TextC>
-                            </Pressable> : null}
-                    </TextC>
-                ),
-            });
+            navigation.setOptions({headerRight: () => null}); // needed for iOS
+            navigation.setOptions({headerRight: () => getHeaderButtons()});
 
             return () => {
                 setData(null);
@@ -61,7 +78,7 @@ export default function RoundsMatchesScreen({navigation}) {
 
     useFocusEffect(
         useCallback(() => {
-            const interval = route.name !== 'RoundsMatches' ?
+            const interval = route.name !== 'RoundsMatches' && global.settings.useLiveScouting ?
                 setInterval(() => {
                     loadScreenData(route.params.id);
                 }, 3000) : '';
@@ -111,7 +128,8 @@ export default function RoundsMatchesScreen({navigation}) {
                                             <Section
                                                 key={group.id}
                                                 headerComponent={
-                                                    <View style={[style().matchflexRowView, style().headerComponentView]}>
+                                                    <View
+                                                        style={[style().matchflexRowView, style().headerComponentView]}>
                                                         <View style={{flex: 2}}>
                                                             <TextC style={style().textBlue}>
                                                                 {route.name !== 'RoundsMatches' ?
@@ -127,25 +145,28 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                     onPress={() => navigation.navigate('RankingInGroups', {item: group})}
                                                                 >
                                                                     <TextC style={style().textButtonTopRight}
-                                                                          numberOfLines={1}>
+                                                                           numberOfLines={1}>
                                                                         <IconMat name="table-large"
                                                                                  size={15}/>{' Tabelle Gr. ' + group.name}
                                                                     </TextC>
                                                                 </Pressable>
                                                                 :
-                                                                (route.name === 'RoundsMatchesAdmin' && group.name === 'A' ?
+                                                                (route.name === 'RoundsMatchesAdmin' && group.name === 'A' && global.settings.useLiveScouting ?
                                                                     <Pressable
                                                                         style={[style().button1, style().buttonConfirm, style().buttonGreen]}
                                                                         onPress={() => confirmAllResults()}
                                                                     >
                                                                         <TextC numberOfLines={1}
-                                                                              style={style().textButton1}>
+                                                                               style={style().textButton1}>
                                                                             {'Alles regulär werten: ' +
                                                                             matchesToConfirm.length
                                                                             }
                                                                         </TextC>
                                                                     </Pressable>
-                                                                    : null)
+                                                                    :
+                                                                    (!global.settings.useLiveScouting ?
+                                                                        <TextC>Ergebniseingabe ohne Faktor</TextC> : null)
+                                                                )
                                                             }
                                                         </View>
                                                     </View>

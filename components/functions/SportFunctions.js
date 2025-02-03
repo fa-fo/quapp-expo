@@ -3,6 +3,7 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {View} from "react-native";
 import * as DateFunctions from "./DateFunctions";
 import * as ColorFunctions from "./ColorFunctions";
+import fetchApi from "../fetchApi";
 
 export function getSportImage(code) {
     switch (code) {
@@ -39,3 +40,15 @@ export function getRemarksAdmin(remarksMatches) {
             </View>
         ))) : null;
 }
+
+export const saveRefereeName = (match, postData, setSaved) => {
+    postData = {'password': global.adminPW, ...postData};
+
+    return fetchApi('matches/saveRefereeName/' + match.id, 'POST', postData)
+        .then(data => {
+            if (data?.status === 'success') {
+                setSaved(true)
+            }
+        })
+        .catch(error => console.error(error));
+};

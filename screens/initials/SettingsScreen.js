@@ -74,29 +74,32 @@ export default function SettingsScreen({navigation}) {
                 }
                 <TextC>{'\n\n'}</TextC>
 
-                {global.supervisorPW === undefined ?
-                    <Pressable style={[style().button1, style().buttonRed50]}
-                               onPress={() => {
-                                   setUsername('supervisor');
-                                   setUsernameModalVisible(true);
-                               }}
-                    >
-                        <TextC style={style().textButton1}>
-                            <Icon name="login" size={30}/>
-                            Supervisor Login
-                        </TextC>
-                    </Pressable>
-                    :
-                    <TextC>Du bist als Supervisor eingeloggt.
-                        <Pressable style={[style().button1, style().buttonRed50]}
-                                   onPress={() => logout('supervisor')}
-                        >
-                            <TextC style={style().textButton1}>
-                                <Icon name="login" size={15}/> Logout
+                {global.settings.useLiveScouting ?
+                    <View>
+                        {global.supervisorPW === undefined ?
+                            <Pressable style={[style().button1, style().buttonRed50]}
+                                       onPress={() => {
+                                           setUsername('supervisor');
+                                           setUsernameModalVisible(true);
+                                       }}
+                            >
+                                <TextC style={style().textButton1}>
+                                    <Icon name="login" size={30}/>
+                                    Supervisor Login
+                                </TextC>
+                            </Pressable>
+                            :
+                            <TextC>Du bist als Supervisor eingeloggt.
+                                <Pressable style={[style().button1, style().buttonRed50]}
+                                           onPress={() => logout('supervisor')}
+                                >
+                                    <TextC style={style().textButton1}>
+                                        <Icon name="login" size={15}/> Logout
+                                    </TextC>
+                                </Pressable>
                             </TextC>
-                        </Pressable>
-                    </TextC>
-                }
+                        }
+                    </View> : null}
 
                 {global.adminPW === undefined ?
                     <Pressable style={[style().button1, style().buttonRed]}

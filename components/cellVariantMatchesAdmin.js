@@ -106,7 +106,7 @@ export default function CellVariantMatchesAdmin(props) {
                             style={[style().button1, style().buttonConfirm, style().buttonRed]}
                             onPress={() => setRemarksModalVisible(true)}>
                             <TextC style={style().textButton1}><Icon name="exclamation-thick"
-                                                                   size={20}/></TextC>
+                                                                     size={20}/></TextC>
                         </Pressable>
                         : null}
                     {showCardsButton() ?
@@ -114,7 +114,7 @@ export default function CellVariantMatchesAdmin(props) {
                             style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                             onPress={() => setCardsModalVisible(true)}>
                             <TextC style={style().textButton1}><Icon name="cards"
-                                                                   size={20}/></TextC>
+                                                                     size={20}/></TextC>
                         </Pressable>
                         : null}
                 </TextC>
@@ -142,106 +142,63 @@ export default function CellVariantMatchesAdmin(props) {
                             />
                             <TextC style={{color: '#8E8E93'}}>{props.item.sport.code}</TextC>
                         </TextC>
-                        <TextC
-                            numberOfLines={1}
-                            style={
-                                props.item.canceled === 1 || props.item.canceled === 3
-                                    ? style().textRed
-                                    : null
-                            }>
-                            {props.item.teams1.name}
-                        </TextC>
-                        <TextC
-                            numberOfLines={1}
-                            style={
-                                props.item.canceled === 2 || props.item.canceled === 3
-                                    ? style().textRed
-                                    : null
-                            }>
-                            {props.item.teams2.name}
-                        </TextC>
-                        <TextC numberOfLines={1} style={props.item.isRefereeCanceled ? style().textRed : ''}>
-                            <TextC style={style().textViolet}>SR</TextC> {props.item.teams3.name}
-                        </TextC>
-                        {props.item.teams4 ? (
+                        {global.settings.useLiveScouting ?
+                            <View>
+                                <TextC
+                                    numberOfLines={1}
+                                    style={
+                                        props.item.canceled === 1 || props.item.canceled === 3
+                                            ? style().textRed
+                                            : null
+                                    }>
+                                    {props.item.teams1.name}
+                                </TextC>
+                                <TextC
+                                    numberOfLines={1}
+                                    style={
+                                        props.item.canceled === 2 || props.item.canceled === 3
+                                            ? style().textRed
+                                            : null
+                                    }>
+                                    {props.item.teams2.name}
+                                </TextC>
+                            </View> : null}
+
+                        {props.item.teams3 ?
+                            <TextC numberOfLines={1} style={props.item.isRefereeCanceled ? style().textRed : ''}>
+                                <TextC style={style().textViolet}>SR</TextC> {props.item.teams3.name}
+                            </TextC> : null}
+                        {props.item.teams4 ?
                             <TextC numberOfLines={1} style={style().textGreen}>
                                 <TextC style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name}
-                            </TextC>
-                        ) : null}
+                            </TextC> : null}
+                        {!global.settings.useLiveScouting ?
+                            ConfirmFunctions.getInsertRefereeNameField(props.item) : null}
 
                     </View>
-                    {!props.item.logsCalc.isMatchStarted &&
-                    !props.item.logsCalc.isResultConfirmed &&
-                    !props.item.canceled ? (
-                        <View style={{alignSelf: 'center', flex: 2}}>
-                            {getEventView('isLoggedIn', 'SR eingeloggt', 'SR nicht eingeloggt')}
-                            {getEventView('isRefereeOnPlace', 'SR am Platz', 'SR nicht am Platz')}
-                        </View>
-                    ) : null}
-                    {!props.item.logsCalc.isMatchStarted &&
-                    !props.item.logsCalc.isResultConfirmed &&
-                    !props.item.canceled ? (
-                        <View style={{alignSelf: 'center', flex: 2}}>
-                            {getEventView('isTeam1OnPlace', 'Team 1 am Platz', 'Team 1 nicht am Platz')}
-                            {getEventView('isTeam2OnPlace', 'Team 2 am Platz', 'Team 2 nicht am Platz')}
-                        </View>
-                    ) : null}
-                    {!props.item.logsCalc.isMatchStarted &&
-                    !props.item.logsCalc.isResultConfirmed &&
-                    !props.item.canceled ? (
-                        <View style={{alignSelf: 'center', flex: 2}}>
-                            {getEventView('isMatchStarted', 'Spiel gestartet', 'Spiel nicht gestartet')}
-                            {props.fromRoute.includes('Supervisor') ? (
-                                <Pressable
-                                    style={[style().button1, style().buttonConfirm, style().buttonOrange]}
-                                    onPress={() => setSupervisorActionsModalVisible(true)}>
-                                    <TextC numberOfLines={1} style={style().textButton1}>
-                                        Supervisor Aktionen
-                                    </TextC>
-                                </Pressable>
-                            ) : null}
-                            {showOffsets()}
-                        </View>
-                    ) : null}
-
-                    {!props.item.logsCalc.isResultConfirmed && props.item.canceled ? (
-                        <View style={{alignSelf: 'center', flex: 6}}>
-                            <TextC
-                                numberOfLines={1}
-                                style={[style().textRed, {fontSize: 16}]}>
-                                abgesagt
-                            </TextC>
-                        </View>
-                    ) : null}
-
-                    {props.item.logsCalc.isMatchStarted &&
-                    !props.item.logsCalc.isResultConfirmed ? (
-                        <View style={[style().viewCentered, {alignSelf: 'center', flex: 3}]}>
-                            <TextC
-                                adjustsFontSizeToFit
-                                numberOfLines={1}
-                                style={[style().big1, style().textRed]}>
-                                {props.item.logsCalc.score !== undefined
-                                    ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
-                                    0
-                                    : 0}
-                                {' '}:{' '}
-                                {props.item.logsCalc.score !== undefined
-                                    ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
-                                    0
-                                    : 0}
-                            </TextC>
-                            {getCardsAndRemarks()}
-                        </View>
-                    ) : null}
-                    {props.item.logsCalc.isMatchStarted &&
-                    !props.item.logsCalc.isResultConfirmed ? (
-                        <View style={{alignSelf: 'center', flex: 3}}>
-                            {props.item.logsCalc.isMatchLive ? (
-                                <View>
-                                    <TextC style={style().textRed}>Live!</TextC>
-                                    {showOffsets()}
+                    {global.settings.useLiveScouting ?
+                        <View>
+                            {!props.item.logsCalc.isMatchStarted &&
+                            !props.item.logsCalc.isResultConfirmed &&
+                            !props.item.canceled ? (
+                                <View style={{alignSelf: 'center', flex: 2}}>
                                     {getEventView('isLoggedIn', 'SR eingeloggt', 'SR nicht eingeloggt')}
+                                    {getEventView('isRefereeOnPlace', 'SR am Platz', 'SR nicht am Platz')}
+                                </View>
+                            ) : null}
+                            {!props.item.logsCalc.isMatchStarted &&
+                            !props.item.logsCalc.isResultConfirmed &&
+                            !props.item.canceled ? (
+                                <View style={{alignSelf: 'center', flex: 2}}>
+                                    {getEventView('isTeam1OnPlace', 'Team 1 am Platz', 'Team 1 nicht am Platz')}
+                                    {getEventView('isTeam2OnPlace', 'Team 2 am Platz', 'Team 2 nicht am Platz')}
+                                </View>
+                            ) : null}
+                            {!props.item.logsCalc.isMatchStarted &&
+                            !props.item.logsCalc.isResultConfirmed &&
+                            !props.item.canceled ? (
+                                <View style={{alignSelf: 'center', flex: 2}}>
+                                    {getEventView('isMatchStarted', 'Spiel gestartet', 'Spiel nicht gestartet')}
                                     {props.fromRoute.includes('Supervisor') ? (
                                         <Pressable
                                             style={[style().button1, style().buttonConfirm, style().buttonOrange]}
@@ -251,142 +208,210 @@ export default function CellVariantMatchesAdmin(props) {
                                             </TextC>
                                         </Pressable>
                                     ) : null}
+                                    {showOffsets()}
                                 </View>
                             ) : null}
-                            {props.item.logsCalc.isMatchEnded ? (
-                                <TextC
-                                    numberOfLines={1}
-                                    style={style().textGreen}>
-                                    beendet
-                                </TextC>
+
+                            {!props.item.logsCalc.isResultConfirmed && props.item.canceled ? (
+                                <View style={{alignSelf: 'center', flex: 6}}>
+                                    <TextC
+                                        numberOfLines={1}
+                                        style={[style().textRed, {fontSize: 16}]}>
+                                        abgesagt
+                                    </TextC>
+                                </View>
                             ) : null}
-                            {props.item.logsCalc.teamWon !== undefined ? (
-                                <TextC
-                                    numberOfLines={1}
-                                    style={style().textGreen}>
-                                    Tendenz: {props.item.logsCalc.teamWon}
-                                </TextC>
-                            ) : null}
-                            {props.item.logsCalc.isMatchConcluded ? (
-                                <TextC
-                                    numberOfLines={1}
-                                    style={style().textGreen}>
-                                    abgeschlossen
-                                </TextC>
-                            ) : null}
-                            {props.item.logsCalc.isMatchEnded &&
+
+                            {props.item.logsCalc.isMatchStarted &&
                             !props.item.logsCalc.isResultConfirmed ? (
-                                <TextC numberOfLines={1} style={style().textRed}>
-                                    noch nicht bestätigt
-                                </TextC>
+                                <View style={[style().viewCentered, {alignSelf: 'center', flex: 3}]}>
+                                    <TextC
+                                        adjustsFontSizeToFit
+                                        numberOfLines={1}
+                                        style={[style().big1, style().textRed]}>
+                                        {props.item.logsCalc.score !== undefined
+                                            ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
+                                            0
+                                            : 0}
+                                        {' '}:{' '}
+                                        {props.item.logsCalc.score !== undefined
+                                            ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
+                                            0
+                                            : 0}
+                                    </TextC>
+                                    {getCardsAndRemarks()}
+                                </View>
                             ) : null}
-                        </View>
-                    ) : null}
-
-                    {props.item.logsCalc.isResultConfirmed ? (
-                        <View style={[style().viewCentered, {alignSelf: 'center', flex: 3}]}>
-                            <TextC adjustsFontSizeToFit numberOfLines={1} style={style().big1}>
-                                {parseInt(props.item.resultGoals1) || 0}
-                                {' '}:{' '}
-                                {parseInt(props.item.resultGoals2) || 0}
-                            </TextC>
-                            {getCardsAndRemarks()}
-                        </View>
-                    ) : null}
-                    {props.item.logsCalc.isResultConfirmed ? (
-                        <View style={{alignSelf: 'center', flex: 3}}>
-                            {props.item.resultAdmin === 1 ?
-                                <TextC numberOfLines={1} style={style().textRed}>
-                                    <TextC> {'\u2714'} </TextC>
-                                    Ergebnis durch Admins korrigiert
-                                </TextC> : null}
-                            {props.item.resultAdmin === 2 ?
-                                <TextC numberOfLines={1} style={style().textRed}>
-                                    <TextC> {'\u2714'} </TextC>
-                                    Ergebnisübertrag aus Papierbogen
-                                </TextC> : null}
-                            <TextC numberOfLines={1} style={style().textGreen}>
-                                <TextC> {'\u2714'} </TextC>bestätigt
-                            </TextC>
-                            <TextC numberOfLines={1}>
-                                {props.item.logsCalc.score !== undefined
-                                    ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
-                                    0
-                                    : 0}
-                                :
-                                {props.item.logsCalc.score !== undefined
-                                    ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
-                                    0
-                                    : 0}{' '}
-                                im MatchLog
-                            </TextC>
-                            {props.item.resultTrend > 2 ? (
-                                <TextC numberOfLines={1} style={style().textRed}>
-                                    {ConfirmFunctions.getConfirmResultText(
-                                        props.item.resultTrend,
-                                    )}
-                                    -Wertung
-                                </TextC>
+                            {props.item.logsCalc.isMatchStarted &&
+                            !props.item.logsCalc.isResultConfirmed ? (
+                                <View style={{alignSelf: 'center', flex: 3}}>
+                                    {props.item.logsCalc.isMatchLive ? (
+                                        <View>
+                                            <TextC style={style().textRed}>Live!</TextC>
+                                            {showOffsets()}
+                                            {getEventView('isLoggedIn', 'SR eingeloggt', 'SR nicht eingeloggt')}
+                                            {props.fromRoute.includes('Supervisor') ? (
+                                                <Pressable
+                                                    style={[style().button1, style().buttonConfirm, style().buttonOrange]}
+                                                    onPress={() => setSupervisorActionsModalVisible(true)}>
+                                                    <TextC numberOfLines={1} style={style().textButton1}>
+                                                        Supervisor Aktionen
+                                                    </TextC>
+                                                </Pressable>
+                                            ) : null}
+                                        </View>
+                                    ) : null}
+                                    {props.item.logsCalc.isMatchEnded ? (
+                                        <TextC
+                                            numberOfLines={1}
+                                            style={style().textGreen}>
+                                            beendet
+                                        </TextC>
+                                    ) : null}
+                                    {props.item.logsCalc.teamWon !== undefined ? (
+                                        <TextC
+                                            numberOfLines={1}
+                                            style={style().textGreen}>
+                                            Tendenz: {props.item.logsCalc.teamWon}
+                                        </TextC>
+                                    ) : null}
+                                    {props.item.logsCalc.isMatchConcluded ? (
+                                        <TextC
+                                            numberOfLines={1}
+                                            style={style().textGreen}>
+                                            abgeschlossen
+                                        </TextC>
+                                    ) : null}
+                                    {props.item.logsCalc.isMatchEnded &&
+                                    !props.item.logsCalc.isResultConfirmed ? (
+                                        <TextC numberOfLines={1} style={style().textRed}>
+                                            noch nicht bestätigt
+                                        </TextC>
+                                    ) : null}
+                                </View>
                             ) : null}
-                            <TextC numberOfLines={1}>
-                                Faktor {props.item.sport.goalFactor}
-                            </TextC>
-                        </View>
-                    ) : null}
 
-                    {props.fromRoute.includes('Admin') &&
-                    props.item.isTime2confirm ? (
-                        <View style={[style().viewCentered, {alignSelf: 'center', flex: 2}]}>
-                            {props.item.isResultOk
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    0,
-                                    'regulär werten',
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
-                            {!props.item.isResultOk && props.item.logsCalc.score !== undefined
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    1,
-                                    ConfirmFunctions.getConfirmResultText(1),
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
-                            {!props.item.isResultOk && props.item.logsCalc.teamWon !== undefined
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    2,
-                                    ConfirmFunctions.getConfirmResultText(2),
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
+                            {props.item.logsCalc.isResultConfirmed ? (
+                                <View style={[style().viewCentered, {alignSelf: 'center', flex: 3}]}>
+                                    <TextC adjustsFontSizeToFit numberOfLines={1} style={style().big1}>
+                                        {parseInt(props.item.resultGoals1) || 0}
+                                        {' '}:{' '}
+                                        {parseInt(props.item.resultGoals2) || 0}
+                                    </TextC>
+                                    {getCardsAndRemarks()}
+                                </View>
+                            ) : null}
+                            {props.item.logsCalc.isResultConfirmed ? (
+                                <View style={{alignSelf: 'center', flex: 3}}>
+                                    {props.item.resultAdmin === 1 ?
+                                        <TextC numberOfLines={1} style={style().textRed}>
+                                            <TextC> {'\u2714'} </TextC>
+                                            Ergebnis durch Admins korrigiert
+                                        </TextC> : null}
+                                    {props.item.resultAdmin === 2 ?
+                                        <TextC numberOfLines={1} style={style().textRed}>
+                                            <TextC> {'\u2714'} </TextC>
+                                            Ergebnisübertrag aus Papierbogen
+                                        </TextC> : null}
+                                    <TextC numberOfLines={1} style={style().textGreen}>
+                                        <TextC> {'\u2714'} </TextC>bestätigt
+                                    </TextC>
+                                    <TextC numberOfLines={1}>
+                                        {props.item.logsCalc.score !== undefined
+                                            ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
+                                            0
+                                            : 0}
+                                        :
+                                        {props.item.logsCalc.score !== undefined
+                                            ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
+                                            0
+                                            : 0}{' '}
+                                        im MatchLog
+                                    </TextC>
+                                    {props.item.resultTrend > 2 ? (
+                                        <TextC numberOfLines={1} style={style().textRed}>
+                                            {ConfirmFunctions.getConfirmResultText(
+                                                props.item.resultTrend,
+                                            )}
+                                            -Wertung
+                                        </TextC>
+                                    ) : null}
+                                    <TextC numberOfLines={1}>
+                                        Faktor {props.item.sport.goalFactor}
+                                    </TextC>
+                                </View>
+                            ) : null}
 
-                            {props.item.canceled === 0 ? getSpecialConfirmModalButton() : null}
-                            {props.item.canceled === 0 ? getInsertResultModalButton() : null}
-                            {props.item.canceled > 0
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    ConfirmFunctions.getConfirmModeFromCanceled(props.item.canceled),
-                                    ConfirmFunctions.getConfirmResultText(ConfirmFunctions.getConfirmModeFromCanceled(props.item.canceled)),
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
-                            {props.item.canceled === 3
-                                ? ConfirmFunctions.getConfirmButton(
-                                    props.item.id,
-                                    6,
-                                    ConfirmFunctions.getConfirmResultText(6),
-                                    setSpecialConfirmModalVisible,
-                                    props.loadScreenData
-                                )
-                                : null}
-                        </View>
-                    ) : null}
+                            {props.fromRoute.includes('Admin') &&
+                            props.item.isTime2confirm ? (
+                                <View style={[style().viewCentered, {alignSelf: 'center', flex: 2}]}>
+                                    {props.item.isResultOk
+                                        ? ConfirmFunctions.getConfirmButton(
+                                            props.item.id,
+                                            0,
+                                            'regulär werten',
+                                            setSpecialConfirmModalVisible,
+                                            props.loadScreenData
+                                        )
+                                        : null}
+                                    {!props.item.isResultOk && props.item.logsCalc.score !== undefined
+                                        ? ConfirmFunctions.getConfirmButton(
+                                            props.item.id,
+                                            1,
+                                            ConfirmFunctions.getConfirmResultText(1),
+                                            setSpecialConfirmModalVisible,
+                                            props.loadScreenData
+                                        )
+                                        : null}
+                                    {!props.item.isResultOk && props.item.logsCalc.teamWon !== undefined
+                                        ? ConfirmFunctions.getConfirmButton(
+                                            props.item.id,
+                                            2,
+                                            ConfirmFunctions.getConfirmResultText(2),
+                                            setSpecialConfirmModalVisible,
+                                            props.loadScreenData
+                                        )
+                                        : null}
+
+                                    {props.item.canceled === 0 ? getSpecialConfirmModalButton() : null}
+                                    {props.item.canceled === 0 ? getInsertResultModalButton() : null}
+                                    {props.item.canceled > 0
+                                        ? ConfirmFunctions.getConfirmButton(
+                                            props.item.id,
+                                            ConfirmFunctions.getConfirmModeFromCanceled(props.item.canceled),
+                                            ConfirmFunctions.getConfirmResultText(ConfirmFunctions.getConfirmModeFromCanceled(props.item.canceled)),
+                                            setSpecialConfirmModalVisible,
+                                            props.loadScreenData
+                                        )
+                                        : null}
+                                    {props.item.canceled === 3
+                                        ? ConfirmFunctions.getConfirmButton(
+                                            props.item.id,
+                                            6,
+                                            ConfirmFunctions.getConfirmResultText(6),
+                                            setSpecialConfirmModalVisible,
+                                            props.loadScreenData
+                                        )
+                                        : null}
+                                </View>
+                            ) : null}
+                        </View> : null}
+
+                    {!global.settings.useLiveScouting ?
+                        <View style={[style().matchflexRowView, {flex: 5}]}>
+                            {ConfirmFunctions.getInsertResultFields(props.item)}
+                            <View style={{flex: 1}}>
+                                {getSpecialConfirmModalButton()}
+                                {props.item.resultTrend > 2 ? (
+                                    <TextC numberOfLines={1} style={style().textRed}>
+                                        {ConfirmFunctions.getConfirmResultText(
+                                            props.item.resultTrend,
+                                        )}
+                                        -Wertung
+                                    </TextC>
+                                ) : null}
+                            </View>
+                        </View> : null}
 
                     {props.fromRoute.includes('Admin') &&
                     props.item.isTime2confirm ? (

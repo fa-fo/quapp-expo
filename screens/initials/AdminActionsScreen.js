@@ -105,7 +105,7 @@ export default function AdminActionsScreen({navigation}) {
                             </Pressable>
                         </View>
 
-                        {data.object.roundsWithPossibleLogsDelete.length ?
+                        {data.object.roundsWithPossibleLogsDelete.length && global.settings.useLiveScouting ?
                             <View style={{position: 'absolute', right: 0, top: 10}}>
                                 <Pressable
                                     style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 120}]}
