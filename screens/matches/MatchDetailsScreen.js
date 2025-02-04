@@ -100,7 +100,14 @@ export default function MatchDetailsScreen({navigation}) {
                                         <TextC numberOfLines={1}
                                                style={[style().centeredText100, style().small]}>Endstand</TextC>
                                         <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
-                                            {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team1_id]) || 0 : 0} : {item.logsCalc.score ? parseInt(item.logsCalc.score[item.team2_id]) || 0 : 0}
+                                            {global.settings.useLiveScouting ? (
+                                                (item.logsCalc.score ? item.logsCalc.score[item.team1_id] : 0)
+                                                + (' : ') +
+                                                (item.logsCalc.score ? item.logsCalc.score[item.team2_id] : 0)
+                                            ) : (item.resultGoals1 / item.sport.goalFactor
+                                                + (' : ') +
+                                                item.resultGoals2 / item.sport.goalFactor
+                                            )}
                                         </TextC>
                                         <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>
                                             nach Toren</TextC>
