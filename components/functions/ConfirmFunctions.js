@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import * as SportFunctions from "./SportFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {isNumber} from "./CheckFunctions";
+import {Picker} from "@react-native-picker/picker";
 
 export function getMatches2Confirm(object) {
     let matches = [];
@@ -44,7 +45,6 @@ export const confirmResults = (matches, setModalVisible, loadScreenData, postDat
                 return data.object[1] ?? null;
             }
         })
-    //.catch(error => console.error(error));
 };
 
 export function getConfirmButton(matchId, mode, text, setModalVisible, loadScreenData) {
@@ -148,7 +148,7 @@ export function getInsertRefereeNameField(match) {
     );
 }
 
-export function getInsertResultFields(match0) { // for non-useLiveScouting
+export function getInsertResultFields(match0, loadScreenData) { // for non-useLiveScouting
     const [match, setMatch] = useState(match0);
     const [oldGoals1, setOldGoals1] = useState('');
     const [oldGoals2, setOldGoals2] = useState('');
@@ -156,11 +156,17 @@ export function getInsertResultFields(match0) { // for non-useLiveScouting
     const [goals2, setGoals2] = useState('');
     const [okGoals1, setOkGoals1] = useState(false);
     const [okGoals2, setOkGoals2] = useState(false);
+    const [oldResultAdmin, setOldResultAdmin] = useState('');
+    const [selectedResultAdmin, setSelectedResultAdmin] = useState('');
     const [isTryingSave, setIsTryingSave] = useState(false);
     const [saved, setSaved] = useState(false);
 
     function getGoalsFromResultGoals(resultGoals) {
         return resultGoals !== null ? Number(resultGoals / match.sport.goalFactor) : '';
+    }
+
+    function getResultAdminFromMatch(m) {
+        return m.resultAdmin === 0 ? global.settings.useLiveScouting : m.resultAdmin;
     }
 
     useEffect(() => {
@@ -170,13 +176,21 @@ export function getInsertResultFields(match0) { // for non-useLiveScouting
         setOldGoals2(g2);
         setGoals1(g1);
         setGoals2(g2);
-        setOkGoals1(g1 !== '')
-        setOkGoals2(g2 !== '')
+        setOkGoals1(g1 !== '');
+        setOkGoals2(g2 !== '');
+
+        let rA = getResultAdminFromMatch(match);
+        setOldResultAdmin(rA);
+        setSelectedResultAdmin(rA);
     }, [match]);
 
     useEffect(() => {
         setMatch(match0);
     }, [match0]);
+
+    useEffect(() => {
+        submit();
+    }, [selectedResultAdmin]);
 
     const submit = () => {
         let submitGoals1 = isNumber(goals1.toString()) ? parseInt(goals1.toString()) : '';
@@ -185,16 +199,16 @@ export function getInsertResultFields(match0) { // for non-useLiveScouting
         setOkGoals1(submitGoals1 !== '');
         setOkGoals2(submitGoals2 !== '');
 
-        if (submitGoals1 !== '' && submitGoals2 !== '' && (submitGoals1 !== oldGoals1 || submitGoals2 !== oldGoals2)) {
+        if (submitGoals1 !== '' && submitGoals2 !== '' && (submitGoals1 !== oldGoals1 || submitGoals2 !== oldGoals2 || selectedResultAdmin !== oldResultAdmin)) {
             setIsTryingSave(true);
 
             let postData = {
                 'goals1': submitGoals1,
                 'goals2': submitGoals2,
-                'resultAdmin': 0
+                'resultAdmin': selectedResultAdmin
             };
 
-            confirmResults([{'id': match.id, 'mode': 1}], null, null, postData, setSaved)
+            confirmResults([{'id': match.id, 'mode': 1}], null, loadScreenData, postData, setSaved)
                 .then(m => setMatch(m))
                 .finally(() => setIsTryingSave(false))
         }
@@ -223,13 +237,17 @@ export function getInsertResultFields(match0) { // for non-useLiveScouting
                             keyboardType="numeric"
                             maxLength={3}
                             value={goals1?.toString() ?? ''}
-                        /> : <TextC style={{fontSize: 22, textAlign: 'right'}}>{match.resultGoals2}</TextC>}
+                        /> : <TextC style={{
+                            fontSize: 16,
+                            textAlign: 'right'
+                        }}>{match.resultGoals1 / match.sport.goalFactor}</TextC>}
                 </View>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1.5, paddingHorizontal: 8}}>
+                    <TextC style={{fontSize: 10, textAlign: 'center'}}>{'\n\nFaktor ' + match.sport.goalFactor}</TextC>
                     <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
-                        <TextC style={{flex: 2, fontSize: 22, textAlign: 'right'}}>{match.resultGoals1}</TextC>
-                        <TextC style={{flex: 1, fontSize: 22, textAlign: 'center'}}>{':'}</TextC>
-                        <TextC style={{flex: 2, fontSize: 22, textAlign: 'left'}}>{match.resultGoals2}</TextC>
+                        <TextC style={{flex: 2, fontSize: 24, textAlign: 'right'}}>{match.resultGoals1}</TextC>
+                        <TextC style={{flex: 1, fontSize: 24, textAlign: 'center'}}>{':'}</TextC>
+                        <TextC style={{flex: 2, fontSize: 24, textAlign: 'left'}}>{match.resultGoals2}</TextC>
                     </View>
                 </View>
                 <View style={{flex: 2}}>
@@ -266,9 +284,24 @@ export function getInsertResultFields(match0) { // for non-useLiveScouting
                                                        color: 'green'
                                                    }}/> : null}
                         </View>
-                        : <TextC style={{fontSize: 22}}>{match.resultGoals2}</TextC>}
+                        : <TextC style={{fontSize: 16}}>{match.resultGoals2 / match.sport.goalFactor}</TextC>}
                 </View>
             </View>
+            {global.settings.useLiveScouting ?
+                <View>
+                    <TextC>{'\n'}</TextC>
+                    <TextC>Ergebniseingabe/-korrektur: [gespeichert: ({match.resultAdmin})]</TextC>
+                    <Picker
+                        disabled={isTryingSave}
+                        selectedValue={selectedResultAdmin}
+                        onValueChange={(v) => setSelectedResultAdmin(v)}
+                        style={[style().button1, style().pickerSelect]}
+                    >
+                        <Picker.Item label="(0) nein" value="0"/>
+                        <Picker.Item label="(1) korrigiert durch Admin" value="1"/>
+                        <Picker.Item label="(2) Übertrag von Papierbogen" value="2"/>
+                    </Picker>
+                </View> : null}
         </View>
     );
 }

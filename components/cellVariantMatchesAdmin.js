@@ -177,7 +177,7 @@ export default function CellVariantMatchesAdmin(props) {
 
                     </View>
                     {global.settings.useLiveScouting ?
-                        <View>
+                        <View style={{flex: 6, alignSelf: 'flex-start', flexDirection: 'row'}}>
                             {!props.item.logsCalc.isMatchStarted &&
                             !props.item.logsCalc.isResultConfirmed &&
                             !props.item.canceled ? (
@@ -401,15 +401,14 @@ export default function CellVariantMatchesAdmin(props) {
                         <View style={[style().matchflexRowView, {flex: 5}]}>
                             {ConfirmFunctions.getInsertResultFields(props.item)}
                             <View style={{flex: 1}}>
-                                {getSpecialConfirmModalButton()}
-                                {props.item.resultTrend > 2 ? (
+                                {props.item.isTime2confirm ? getSpecialConfirmModalButton() : null}
+                                {props.item.resultTrend > 2 ?
                                     <TextC numberOfLines={1} style={style().textRed}>
                                         {ConfirmFunctions.getConfirmResultText(
                                             props.item.resultTrend,
                                         )}
                                         -Wertung
-                                    </TextC>
-                                ) : null}
+                                    </TextC> : null}
                             </View>
                         </View> : null}
 
