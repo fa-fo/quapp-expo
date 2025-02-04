@@ -53,6 +53,12 @@ export default function AdminActionsScreen({navigation}) {
             .catch((error) => console.error(error));
     };
 
+    const insertTestTeamNames = () => {
+        fetchApi('teams/getTestTeamNames/', 'POST', {})
+            .then((json) => setTeamNames(json.object.teamNames.split('\\n').join('\n')))
+            .catch((error) => console.error(error));
+    };
+
     const checkTeamNames = () => {
         let postData = {'teamNames': teamNames};
 
@@ -125,23 +131,43 @@ export default function AdminActionsScreen({navigation}) {
                                 <TextC>Teams anlegen:</TextC>
                                 {teamNamesSplit.length !== data.year.teamsCount ?
                                     <View>
-                                        {teamNames.split('\n').length !== data.year.teamsCount ?
-                                            <TextC>{teamNames.split('\n').length} => {data.year.teamsCount}</TextC>
-                                            :
-                                            <Pressable style={[style().button1, style().buttonGreen]}
-                                                       onPress={() => checkTeamNames()}>
+                                        <TextC>
+                                            {teamNames.split('\n').length} => {data.year.teamsCount}
+                                            {teamNames.split('\n').length === data.year.teamsCount ?
+                                                <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                                : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                        </TextC>
+                                        <View>
+                                            {data.year.settings.isTest === 1 ?
+                                                <Pressable
+                                                    style={[style().button1, (teamNames.split('\n').length !== data.year.teamsCount ? style().buttonGreen : style().buttonGrey)]}
+                                                    disabled={teamNames.split('\n').length === data.year.teamsCount}
+                                                    onPress={() => insertTestTeamNames()}>
+                                                    <TextC style={style().textButton1}>Test-Teams einfügen</TextC>
+                                                </Pressable>
+                                                : null}
+                                            <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                            <Pressable
+                                                style={[style().button1, (teamNames.split('\n').length === data.year.teamsCount ? style().buttonGreen : style().buttonGrey)]}
+                                                disabled={teamNames.split('\n').length !== data.year.teamsCount}
+                                                onPress={() => checkTeamNames()}>
                                                 <TextC style={style().textButton1}>Team-Namen überprüfen</TextC>
                                             </Pressable>
-                                        }
+                                        </View>
                                         <TextInput
                                             multiline
                                             numberOfLines={data.year.teamsCount}
+                                            value={teamNames}
                                             style={[style().textInput]}
                                             onChangeText={(value) => setTeamNames(value)}
                                         />
                                     </View>
                                     :
                                     <View>
+                                        <Pressable style={[style().button1, style().buttonCancel, style().buttonRed]}
+                                                   onPress={() => setTeamNamesSplit([])}>
+                                            <TextC style={style().textButton1}>zurück</TextC>
+                                        </Pressable>
                                         {[...Array(data.year.teamsCount)].map((e, i) =>
                                             <View key={i}>
                                                 <TextC style={style().textGreen}>
@@ -159,12 +185,13 @@ export default function AdminActionsScreen({navigation}) {
                                         )}
                                     </View>
                                 }
+                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 {countTeamsFound() === data.year.teamsCount ?
                                     <Pressable style={[style().button1, style().buttonGreen]}
                                                onPress={() => insertTeamYears()}>
                                         <TextC style={style().textButton1}>Teams im aktuellen Jahr anlegen</TextC>
                                     </Pressable>
-                                    : null}
+                                    : <TextC>Teams im aktuellen Jahr angelegt: {data.object.teamYearsCount}</TextC>}
                             </View>
                             :
                             <View>
@@ -471,11 +498,12 @@ export default function AdminActionsScreen({navigation}) {
                         </TextC>
                         {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
                             <View>
-                                <Pressable style={[style().button1, style().buttonGreen]}
-                                           onPress={() => adminAction('matcheventLogs/insertTestLogs', '')}>
-                                    <TextC style={style().textButton1}>Testmodus:
-                                        Zufällig geloggte Tore eintragen</TextC>
-                                </Pressable>
+                                {global.settings.useLiveScouting ?
+                                    <Pressable style={[style().button1, style().buttonGreen]}
+                                               onPress={() => adminAction('matcheventLogs/insertTestLogs', '')}>
+                                        <TextC style={style().textButton1}>Testmodus:
+                                            Zufällig geloggte Tore eintragen</TextC>
+                                    </Pressable> : null}
                                 <Pressable style={[style().button1, style().buttonGreen]}
                                            onPress={() => adminAction('matches/insertTestResults', '')}>
                                     <TextC style={style().textButton1}>Testmodus:
