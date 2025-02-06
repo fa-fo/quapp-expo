@@ -143,10 +143,10 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                                     + 'Spielen in '}
                                                                 <TextC
                                                                     style={style().textBlue}>{'Gruppe ' + data.object.group.group_name}</TextC>{'\n'}
-                                                                {data.yearSelected === undefined ?
+                                                                {data.yearSelected === undefined && data.object.referee_group_name ?
                                                                     <TextC>
-                                                                        <TextC
-                                                                            style={style().textViolet}>SR</TextC>{' in Gruppe ' + data.object.referee_group_name}
+                                                                        <TextC style={style().textViolet}>SR</TextC>
+                                                                        {' in Gruppe ' + data.object.referee_group_name}
                                                                     </TextC>
                                                                     : null}
                                                             </TextC>
@@ -198,7 +198,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                     <View>
                                                         <TextC>Bitte Team neu auswählen:</TextC>
                                                         <Pressable style={[style().button1, style().buttonGreen]}
-                                                                   onPress={() => navigation.navigate('MyTeamSelect')}>
+                                                                   onPress={() => setMyTeamSelectModalVisible(true)}>
                                                             <TextC
                                                                 style={style().textButton1}>{'Mein Team auswählen'}</TextC>
                                                         </Pressable>
