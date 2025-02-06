@@ -148,7 +148,7 @@ export function getInsertRefereeNameField(match) {
     );
 }
 
-export function getInsertResultFields(match0, loadScreenData) { // for non-useLiveScouting
+export function getInsertResultFields(match0, loadScreenData) {
     const [match, setMatch] = useState(match0);
     const [oldGoals1, setOldGoals1] = useState('');
     const [oldGoals2, setOldGoals2] = useState('');
@@ -185,7 +185,8 @@ export function getInsertResultFields(match0, loadScreenData) { // for non-useLi
     }, [match]);
 
     useEffect(() => {
-        setMatch(match0);
+        if (!global.settings.useLiveScouting) // For modal view, do not reload from match0!
+            setMatch(match0);
     }, [match0]);
 
     useEffect(() => {
