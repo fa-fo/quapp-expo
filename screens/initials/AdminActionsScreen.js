@@ -54,7 +54,7 @@ export default function AdminActionsScreen({navigation}) {
     };
 
     const insertTestTeamNames = () => {
-        fetchApi('teams/getTestTeamNames/', 'POST', {})
+        fetchApi('teams/getTestTeamNames')
             .then((json) => setTeamNames(json.object.teamNames.split('\\n').join('\n')))
             .catch((error) => console.error(error));
     };
@@ -127,17 +127,17 @@ export default function AdminActionsScreen({navigation}) {
                             style={{fontSize: 18}}>{DateFunctions.getDateFormatted(data.year.day)}</TextC>
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.object.teamYearsCount === 0 ?
-                            <View>
+                            <View style={style().matchflexEventsView}>
                                 <TextC>Teams anlegen:</TextC>
                                 {teamNamesSplit.length !== data.year.teamsCount ?
-                                    <View>
+                                    <View style={style().matchflexEventsView}>
                                         <TextC>
-                                            {teamNames.split('\n').length} => {data.year.teamsCount}
+                                            {teamNames !== '' ? teamNames.split('\n').length : 0} => {data.year.teamsCount}
                                             {teamNames.split('\n').length === data.year.teamsCount ?
                                                 <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                                 : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                         </TextC>
-                                        <View>
+                                        <View style={style().matchflexEventsView}>
                                             {data.year.settings.isTest === 1 ?
                                                 <Pressable
                                                     style={[style().button1, (teamNames.split('\n').length !== data.year.teamsCount ? style().buttonGreen : style().buttonGrey)]}
@@ -154,12 +154,15 @@ export default function AdminActionsScreen({navigation}) {
                                                 <TextC style={style().textButton1}>Team-Namen überprüfen</TextC>
                                             </Pressable>
                                         </View>
+                                        <TextC>Ein Team je Zeile {'\u2B0E'} dann Team-Namen
+                                            überprüfen {'\u2B0F'}</TextC>
                                         <TextInput
                                             multiline
                                             numberOfLines={data.year.teamsCount}
                                             value={teamNames}
-                                            style={[style().textInput]}
+                                            style={[style().textInput, {width: '80%'}]}
                                             onChangeText={(value) => setTeamNames(value)}
+                                            placeholder={Array(data.year.teamsCount).fill(0).map((_, i) => ('hier Team ' + (i + 1) + ' einfügen')).join('\n')}
                                         />
                                     </View>
                                     :
@@ -185,13 +188,15 @@ export default function AdminActionsScreen({navigation}) {
                                         )}
                                     </View>
                                 }
-                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                                {countTeamsFound() === data.year.teamsCount ?
-                                    <Pressable style={[style().button1, style().buttonGreen]}
-                                               onPress={() => insertTeamYears()}>
-                                        <TextC style={style().textButton1}>Teams im aktuellen Jahr anlegen</TextC>
-                                    </Pressable>
-                                    : <TextC>Teams im aktuellen Jahr angelegt: {data.object.teamYearsCount}</TextC>}
+                                <View style={style().matchflexEventsView}>
+                                    <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                    {countTeamsFound() === data.year.teamsCount ?
+                                        <Pressable style={[style().button1, style().buttonGreen]}
+                                                   onPress={() => insertTeamYears()}>
+                                            <TextC style={style().textButton1}>Teams im aktuellen Jahr anlegen</TextC>
+                                        </Pressable>
+                                        : <TextC>Teams im aktuellen Jahr angelegt: {data.object.teamYearsCount}</TextC>}
+                                </View>
                             </View>
                             :
                             <View>
@@ -199,10 +204,11 @@ export default function AdminActionsScreen({navigation}) {
                                     {data.object.teamYearsCount === data.year.teamsCount ?
                                         <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                                 </TextC>
-                                <TextC>Team-PINs angelegt: {data.object.teamYearsPins}
-                                    {data.object.teamYearsPins === data.object.teamYearsCount ?
-                                        <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
-                                </TextC>
+                                {global.settings.useLiveScouting ?
+                                    <TextC>Team-PINs angelegt: {data.object.teamYearsPins}
+                                        {data.object.teamYearsPins === data.object.teamYearsCount ?
+                                            <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
+                                    </TextC> : null}
                             </View>
                         }
 
@@ -235,39 +241,43 @@ export default function AdminActionsScreen({navigation}) {
                                 </Pressable>
                             </View> : null}
 
-                        <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                        {data.year.settings.currentDay_id === 1 && data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
-                            <View>
-                                <TextC>Nur Tag 1: Gruppenzuordnung der Teams sortieren:</TextC>
-                                <View>
-                                    <Picker
-                                        selectedValue={selectedValue1}
-                                        onValueChange={(itemValue) => setSelectedValue1(itemValue)}
-                                        style={[style().button1, style().pickerSelect]}
-                                    >
-                                        <Picker.Item label="Standard (groupTeamsId / Excel-Skript)"
-                                                     value="standard"/>
-                                        <Picker.Item label="nach Ranglistenpunkte/Jahr und Zufall" value="random"/>
-                                    </Picker>
-                                    <Pressable style={[style().button1, style().buttonGreen]}
-                                               onPress={() => adminAction('groups/sortAfterAddAllGroupTeams', selectedValue1)}>
-                                        <TextC style={style().textButton1}>Los!</TextC>
-                                    </Pressable>
-                                </View>
-                                <TextC>{data.avgRankingPointsPerYear !== undefined ?
-                                    <TextC>Durchschnittsranglistenpunkte Gr.
-                                        {Object.entries(data.avgRankingPointsPerYear).map(([key, val]) => (
-                                            <TextC key={key}>{key}: {val}   </TextC>
-                                        ))}</TextC> : null}</TextC>
-                            </View>
-                            :
-                            (data.object.matchesCount === 0 ?
-                                    <TextC>Gruppenzuordnungen sortieren</TextC>
+                        {data.object.groupsCount > 1 ?
+                            <View style={style().matchflexEventsView}>
+                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                {data.year.settings.currentDay_id === 1 && data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
+                                    <View>
+                                        <TextC>Nur Tag 1: Gruppenzuordnung der Teams sortieren:</TextC>
+                                        <View>
+                                            <Picker
+                                                selectedValue={selectedValue1}
+                                                onValueChange={(itemValue) => setSelectedValue1(itemValue)}
+                                                style={[style().button1, style().pickerSelect]}
+                                            >
+                                                <Picker.Item label="Standard (groupTeamsId / Excel-Skript)"
+                                                             value="standard"/>
+                                                <Picker.Item label="nach Ranglistenpunkte/Jahr und Zufall"
+                                                             value="random"/>
+                                            </Picker>
+                                            <Pressable style={[style().button1, style().buttonGreen]}
+                                                       onPress={() => adminAction('groups/sortAfterAddAllGroupTeams', selectedValue1)}>
+                                                <TextC style={style().textButton1}>Los!</TextC>
+                                            </Pressable>
+                                        </View>
+                                        <TextC>{data.avgRankingPointsPerYear !== undefined ?
+                                            <TextC>Durchschnittsranglistenpunkte Gr.
+                                                {Object.entries(data.avgRankingPointsPerYear).map(([key, val]) => (
+                                                    <TextC key={key}>{key}: {val}   </TextC>
+                                                ))}</TextC> : null}</TextC>
+                                    </View>
                                     :
-                                    <TextC>Gruppenzuordnungen sortiert<TextC
-                                        style={style().textGreen}> {'\u2714'}</TextC></TextC>
-                            )
-                        }
+                                    (data.object.matchesCount === 0 ?
+                                            <TextC>Gruppenzuordnungen sortieren</TextC>
+                                            :
+                                            <TextC>Gruppenzuordnungen sortiert<TextC
+                                                style={style().textGreen}> {'\u2714'}</TextC></TextC>
+                                    )
+                                }
+                            </View> : null}
 
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
@@ -332,10 +342,11 @@ export default function AdminActionsScreen({navigation}) {
                             {data.object.matchesCount === data.year.teamsCount * 4 ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
-                        <TextC>Spiel-PINs angelegt: {data.object.matchesPins}
-                            {data.object.matchesPins === data.object.matchesCount ?
-                                <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
-                        </TextC>
+                        {global.settings.useLiveScouting ?
+                            <TextC>Spiel-PINs angelegt: {data.object.matchesPins}
+                                {data.object.matchesPins === data.object.matchesCount ?
+                                    <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
+                            </TextC> : null}
                         <TextC>Spiele je
                             Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
                             {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
@@ -347,6 +358,13 @@ export default function AdminActionsScreen({navigation}) {
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                 : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                         </TextC>
+                        {data.object.teamYearsCount === 24 ?
+                            <TextC>Max. Jobs je Team je
+                                3 Runden: {data.object.maxJobsByTeamPer3Rounds}
+                                {data.object.maxJobsByTeamPer3Rounds === 1 ?
+                                    <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                    : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                            </TextC> : null}
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
                             <View>
@@ -511,25 +529,29 @@ export default function AdminActionsScreen({navigation}) {
                                 </Pressable>
                             </View> : null}
 
-                        <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                        {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount && !data.year.settings.alwaysAutoUpdateResults ?
-                            <View>
-                                <Pressable style={[style().button1, style().buttonGreen]}
-                                           onPress={() => adminAction('years/setAlwaysAutoUpdateResults', '')}>
-                                    <TextC style={style().textButton1}>Ergebnisse und Tabellen freischalten{'\n'}(mit
-                                        Tabellen-Neuberechnung)</TextC>
-                                </Pressable>
-                            </View>
-                            :
-                            <View>
-                                {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount ?
-                                    <TextC>Ergebnisse und Tabellen freigeschaltet<TextC
-                                        style={style().textGreen}> {'\u2714'}</TextC></TextC>
+                        {!global.settings.alwaysAutoUpdateResults ?
+                            <View style={style().matchflexEventsView}>
+                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount && !data.year.settings.alwaysAutoUpdateResults ?
+                                    <View>
+                                        <Pressable style={[style().button1, style().buttonGreen]}
+                                                   onPress={() => adminAction('years/setAlwaysAutoUpdateResults', '')}>
+                                            <TextC style={style().textButton1}>Ergebnisse und Tabellen
+                                                freischalten{'\n'}(mit
+                                                Tabellen-Neuberechnung)</TextC>
+                                        </Pressable>
+                                    </View>
                                     :
-                                    <TextC>Ergebnisse und Tabellen freischalten</TextC>
+                                    <View>
+                                        {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount ?
+                                            <TextC>Ergebnisse und Tabellen freigeschaltet<TextC
+                                                style={style().textGreen}> {'\u2714'}</TextC></TextC>
+                                            :
+                                            <TextC>Ergebnisse und Tabellen freischalten</TextC>
+                                        }
+                                    </View>
                                 }
-                            </View>
-                        }
+                            </View> : null}
 
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.object.matchesCount > 0 ?
