@@ -342,29 +342,32 @@ export default function AdminActionsScreen({navigation}) {
                             {data.object.matchesCount === data.year.teamsCount * 4 ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
-                        {global.settings.useLiveScouting ?
+                        {global.settings.useLiveScouting && data.object.matchesCount > 0 ?
                             <TextC>Spiel-PINs angelegt: {data.object.matchesPins}
                                 {data.object.matchesPins === data.object.matchesCount ?
                                     <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                             </TextC> : null}
-                        <TextC>Spiele je
-                            Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
-                            {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
-                                <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
-                        </TextC>
-                        <TextC>Max. Jobs je Team je
-                            Runde: {data.object.maxJobsByTeamPerRound}
-                            {data.object.maxJobsByTeamPerRound === 1 ?
-                                <TextC style={style().textGreen}> {'\u2714'}</TextC>
-                                : <TextC style={style().textRed}> {'\u2762'}</TextC>}
-                        </TextC>
-                        {data.object.teamYearsCount === 24 ?
-                            <TextC>Max. Jobs je Team je
-                                3 Runden: {data.object.maxJobsByTeamPer3Rounds}
-                                {data.object.maxJobsByTeamPer3Rounds === 1 ?
-                                    <TextC style={style().textGreen}> {'\u2714'}</TextC>
-                                    : <TextC style={style().textRed}> {'\u2762'}</TextC>}
-                            </TextC> : null}
+                        {data.object.matchesCount > 0 ?
+                            <View style={style().matchflexEventsView}>
+                                <TextC>Spiele je
+                                    Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
+                                    {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
+                                </TextC>
+                                <TextC>Max. Jobs je Team je
+                                    Runde: {data.object.maxJobsByTeamPerRound}
+                                    {data.object.maxJobsByTeamPerRound === 1 ?
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                        : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                </TextC>
+                                {data.object.teamYearsCount === 24 ?
+                                    <TextC>Max. Jobs je Team je
+                                        3 Runden: {data.object.maxJobsByTeamPer3Rounds}
+                                        {data.object.maxJobsByTeamPer3Rounds === 1 ?
+                                            <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                            : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                    </TextC> : null}
+                            </View> : null}
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
                             <View>
