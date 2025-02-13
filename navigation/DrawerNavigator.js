@@ -49,7 +49,7 @@ export default function MyDrawer() {
             <Drawer.Screen
                 name="MyMatches"
                 component={MyMatchesStackNavigator}
-                options={{title: <TextC>{title()} {global.currentYearName}</TextC>}}
+                options={{title: <TextC>{title()} {global.currentYear?.name ?? ''}</TextC>}}
             />
             <Drawer.Screen
                 name="Years"

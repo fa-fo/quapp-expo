@@ -38,7 +38,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="RankingInGroups"
                 component={RankingInGroupsScreen}
                 options={({route}) => ({
-                    title: 'Tabelle der Gr. ' + route.params.item.group_name,
+                    title: 'Tabelle der Gr. ' + (route.params?.item?.group_name ?? 'A'),
                 })}
             />
             <Stack.Screen
@@ -52,7 +52,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="ListMatchesByGroup"
                 component={ListMatchesByGroupScreen}
                 options={({route}) => ({
-                    title: 'Spiele der Gr. ' + route.params.item.group_name,
+                    title: 'Spiele der Gr. ' + (route.params?.item?.group_name ?? 'A'),
                 })}
             />
             <Stack.Screen

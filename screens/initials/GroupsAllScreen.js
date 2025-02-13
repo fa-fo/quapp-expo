@@ -17,10 +17,10 @@ export default function GroupsAllScreen({navigation}) {
     useFocusEffect(
         useCallback(() => {
             if ((route.params === undefined && year_id_prev === null)
-                || year_id_prev !== (route.params?.year_id ?? (global.currentYearId ?? 0))
+                || year_id_prev !== (route.params?.year_id ?? (global.currentYear?.id ?? 0))
                 || day_id_prev !== (route.params?.day_id ?? (global.settings?.currentDay_id ?? 0))) {
 
-                year_id_prev = route.params?.year_id ?? (global.currentYearId ?? 0);
+                year_id_prev = route.params?.year_id ?? (global.currentYear?.id ?? 0);
                 day_id_prev = route.params?.day_id ?? (global.settings?.currentDay_id ?? 0);
                 setLoading(true);
                 loadScreenData();

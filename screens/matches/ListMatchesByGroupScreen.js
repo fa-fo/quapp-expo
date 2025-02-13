@@ -14,11 +14,14 @@ export default function ListMatchesByGroupScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    let group_id_prev = 0; // previously called group_id
+
+    let group_id = route.params.item?.group_id ?? 0;
+    let group_id_prev = -1; // previously called group_id
+    let group_name = route.params.item?.group_name ?? 'A';
 
     useEffect(() => {
-        if (group_id_prev !== route.params.item.group_id) {
-            group_id_prev = route.params.item.group_id;
+        if (group_id_prev !== group_id) {
+            group_id_prev = group_id;
             setLoading(true);
             loadScreenData();
         }
@@ -30,7 +33,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
     }, [navigation, route]);
 
     const loadScreenData = () => {
-        fetchApi('matches/byGroup/' + route.params.item.group_id + (route.name === 'ListMatchesByGroupAdmin' ? '/1' : ''))
+        fetchApi('matches/byGroup/' + group_id + (route.name === 'ListMatchesByGroupAdmin' ? '/1' : ''))
             .then((json) => {
                 setData(json);
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
@@ -75,7 +78,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
                                                                     <IconMat name="table-large"
-                                                                             size={15}/>{' Tabelle Gr. ' + route.params.item.group_name}
+                                                                             size={15}/>{' Tabelle Gr. ' + group_name}
                                                                 </TextC>
                                                             </Pressable>
                                                         </View>

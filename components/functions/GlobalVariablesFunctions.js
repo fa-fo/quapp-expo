@@ -1,8 +1,7 @@
 export function setGlobalVariables() {
     global.settings = {};
     global.currentDayName = '';
-    global.currentYearName = '';
-    global.currentYearId = 0;
+    global.currentYear = {};
 
     if (window?.location?.hostname === 'localhost') {
         global.baseUrl = 'http://localhost/quapp-cakephp/';

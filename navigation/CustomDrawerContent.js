@@ -14,8 +14,8 @@ export default function CustomDrawerContent(props) {
 
     useEffect(() => {
         setTimeout(() => {
-            setCurrentYearId(global.currentYearId);
-            setCurrentYearName(global.currentYearName);
+            setCurrentYearId(global.currentYear?.id ?? 0);
+            setCurrentYearName(global.currentYear?.name ?? '');
             setCurrentDayId(global.settings?.currentDay_id ?? 0);
         }, 3000); // wait for first api request (global variables are set)
     }, [global.settings]);
@@ -56,13 +56,22 @@ export default function CustomDrawerContent(props) {
                     props.navigation.navigate('MyMatches', {screen: 'RoundsCurrent'})
                 }
             />
-            <DrawerItem
-                icon={() => <Icon name="view-grid-outline" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Alle Gruppen"
-                onPress={() =>
-                    props.navigation.navigate('MyMatches', {screen: 'GroupsAll'})
-                }
-            />
+            {global.currentYear?.teamsCount > 24 ?
+                <DrawerItem
+                    icon={() => <Icon name="view-grid-outline" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Alle Gruppen"
+                    onPress={() =>
+                        props.navigation.navigate('MyMatches', {screen: 'GroupsAll'})
+                    }
+                />
+                : <DrawerItem
+                    icon={() => <Icon name="table-large" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Tabelle"
+                    onPress={() =>
+                        props.navigation.navigate('MyMatches', {screen: 'RankingInGroups', params: {item: null}})
+                    }
+                />
+            }
             <DrawerItem
                 icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
                 label="Alle Teams"
@@ -72,7 +81,7 @@ export default function CustomDrawerContent(props) {
             />
             {Platform.OS === 'web' && process?.env?.NODE_ENV !== 'development' ? null
                 :
-                (global.settings.useLiveScouting ?
+                (global.settings?.useLiveScouting ?
                     <DrawerItem
                         icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
                                           color={ColorFunctions.getColor('primary')}/>}
@@ -121,7 +130,21 @@ export default function CustomDrawerContent(props) {
                     })}
                 />
                 : null}
-            {global.settings.usePlayOff && global.settings.showEndRanking ?
+            {global.settings?.usePlayOff ?
+                <DrawerItem
+                    icon={() => <Icon name="format-list-bulleted" size={25}
+                                      color={ColorFunctions.getColor('primary')}/>}
+                    label="Play-Off-Spiele"
+                    onPress={() => props.navigation.navigate('MyMatches', {
+                        screen: 'RoundsMatches',
+                        params: {
+                            id: 25,
+                            roundsCount: 25,
+                        }
+                    })}
+                />
+                : null}
+            {global.settings?.usePlayOff && global.settings?.showEndRanking ?
                 <DrawerItem
                     icon={() => <Icon name="table-large-plus" size={25} color={ColorFunctions.getColor('primary')}/>}
                     label="Endstand nach Play-Offs"
@@ -131,7 +154,7 @@ export default function CustomDrawerContent(props) {
                     })}
                 />
                 : null}
-            {global.settings.showArchieve ?
+            {global.settings?.showArchieve ?
                 <View>
                     <View style={style().drawerSectionView}>
                         <TextC style={{marginLeft: 10}}>QuattFo Historie</TextC>
@@ -232,7 +255,7 @@ export default function CustomDrawerContent(props) {
                             props.navigation.navigate('Admin', {screen: 'AdminActions'})
                         }
                     />
-                    {global.settings.useLiveScouting ?
+                    {global.settings?.useLiveScouting ?
                         <DrawerItem
                             icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
                                               color={ColorFunctions.getColor('primary')}/>}
@@ -241,7 +264,7 @@ export default function CustomDrawerContent(props) {
                                 props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos'})
                             }
                         /> : null}
-                    {global.settings.useLiveScouting ?
+                    {global.settings?.useLiveScouting ?
                         <DrawerItem
                             icon={() => <Icon name="view-grid-outline" size={25}
                                               color={ColorFunctions.getColor('primary')}/>}

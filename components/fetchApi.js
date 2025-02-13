@@ -22,8 +22,7 @@ export default function fetchApi(address, method, postData, docMode) {
                 function (json) {
                     global.settings = json.year.settings;
                     global.currentDayName = DateFunctions.getDateFormatted(json.year.day);
-                    global.currentYearName = json.year.name;
-                    global.currentYearId = json.year.id;
+                    global.currentYear = json.year;
 
                     return json;
                 })
