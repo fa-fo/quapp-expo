@@ -132,7 +132,7 @@ export default function CustomDrawerContent(props) {
                 : null}
             {global.settings?.usePlayOff ?
                 <DrawerItem
-                    icon={() => <Icon name="format-list-bulleted" size={25}
+                    icon={() => <Icon name="playlist-plus" size={25}
                                       color={ColorFunctions.getColor('primary')}/>}
                     label="Play-Off-Spiele"
                     onPress={() => props.navigation.navigate('MyMatches', {
