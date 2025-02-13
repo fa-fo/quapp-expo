@@ -49,43 +49,44 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                 Spielplans: {DateFunctions.getDateTimeFormatted(data.object.showTime) + ' Uhr'}</TextC>
                             :
                             <TableView appearance={global.colorScheme}>
-                                {data.object.rounds?.map(round => (
-                                    <Section
-                                        key={round.id}
-                                        headerComponent={
-                                            <View>
-                                                <View style={[style().matchflexRowView, style().headerComponentView]}>
-                                                    <View style={{flex: 2}}>
-                                                        <TextC>{DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
-                                                            <TextC
-                                                                style={{color: 'orange'}}>{'\nRunde ' + round.id} </TextC>
-                                                            {data.yearSelected === undefined && !data.year.settings.alwaysAutoUpdateResults && !round.autoUpdateResults ?
+                                {data.object.rounds?.map(round =>
+                                    (round.matches ?
+                                        <Section
+                                            key={round.id}
+                                            headerComponent={
+                                                <View>
+                                                    <View
+                                                        style={[style().matchflexRowView, style().headerComponentView]}>
+                                                        <View style={{flex: 2}}>
+                                                            <TextC>{DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
                                                                 <TextC
-                                                                    style={style().textRed}>{'\n' + global.hintAutoUpdateResults}</TextC>
-                                                                : null}
-                                                        </TextC>
-                                                    </View>
-                                                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                                        <Pressable
-                                                            style={style().buttonTopRight}
-                                                            onPress={() => navigation.navigate(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item})}
-                                                        >
-                                                            <TextC style={style().textButtonTopRight}
-                                                                  numberOfLines={1}>
-                                                                <IconMat name="table-large"
-                                                                         size={15}/>{' Tabelle Gr. ' + route.params.item.group_name}
+                                                                    style={{color: 'orange'}}>{'\nRunde ' + round.id} </TextC>
+                                                                {data.yearSelected === undefined && !data.year.settings.alwaysAutoUpdateResults && !round.autoUpdateResults ?
+                                                                    <TextC
+                                                                        style={style().textRed}>{'\n' + global.hintAutoUpdateResults}</TextC>
+                                                                    : null}
                                                             </TextC>
-                                                        </Pressable>
+                                                        </View>
+                                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                                            <Pressable
+                                                                style={style().buttonTopRight}
+                                                                onPress={() => navigation.navigate(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item})}
+                                                            >
+                                                                <TextC style={style().textButtonTopRight}
+                                                                       numberOfLines={1}>
+                                                                    <IconMat name="table-large"
+                                                                             size={15}/>{' Tabelle Gr. ' + route.params.item.group_name}
+                                                                </TextC>
+                                                            </Pressable>
+                                                        </View>
                                                     </View>
-                                                </View>
-                                                {global.settings.isTest && data.yearSelected === undefined && round.id === 1 && route.name === 'ListMatchesByGroup' ?
-                                                    <View><TextC
-                                                        style={style().testMode}>{global.hintTestData}</TextC></View> : null}
+                                                    {global.settings.isTest && data.yearSelected === undefined && round.id === 1 && route.name === 'ListMatchesByGroup' ?
+                                                        <View><TextC
+                                                            style={style().testMode}>{global.hintTestData}</TextC></View> : null}
 
-                                            </View>
-                                        }>
-                                        {round.matches ?
-                                            round.matches.map(item => (
+                                                </View>
+                                            }>
+                                            {round.matches.map(item => (
                                                 <CellVariantMatches
                                                     key={item.id}
                                                     item={item}
@@ -99,13 +100,9 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                         : navigation.navigate('MatchDetails', {item})}
                                                 />
                                             ))
-                                            :
-                                            <View>
-                                                <TextC>{global.hintSchedule}</TextC>
-                                            </View>
-                                        }
-                                    </Section>
-                                ))}
+                                            }
+                                        </Section> : null)
+                                )}
                             </TableView>
                     ) : <TextC>Fehler: keine Spiele gefunden!</TextC>)}
         </ScrollView>

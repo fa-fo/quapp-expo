@@ -140,32 +140,34 @@ export default function RoundsMatchesScreen({navigation}) {
                                                         </View>
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             {route.name === 'RoundsMatches' ?
-                                                                <Pressable
-                                                                    style={style().buttonTopRight}
-                                                                    onPress={() => navigation.navigate('RankingInGroups', {item: group})}
-                                                                >
-                                                                    <TextC style={style().textButtonTopRight}
-                                                                           numberOfLines={1}>
-                                                                        <IconMat name="table-large"
-                                                                                 size={15}/>{' Tabelle Gr. ' + group.name}
-                                                                    </TextC>
-                                                                </Pressable>
+                                                                (group.name !== 'Play-Off' ?
+                                                                    <Pressable
+                                                                        style={style().buttonTopRight}
+                                                                        onPress={() => navigation.navigate('RankingInGroups', {item: group})}
+                                                                    >
+                                                                        <TextC style={style().textButtonTopRight}
+                                                                               numberOfLines={1}>
+                                                                            <IconMat name="table-large"
+                                                                                     size={15}/>{' Tabelle Gr. ' + group.name}
+                                                                        </TextC>
+                                                                    </Pressable> : null)
                                                                 :
                                                                 (route.name === 'RoundsMatchesAdmin' && group.name === 'A' && global.settings.useLiveScouting ?
-                                                                    <Pressable
-                                                                        style={[style().button1, style().buttonConfirm, style().buttonGreen]}
-                                                                        onPress={() => confirmAllResults()}
-                                                                    >
-                                                                        <TextC numberOfLines={1}
-                                                                               style={style().textButton1}>
-                                                                            {'Alles regulär werten: ' +
-                                                                            matchesToConfirm.length
-                                                                            }
-                                                                        </TextC>
-                                                                    </Pressable>
-                                                                    :
-                                                                    (!global.settings.useLiveScouting ?
-                                                                        <TextC>Ergebniseingabe ohne Faktor</TextC> : null)
+                                                                        <Pressable
+                                                                            style={[style().button1, style().buttonConfirm, style().buttonGreen]}
+                                                                            onPress={() => confirmAllResults()}
+                                                                        >
+                                                                            <TextC numberOfLines={1}
+                                                                                   style={style().textButton1}>
+                                                                                {'Alles regulär werten: ' +
+                                                                                matchesToConfirm.length
+                                                                                }
+                                                                            </TextC>
+                                                                        </Pressable>
+                                                                        :
+                                                                        (!global.settings.useLiveScouting && group.name !== 'Play-Off' ?
+                                                                            <TextC>Ergebniseingabe ohne
+                                                                                Faktor</TextC> : null)
                                                                 )
                                                             }
                                                         </View>
@@ -192,6 +194,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                                                 fromRoute={route.name}
                                                                 loadScreenData={loadScreenData}
+                                                                playOffTeams={group.playOffTeams}
                                                             />
                                                     ))
                                                     :

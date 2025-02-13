@@ -20,7 +20,7 @@ export default function RemarksModal({
                 <View style={style().modalView}>
                     <TextC>{match.sport.code} Feld {match.group_name}</TextC>
                     <TextC>{'\n'}</TextC>
-                    <TextC style={style().big3}>{match.teams1.name} - {match.teams2.name}</TextC>
+                    <TextC style={style().big3}>{match.teams1?.name ?? ''} - {match.teams2?.name ?? ''}</TextC>
                     <TextC>{'\n'}</TextC>
                     <TextC>{match.remarks}</TextC>
                     <Pressable

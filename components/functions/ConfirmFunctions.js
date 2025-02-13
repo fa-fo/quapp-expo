@@ -11,19 +11,23 @@ import {Picker} from "@react-native-picker/picker";
 export function getMatches2Confirm(object) {
     let matches = [];
 
-    object?.groups?.map(group =>
-        group.matches?.map(item => {
-            if (!item.logsCalc.isResultConfirmed && item.isTime2confirm) {
-                if (item.isResultOk || item.canceled > 0) {
-                    let a = {
-                        'id': item.id,
-                        'mode': item.isResultOk ? 0 : getConfirmModeFromCanceled(item.canceled),
-                    };
-                    matches = [a, ...matches];
-                }
+    if (object?.groups?.length) {
+        object.groups.map(group => {
+            if (group?.matches?.length) {
+                group.matches.map(item => {
+                    if (!item.logsCalc?.isResultConfirmed && item.isTime2confirm) {
+                        if (item.isResultOk || item.canceled > 0) {
+                            let a = {
+                                'id': item.id,
+                                'mode': item.isResultOk ? 0 : getConfirmModeFromCanceled(item.canceled),
+                            };
+                            matches = [a, ...matches];
+                        }
+                    }
+                })
             }
         })
-    )
+    }
 
     return matches;
 }
@@ -148,8 +152,10 @@ export function getInsertRefereeNameField(match) {
     );
 }
 
-export function getInsertResultFields(match0, loadScreenData) {
+export function getInsertResultFields(match0, loadScreenData, playOffTeams) {
     const [match, setMatch] = useState(match0);
+    const [selectedTeam1, setSelectedTeam1] = useState(match0.team1_id);
+    const [selectedTeam2, setSelectedTeam2] = useState(match0.team2_id);
     const [oldGoals1, setOldGoals1] = useState('');
     const [oldGoals2, setOldGoals2] = useState('');
     const [goals1, setGoals1] = useState('');
@@ -160,6 +166,7 @@ export function getInsertResultFields(match0, loadScreenData) {
     const [selectedResultAdmin, setSelectedResultAdmin] = useState('');
     const [isTryingSave, setIsTryingSave] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [teamsSaved, setTeamsSaved] = useState(false);
 
     function getGoalsFromResultGoals(resultGoals) {
         return resultGoals !== null ? Number(resultGoals / match.sport.goalFactor) : '';
@@ -190,6 +197,16 @@ export function getInsertResultFields(match0, loadScreenData) {
     }, [match0]);
 
     useEffect(() => {
+        if (selectedTeam1 && selectedTeam2 && selectedTeam1 !== match.team1_id || selectedTeam2 !== match.team2_id) {
+            setIsTryingSave(true);
+            let postData = {'team1_id': selectedTeam1, 'team2_id': selectedTeam2};
+
+            SportFunctions.saveMatchTeamIds(match, postData, setTeamsSaved)
+                .finally(() => setIsTryingSave(false))
+        }
+    }, [selectedTeam1, selectedTeam2]);
+
+    useEffect(() => {
         submit();
     }, [selectedResultAdmin]);
 
@@ -215,6 +232,29 @@ export function getInsertResultFields(match0, loadScreenData) {
         }
     }
 
+    const getPlayOffTeamSelect = (team) => {
+        return (
+            <View>
+                <Picker
+                    disabled={isTryingSave}
+                    selectedValue={(team === 1 ? selectedTeam1 : selectedTeam2) ?? ''}
+                    onValueChange={(itemValue) => team === 1 ? setSelectedTeam1(itemValue) : setSelectedTeam2(itemValue)}
+                    style={[style().button1, style().pickerSelect, {width: '90%', paddingHorizontal: '5%', borderColor: (team === 1 ? selectedTeam1 : selectedTeam2) ? 'green' : 'red'}]}
+                >
+                    <Picker.Item key="0" value="0" label="Bitte auswählen..." style={{fontcolor: 'red'}}/>
+                    {playOffTeams ? playOffTeams.map(item => (
+                        <Picker.Item key={item.id} value={item.team_id}
+                                     label={(item.calcRanking ?? 0) + '. ' + item.team.name}/>
+                    )) : null}
+                </Picker>
+                {teamsSaved ?
+                    <Icon name="checkbox-marked-circle" size={24}
+                          style={{position: 'absolute', right: 2, top: 2, color: 'green'}}/>
+                    : null}
+            </View>
+        );
+    }
+
     return (
         <View style={{flex: 5}}>
             <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
@@ -226,7 +266,9 @@ export function getInsertResultFields(match0, loadScreenData) {
                                 ? style().textRed
                                 : null)
                         ]}>
-                        {match.teams1.name}
+                        {match.isPlayOff > 0 ? getPlayOffTeamSelect(1)
+                            : (match.teams1?.name ?? '')
+                        }
                     </TextC>
                     {match.isTime2confirm ?
                         <TextInput
@@ -241,7 +283,7 @@ export function getInsertResultFields(match0, loadScreenData) {
                         /> : <TextC style={{
                             fontSize: 16,
                             textAlign: 'right'
-                        }}>{match.resultGoals1 / match.sport.goalFactor}</TextC>}
+                        }}>{match.resultGoals1 !== null ? match.resultGoals1 / match.sport.goalFactor : ''}</TextC>}
                 </View>
                 <View style={{flex: 1.5, paddingHorizontal: 8}}>
                     <TextC style={{fontSize: 10, textAlign: 'center'}}>{'\n\nFaktor ' + match.sport.goalFactor}</TextC>
@@ -259,7 +301,9 @@ export function getInsertResultFields(match0, loadScreenData) {
                                 ? style().textRed
                                 : null
                         }>
-                        {match.teams2.name}
+                        {match.isPlayOff > 0 ? getPlayOffTeamSelect(2)
+                            : (match.teams2?.name ?? '')
+                        }
                     </TextC>
                     {match.isTime2confirm ?
                         <View>
@@ -285,7 +329,8 @@ export function getInsertResultFields(match0, loadScreenData) {
                                                        color: 'green'
                                                    }}/> : null}
                         </View>
-                        : <TextC style={{fontSize: 16}}>{match.resultGoals2 / match.sport.goalFactor}</TextC>}
+                        : <TextC
+                            style={{fontSize: 16}}>{match.resultGoals2 !== null ? match.resultGoals2 / match.sport.goalFactor : ''}</TextC>}
                 </View>
             </View>
             {global.settings.useLiveScouting ?

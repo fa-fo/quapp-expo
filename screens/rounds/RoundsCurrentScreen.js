@@ -66,7 +66,9 @@ export default function RoundsCurrentScreen({navigation}) {
                             {data.object.rounds.map(item => (
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"
-                                             title={'Runde ' + item.id + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
+                                             title={'Runde ' + item.id
+                                             + (global.settings.usePlayOff && data.object.rounds.length === item.id ? ' (Play-Off)' : '')
+                                             + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
                                              accessory="DetailDisclosure"
                                              isCurrentRound={data.object.currentRoundId === item.id ? 1 : 0}
                                              detail={route.name === 'RoundsCurrent' ? 'Details'

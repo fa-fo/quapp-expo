@@ -121,6 +121,16 @@ export default function CustomDrawerContent(props) {
                     })}
                 />
                 : null}
+            {global.settings.usePlayOff && global.settings.showEndRanking ?
+                <DrawerItem
+                    icon={() => <Icon name="table-large-plus" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Endstand nach Play-Offs"
+                    onPress={() => props.navigation.navigate('Years', {
+                        screen: 'TeamYearsEndRanking',
+                        params: {item: {year_id: currentYearId, year_name: currentYearName}}
+                    })}
+                />
+                : null}
             {global.settings.showArchieve ?
                 <View>
                     <View style={style().drawerSectionView}>

@@ -67,7 +67,7 @@ export default function MatchDetailsScreen({navigation}) {
                         <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
                                adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</TextC>
                         <TextC> </TextC>
-                        {item.teams3 ?
+                        {item.teams3 && !item.refereeName ?
                             <TextC numberOfLines={1}
                                    style={style().centeredText100}>SR: {item.teams3.name + (item.isTest ? '_test' : '')}
                             </TextC> : null}

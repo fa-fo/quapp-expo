@@ -151,7 +151,7 @@ export default function CellVariantMatchesAdmin(props) {
                                             ? style().textRed
                                             : null
                                     }>
-                                    {props.item.teams1.name}
+                                    {props.item.teams1?.name ?? ''}
                                 </TextC>
                                 <TextC
                                     numberOfLines={1}
@@ -160,11 +160,15 @@ export default function CellVariantMatchesAdmin(props) {
                                             ? style().textRed
                                             : null
                                     }>
-                                    {props.item.teams2.name}
+                                    {props.item.teams2?.name ?? ''}
                                 </TextC>
                             </View> : null}
 
-                        {props.item.teams3 ?
+                        {props.item.isPlayOff ?
+                            <TextC numberOfLines={1}>
+                                {props.item.playOffName ?? ''}
+                            </TextC> : null}
+                        {props.item.teams3 && global.settings.useLiveScouting ?
                             <TextC numberOfLines={1} style={props.item.isRefereeCanceled ? style().textRed : ''}>
                                 <TextC style={style().textViolet}>SR</TextC> {props.item.teams3.name}
                             </TextC> : null}
@@ -399,7 +403,7 @@ export default function CellVariantMatchesAdmin(props) {
 
                     {!global.settings.useLiveScouting ?
                         <View style={[style().matchflexRowView, {flex: 5}]}>
-                            {ConfirmFunctions.getInsertResultFields(props.item)}
+                            {ConfirmFunctions.getInsertResultFields(props.item, null, props.playOffTeams)}
                             <View style={{flex: 1}}>
                                 {props.item.isTime2confirm ? getSpecialConfirmModalButton() : null}
                                 {props.item.resultTrend > 2 ?

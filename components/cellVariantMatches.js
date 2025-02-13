@@ -42,12 +42,12 @@ export default function CellVariantMatches(props) {
                     }}>
                     <View style={{flex: 1}}>
                         <TextC adjustsFontSizeToFit numberOfLines={1}
-                              style={{
-                                  fontWeight:
-                                      props.isMyTeam === 1 || props.isMyTeam === 2
-                                          ? 'bold'
-                                          : 'normal',
-                              }}>
+                               style={{
+                                   fontWeight:
+                                       props.isMyTeam === 1 || props.isMyTeam === 2
+                                           ? 'bold'
+                                           : 'normal',
+                               }}>
                             {props.timeText}
                         </TextC>
                         <TextC adjustsFontSizeToFit numberOfLines={1}>
@@ -65,6 +65,11 @@ export default function CellVariantMatches(props) {
                             </TextC>
                             }
                         </TextC>
+                        {props.item.isPlayOff ?
+                            <TextC numberOfLines={1}>
+                                {props.item.playOffName ?? ''}
+                            </TextC> : null}
+
                     </View>
                     <View style={{
                         flex: (props.item.canceled || props.team1Result !== null || props.isCurrentRound || props.item.isRefereeJobLoginRequired ? 3 : 3.6),
@@ -78,7 +83,7 @@ export default function CellVariantMatches(props) {
                                     : null,
                                 props.isMyTeam === 1 ? {fontWeight: 'bold'} : null,
                             ]}>
-                            {props.item.teams1.name + (props.item.isTest ? '_test' : '')}
+                            {(props.item.teams1?.name ?? '') + (props.item.isTest ? '_test' : '')}
                         </TextC>
                         <TextC
                             numberOfLines={1}
@@ -88,9 +93,9 @@ export default function CellVariantMatches(props) {
                                     : null,
                                 props.isMyTeam === 2 ? {fontWeight: 'bold'} : null,
                             ]}>
-                            {props.item.teams2.name + (props.item.isTest ? '_test' : '')}
+                            {(props.item.teams2?.name ?? '') + (props.item.isTest ? '_test' : '')}
                         </TextC>
-                        {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ? (
+                        {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' && props.item.teams3 ? (
                             <TextC numberOfLines={1} style={style().textRed}>
                                 <TextC
                                     style={style().textViolet}>SR</TextC> {props.item.teams3.name + (props.item.isTest ? '_test' : '')}
@@ -107,24 +112,24 @@ export default function CellVariantMatches(props) {
                     {props.item.canceled && props.team1Result === null ?
                         <View style={{flex: 0.6, alignSelf: 'center'}}>
                             <TextC numberOfLines={1} adjustsFontSizeToFit
-                                  style={[style().textRed, {fontSize: 16, textAlign: 'right'}]}>
+                                   style={[style().textRed, {fontSize: 16, textAlign: 'right'}]}>
                                 abg.
                             </TextC>
                         </View>
                         : (props.team1Result !== null ?
                             <View style={{flex: 0.6, fontSize: 14}}>
                                 <TextC numberOfLines={1}
-                                      style={{
-                                          fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
-                                          textAlign: 'right',
-                                      }}>
+                                       style={{
+                                           fontWeight: props.isMyTeam === 1 ? 'bold' : 'normal',
+                                           textAlign: 'right',
+                                       }}>
                                     {props.team1Result}
                                 </TextC>
                                 <TextC numberOfLines={1}
-                                      style={{
-                                          fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
-                                          textAlign: 'right',
-                                      }}>
+                                       style={{
+                                           fontWeight: props.isMyTeam === 2 ? 'bold' : 'normal',
+                                           textAlign: 'right',
+                                       }}>
                                     {props.team2Result}
                                 </TextC>
                             </View>
@@ -134,7 +139,7 @@ export default function CellVariantMatches(props) {
                                         style={[style().button1, style().buttonConfirm, style().buttonOrange]}
                                         onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
                                             + encodeURIComponent('Ergebnis ' + props.item.id)
-                                            + '&body=' + encodeURIComponent(props.item.teams1.name + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + props.item.teams2.name + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
+                                            + '&body=' + encodeURIComponent((props.item.teams1?.name ?? '') + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + (props.item.teams2?.name ?? '') + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
                                         <TextC numberOfLines={2} adjustsFontSizeToFit style={style().textButton1}>
                                             Ergebnis per Mail senden
                                         </TextC>
@@ -143,19 +148,19 @@ export default function CellVariantMatches(props) {
                                 : (props.item.isRefereeJobLoginRequired ?
                                         <View style={{flex: 0.6, alignSelf: 'center'}}>
                                             <TextC numberOfLines={1} adjustsFontSizeToFit
-                                                  style={[style().textViolet, {
-                                                      fontSize: 16,
-                                                      textAlign: 'right',
-                                                      fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
-                                                  }]}>{showBlinking ? 'Login!' : ''}</TextC>
+                                                   style={[style().textViolet, {
+                                                       fontSize: 16,
+                                                       textAlign: 'right',
+                                                       fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
+                                                   }]}>{showBlinking ? 'Login!' : ''}</TextC>
                                         </View>
                                         : (props.isCurrentRound ?
                                             <View style={{flex: 0.6, alignSelf: 'center'}}>
                                                 <TextC numberOfLines={1} adjustsFontSizeToFit
-                                                      style={[style().textRed, {
-                                                          fontSize: 16,
-                                                          textAlign: 'right'
-                                                      }]}>Live!</TextC>
+                                                       style={[style().textRed, {
+                                                           fontSize: 16,
+                                                           textAlign: 'right'
+                                                       }]}>Live!</TextC>
                                             </View>
                                             : null)
                                 )))}

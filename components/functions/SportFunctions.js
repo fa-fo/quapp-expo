@@ -34,8 +34,8 @@ export function getRemarksAdmin(remarksMatches) {
             <View key={match.id}>
                 <TextC
                     style={{fontWeight: 'bold'}}>{match.sport.code} {match.group_name}, {DateFunctions.getFormatted(match.matchStartTime)} Uhr:</TextC>
-                <TextC>{match.teams1.name} vs {match.teams2.name}</TextC>
-                <TextC style={{fontStyle: 'italic'}}>SR: {match.teams3.name}</TextC>
+                <TextC>{match.teams1?.name ?? ''} vs {match.teams2?.name ?? ''}</TextC>
+                <TextC style={{fontStyle: 'italic'}}>SR: {match.teams3?.name ?? ''}</TextC>
                 <TextC style={{marginBottom: 20, fontSize: 20}}>"{match.remarks}"</TextC>
             </View>
         ))) : null;
@@ -45,6 +45,19 @@ export const saveRefereeName = (match, postData, setSaved) => {
     postData = {'password': global.adminPW, ...postData};
 
     return fetchApi('matches/saveRefereeName/' + match.id, 'POST', postData)
+        .then(data => {
+            if (data?.status === 'success') {
+                setSaved(true)
+            }
+        })
+        .catch(error => console.error(error));
+};
+
+
+export const saveMatchTeamIds = (match, postData, setSaved) => {
+    postData = {'password': global.adminPW, ...postData};
+
+    return fetchApi('matches/saveMatchTeamIds/' + match.id, 'POST', postData)
         .then(data => {
             if (data?.status === 'success') {
                 setSaved(true)

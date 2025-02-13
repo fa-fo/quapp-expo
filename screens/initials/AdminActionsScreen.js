@@ -369,6 +369,13 @@ export default function AdminActionsScreen({navigation}) {
                                     </TextC> : null}
                             </View> : null}
 
+                        {global.settings.usePlayOff > 0 ?
+                            <TextC>Play-Off-Spiele angelegt: {data.object.matchesPlayOff}
+                                {data.object.matchesPlayOff === global.settings.usePlayOff ?
+                                    <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                    : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                            </TextC> : null}
+
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
                             <View>
                                 <Pressable style={[style().button1, style().buttonGreen]}
@@ -459,6 +466,7 @@ export default function AdminActionsScreen({navigation}) {
                                             Team-Spielpläne </TextC>
                                     </Pressable>
                                 </View>
+                                {/*
                                 <View style={[style().viewStatus, {flex: 1}]}>
                                     <Pressable style={[style().button1, style().buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/0')}>
@@ -475,6 +483,7 @@ export default function AdminActionsScreen({navigation}) {
                                             Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 2</TextC>
                                     </Pressable>
                                 </View>
+                                */}
                             </View>
                             : null}
 
@@ -482,7 +491,7 @@ export default function AdminActionsScreen({navigation}) {
                             <View style={style().matchflexRowView}>
                                 <View style={[style().viewStatus, {flex: 1}]}>
                                     {data.object.matchesCount > data.object.matchResultCount ?
-                                        <Pressable style={[style().button1, style().buttonGreyBright]}
+                                        <Pressable style={[style().button1, style().buttonGreyDark]}
                                                    onPress={() => downloadPdf('sports/pdfAllFieldsMatches')}>
                                             <TextC style={style().textButton1}><Icon name="file-pdf-box"
                                                                                      size={25}/>Pdf-Download:{'\n'}Alle
@@ -513,7 +522,7 @@ export default function AdminActionsScreen({navigation}) {
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         <TextC>Spiele
                             gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (gewertet
-                            / freigeschaltet)
+                            / in Tabelle freigeschaltet)
                             {data.object.matchesCount === data.object.matchResultCount && data.object.matchResultCount > 0 ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
