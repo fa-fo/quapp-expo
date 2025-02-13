@@ -154,7 +154,7 @@ export default function CellVariantMatches(props) {
                                                        fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
                                                    }]}>{showBlinking ? 'Login!' : ''}</TextC>
                                         </View>
-                                        : (props.isCurrentRound ?
+                                        : (props.isCurrentRound && global.settings?.useLiveScouting ?
                                             <View style={{flex: 0.6, alignSelf: 'center'}}>
                                                 <TextC numberOfLines={1} adjustsFontSizeToFit
                                                        style={[style().textRed, {

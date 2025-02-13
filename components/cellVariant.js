@@ -32,7 +32,7 @@ export default function CellVariant(props) {
                             {props.countStars ? SportFunctions.getChampionshipStars(props.countStars) : null}
                             {props.canceled ?
                                 <TextC style={{color: '#a33300', fontSize: 10}}> zurückgezogen</TextC> : null}
-                            {props.isCurrentRound ? <TextC style={style().textRed}> Live!</TextC> : null}
+                            {props.isCurrentRound && global.settings?.useLiveScouting ? <TextC style={style().textRed}> Live!</TextC> : null}
                         </TextC>
                     </View>
                     <View style={{alignSelf: 'center'}}>
