@@ -72,7 +72,7 @@ export default function CellVariantMatches(props) {
 
                     </View>
                     <View style={{
-                        flex: (props.item.canceled || props.team1Result !== null || props.isCurrentRound || props.item.isRefereeJobLoginRequired ? 3 : 3.6),
+                        flex: (props.item.canceled || props.team1Result !== null || (global.settings?.useLiveScouting && (props.isCurrentRound || props.item.isRefereeJobLoginRequired)) ? 3 : 3.6),
                         fontSize: 14
                     }}>
                         <TextC
