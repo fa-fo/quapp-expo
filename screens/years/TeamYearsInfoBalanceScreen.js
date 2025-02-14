@@ -71,16 +71,17 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
                                 </View>
                             }>
                                 {data.object.sports.map(sport => (
-                                    <CellVariantBalance
-                                        key={sport.id}
-                                        item={sport}
-                                        object={data.object}
-                                        detail={'Spiele'}
-                                        onPress={() => navigation.navigate('TeamYearsInfoBalanceMatches', {
-                                            team: route.params.team,
-                                            sport: sport
-                                        })}
-                                    />
+                                    data.object[sport.id] ?
+                                        <CellVariantBalance
+                                            key={sport.id}
+                                            item={sport}
+                                            object={data.object}
+                                            detail={'Spiele'}
+                                            onPress={() => navigation.navigate('TeamYearsInfoBalanceMatches', {
+                                                team: route.params.team,
+                                                sport: sport
+                                            })}
+                                        /> : null
                                 ))}
                             </Section>
                         </TableView>
