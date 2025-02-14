@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Pressable, RefreshControl, ScrollView, TextInput, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -405,17 +405,11 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC>
                                             <TextC style={style().textRed}>
                                                 {val[0].group_name + val[0].round_id + ': '}
-                                                <Image
-                                                    style={style().sportImage}
-                                                    source={SportFunctions.getSportImage(val[0].sport.code)}
-                                                />
+                                                {SportFunctions.getSportImage(val[0].sport.code)}
                                                 {val[0].sport.code + ' - ' + val[0].teams3.name}
                                             </TextC>
                                             {' <=> ' + val[1].group_name + val[1].round_id + ': '}
-                                            <Image
-                                                style={style().sportImage}
-                                                source={SportFunctions.getSportImage(val[1].sport.code)}
-                                            />
+                                            {SportFunctions.getSportImage(val[1].sport.code)}
                                             {val[1].sport.code + ' - ' + val[1].teams3.name}
                                         </TextC>
                                     </Pressable>
@@ -436,17 +430,11 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC>
                                             <TextC style={style().textRed}>
                                                 {val[0].group_name + val[0].round_id + ': '}
-                                                <Image
-                                                    style={style().sportImage}
-                                                    source={SportFunctions.getSportImage(val[0].sport.code)}
-                                                />
+                                                {SportFunctions.getSportImage(val[0].sport.code)}
                                                 {val[0].sport.code + ' - ' + (val[0].canceled === 1 ? val[0].teams1.name : val[0].teams2.name)}
                                             </TextC>
                                             {' <=> ' + val[1].group_name + val[1].round_id + ': '}
-                                            <Image
-                                                style={style().sportImage}
-                                                source={SportFunctions.getSportImage(val[1].sport.code)}
-                                            />
+                                            {SportFunctions.getSportImage(val[1].sport.code)}
                                             {val[1].sport.code + ' - ' + (val[1].canceled === 1 ? val[1].teams2.name : val[1].teams1.name)}
                                         </TextC>
                                     </Pressable>

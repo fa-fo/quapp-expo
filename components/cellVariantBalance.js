@@ -1,7 +1,6 @@
 import TextC from "../components/customText";
-import {Image, View} from 'react-native';
+import {View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
-import {style} from "../assets/styles";
 import * as SportFunctions from "./functions/SportFunctions";
 import * as ColorFunctions from "./functions/ColorFunctions";
 
@@ -26,10 +25,7 @@ export default function CellVariantBalance(props) {
                     }}>
                     <View style={{alignSelf: 'center', flex: 0.4}}>
                         <TextC style={{textAlign: 'right'}}>
-                            <Image
-                                style={style().sportImage}
-                                source={SportFunctions.getSportImage(props.item.code)}
-                            />
+                            {SportFunctions.getSportImage(props.item.code)}
                         </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>

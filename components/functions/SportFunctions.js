@@ -1,23 +1,44 @@
 import TextC from "../../components/customText";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {View} from "react-native";
+import {Image, View} from "react-native";
 import * as DateFunctions from "./DateFunctions";
 import * as ColorFunctions from "./ColorFunctions";
 import fetchApi from "../fetchApi";
+import {style} from "../../assets/styles";
 
 export function getSportImage(code) {
+    let img = {};
     switch (code) {
         case "BB":
-            return require("../../assets/images/bb.png")
+            img[0] = require("../../assets/images/bb.png");
+            break;
         case "FB":
-            return require("../../assets/images/fb.png")
+            img[0] = require("../../assets/images/fb.png");
+            break;
         case "HB":
-            return require("../../assets/images/hb.png")
+            img[0] = require("../../assets/images/hb.png");
+            break;
         case "VB":
-            return require("../../assets/images/vb.png")
+            img[0] = require("../../assets/images/vb.png");
+            break;
+        case "": // Multi
+            img[0] = require("../../assets/images/bb.png");
+            img[1] = require("../../assets/images/fb.png");
+            img[2] = require("../../assets/images/hb.png");
+            img[3] = require("../../assets/images/vb.png");
+            break;
         default:
-            return require("../../assets/images/hb.png")
+            img[0] = require("../../assets/images/hb.png");
+            break;
     }
+
+    return Object.entries(img).map(([key, val]) =>
+        <Image
+            key={key}
+            style={style().sportImage}
+            source={val}
+        />
+    )
 }
 
 export function getChampionshipStars(countStars) {

@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, RefreshControl, ScrollView, View} from 'react-native';
+import {RefreshControl, ScrollView, View} from 'react-native';
 import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
@@ -43,10 +43,7 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
                                         <View style={{flex: 2}}>
                                             <TextC style={{fontSize: 18}}>{route.params.team.team_name}</TextC>
                                             <TextC>
-                                                <Image
-                                                    style={style().sportImage}
-                                                    source={SportFunctions.getSportImage(route.params.sport.code)}
-                                                />
+                                                {SportFunctions.getSportImage(route.params.sport.code)}
                                                 {route.params.sport.name}
                                             </TextC>
                                             <TextC>Alle ausgetragenen Spiele seit 2022: </TextC>

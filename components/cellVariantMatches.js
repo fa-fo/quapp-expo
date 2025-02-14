@@ -1,6 +1,6 @@
 import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Linking, Pressable, View} from 'react-native';
+import {Linking, Pressable, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 import {style} from '../assets/styles.js';
 import SupervisorActionsModal from './modals/SupervisorActionsModal';
@@ -53,10 +53,7 @@ export default function CellVariantMatches(props) {
                         <TextC adjustsFontSizeToFit numberOfLines={1}>
                             {props.timeText2 ??
                             <TextC>
-                                <Image
-                                    style={style().sportImage}
-                                    source={SportFunctions.getSportImage(props.item.sport.code)}
-                                />
+                                {SportFunctions.getSportImage(props.item.sport.code)}
                                 {props.item.sport.code}
                                 {props.isRefereeJob ?
                                     <TextC style={style().textViolet}>

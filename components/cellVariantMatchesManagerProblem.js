@@ -1,6 +1,6 @@
 import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, View} from 'react-native';
+import {View} from 'react-native';
 import {style} from '../assets/styles';
 import * as SportFunctions from "./functions/SportFunctions";
 
@@ -76,10 +76,7 @@ export default function CellVariantMatchesManagerProblem(props) {
                 <View style={style().matchflexRowView}>
                     <View style={[style().viewStatus, {flex: 1, alignItems: 'flex-end'}]}>
                         <TextC numberOfLines={1}>
-                            <Image
-                                style={style().sportImage}
-                                source={SportFunctions.getSportImage(props.item.sport.code)}
-                            />
+                            {SportFunctions.getSportImage(props.item.sport.code)}
                             {props.item.sport.code + ' '}
                             <TextC style={style().textBlue}>{props.item.group_name}</TextC>
                         </TextC>

@@ -1,6 +1,6 @@
 import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Pressable, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
 import {style} from '../assets/styles';
 import SpecialConfirmModal from './modals/SpecialConfirmModal';
@@ -136,10 +136,7 @@ export default function CellVariantMatchesAdmin(props) {
                     <View style={{flex: 3.5, fontSize: 14}}>
                         <TextC numberOfLines={1}>
                             {props.timeText}{' '}
-                            <Image
-                                style={style().sportImage}
-                                source={SportFunctions.getSportImage(props.item.sport.code)}
-                            />
+                            {SportFunctions.getSportImage(props.item.sport.code)}
                             <TextC style={{color: '#8E8E93'}}>{props.item.sport.code}</TextC>
                         </TextC>
                         {global.settings.useLiveScouting ?
