@@ -310,14 +310,15 @@ export default function CustomDrawerContent(props) {
                                 })
                             }
                         /> : null}
-                    <DrawerItem
-                        icon={() => <Icon name="email-send-outline" size={25}
-                                          color={ColorFunctions.getColor('primary')}/>}
-                        label="Push Notifications"
-                        onPress={() =>
-                            props.navigation.navigate('Admin', {screen: 'PushNotifications'})
-                        }
-                    />
+                    {Platform.OS === 'web' && global.settings?.usePush ?
+                        <DrawerItem
+                            icon={() => <Icon name="email-send-outline" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Push Notifications"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {screen: 'PushNotifications'})
+                            }
+                        /> : null}
                 </View>
             }
             <View style={style().drawerSectionView}>

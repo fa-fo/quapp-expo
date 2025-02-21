@@ -111,7 +111,9 @@ export default function ListMatchesByTeamScreen({navigation}) {
 
     function setMatchesServices(matches) {
         if (global.myTeamId === team_id || (route.params?.setMyTeam && global.myTeamId === 0)) {
-            PushFunctions.setLocalPushNotifications(matches);
+            if (global.settings?.usePush) {
+                PushFunctions.setLocalPushNotifications(matches);
+            }
             AsyncStorageFunctions.setAsyncStorage('myMatches', matches);
         }
     }
