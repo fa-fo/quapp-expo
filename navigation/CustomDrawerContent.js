@@ -280,6 +280,36 @@ export default function CustomDrawerContent(props) {
                             props.navigation.navigate('Admin', {screen: 'TeamsCurrentAdmin'})
                         }
                     />
+                    {Platform.OS === 'web' && !global.settings?.useResourceContentApi ?
+                        <DrawerItem
+                            icon={() => <Icon name="playlist-check" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Spielregeln"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {
+                                    screen: 'ResourceContentAdmin',
+                                    params: {
+                                        resource_id: 16,
+                                        title: 'Spielregeln'
+                                    }
+                                })
+                            }
+                        /> : null}
+                    {Platform.OS === 'web' && !global.settings?.useResourceContentApi ?
+                        <DrawerItem
+                            icon={() => <Icon name="food-fork-drink" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Speisekarte"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {
+                                    screen: 'ResourceContentAdmin',
+                                    params: {
+                                        resource_id: 77,
+                                        title: 'Speisekarte'
+                                    }
+                                })
+                            }
+                        /> : null}
                     <DrawerItem
                         icon={() => <Icon name="email-send-outline" size={25}
                                           color={ColorFunctions.getColor('primary')}/>}

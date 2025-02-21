@@ -4,6 +4,7 @@ import RoundsMatchesAutoAdminScreen from "../screens/rounds/RoundsMatchesAutoAdm
 import AdminActionsScreen from '../screens/initials/AdminActionsScreen';
 import GroupsAllScreen from "../screens/initials/GroupsAllScreen";
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
+import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import PushNotificationsScreen from "../screens/initials/PushNotificationsScreen";
 
 import AdminMatchPhotosScreen from "../screens/matches/AdminMatchPhotosScreen";
@@ -105,6 +106,13 @@ export default function AdminStackNavigator({navigation}) {
                 name="TeamsCurrentAdmin"
                 component={TeamsCurrentScreen}
                 options={{title: 'Admin: Teams am ' + global.currentDayName}}
+            />
+            <Stack.Screen
+                name="ResourceContentAdmin"
+                component={ResourceContentScreen}
+                options={({route}) => ({
+                    title: route.params.title
+                })}
             />
             <Stack.Screen
                 name="PushNotifications"
