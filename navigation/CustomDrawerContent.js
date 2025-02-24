@@ -290,7 +290,7 @@ export default function CustomDrawerContent(props) {
                                     screen: 'ResourceContentAdmin',
                                     params: {
                                         resource_id: 16,
-                                        title: 'Spielregeln'
+                                        title: 'Admin Spielregeln'
                                     }
                                 })
                             }
@@ -305,7 +305,7 @@ export default function CustomDrawerContent(props) {
                                     screen: 'ResourceContentAdmin',
                                     params: {
                                         resource_id: 77,
-                                        title: 'Speisekarte'
+                                        title: 'Admin Speisekarte'
                                     }
                                 })
                             }
