@@ -68,21 +68,24 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 setLastUpdate(then);
 
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
-                navigation.setOptions({
-                    headerRight: () => (
-                        <TextC>
-                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                       onPress={() => navigation.navigate('RoundsMatchesSupervisor', {
-                                           id: json.object?.round?.id,
-                                           roundsCount: route.params.roundsCount,
-                                       })}
-                            >
-                                <TextC
-                                    style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
-                            </Pressable>
-                        </TextC>
-                    ),
-                });
+
+                if (json.object?.round?.id) {
+                    navigation.setOptions({
+                        headerRight: () => (
+                            <TextC>
+                                <Pressable style={[style().buttonTopRight, style().buttonOrange]}
+                                           onPress={() => navigation.navigate('RoundsMatchesSupervisor', {
+                                               id: json.object?.round?.id,
+                                               roundsCount: route.params.roundsCount,
+                                           })}
+                                >
+                                    <TextC
+                                        style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
+                                </Pressable>
+                            </TextC>
+                        ),
+                    });
+                }
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -187,7 +190,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                         </View>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
-                    : <TextC>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</TextC>)}
+                    : <TextC>Keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</TextC>)}
         </ScrollView>
     );
 }

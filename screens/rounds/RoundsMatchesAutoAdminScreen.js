@@ -58,21 +58,24 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                 setLastUpdate(then);
 
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
-                navigation.setOptions({
-                    headerRight: () => (
-                        <TextC>
-                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                       onPress={() => navigation.navigate('RoundsMatchesAdmin', {
-                                           id: json.object?.round?.id,
-                                           roundsCount: route.params.roundsCount,
-                                       })}
-                            >
-                                <TextC
-                                    style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
-                            </Pressable>
-                        </TextC>
-                    ),
-                });
+
+                if (json.object?.round?.id) {
+                    navigation.setOptions({
+                        headerRight: () => (
+                            <TextC>
+                                <Pressable style={[style().buttonTopRight, style().buttonOrange]}
+                                           onPress={() => navigation.navigate('RoundsMatchesAdmin', {
+                                               id: json.object?.round?.id,
+                                               roundsCount: route.params.roundsCount,
+                                           })}
+                                >
+                                    <TextC
+                                        style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
+                                </Pressable>
+                            </TextC>
+                        ),
+                    });
+                }
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -120,7 +123,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                             <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                 {group.name === 'A' ?
                                                     <TextC numberOfLines={1}
-                                                          style={style().textGreen}>
+                                                           style={style().textGreen}>
                                                         {'Regulär werten: ' + matchesToConfirm.length + ' (automatisch)'}
                                                     </TextC> : null}
                                             </View>
@@ -143,7 +146,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                         </TableView>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
-                    : <TextC>Fehler: keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</TextC>)}
+                    : <TextC>Keine Spiele gefunden! currentRoundId: {data.object?.currentRoundId}</TextC>)}
         </ScrollView>
     );
 }
