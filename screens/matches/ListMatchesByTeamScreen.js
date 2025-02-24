@@ -44,7 +44,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     setPushToken(json.year?.settings);
                     updateGlobalVariables(json.year?.settings);
                     showLocalStorageScore(json.year?.settings);
-                    setMatchesServices(json.object.matches);
+                    setMatchesServices(json.object.matches, json.year?.settings);
                 })
                 .catch((error) => {
                     console.error(error)
@@ -71,14 +71,16 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     AsyncStorageFunctions.setAsyncStorage('myYearId', settings.currentYear_id);
                 }
 
-                let postData = {
-                    'my_team_id': new_team_id,
-                    'my_year_id': settings.currentYear_id,
-                    'expoPushToken': global.expoPushToken
-                };
+                if (settings?.usePush) {
+                    let postData = {
+                        'my_team_id': new_team_id,
+                        'my_year_id': settings.currentYear_id,
+                        'expoPushToken': global.expoPushToken
+                    };
 
-                fetchApi('pushTokens/add', 'POST', postData)
-                    .catch((error) => console.error(error));
+                    fetchApi('pushTokens/add', 'POST', postData)
+                        .catch((error) => console.error(error));
+                }
             }
         }
     }
@@ -109,12 +111,14 @@ export default function ListMatchesByTeamScreen({navigation}) {
         }
     }
 
-    function setMatchesServices(matches) {
+    function setMatchesServices(matches, settings) {
         if (global.myTeamId === team_id || (route.params?.setMyTeam && global.myTeamId === 0)) {
-            if (global.settings?.usePush) {
+            if (settings?.usePush) {
                 PushFunctions.setLocalPushNotifications(matches);
             }
-            AsyncStorageFunctions.setAsyncStorage('myMatches', matches);
+            if (settings?.useLiveScouting) {
+                AsyncStorageFunctions.setAsyncStorage('myMatches', matches);
+            }
         }
     }
 

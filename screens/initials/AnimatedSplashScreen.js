@@ -48,13 +48,11 @@ export default function AnimatedSplashScreen({image}) {
             setGlobalVariables();
 
             setProgress(.4);
-            if (global.settings?.usePush) {
-                await PushFunctions.registerForPushNotificationsAsync()
-                    .then(token => {
-                        setExpoPushToken(token);
-                        global.expoPushToken = (token !== undefined ? token : '');
-                    })
-            }
+            await PushFunctions.registerForPushNotificationsAsync()
+                .then(token => {
+                    setExpoPushToken(token);
+                    global.expoPushToken = (token !== undefined ? token : '');
+                })
 
             setProgress(.5);
             await loadStorageData().then(r => setAppIsReady(true));
