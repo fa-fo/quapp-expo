@@ -214,6 +214,7 @@ export default function AdminActionsScreen({navigation}) {
 
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         <TextC>Gruppen angelegt: {data.object.groupsCount}
+                            {global.settings.usePlayOff > 0 ? ' (inkl. Play-Off)' : ''}
                             {data.object.groupsCount > 0 ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
@@ -339,7 +340,8 @@ export default function AdminActionsScreen({navigation}) {
                             </View> : null}
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         <TextC>Spiele angelegt: {data.object.matchesCount}
-                            {data.object.matchesCount === data.year.teamsCount * 4 ?
+                            {global.settings.usePlayOff > 0 ? ' (inkl. Play-Off)' : ''}
+                            {data.object.matchesCount === data.year.teamsCount * 4 + data.object.matchesPlayOff ?
                                 <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                         </TextC>
                         {global.settings.useLiveScouting && data.object.matchesCount > 0 ?
@@ -347,6 +349,14 @@ export default function AdminActionsScreen({navigation}) {
                                 {data.object.matchesPins === data.object.matchesCount ?
                                     <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                             </TextC> : null}
+                        {global.settings.usePlayOff > 0 ?
+                            <TextC>Play-Off-Spiele angelegt: {data.object.matchesPlayOff}
+                                {data.object.matchesPlayOff === global.settings.usePlayOff ?
+                                    <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                    : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                            </TextC> : null}
+
+                        {global.settings.usePlayOff > 0 ? <TextC>{'\n'}Ohne Play-Off:</TextC> : null}
                         {data.object.matchesCount > 0 ?
                             <View style={style().matchflexEventsView}>
                                 <TextC>Spiele je
@@ -368,13 +378,6 @@ export default function AdminActionsScreen({navigation}) {
                                             : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                     </TextC> : null}
                             </View> : null}
-
-                        {global.settings.usePlayOff > 0 ?
-                            <TextC>Play-Off-Spiele angelegt: {data.object.matchesPlayOff}
-                                {data.object.matchesPlayOff === global.settings.usePlayOff ?
-                                    <TextC style={style().textGreen}> {'\u2714'}</TextC>
-                                    : <TextC style={style().textRed}> {'\u2762'}</TextC>}
-                            </TextC> : null}
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
                             <View>
