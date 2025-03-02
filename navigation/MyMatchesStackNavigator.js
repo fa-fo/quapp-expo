@@ -7,6 +7,7 @@ import GroupsAllScreen from '../screens/initials/GroupsAllScreen';
 import RoundsCurrentScreen from '../screens/rounds/RoundsCurrentScreen';
 import RoundsMatchesScreen from '../screens/rounds/RoundsMatchesScreen';
 import TeamsCurrentScreen from '../screens/initials/TeamsCurrentScreen';
+import ListMatchesByRefereeScreen from '../screens/matches/ListMatchesByRefereeScreen';
 import AllMatchPhotosScreen from "../screens/matches/AllMatchPhotosScreen";
 import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import SettingsScreen from "../screens/initials/SettingsScreen";
@@ -100,6 +101,11 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="TeamsCurrent"
                 component={TeamsCurrentScreen}
                 options={{title: 'Teams am ' + global.currentDayName}}
+            />
+            <Stack.Screen
+                name="ListMatchesByReferee"
+                component={ListMatchesByRefereeScreen}
+                options={{title: 'SR-Spielsuche'}}
             />
             <Stack.Screen
                 name="AllMatchPhotos"
