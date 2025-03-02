@@ -72,7 +72,8 @@ export default function RoundsCurrentScreen({navigation}) {
                                              accessory="DetailDisclosure"
                                              isCurrentRound={data.object.currentRoundId === item.id ? 1 : 0}
                                              detail={route.name === 'RoundsCurrent' ? 'Details'
-                                                 : (item.matchesConfirmed ?? 0) + '/' + item.matchesCount + ' gewertet'}
+                                                 : (item.matchesWithoutReferee ? item.matchesWithoutReferee + ' SR fehlen, ' : '')
+                                                 + item.matchesConfirmed + '/' + item.matchesCount + ' gewertet'}
                                              detailColor={route.name === 'RoundsCurrent' || data.object.currentRoundId <= item.id ? null
                                                  : item.matchesConfirmed === item.matchesCount ? 'green'
                                                      : 'red'}
