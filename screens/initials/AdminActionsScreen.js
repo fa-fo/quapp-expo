@@ -394,6 +394,7 @@ export default function AdminActionsScreen({navigation}) {
                             : null}
                         {data.object.matchesCount > data.object.matchResultCount ?
                             <TextC>Fehlende SR: {data.object.missingRefereesCount}
+                                {global.settings.usePlayOff > 0 ? ' (inkl. Play-Off)' : ''}
                                 {data.object.missingRefereesCount === 0 ?
                                     <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                     : <TextC style={style().textRed}> {'\u2762'}</TextC>

@@ -177,6 +177,12 @@ export default function CustomDrawerContent(props) {
                 <View style={style().drawerSectionView}>
                     <View style={style().separatorLine}/>
                 </View>
+                {!global.settings?.useLiveScouting ?
+                    <DrawerItem
+                        icon={() => <Icon name="text-box-search" size={25} color={ColorFunctions.getColor('primary')}/>}
+                        label="SR-Spielsuche"
+                        onPress={() => props.navigation.navigate('MyMatches', {screen: 'ListMatchesByReferee'})}
+                    /> : null}
                 <DrawerItem
                     icon={() => <Icon name="account-settings-outline" size={25}
                                       color={ColorFunctions.getColor('primary')}/>}

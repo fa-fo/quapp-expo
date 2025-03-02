@@ -55,9 +55,10 @@ export default function CellVariantMatches(props) {
                             <TextC>
                                 {SportFunctions.getSportImage(props.item.sport.code)}
                                 {props.item.sport.code}
-                                {props.isRefereeJob ?
+                                {props.isRefereeJob && props.refereeGroupName ?
                                     <TextC style={style().textViolet}>
-                                        {'SR' + (props.item.teams4 ? '-E' : '') + (props.refereeGroupName !== props.item.group_name ? ' ' + props.item.group_name + '\u2762' : '')}
+                                        {'SR' + (props.item.teams4 ? '-E' : '')
+                                        + (props.refereeGroupName !== props.item.group_name ? ' ' + props.item.group_name + '\u2762' : '')}
                                     </TextC> : null}
                             </TextC>
                             }
@@ -66,7 +67,6 @@ export default function CellVariantMatches(props) {
                             <TextC numberOfLines={1}>
                                 {props.item.playOffName ?? ''}
                             </TextC> : null}
-
                     </View>
                     <View style={{
                         flex: (props.item.canceled || props.team1Result !== null || (global.settings?.useLiveScouting && (props.isCurrentRound || props.item.isRefereeJobLoginRequired)) ? 3 : 3.6),
@@ -104,6 +104,10 @@ export default function CellVariantMatches(props) {
                                     style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name + (props.item.isTest ? '_test' : '')}
                             </TextC>
                         ) : null}
+                        {props.isRefereeJob && props.item.refereeName && props.item.refereeName !== '' ?
+                            <TextC numberOfLines={1} style={style().textViolet}>
+                                {'SR: ' + props.item.refereeName}
+                            </TextC> : null}
                     </View>
 
                     {props.item.canceled && props.team1Result === null ?
