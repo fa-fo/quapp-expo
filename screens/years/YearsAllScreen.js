@@ -29,7 +29,7 @@ export default function YearsAllScreen({navigation}) {
                                              title={item.year_name}
                                              accessory="DetailDisclosure"
                                              detail="Tabelle"
-                                             onPress={() => navigation.navigate('TeamYearsEndRanking', {item})}
+                                             onPress={() => navigation.navigateDeprecated('TeamYearsEndRanking', {item})}
                                 />
                             ))}
                         </Section>

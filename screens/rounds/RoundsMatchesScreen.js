@@ -36,7 +36,7 @@ export default function RoundsMatchesScreen({navigation}) {
                 <TextC style={{flex: 1, textAlign: 'right'}}>
                     {route.params.id > 1 ?
                         <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                   onPress={() => navigation.navigate(route.name, {
+                                   onPress={() => navigation.navigateDeprecated(route.name, {
                                        id: route.params.id - 1,
                                        roundsCount: route.params.roundsCount,
                                    })}
@@ -47,7 +47,7 @@ export default function RoundsMatchesScreen({navigation}) {
                     <TextC> </TextC>
                     {route.params.id < route.params.roundsCount ?
                         <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                   onPress={() => navigation.navigate(route.name, {
+                                   onPress={() => navigation.navigateDeprecated(route.name, {
                                        id: route.params.id + 1,
                                        roundsCount: route.params.roundsCount,
                                    })}
@@ -143,7 +143,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 (group.name !== 'Play-Off' ?
                                                                     <Pressable
                                                                         style={style().buttonTopRight}
-                                                                        onPress={() => navigation.navigate('RankingInGroups', {item: group})}
+                                                                        onPress={() => navigation.navigateDeprecated('RankingInGroups', {item: group})}
                                                                     >
                                                                         <TextC style={style().textButtonTopRight}
                                                                                numberOfLines={1}>
@@ -184,7 +184,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                                                 isCurrentRound={data.object.currentRoundId === item.round_id ? 1 : 0}
                                                                 isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
-                                                                onPress={() => navigation.navigate('MatchDetails', {item})}
+                                                                onPress={() => navigation.navigateDeprecated('MatchDetails', {item})}
                                                             /> :
                                                             <CellVariantMatchesAdmin
                                                                 key={item.id}

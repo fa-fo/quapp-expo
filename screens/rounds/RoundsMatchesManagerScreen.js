@@ -74,7 +74,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                         headerRight: () => (
                             <TextC>
                                 <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                           onPress={() => navigation.navigate('RoundsMatchesSupervisor', {
+                                           onPress={() => navigation.navigateDeprecated('RoundsMatchesSupervisor', {
                                                id: json.object?.round?.id,
                                                roundsCount: route.params.roundsCount,
                                            })}
@@ -178,7 +178,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                     group.matches?.map((item, i) => (
                                         <Pressable
                                             key={item.id}
-                                            onPress={() => navigation.navigate('MatchDetailsSupervisor', {item})}>
+                                            onPress={() => navigation.navigateDeprecated('MatchDetailsSupervisor', {item})}>
                                             <CellVariantMatchesManager
                                                 i={i}
                                                 item={item}

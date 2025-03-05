@@ -41,7 +41,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                     {data.yearSelected?.daysWithGroups > 0 ? ([...Array(data.yearSelected.daysWithGroups).keys()]).map(day_id => (
                                         <View key={day_id} style={{flex: 2, alignItems: 'center'}}>
                                             <Pressable style={style().buttonTopRight}
-                                                       onPress={() => navigation.navigate('GroupsAll', {
+                                                       onPress={() => navigation.navigateDeprecated('GroupsAll', {
                                                            year_id: route.params.item.year_id,
                                                            day_id: (day_id + 1)
                                                        })}
@@ -54,7 +54,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                     {data.yearSelected && route.params.item.year_id >= 27 ?
                                         <View style={{flex: 1, alignItems: 'center'}}>
                                             <Pressable style={style().buttonTopRight}
-                                                       onPress={() => navigation.navigate('AllMatchPhotos', {
+                                                       onPress={() => navigation.navigateDeprecated('AllMatchPhotos', {
                                                            item: route.params.item
                                                        })}
                                             >
@@ -71,7 +71,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                     title={(item.endRanking !== null ? item.endRanking + '. ' : '') + item.team_name}
                                     detail="Teaminfo"
                                     isMyTeam={(item.team_id === global.myTeamId ? 1 : 0)}
-                                    onPress={() => (route.name === 'TeamYearsEndRankingAdmin' ? null : navigation.navigate('TeamYearsInfo', {item}))}
+                                    onPress={() => (route.name === 'TeamYearsEndRankingAdmin' ? null : navigation.navigateDeprecated('TeamYearsInfo', {item}))}
                                 />
                             )) : null}
                             {data.object.showRanking === 0 ?

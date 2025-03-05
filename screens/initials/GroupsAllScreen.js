@@ -48,7 +48,7 @@ export default function GroupsAllScreen({navigation}) {
                                              title={'Gruppe ' + item.name}
                                              accessory="DetailDisclosure"
                                              detail={item.teamsCount + ' Teams, Tabelle, Spielplan'}
-                                             onPress={() => navigation.navigate((route.name === 'GroupsAllAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups'), {item})}
+                                             onPress={() => navigation.navigateDeprecated((route.name === 'GroupsAllAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups'), {item})}
                                 />
                             ))}
                         </Section>

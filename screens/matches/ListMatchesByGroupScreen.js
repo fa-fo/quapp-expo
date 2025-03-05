@@ -73,7 +73,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             <Pressable
                                                                 style={style().buttonTopRight}
-                                                                onPress={() => navigation.navigate(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item})}
+                                                                onPress={() => navigation.navigateDeprecated(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item})}
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
@@ -99,8 +99,8 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                     isCurrentRound={data.object.currentRoundId === item.round_id ? 1 : 0}
                                                     isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
                                                     onPress={() => route.name === 'ListMatchesByGroupAdmin' ?
-                                                        navigation.navigate('MatchDetailsAdmin', {item})
-                                                        : navigation.navigate('MatchDetails', {item})}
+                                                        navigation.navigateDeprecated('MatchDetailsAdmin', {item})
+                                                        : navigation.navigateDeprecated('MatchDetails', {item})}
                                                 />
                                             ))
                                             }

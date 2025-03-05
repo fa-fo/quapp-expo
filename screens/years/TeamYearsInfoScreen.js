@@ -54,7 +54,7 @@ export default function TeamYearsInfoScreen({navigation}) {
                             {depth === 0 && team.team_years[0].year_id > 24 ?
                                 <View style={{flex: 1, alignItems: 'flex-end'}}>
                                     <Pressable style={style().buttonTopRight}
-                                               onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: route.params.item})}
+                                               onPress={() => navigation.navigateDeprecated('TeamYearsInfoBalance', {team: route.params.item})}
                                     >
                                         <TextC style={style().textButtonTopRight}>{'Bilanz seit 2022'}</TextC>
                                     </Pressable>
@@ -69,7 +69,7 @@ export default function TeamYearsInfoScreen({navigation}) {
                             title={item.year_name + (item.endRanking ? (': ' + item.endRanking + '. Platz') : '')}
                             detail="Tabelle"
                             backgroundColor={(item.endRanking === 1 ? ColorFunctions.getColor('GoldBg') : '')}
-                            onPress={() => navigation.navigate('TeamYearsEndRanking', {item})}
+                            onPress={() => navigation.navigateDeprecated('TeamYearsEndRanking', {item})}
                         />
                     ))}
                 </Section>

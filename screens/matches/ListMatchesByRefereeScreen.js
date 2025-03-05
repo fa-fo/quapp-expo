@@ -80,7 +80,7 @@ export default function ListMatchesByRefereeScreen({navigation}) {
                                         team1Result={item.resultGoals1 !== null ? (parseInt(item.resultGoals1) || 0) : null}
                                         team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                         isRefereeJob={1}
-                                        onPress={() => navigation.navigate('MatchDetails', {item})}
+                                        onPress={() => navigation.navigateDeprecated('MatchDetails', {item})}
                                     />
                                 )}
                             </Section>
