@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {style} from "../../assets/styles";
 import * as SportFunctions from "../../components/functions/SportFunctions";
+import SettingsModal from "./modals/SettingsModal";
 import ClearLogsModal from "./modals/ClearLogsModal";
 
 export default function AdminActionsScreen({navigation}) {
@@ -17,9 +18,13 @@ export default function AdminActionsScreen({navigation}) {
     const [teamNames, setTeamNames] = useState('');
     const [teamNamesSplit, setTeamNamesSplit] = useState([]);
     const [clearLogsModalVisible, setClearLogsModalVisible] = useState(false);
+    const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
     useEffect(() => {
-        loadScreenData({});
+        return navigation.addListener('focus', () => {
+            setLoading(true);
+            loadScreenData();
+        });
     }, []);
 
     const loadScreenData = (mergeJson) => {
@@ -106,18 +111,30 @@ export default function AdminActionsScreen({navigation}) {
                             <Pressable
                                 style={[style().button1, style().buttonConfirm, style().buttonGreen, {width: 120}]}
                                 onPress={() => loadScreenData()}>
-                                <Icon name="reload" size={25}/>
-                                <TextC style={style().textButton1}>neu laden</TextC>
+                                <TextC style={style().textButton1}>
+                                    <Icon name="reload" size={25}/> neu laden
+                                </TextC>
+                            </Pressable>
+                        </View>
+
+                        <View style={{position: 'absolute', right: 0, top: 10}}>
+                            <Pressable
+                                style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 140}]}
+                                onPress={() => setSettingsModalVisible(true)}>
+                                <TextC style={style().textButton1}>
+                                    <Icon name="heart-settings" size={25}/> Einstellungen
+                                </TextC>
                             </Pressable>
                         </View>
 
                         {data.object.roundsWithPossibleLogsDelete.length && global.settings.useLiveScouting ?
-                            <View style={{position: 'absolute', right: 0, top: 10}}>
+                            <View style={{position: 'absolute', right: 0, top: 65}}>
                                 <Pressable
                                     style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 120}]}
                                     onPress={() => setClearLogsModalVisible(true)}>
-                                    <Icon name="delete" size={25}/>
-                                    <TextC style={style().textButton1}>Logs leeren</TextC>
+                                    <TextC style={style().textButton1}>
+                                        <Icon name="delete" size={25}/> Logs leeren
+                                    </TextC>
                                 </Pressable>
                             </View> : null}
 
@@ -657,6 +674,11 @@ export default function AdminActionsScreen({navigation}) {
                             </View> : null}
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
+            <SettingsModal
+                setModalVisible={setSettingsModalVisible}
+                modalVisible={settingsModalVisible}
+                loadScreenData={loadScreenData}
+            />
             <ClearLogsModal
                 setModalVisible={setClearLogsModalVisible}
                 modalVisible={clearLogsModalVisible}
