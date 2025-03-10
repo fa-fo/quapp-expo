@@ -11,6 +11,8 @@ import CardsModal from './modals/CardsModal';
 import * as ConfirmFunctions from './functions/ConfirmFunctions';
 import * as SportFunctions from "./functions/SportFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {getAdminInsertResultFields} from "./getAdminInsertResultFields";
+import {getAdminInsertRefereeNameField} from "./getAdminInsertRefereeNameField";
 
 export default function CellVariantMatchesAdmin(props) {
     const [specialConfirmModalVisible, setSpecialConfirmModalVisible] =
@@ -173,8 +175,7 @@ export default function CellVariantMatchesAdmin(props) {
                             <TextC numberOfLines={1} style={style().textGreen}>
                                 <TextC style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name}
                             </TextC> : null}
-                        {!global.settings.useLiveScouting ?
-                            ConfirmFunctions.getInsertRefereeNameField(props.item) : null}
+                        {!global.settings.useLiveScouting ? getAdminInsertRefereeNameField(props.item) : null}
 
                     </View>
                     {global.settings.useLiveScouting ?
@@ -400,7 +401,7 @@ export default function CellVariantMatchesAdmin(props) {
 
                     {!global.settings.useLiveScouting ?
                         <View style={[style().matchflexRowView, {flex: 5}]}>
-                            {ConfirmFunctions.getInsertResultFields(props.item, null, props.playOffTeams)}
+                            {getAdminInsertResultFields(props.item, null, props.playOffTeams)}
                             <View style={{flex: 1}}>
                                 {props.item.isTime2confirm ? getSpecialConfirmModalButton() : null}
                                 {props.item.resultTrend > 2 ?

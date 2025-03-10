@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {Modal, Pressable, View} from 'react-native';
 import {style} from '../../assets/styles.js';
-import * as ConfirmFunctions from "../functions/ConfirmFunctions";
+import {getAdminInsertResultFields} from "../getAdminInsertResultFields";
 
 export default function InsertResultModal({
                                               setModalVisible,
@@ -27,7 +27,7 @@ export default function InsertResultModal({
                     <TextC>Ergebniseingabe ohne Faktor:</TextC>
                     <TextC>{'\n'}</TextC>
 
-                    {ConfirmFunctions.getInsertResultFields(match, loadScreenData)}
+                    {getAdminInsertResultFields(match, loadScreenData)}
 
                     <TextC>{'\n'}</TextC>
                     <Pressable
