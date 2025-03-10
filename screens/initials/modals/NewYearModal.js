@@ -35,11 +35,11 @@ export default function NewYearModal({
         if (checkAllInput() && usernamePW !== '') {
             setTextPWWrongVisible(false);
             let postData = {
-                name: parseInt(name.toString()),
+                name: name,
                 day1: day1,
                 day2: day2,
-                daysCount: parseInt(daysCount),
-                teamsCount: parseInt(teamsCount),
+                daysCount: daysCount,
+                teamsCount: teamsCount,
                 password: usernamePW
             };
 
