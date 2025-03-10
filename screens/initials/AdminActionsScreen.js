@@ -9,6 +9,9 @@ import {style} from "../../assets/styles";
 import * as SportFunctions from "../../components/functions/SportFunctions";
 import SettingsModal from "./modals/SettingsModal";
 import ClearLogsModal from "./modals/ClearLogsModal";
+import NewYearModal from "./modals/NewYearModal";
+import {format} from "date-fns";
+import {de} from "date-fns/locale";
 
 export default function AdminActionsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -19,6 +22,7 @@ export default function AdminActionsScreen({navigation}) {
     const [teamNamesSplit, setTeamNamesSplit] = useState([]);
     const [clearLogsModalVisible, setClearLogsModalVisible] = useState(false);
     const [settingsModalVisible, setSettingsModalVisible] = useState(false);
+    const [newYearModalVisible, setNewYearModalVisible] = useState(false);
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
@@ -619,7 +623,7 @@ export default function AdminActionsScreen({navigation}) {
                                     </View> : null}
                                 {data.year.settings.currentDay_id < data.year.daysCount ?
                                     <View>
-                                        <TextC>Spielbetrieb beendet!</TextC>
+                                        <TextC>Spielbetrieb für heute beendet!</TextC>
                                         <Pressable style={[style().button1, style().buttonGreen]}
                                                    onPress={() => adminAction('years/setCurrentDayIncrement', '')}>
                                             <TextC style={style().textButton1}>Umstellen auf
@@ -644,11 +648,21 @@ export default function AdminActionsScreen({navigation}) {
                             <View>
                                 {data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ?
                                     (data.year.settings.showEndRanking ?
-                                            <Pressable style={[style().button1, style().buttonRed]}
-                                                       onPress={() => adminAction('years/showEndRanking', 0)}>
-                                                <TextC style={style().textButton1}>Tabellen und Jahres-Endtabelle
-                                                    sperren</TextC>
-                                            </Pressable>
+                                            <View style={style().matchflexEventsView}>
+                                                <Pressable style={[style().button1, style().buttonRed]}
+                                                           onPress={() => adminAction('years/showEndRanking', 0)}>
+                                                    <TextC style={style().textButton1}>Tabellen und Jahres-Endtabelle
+                                                        sperren</TextC>
+                                                </Pressable>
+                                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                                <TextC>Spielbetrieb beendet!</TextC>
+                                                {data.year.day !== format(new Date(), "yyyy-MM-dd", {locale: de}) || data.year.settings.isTest === 1 ?
+                                                    <Pressable style={[style().button1, style().buttonGreen]}
+                                                               onPress={() => setNewYearModalVisible(true)}>
+                                                        <TextC style={style().textButton1}>Neues Turnier-Jahr
+                                                            erstellen</TextC>
+                                                    </Pressable> : null}
+                                            </View>
                                             :
                                             <Pressable style={[style().button1, style().buttonGreen]}
                                                        onPress={() => adminAction('years/showEndRanking', 1)}>
@@ -663,9 +677,9 @@ export default function AdminActionsScreen({navigation}) {
                             : null}
 
 
-                        <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.year.settings.isTest === 1 ?
-                            <View>
+                            <View style={style().matchflexEventsView}>
+                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 <Pressable style={[style().button1, style().buttonRed]}
                                            onPress={() => adminAction('years/clearTest', '')}>
                                     <TextC style={style().textButton1}>Testmodus:
@@ -685,6 +699,13 @@ export default function AdminActionsScreen({navigation}) {
                 loadScreenData={loadScreenData}
                 roundsWithPossibleLogsDelete={data?.object?.roundsWithPossibleLogsDelete}
             />
+            {data?.year ?
+                <NewYearModal
+                    setModalVisible={setNewYearModalVisible}
+                    modalVisible={newYearModalVisible}
+                    loadScreenData={loadScreenData}
+                    oldYear={data.year}
+                /> : null}
         </ScrollView>
     )
 }
