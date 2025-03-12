@@ -67,7 +67,7 @@ export default function RoundsCurrentScreen({navigation}) {
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"
                                              title={'Runde ' + item.id
-                                             + (global.settings.usePlayOff && data.object.rounds.length === item.id ? ' (Play-Off)' : '')
+                                             + (global.settings.usePlayOff && data.object.rounds.length === item.id ? ' (Endrunde)' : '')
                                              + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
                                              accessory="DetailDisclosure"
                                              isCurrentRound={data.object.currentRoundId === item.id ? 1 : 0}

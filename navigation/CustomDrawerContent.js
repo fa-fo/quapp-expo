@@ -137,7 +137,7 @@ export default function CustomDrawerContent(props) {
                 <DrawerItem
                     icon={() => <Icon name="playlist-plus" size={25}
                                       color={ColorFunctions.getColor('primary')}/>}
-                    label="Play-Off-Spiele"
+                    label="Endrunden-Spiele"
                     onPress={() => props.navigation.navigateDeprecated('MyMatches', {
                         screen: 'RoundsMatches',
                         params: {
@@ -150,7 +150,7 @@ export default function CustomDrawerContent(props) {
             {global.settings?.usePlayOff && global.settings?.showEndRanking ?
                 <DrawerItem
                     icon={() => <Icon name="table-large-plus" size={25} color={ColorFunctions.getColor('primary')}/>}
-                    label="Endstand nach Play-Offs"
+                    label="Endstand nach Endrunde"
                     onPress={() => props.navigation.navigateDeprecated('Years', {
                         screen: 'TeamYearsEndRanking',
                         params: {item: {year_id: currentYearId, year_name: currentYearName}}

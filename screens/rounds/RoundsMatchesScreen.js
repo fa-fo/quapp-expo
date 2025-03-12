@@ -140,7 +140,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                         </View>
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             {route.name === 'RoundsMatches' ?
-                                                                (group.name !== 'Play-Off' ?
+                                                                (group.name !== 'Endrunde' ?
                                                                     <Pressable
                                                                         style={style().buttonTopRight}
                                                                         onPress={() => navigation.navigateDeprecated('RankingInGroups', {item: group})}
@@ -165,7 +165,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                             </TextC>
                                                                         </Pressable>
                                                                         :
-                                                                        (!global.settings.useLiveScouting && group.name !== 'Play-Off' ?
+                                                                        (!global.settings.useLiveScouting && group.name !== 'Endrunde' ?
                                                                             <TextC>Ergebniseingabe ohne
                                                                                 Faktor</TextC> : null)
                                                                 )
