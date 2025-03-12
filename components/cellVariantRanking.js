@@ -20,7 +20,8 @@ export default function CellVariantRanking(props) {
                         borderBottomWidth:
                             props.dayId === 1 &&
                             props.item.calcRanking > 0 &&
-                            props.item.calcRanking % 4 === 0
+                            ((global.settings.usePlayOff > 0 && props.daysCount === 1 && props.item.calcRanking === global.settings.usePlayOff)
+                                || (global.settings.usePlayOff === 0 && props.daysCount > 1 && props.item.calcRanking % 4 === 0))
                                 ? 2
                                 : 0,
                     }}>
