@@ -581,7 +581,7 @@ export default function AdminActionsScreen({navigation}) {
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.object.matchesCount > 0 ?
                             <View>
-                                <Pressable style={[style().button1, style().buttonGreen]}
+                                <Pressable style={[style().button1, style().buttonGreenLight]}
                                            onPress={() => adminAction('years/reCalcRanking', '')}>
                                     <TextC style={style().textButton1}>Optional: Tabellen neu berechnen</TextC>
                                 </Pressable>
@@ -595,25 +595,26 @@ export default function AdminActionsScreen({navigation}) {
                             <View>
                                 {data.year.settings.currentDay_id === data.year.daysCount ?
                                     <View>
-                                        <Pressable style={[style().button1, style().buttonGreen]}
-                                                   onPress={() => adminAction('teamYears/setEndRanking', '')}>
+                                        <Pressable
+                                            style={[style().button1, (data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ? style().buttonGreenLight : style().buttonGreen)]}
+                                            onPress={() => adminAction('teamYears/setEndRanking', '')}>
                                             <TextC style={style().textButton1}>Jahres-Endtabelle erstellen</TextC>
                                         </Pressable>
                                         {data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ?
                                             <View>
-                                                <TextC>Jahres-Endtabelle erstellt<TextC
-                                                    style={style().textGreen}> {'\u2714'}</TextC></TextC>
-                                                <Pressable
-                                                    style={[style().button1, style().buttonConfirm, style().buttonGreen]}
-                                                    onPress={() => navigation.navigate('TeamYearsEndRankingAdmin', {
-                                                        item: {
-                                                            year_id: data.year.id,
-                                                            year_name: data.year.name
-                                                        }
-                                                    })}>
-                                                    <TextC style={style().textButton1}>Jahres-Endtabelle
-                                                        aufrufen</TextC>
-                                                </Pressable>
+                                                <TextC>
+                                                    <Pressable
+                                                        style={style().link}
+                                                        onPress={() => navigation.navigate('TeamYearsEndRankingAdmin', {
+                                                            item: {
+                                                                year_id: data.year.id,
+                                                                year_name: data.year.name
+                                                            }
+                                                        })}>
+                                                        <TextC style={style().textButton1}>Jahres-Endtabelle</TextC>
+                                                    </Pressable> erstellt <TextC
+                                                    style={style().textGreen}> {'\u2714'}</TextC>
+                                                </TextC>
                                                 <Pressable style={[style().button1, style().buttonGreyDark]}
                                                            onPress={() => downloadPdf('teamYears/pdfEndRanking')}>
                                                     <TextC style={style().textButton1}><Icon name="file-pdf-box"
@@ -623,7 +624,7 @@ export default function AdminActionsScreen({navigation}) {
                                     </View> : null}
                                 {data.year.settings.currentDay_id < data.year.daysCount ?
                                     <View>
-                                        <TextC>Spielbetrieb für heute beendet!</TextC>
+                                        <TextC style={{fontSize: 32}}>Spielbetrieb für heute beendet!</TextC>
                                         <Pressable style={[style().button1, style().buttonGreen]}
                                                    onPress={() => adminAction('years/setCurrentDayIncrement', '')}>
                                             <TextC style={style().textButton1}>Umstellen auf
@@ -655,7 +656,7 @@ export default function AdminActionsScreen({navigation}) {
                                                         sperren</TextC>
                                                 </Pressable>
                                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                                                <TextC>Spielbetrieb beendet!</TextC>
+                                                <TextC style={{fontSize: 32}}>Spielbetrieb beendet!</TextC>
                                                 {data.year.day !== format(new Date(), "yyyy-MM-dd", {locale: de}) || data.year.settings.isTest === 1 ?
                                                     <Pressable style={[style().button1, style().buttonGreen]}
                                                                onPress={() => setNewYearModalVisible(true)}>

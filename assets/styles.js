@@ -5,6 +5,11 @@ export const style = () => StyleSheet.create({
     yellowBg: {
         backgroundColor: ColorFunctions.getColor('YellowBg')
     },
+    link: {
+        textDecorationLine: 'underline',
+        textDecorationStyle: 'solid',
+        textDecorationColor: '#3d8d02'
+    },
     buttonTopRight: {
         alignItems: 'center',
         marginVertical: 4,
