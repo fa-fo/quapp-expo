@@ -61,7 +61,8 @@ export default function SettingsModal({
             }}>
             <View style={style().centeredView}>
                 <View style={style().modalView}>
-                    <TextC style={style().big3}>Einstellungen ändern</TextC>
+                    <TextC style={style().big3}>System-Einstellungen ändern</TextC>
+                    <TextC style={style().textRed}>Achtung: Ändere Einstellungen bitte nur, wenn Du weißt, was Du tust.</TextC>
                     <TextC>{'\n'}Zuerst Einstellung auswählen:</TextC>
                     <Picker
                         selectedValue={selectedPickerValue}

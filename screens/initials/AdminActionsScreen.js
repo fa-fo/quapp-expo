@@ -159,24 +159,16 @@ export default function AdminActionsScreen({navigation}) {
                                                 : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                         </TextC>
                                         <View style={style().matchflexEventsView}>
-                                            {data.year.settings.isTest === 1 ?
+                                            {data.year.settings.isTest === 1 && teamNames.split('\n').length !== data.year.teamsCount ?
                                                 <Pressable
                                                     style={[style().button1, (teamNames.split('\n').length !== data.year.teamsCount ? style().buttonGreen : style().buttonGrey)]}
-                                                    disabled={teamNames.split('\n').length === data.year.teamsCount}
                                                     onPress={() => insertTestTeamNames()}>
                                                     <TextC style={style().textButton1}>Test-Teams einfügen</TextC>
                                                 </Pressable>
                                                 : null}
-                                            <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                                            <Pressable
-                                                style={[style().button1, (teamNames.split('\n').length === data.year.teamsCount ? style().buttonGreen : style().buttonGrey)]}
-                                                disabled={teamNames.split('\n').length !== data.year.teamsCount}
-                                                onPress={() => checkTeamNames()}>
-                                                <TextC style={style().textButton1}>Team-Namen überprüfen</TextC>
-                                            </Pressable>
                                         </View>
                                         <TextC>Ein Team je Zeile {'\u2B0E'} dann Team-Namen
-                                            überprüfen {'\u2B0F'}</TextC>
+                                            überprüfen {'\u2B0E\u2B0E'}</TextC>
                                         <TextInput
                                             multiline
                                             numberOfLines={data.year.teamsCount}
@@ -184,6 +176,7 @@ export default function AdminActionsScreen({navigation}) {
                                             style={[style().textInput, {width: '80%'}]}
                                             onChangeText={(value) => setTeamNames(value)}
                                             placeholder={Array(data.year.teamsCount).fill(0).map((_, i) => ('hier Team ' + (i + 1) + ' einfügen')).join('\n')}
+                                            placeholderTextColor="rgba(229, 229, 231, 0.28)"
                                         />
                                     </View>
                                     :
@@ -209,6 +202,16 @@ export default function AdminActionsScreen({navigation}) {
                                         )}
                                     </View>
                                 }
+                                <View style={style().matchflexEventsView}>
+                                    <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                    {teamNamesSplit.length !== data.year.teamsCount && teamNames.split('\n').length === data.year.teamsCount ?
+                                        <Pressable
+                                            style={[style().button1, (teamNames.split('\n').length === data.year.teamsCount ? style().buttonGreen : style().buttonGrey)]}
+                                            onPress={() => checkTeamNames()}>
+                                            <TextC style={style().textButton1}>Team-Namen überprüfen</TextC>
+                                        </Pressable> : <TextC>Team-Namen überprüfen</TextC>}
+                                </View>
+
                                 <View style={style().matchflexEventsView}>
                                     <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                     {countTeamsFound() === data.year.teamsCount ?
@@ -263,7 +266,7 @@ export default function AdminActionsScreen({navigation}) {
                                 </Pressable>
                             </View> : null}
 
-                        {data.object.groupsCount > 1 ?
+                        {data.object.groupsCount - (global.settings.usePlayOff > 0 ? 1 : 0) > 1 ?
                             <View style={style().matchflexEventsView}>
                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 {data.year.settings.currentDay_id === 1 && data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
@@ -370,16 +373,15 @@ export default function AdminActionsScreen({navigation}) {
                                 {data.object.matchesPins === data.object.matchesCount ?
                                     <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
                             </TextC> : null}
-                        {global.settings.usePlayOff > 0 ?
+                        {data.object.matchesCount > 0 && global.settings.usePlayOff > 0 ?
                             <TextC>Endrunden-Spiele angelegt: {data.object.matchesPlayOff}
                                 {data.object.matchesPlayOff === global.settings.usePlayOff ?
                                     <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                     : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                             </TextC> : null}
-
-                        {global.settings.usePlayOff > 0 ? <TextC>{'\n'}Ohne Endrunde:</TextC> : null}
                         {data.object.matchesCount > 0 ?
                             <View style={style().matchflexEventsView}>
+                                {global.settings.usePlayOff > 0 ? <TextC>{'\n'}Ohne Endrunde:</TextC> : null}
                                 <TextC>Spiele je
                                     Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
                                     {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
@@ -467,8 +469,7 @@ export default function AdminActionsScreen({navigation}) {
                             </View> : null}
 
                         {data.object.matchesCount > data.object.matchResultCount ?
-                            <TextC style={{fontSize: 32}}>Spielbetrieb läuft!</TextC>
-                            : null}
+                            <TextC style={{fontSize: 32}}>Spielbetrieb läuft!</TextC> : null}
                         {data.object.matchesCount > data.object.matchResultCount ?
                             <View style={style().matchflexRowView}>
                                 <View style={[style().viewStatus, {flex: 1}]}>
@@ -497,8 +498,7 @@ export default function AdminActionsScreen({navigation}) {
                                     </Pressable>
                                 </View>
                                 */}
-                            </View>
-                            : null}
+                            </View> : null}
 
                         {data.object.matchesCount > 0 ?
                             <View style={style().matchflexRowView}>
@@ -529,53 +529,57 @@ export default function AdminActionsScreen({navigation}) {
                                             Gruppen-Spielpläne </TextC>
                                     </Pressable>
                                 </View>
-                            </View>
-                            : null}
-
-                        <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                        <TextC>Spiele
-                            gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (gewertet
-                            / in Tabelle freigeschaltet)
-                            {data.object.matchesCount === data.object.matchResultCount && data.object.matchResultCount > 0 ?
-                                <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
-                        </TextC>
-                        {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
-                            <View>
-                                {global.settings.useLiveScouting ?
-                                    <Pressable style={[style().button1, style().buttonGreen]}
-                                               onPress={() => adminAction('matcheventLogs/insertTestLogs', '')}>
-                                        <TextC style={style().textButton1}>Testmodus:
-                                            Zufällig geloggte Tore eintragen</TextC>
-                                    </Pressable> : null}
-                                <Pressable style={[style().button1, style().buttonGreen]}
-                                           onPress={() => adminAction('matches/insertTestResults', '')}>
-                                    <TextC style={style().textButton1}>Testmodus:
-                                        Zufallszahlen als bestätigte Spielergebnisse eintragen</TextC>
-                                </Pressable>
                             </View> : null}
 
-                        {!global.settings.alwaysAutoUpdateResults ?
+                        {data.object.matchesCount > 0 ?
                             <View style={style().matchflexEventsView}>
                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
-                                {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount && !data.year.settings.alwaysAutoUpdateResults ?
+                                <TextC>Spiele
+                                    gewertet: {data.object.matchResultCount} / {data.object.sumCalcMatchesGroupTeams} (gewertet
+                                    / in Tabelle freigeschaltet)
+                                    {data.object.matchesCount === data.object.matchResultCount && data.object.matchResultCount > 0 ?
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC> :
+                                        <TextC
+                                            style={style().textRed}> {'-> ' + data.object.matchesCount + ' \u2762'}</TextC>}
+                                </TextC>
+                                {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
                                     <View>
+                                        {global.settings.useLiveScouting ?
+                                            <Pressable style={[style().button1, style().buttonGreen]}
+                                                       onPress={() => adminAction('matcheventLogs/insertTestLogs', '')}>
+                                                <TextC style={style().textButton1}>Testmodus:
+                                                    Zufällig geloggte Tore eintragen</TextC>
+                                            </Pressable> : null}
                                         <Pressable style={[style().button1, style().buttonGreen]}
-                                                   onPress={() => adminAction('years/setAlwaysAutoUpdateResults', '')}>
-                                            <TextC style={style().textButton1}>Ergebnisse und Tabellen
-                                                freischalten{'\n'}(mit
-                                                Tabellen-Neuberechnung)</TextC>
+                                                   onPress={() => adminAction('matches/insertTestResults', '')}>
+                                            <TextC style={style().textButton1}>Testmodus:
+                                                Zufallszahlen als bestätigte Spielergebnisse eintragen</TextC>
                                         </Pressable>
-                                    </View>
-                                    :
-                                    <View>
-                                        {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount ?
-                                            <TextC>Ergebnisse und Tabellen freigeschaltet<TextC
-                                                style={style().textGreen}> {'\u2714'}</TextC></TextC>
+                                    </View> : null}
+
+                                {!global.settings.alwaysAutoUpdateResults ?
+                                    <View style={style().matchflexEventsView}>
+                                        <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                        {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount && !data.year.settings.alwaysAutoUpdateResults ?
+                                            <View>
+                                                <Pressable style={[style().button1, style().buttonGreen]}
+                                                           onPress={() => adminAction('years/setAlwaysAutoUpdateResults', '')}>
+                                                    <TextC style={style().textButton1}>Ergebnisse und Tabellen
+                                                        freischalten{'\n'}(mit
+                                                        Tabellen-Neuberechnung)</TextC>
+                                                </Pressable>
+                                            </View>
                                             :
-                                            <TextC>Ergebnisse und Tabellen freischalten</TextC>
+                                            <View>
+                                                {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount ?
+                                                    <TextC>Ergebnisse und Tabellen freigeschaltet<TextC
+                                                        style={style().textGreen}> {'\u2714'}</TextC></TextC>
+                                                    :
+                                                    <TextC>Ergebnisse und Tabellen freischalten</TextC>
+                                                }
+                                            </View>
                                         }
-                                    </View>
-                                }
+                                    </View> : null}
                             </View> : null}
 
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
@@ -657,7 +661,7 @@ export default function AdminActionsScreen({navigation}) {
                                                 </Pressable>
                                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                                 <TextC style={{fontSize: 32}}>Spielbetrieb beendet!</TextC>
-                                                {data.year.day !== format(new Date(), "yyyy-MM-dd", {locale: de}) || data.year.settings.isTest === 1 ?
+                                                {data.year.name !== format(new Date(), "yyyy") || data.year.settings.isTest === 1 ?
                                                     <Pressable style={[style().button1, style().buttonGreen]}
                                                                onPress={() => setNewYearModalVisible(true)}>
                                                         <TextC style={style().textButton1}>Neues Turnier-Jahr
