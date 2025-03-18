@@ -41,8 +41,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
             .then((json) => {
                 setAllData(json);
                 setData(json.object?.length ? json.object.slice(0, 20) : null);
-
-                setMyTeamData(global.myTeamId ? json.object.find((e) => e.id === global.myTeamId) : false);
+                setMyTeamData(global.myTeamId && json.object?.length ? json.object.find((e) => e.id === global.myTeamId) : false);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -110,7 +109,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                                                    onPress={() => setFetchMoreData(true)}
                                         >
                                             <TextC style={style().textButtonTopRight}
-                                                  numberOfLines={1}>{'mehr laden'}</TextC>
+                                                   numberOfLines={1}>{'mehr laden'}</TextC>
                                         </Pressable>
                                 )
                                 : null}
