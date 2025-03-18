@@ -107,10 +107,10 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                 >
                     <Picker.Item key="0" value="0" label="Bitte auswählen..." style={{fontcolor: 'red'}}/>
                     {playOffTeams?.all ? playOffTeams.all.map(item => (
-                        (match.isPlayOff % 10 === 2 && playOffTeams.winners?.includes(item.id))
-                        || (match.isPlayOff % 10 === 3 && playOffTeams.losers?.includes(item.id))
+                        (match.isPlayOff % 10 === 2 && playOffTeams.winners?.includes(item.team_id))
+                        || (match.isPlayOff % 10 === 3 && playOffTeams.losers?.includes(item.team_id))
                         || match.isPlayOff % 10 === 4 ?
-                            <Picker.Item key={item.id} value={item.team_id}
+                            <Picker.Item key={item.team_id} value={item.team_id}
                                          label={(item.calcRanking ?? 0) + '. ' + item.team.name}/> : null
                     )) : null}
                 </Picker>
