@@ -29,8 +29,8 @@ export default function MyDrawer() {
     const dimensions = useWindowDimensions();
     const title = () => {
         return <TextC>
-            {'QuattFo'}
-            {window?.location?.hostname === 'localhost' ?
+            {global.tournamentName ?? 'Quattroball'}
+            {global.isLocalhostWebview ?
                 <TextC style={[style().big22, style().textRed]}> localhost</TextC> : null}
         </TextC>
     }
@@ -41,7 +41,7 @@ export default function MyDrawer() {
             screenOptions={{
                 drawerType: dimensions.width >= 768 ? 'permanent' : 'front',
                 drawerStyle:
-                    window?.location?.hostname === 'localhost' ? {
+                    global.isLocalhostWebview ? {
                         backgroundColor: ColorFunctions.getColor('RedLightBg'),
                     } : {},
                 headerLeft: () => <HeaderLeft/>

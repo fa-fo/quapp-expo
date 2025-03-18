@@ -220,7 +220,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                             <TextC>Fehler: keine Spiele gefunden!</TextC>
                     ))
             }
-            {window?.location?.hostname === 'api.quattfo.de' ? null :
+            {global.isProductionWebview ? null :
                 <MyTeamSelectModal
                     navigation={navigation}
                     setModalVisible={setMyTeamSelectModalVisible}

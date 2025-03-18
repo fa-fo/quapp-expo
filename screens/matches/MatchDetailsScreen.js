@@ -57,7 +57,8 @@ export default function MatchDetailsScreen({navigation}) {
                                 contentContainerStyle={style().matchDetailsView}>
                         {global.settings.isTest && item.group.year.id === data.year.id ?
                             <TextC style={style().testMode}>{global.hintTestData}</TextC> : null}
-                        <TextC numberOfLines={1} style={style().centeredText100}>QuattFo {item.group.year.name}
+                        <TextC numberOfLines={1}
+                               style={style().centeredText100}>{global.tournamentName} {item.group.year.name}
                             {data.year.daysCount > 1 ? ', Tag ' + item.group.day_id : ''}</TextC>
                         {item.playOffName ? <TextC numberOfLines={1} style={style().centeredText100}>
                                 {item.playOffName}</TextC>
@@ -176,7 +177,7 @@ export default function MatchDetailsScreen({navigation}) {
 
                         {item.isTime2login && !item.canceled ?
                             (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?
-                                (window?.location?.hostname === 'api.quattfo.de' ? null
+                                (global.isProductionWebview ? null
                                     :
                                     <Pressable
                                         style={[style().button1, (item.logsCalc.isLoggedIn ? style().buttonGrey : style().buttonGreen)]}

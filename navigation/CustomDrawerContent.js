@@ -8,12 +8,14 @@ import Constants from "expo-constants";
 import * as ColorFunctions from "../components/functions/ColorFunctions";
 
 export default function CustomDrawerContent(props) {
+    const [tournamentName, setTournamentName] = useState('Quattroball');
     const [currentYearId, setCurrentYearId] = useState(0);
     const [currentYearName, setCurrentYearName] = useState('');
     const [currentDayId, setCurrentDayId] = useState(0);
 
     useEffect(() => {
         if (global.settings) {
+            setTournamentName(global.tournamentName ?? '');
             setCurrentYearId(global.currentYear?.id ?? 0);
             setCurrentYearName(global.currentYear?.name ?? '');
             setCurrentDayId(global.settings?.currentDay_id ?? 0);
@@ -30,8 +32,8 @@ export default function CustomDrawerContent(props) {
             </View>
             <View style={style().drawerSectionView}>
                 <TextC style={{marginLeft: 10}}>
-                    {'QuattFo ' + (currentDayId > 0 ? currentYearName + ', Tag ' + currentDayId : '')}
-                    {window?.location?.hostname === 'localhost' ?
+                    {tournamentName + ' ' + (currentDayId > 0 ? currentYearName + ', Tag ' + currentDayId : '')}
+                    {global.isLocalhostWebview ?
                         <TextC style={[style().big22, style().textRed]}> localhost</TextC> : null}
                 </TextC>
                 <View style={style().separatorLine}/>
@@ -160,7 +162,7 @@ export default function CustomDrawerContent(props) {
             {global.settings?.showArchieve ?
                 <View>
                     <View style={style().drawerSectionView}>
-                        <TextC style={{marginLeft: 10}}>QuattFo Historie</TextC>
+                        <TextC style={{marginLeft: 10}}>{tournamentName} Historie</TextC>
                         <View style={style().separatorLine}/>
                     </View>
                     <DrawerItem

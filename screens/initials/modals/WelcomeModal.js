@@ -13,7 +13,7 @@ export default function WelcomeModal({setModalVisible, modalVisible}) {
         >
             <View style={style().centeredView}>
                 <View style={style().modalView}>
-                    <TextC style={style().big2a}>Herzlich Willkommen in der QuattFo-App!</TextC>
+                    <TextC style={style().big2a}>Herzlich Willkommen in der {global.tournamentName}-App!</TextC>
                     <TextC style={style().big22}>{'\n'}Bitte wähle zunächst dein Team aus.{'\n\n'}</TextC>
                     {global.settings.isTest ?
                         <TextC style={style().testMode}>{global.hintTestData}</TextC> : null}

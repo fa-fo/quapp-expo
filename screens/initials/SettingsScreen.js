@@ -34,7 +34,7 @@ export default function SettingsScreen({navigation}) {
     return (
         <ScrollView style={[style().headerComponentView, {minHeight: '100%'}]}>
             <View>
-                {window?.location?.hostname === 'api.quattfo.de' ? null :
+                {global.isProductionWebview ? null :
                     <Pressable style={[style().button1, style().buttonGreen]}
                                onPress={() => {
                                    setMyTeamSelectModalVisible(true)
@@ -132,7 +132,7 @@ export default function SettingsScreen({navigation}) {
                     navigation={navigation}
                 />
             </View>
-            {window?.location?.hostname === 'api.quattfo.de' ? null :
+            {global.isProductionWebview ? null :
                 <MyTeamSelectModal
                     navigation={navigation}
                     setModalVisible={setMyTeamSelectModalVisible}

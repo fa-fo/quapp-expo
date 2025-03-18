@@ -39,7 +39,7 @@ export async function loadStorageData() {
         .then((string) => global.myYearId = (string !== null ? parseInt(JSON.parse(string)) : null))
         .catch((error) => console.error(error));
 
-    if (window?.location?.hostname === 'api.quattfo.de') {
+    if (global.isProductionWebview) {
         global.myTeamId = 0;  // reason: do not show TeamSelectScreen for this host!
     }
 }

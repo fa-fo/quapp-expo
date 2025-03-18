@@ -2,8 +2,12 @@ export function setGlobalVariables() {
     global.settings = {};
     global.currentDayName = '';
     global.currentYear = {};
+    global.tournamentName = 'QuattFo';
 
-    if (window?.location?.hostname === 'localhost') {
+    global.isProductionWebview = window?.location?.hostname === 'api.quattfo.de';
+    global.isLocalhostWebview = window?.location?.hostname === 'localhost';
+
+    if (global.isLocalhostWebview) {
         global.baseUrl = 'http://localhost/quapp-cakephp/';
     } else {
         global.baseUrl = 'https://api.quattfo.de/';
