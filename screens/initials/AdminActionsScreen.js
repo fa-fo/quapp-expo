@@ -108,6 +108,8 @@ export default function AdminActionsScreen({navigation}) {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+            {global.settings.isTest ?
+                <TextC style={[style().textInputLarge, style().testMode]}>Test-Modus!</TextC> : null}
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View style={style().matchflexEventsView}>
@@ -121,7 +123,7 @@ export default function AdminActionsScreen({navigation}) {
                             </Pressable>
                         </View>
 
-                        <View style={{position: 'absolute', right: 0, top: 10}}>
+                        <View style={{position: 'absolute', left: 0, top: 65}}>
                             <Pressable
                                 style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 140}]}
                                 onPress={() => setSettingsModalVisible(true)}>
@@ -132,7 +134,7 @@ export default function AdminActionsScreen({navigation}) {
                         </View>
 
                         {data.object.roundsWithPossibleLogsDelete.length && global.settings.useLiveScouting ?
-                            <View style={{position: 'absolute', right: 0, top: 65}}>
+                            <View style={{position: 'absolute', right: 0, top: 85}}>
                                 <Pressable
                                     style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 120}]}
                                     onPress={() => setClearLogsModalVisible(true)}>
@@ -355,7 +357,7 @@ export default function AdminActionsScreen({navigation}) {
                         }
 
                         {data.year.settings.isTest === 1 && data.object.matchesCount > 0 && data.object.matchResultCount === 0 ?
-                            <View style={{position: 'absolute', right: 0}}>
+                            <View style={{position: 'absolute', right: 0, top: 5}}>
                                 <Pressable style={[style().button1, style().buttonRed]}
                                            onPress={() => adminAction('years/clearMatchesAndLogs', '')}>
                                     <TextC style={style().textButton1}>Testmodus:
