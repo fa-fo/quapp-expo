@@ -57,10 +57,12 @@ export default function MatchDetailsScreen({navigation}) {
                                 contentContainerStyle={style().matchDetailsView}>
                         {global.settings.isTest && item.group.year.id === data.year.id ?
                             <TextC style={style().testMode}>{global.hintTestData}</TextC> : null}
-                        <TextC numberOfLines={1} style={style().centeredText100}>QuattFo {item.group.year.name},
-                            Tag {item.group.day_id}</TextC>
-                        <TextC numberOfLines={1} style={style().centeredText100}>Runde {item.round.id},
-                            Gruppe {item.group_name}</TextC>
+                        <TextC numberOfLines={1} style={style().centeredText100}>QuattFo {item.group.year.name}
+                            {data.year.daysCount > 1 ? ', Tag ' + item.group.day_id : ''}</TextC>
+                        {item.playOffName ? <TextC numberOfLines={1} style={style().centeredText100}>
+                                {item.playOffName}</TextC>
+                            : <TextC numberOfLines={1} style={style().centeredText100}>Runde {item.round.id},
+                                Gruppe {item.group_name}</TextC>}
                         <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
                                adjustsFontSizeToFit>{item.teams1.name + (item.isTest ? '_test' : '')}</TextC>
                         <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>vs</TextC>

@@ -53,7 +53,11 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
     }, [match0]);
 
     useEffect(() => {
-        if (selectedTeam1 && selectedTeam2 && selectedTeam1 !== match.team1_id || selectedTeam2 !== match.team2_id) {
+        setTeamsSaved(false);
+
+        if (selectedTeam1 > 0 && selectedTeam2 > 0
+            && parseInt(selectedTeam1) !== parseInt(selectedTeam2)
+            && (selectedTeam1 !== match.team1_id || selectedTeam2 !== match.team2_id)) {
             setIsTryingSave(true);
             let postData = {'team1_id': selectedTeam1, 'team2_id': selectedTeam2};
 
@@ -102,9 +106,12 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                     }]}
                 >
                     <Picker.Item key="0" value="0" label="Bitte auswählen..." style={{fontcolor: 'red'}}/>
-                    {playOffTeams ? playOffTeams.map(item => (
-                        <Picker.Item key={item.id} value={item.team_id}
-                                     label={(item.calcRanking ?? 0) + '. ' + item.team.name}/>
+                    {playOffTeams?.all ? playOffTeams.all.map(item => (
+                        (match.isPlayOff % 10 === 2 && playOffTeams.winners?.includes(item.id))
+                        || (match.isPlayOff % 10 === 3 && playOffTeams.losers?.includes(item.id))
+                        || match.isPlayOff % 10 === 4 ?
+                            <Picker.Item key={item.id} value={item.team_id}
+                                         label={(item.calcRanking ?? 0) + '. ' + item.team.name}/> : null
                     )) : null}
                 </Picker>
                 {teamsSaved ?
@@ -126,11 +133,11 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                                     ? style().textRed
                                     : null)
                             ]}>
-                            {match.isPlayOff > 0 ? getPlayOffTeamSelect(1)
+                            {match.isPlayOff > 0 && match.resultTrend === null ? getPlayOffTeamSelect(1)
                                 : (match.teams1?.name ?? '')
                             }
                         </TextC>
-                        {match.isTime2confirm ?
+                        {match.isTime2confirm && match.team1_id ?
                             <TextInput
                                 style={[style().textInput, {
                                     textAlign: 'right',
@@ -165,11 +172,11 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                                     ? style().textRed
                                     : null
                             }>
-                            {match.isPlayOff > 0 ? getPlayOffTeamSelect(2)
+                            {match.isPlayOff > 0 && match.resultTrend === null ? getPlayOffTeamSelect(2)
                                 : (match.teams2?.name ?? '')
                             }
                         </TextC>
-                        {match.isTime2confirm ?
+                        {match.isTime2confirm && match.team2_id ?
                             <View>
                                 <TextInput style={[style().textInput, {borderColor: okGoals2 ? 'green' : 'red'}]}
                                            disabled={isTryingSave}
