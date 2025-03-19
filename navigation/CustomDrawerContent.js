@@ -182,7 +182,7 @@ export default function CustomDrawerContent(props) {
                 <View style={style().drawerSectionView}>
                     <View style={style().separatorLine}/>
                 </View>
-                {!global.settings?.useLiveScouting ?
+                {global.settings?.useRefereeName ?
                     <DrawerItem
                         icon={() => <Icon name="text-box-search" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="SR-Spielsuche"
