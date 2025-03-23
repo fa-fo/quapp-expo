@@ -56,12 +56,13 @@ export default function UsernameLoginModal({
                 <View style={style().modalView}>
                     <TextC>
                         {'Hier bitte ' +
-                        capitalizeFirstLetter(username) +
-                        '-Passwort eingeben:'}
+                            capitalizeFirstLetter(username) +
+                            '-Passwort eingeben:'}
                     </TextC>
                     <TextInput
                         style={style().textInput}
                         onChangeText={setUsernamePW}
+                        secureTextEntry={true}
                         placeholder="Hier Passwort eingeben"
                         keyboardType="default"
                         value={usernamePW}

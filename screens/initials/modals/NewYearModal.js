@@ -142,6 +142,7 @@ export default function NewYearModal({
                             <TextInput
                                 style={[style().textInput, {borderColor: usernamePW !== '' && !textPWWrongVisible ? 'green' : 'red'}]}
                                 onChangeText={setUsernamePW}
+                                secureTextEntry={true}
                                 placeholder="Hier Passwort eingeben"
                                 keyboardType="default"
                                 value={usernamePW}

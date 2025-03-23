@@ -59,6 +59,7 @@ export default function ClearLogsModal({
                     <TextInput
                         style={style().textInput}
                         onChangeText={setUsernamePW}
+                        secureTextEntry={true}
                         placeholder="Hier Passwort eingeben"
                         keyboardType="default"
                         value={usernamePW}

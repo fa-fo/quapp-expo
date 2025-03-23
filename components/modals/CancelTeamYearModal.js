@@ -47,6 +47,7 @@ export default function CancelTeamYearModal({
                     <TextInput
                         style={style().textInput}
                         onChangeText={setUsernamePW}
+                        secureTextEntry={true}
                         placeholder="Hier Passwort eingeben"
                         keyboardType="default"
                         value={usernamePW}
