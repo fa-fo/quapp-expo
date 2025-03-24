@@ -9,9 +9,10 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-web-build/
 yarn.lock
 yarn-error.log
+google-services.json
+GoogleService-Info.plist
 
 # macOS
 .DS_Store
