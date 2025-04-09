@@ -65,10 +65,10 @@ export default function MatchDetailsScreen({navigation}) {
                             : <TextC numberOfLines={1} style={style().centeredText100}>Runde {item.round.id},
                                 Gruppe {item.group_name}</TextC>}
                         <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
-                               adjustsFontSizeToFit>{item.teams1.name + (item.isTest ? '_test' : '')}</TextC>
+                               adjustsFontSizeToFit>{(item.teams1?.name ?? '?') + (item.isTest ? '_test' : '')}</TextC>
                         <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>vs</TextC>
                         <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
-                               adjustsFontSizeToFit>{item.teams2.name + (item.isTest ? '_test' : '')}</TextC>
+                               adjustsFontSizeToFit>{(item.teams2?.name ?? '?') + (item.isTest ? '_test' : '')}</TextC>
                         <TextC> </TextC>
                         {item.teams3 && !item.refereeName ?
                             <TextC numberOfLines={1}
@@ -168,11 +168,11 @@ export default function MatchDetailsScreen({navigation}) {
                                 Das Spiel fällt aus!</TextC> : null}
                         {item.canceled === 1 || item.canceled === 3 ?
                             <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
-                                {item.teams1.name + (item.isTest ? '_test' : '')} zurückgezogen
+                                {(item.teams1?.name ?? '?') + (item.isTest ? '_test' : '')} zurückgezogen
                             </TextC> : null}
                         {item.canceled === 2 || item.canceled === 3 ?
                             <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
-                                {item.teams2.name + (item.isTest ? '_test' : '')} zurückgezogen
+                                {(item.teams2?.name ?? '?') + (item.isTest ? '_test' : '')} zurückgezogen
                             </TextC> : null}
 
                         {item.isTime2login && !item.canceled ?
