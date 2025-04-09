@@ -350,7 +350,7 @@ export default function CustomDrawerContent(props) {
             {Constants?.expoConfig?.version ?
                 <View style={style().matchflexEventsView}>
                     <TextC>
-                        Quapp v{Constants.expoConfig.version}
+                        {Constants.expoConfig.name} v{Constants.expoConfig.version}
                     </TextC>
                 </View> : null}
         </DrawerContentScrollView>
