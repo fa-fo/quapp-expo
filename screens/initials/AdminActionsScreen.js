@@ -11,7 +11,6 @@ import SettingsModal from "./modals/SettingsModal";
 import ClearLogsModal from "./modals/ClearLogsModal";
 import NewYearModal from "./modals/NewYearModal";
 import {format} from "date-fns";
-import {de} from "date-fns/locale";
 
 export default function AdminActionsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -555,7 +554,9 @@ export default function AdminActionsScreen({navigation}) {
                                                     roundsCount: 25,
                                                 }
                                             })}>
-                                            <TextC style={[style().textButton1, style().big22]}>Admin Endrunde</TextC>
+                                            <TextC
+                                                style={[style().textButton1, style().big22, {color: ColorFunctions.getColor('primary')}]}>
+                                                Admin Endrunde</TextC>
                                         </Pressable>
                                     </View> : null}
                                 {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
@@ -603,7 +604,8 @@ export default function AdminActionsScreen({navigation}) {
                             <View>
                                 <Pressable style={[style().button1, style().buttonGreenLight]}
                                            onPress={() => adminAction('years/reCalcRanking', '')}>
-                                    <TextC style={style().textButton1}>Optional: Tabellen neu berechnen</TextC>
+                                    <TextC style={[style().textButton1, {color: ColorFunctions.getColor('primary')}]}>Optional:
+                                        Tabellen neu berechnen</TextC>
                                 </Pressable>
                             </View>
                             :
