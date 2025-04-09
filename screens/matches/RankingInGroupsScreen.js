@@ -15,9 +15,10 @@ export default function RankingInGroupsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    let group_id = route.params.item?.group_id ?? 0;
+    let item = route.params?.item ?? {group_id: 0, group_name: 'A'};
+    let group_id = item.group_id;
     let group_id_prev = -1; // previously called group_id
-    let group_name = route.params.item?.group_name ?? 'A';
+    let group_name = item.group_name;
 
     useEffect(() => {
         if (group_id_prev !== group_id) {
@@ -59,7 +60,7 @@ export default function RankingInGroupsScreen({navigation}) {
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                                         <Pressable style={style().buttonTopRight}
-                                                   onPress={() => navigation.navigateDeprecated(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: route.params.item})}
+                                                   onPress={() => navigation.navigateDeprecated(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: item})}
                                         >
                                             <TextC style={style().textButtonTopRight} numberOfLines={1}>
                                                 <IconMat name="format-list-bulleted"
