@@ -544,6 +544,20 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC
                                             style={style().textRed}> {'-> ' + data.object.matchesCount + ' \u2762'}</TextC>}
                                 </TextC>
+                                {global.settings.usePlayOff && data.object.matchResultCount >= data.object.matchesCount - global.settings.usePlayOff ?
+                                    <View>
+                                        <Pressable
+                                            style={style().link}
+                                            onPress={() => navigation.navigateDeprecated('Admin', {
+                                                screen: 'RoundsMatchesAdmin',
+                                                params: {
+                                                    id: 25,
+                                                    roundsCount: 25,
+                                                }
+                                            })}>
+                                            <TextC style={[style().textButton1, style().big22]}>Admin Endrunde</TextC>
+                                        </Pressable>
+                                    </View> : null}
                                 {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
                                     <View>
                                         {global.settings.useLiveScouting ?
