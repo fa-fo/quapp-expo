@@ -22,7 +22,7 @@ export default function MyMatchesStackNavigator({navigation}) {
     return (
         <Stack.Navigator
             initialRouteName={
-                global.myTeamId === 0 ? 'GroupsAll' : 'MyMatchesCurrent'
+                global.myTeamId === 0 ? (global.currentYear?.teamsCount > 24 ? 'GroupsAll' : 'RankingInGroups') : 'MyMatchesCurrent'
             }
             screenOptions={{
                 headerStyle: {
