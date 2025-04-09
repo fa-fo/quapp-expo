@@ -70,10 +70,7 @@ export default function CustomDrawerContent(props) {
                     icon={() => <Icon name="table-large" size={25} color={ColorFunctions.getColor('primary')}/>}
                     label="Tabelle"
                     onPress={() =>
-                        props.navigation.navigateDeprecated('MyMatches', {
-                            screen: 'RankingInGroups',
-                            params: {item: null}
-                        })
+                        props.navigation.navigateDeprecated('MyMatches', {screen: 'RankingInGroups'})
                     }
                 />
             }
