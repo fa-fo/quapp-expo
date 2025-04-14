@@ -5,12 +5,14 @@ import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import {style} from "../../assets/styles";
 import * as SportFunctions from "../../components/functions/SportFunctions";
+import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import SettingsModal from "./modals/SettingsModal";
+import ChangePWModal from "./modals/ChangePWModal";
 import ClearLogsModal from "./modals/ClearLogsModal";
 import NewYearModal from "./modals/NewYearModal";
 import {format} from "date-fns";
+import {style} from "../../assets/styles";
 
 export default function AdminActionsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -22,6 +24,7 @@ export default function AdminActionsScreen({navigation}) {
     const [clearLogsModalVisible, setClearLogsModalVisible] = useState(false);
     const [settingsModalVisible, setSettingsModalVisible] = useState(false);
     const [newYearModalVisible, setNewYearModalVisible] = useState(false);
+    const [changePWModalVisible, setChangePWModalVisible] = useState(false);
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
@@ -128,6 +131,16 @@ export default function AdminActionsScreen({navigation}) {
                                 onPress={() => setSettingsModalVisible(true)}>
                                 <TextC style={style().textButton1}>
                                     <Icon name="heart-settings" size={25}/> Einstellungen
+                                </TextC>
+                            </Pressable>
+                        </View>
+
+                        <View style={{position: 'absolute', left: 0, top: 110}}>
+                            <Pressable
+                                style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 140}]}
+                                onPress={() => setChangePWModalVisible(true)}>
+                                <TextC style={style().textButton1}>
+                                    <Icon name="form-textbox-password" size={25}/> PW ändern
                                 </TextC>
                             </Pressable>
                         </View>
@@ -714,6 +727,11 @@ export default function AdminActionsScreen({navigation}) {
             <SettingsModal
                 setModalVisible={setSettingsModalVisible}
                 modalVisible={settingsModalVisible}
+                loadScreenData={loadScreenData}
+            />
+            <ChangePWModal
+                setModalVisible={setChangePWModalVisible}
+                modalVisible={changePWModalVisible}
                 loadScreenData={loadScreenData}
             />
             <ClearLogsModal
