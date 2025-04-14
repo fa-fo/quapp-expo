@@ -33,29 +33,31 @@ export default function RoundsMatchesScreen({navigation}) {
                         </Pressable>
                     </View> : null}
 
-                <TextC style={{flex: 1, textAlign: 'right'}}>
-                    {route.params.id > 1 ?
-                        <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                   onPress={() => navigation.navigateDeprecated(route.name, {
-                                       id: route.params.id - 1,
-                                       roundsCount: route.params.roundsCount,
-                                   })}
-                        >
-                            <TextC
-                                style={style().textButtonTopRight}>{'<'}</TextC>
-                        </Pressable> : null}
-                    <TextC> </TextC>
-                    {route.params.id < route.params.roundsCount ?
-                        <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                   onPress={() => navigation.navigateDeprecated(route.name, {
-                                       id: route.params.id + 1,
-                                       roundsCount: route.params.roundsCount,
-                                   })}
-                        >
-                            <TextC
-                                style={style().textButtonTopRight}>{'>'}</TextC>
-                        </Pressable> : null}
-                </TextC>
+                <View style={[style().viewCentered, {flex: 1, alignItems: 'flex-end'}]}>
+                    <TextC style={{flex: 1}}>
+                        {route.params.id > 1 ?
+                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
+                                       onPress={() => navigation.navigateDeprecated(route.name, {
+                                           id: route.params.id - 1,
+                                           roundsCount: route.params.roundsCount,
+                                       })}
+                            >
+                                <TextC
+                                    style={style().textButtonTopRight}>{'<'}</TextC>
+                            </Pressable> : null}
+                        <TextC> </TextC>
+                        {route.params.id < route.params.roundsCount ?
+                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
+                                       onPress={() => navigation.navigateDeprecated(route.name, {
+                                           id: route.params.id + 1,
+                                           roundsCount: route.params.roundsCount,
+                                       })}
+                            >
+                                <TextC
+                                    style={style().textButtonTopRight}>{'>'}</TextC>
+                            </Pressable> : null}
+                    </TextC>
+                </View>
             </View>
         )
     }
@@ -160,7 +162,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                             <TextC numberOfLines={1}
                                                                                    style={style().textButton1}>
                                                                                 {'Alles regulär werten: ' +
-                                                                                matchesToConfirm.length
+                                                                                    matchesToConfirm.length
                                                                                 }
                                                                             </TextC>
                                                                         </Pressable>
