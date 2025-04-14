@@ -55,9 +55,7 @@ export default function ListMatchesByRefereeScreen({navigation}) {
                 />
                 <Pressable
                     style={[style().button1, style().buttonConfirm, style().buttonGreen, {
-                        position: 'absolute',
-                        right: 8,
-                        top: 8
+                        position: 'absolute', right: 8, top: '7%', height: '80%', justifyContent: 'center'
                     }]}
                     onPress={() => loadScreenData()}
                 >
