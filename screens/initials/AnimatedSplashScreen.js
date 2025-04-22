@@ -51,7 +51,7 @@ export default function AnimatedSplashScreen({image}) {
             await PushFunctions.registerForPushNotificationsAsync()
                 .then(token => {
                     setExpoPushToken(token);
-                    global.expoPushToken = (token !== undefined ? token : '');
+                    global.expoPushToken = (token !== 'undefined' && token !== undefined ? token : '');
                 })
 
             setProgress(.5);

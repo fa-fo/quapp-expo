@@ -71,6 +71,7 @@ export default function MatchLogsPhotoModal({
                 'matchEventCode': 'PHOTO_UPLOAD',
                 'datetimeSent': DateFunctions.getLocalDatetime(),
                 'photo': `data:image/jpg;base64,${source}`,
+                'expoPushToken': global.expoPushToken
             };
 
             fetchApi('matcheventLogs/add/' + match.id, 'POST', postData)

@@ -34,12 +34,15 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                 'datetimeSent': DateFunctions.getLocalDatetime(),
             };
 
+            if (!item.logsCalc.wasLoggedIn) {
+                postData = {'expoPushToken': global.expoPushToken, ...postData};
+            }
+
             fetchApi('matcheventLogs/login/' + item.id, 'POST', postData)
                 .then((data) => {
                     if (data?.status === 'success') {
                         setIsPasswordOk(true);
                         global['refereePIN' + item.id] = refereePin;
-                        navigation.preload('MatchLogs', {item: data.object[0]});
                         setTimeout(() => {
                             setModalVisible(false);
                             setIsPasswordOk(false);
