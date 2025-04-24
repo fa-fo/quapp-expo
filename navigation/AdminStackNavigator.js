@@ -8,6 +8,7 @@ import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import PushNotificationsScreen from "../screens/initials/PushNotificationsScreen";
 
 import AdminMatchPhotosScreen from "../screens/matches/AdminMatchPhotosScreen";
+import AdminPushTokenRankingScreen from "../screens/matches/AdminPushTokenRankingScreen";
 import RankingInGroupsScreen from "../screens/matches/RankingInGroupsScreen";
 import ListMatchesByTeamScreen from "../screens/matches/ListMatchesByTeamScreen";
 import ListMatchesByGroupScreen from "../screens/matches/ListMatchesByGroupScreen";
@@ -56,6 +57,11 @@ export default function AdminStackNavigator({navigation}) {
                 name="AdminMatchPhotos"
                 component={AdminMatchPhotosScreen}
                 options={{title: 'Admin: Fotos'}}
+            />
+            <Stack.Screen
+                name="AdminPushTokenRanking"
+                component={AdminPushTokenRankingScreen}
+                options={{title: 'Admin: PT-Ranking'}}
             />
             <Stack.Screen
                 name="TeamYearsEndRankingAdmin"

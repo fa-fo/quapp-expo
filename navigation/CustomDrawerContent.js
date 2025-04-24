@@ -330,6 +330,15 @@ export default function CustomDrawerContent(props) {
                                 props.navigation.navigateDeprecated('Admin', {screen: 'PushNotifications'})
                             }
                         /> : null}
+                    {global.settings?.usePushTokenRatings ?
+                        <DrawerItem
+                            icon={() => <Icon name="table-eye" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="PTR-Ranking"
+                            onPress={() =>
+                                props.navigation.navigateDeprecated('Admin', {screen: 'AdminPushTokenRanking'})
+                            }
+                        /> : null}
                 </View>
             }
             <View style={style().drawerSectionView}>

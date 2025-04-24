@@ -569,7 +569,7 @@ export default function AdminActionsScreen({navigation}) {
                                             })}>
                                             <TextC
                                                 style={[style().textButton1, style().big22, {color: ColorFunctions.getColor('primary')}]}>
-                                                Admin Endrunde</TextC>
+                                                {'\u279E'} Admin Endrunde</TextC>
                                         </Pressable>
                                     </View> : null}
                                 {data.year.settings.isTest === 1 && data.object.matchesCount > data.object.matchResultCount ?
@@ -625,6 +625,28 @@ export default function AdminActionsScreen({navigation}) {
                             <TextC>Tabellen neu berechnen</TextC>
                         }
 
+                        {data.year.settings.usePushTokenRatings && data.object.matchesCount > 0 && data.object.ptrAll > 0 ?
+                            <View style={style().matchflexEventsView}>
+                                <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
+                                <Pressable
+                                    style={[style().button1, (data.object.ptrAll === data.object.ptrConfirmed ? style().buttonGreenLight : style().buttonGreen)]}
+                                    onPress={() => adminAction('pushTokenRatings/checkAll', '')}>
+                                    <TextC
+                                        style={data.object.ptrAll === data.object.ptrConfirmed ? {color: ColorFunctions.getColor('primary')} : style().textButton1}>
+                                        PT-Ratings bestätigen: {data.object.ptrConfirmed} / {data.object.ptrAll}</TextC>
+                                </Pressable>
+                                {data.object.ptrRanking > 0 ?
+                                    <View>
+                                        <TextC>
+                                            <Pressable
+                                                style={style().link}
+                                                onPress={() => navigation.navigate('AdminPushTokenRanking')}>
+                                                <TextC style={style().textButton1}>{'\u279E'} PTR-Ranking</TextC>
+                                            </Pressable>
+                                        </TextC>
+                                    </View> : null}
+                            </View> : null}
+
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.object.matchesCount > 0 && data.object.matchesCount === data.object.matchResultCount && data.year.settings.alwaysAutoUpdateResults ?
                             <View>
@@ -633,7 +655,10 @@ export default function AdminActionsScreen({navigation}) {
                                         <Pressable
                                             style={[style().button1, (data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ? style().buttonGreenLight : style().buttonGreen)]}
                                             onPress={() => adminAction('teamYears/setEndRanking', '')}>
-                                            <TextC style={style().textButton1}>Jahres-Endtabelle erstellen</TextC>
+                                            <TextC
+                                                style={data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ? {color: ColorFunctions.getColor('primary')} : style().textButton1}>
+                                                Jahres-Endtabelle erstellen
+                                            </TextC>
                                         </Pressable>
                                         {data.object.teamYearsEndRankingCount > 0 && data.object.teamYearsEndRankingCount === data.object.teamYearsCount ?
                                             <View>
@@ -646,7 +671,7 @@ export default function AdminActionsScreen({navigation}) {
                                                                 year_name: data.year.name
                                                             }
                                                         })}>
-                                                        <TextC style={style().textButton1}>Jahres-Endtabelle</TextC>
+                                                        <TextC style={style().textButton1}>{'\u279E'} Jahres-Endtabelle</TextC>
                                                     </Pressable> erstellt <TextC
                                                     style={style().textGreen}> {'\u2714'}</TextC>
                                                 </TextC>
