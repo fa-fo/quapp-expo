@@ -399,7 +399,20 @@ export default function AdminActionsScreen({navigation}) {
                                 <TextC>Spiele je
                                     Team: {data.object.minMatchesByTeam} - {data.object.maxMatchesByTeam} (min/max)
                                     {data.object.minMatchesByTeam === data.object.maxMatchesByTeam ?
-                                        <TextC style={style().textGreen}> {'\u2714'}</TextC> : null}
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                        : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                </TextC>
+                                <TextC>Max. Spiele je Team gegen denselben
+                                    Gegner: {data.object.maxMatchesByTeamPerOpponent}
+                                    {data.object.maxMatchesByTeamPerOpponent === 1 ?
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                        : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                </TextC>
+                                <TextC>Spiele je Team je
+                                    Sportart: {data.object.minMatchesByTeamPerSport} - {data.object.maxMatchesByTeamPerSport} (min/max)
+                                    {data.object.minMatchesByTeamPerSport === 2 && data.object.maxMatchesByTeamPerSport === 2 ?
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                        : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                 </TextC>
                                 <TextC>Max. Jobs je Team je
                                     Runde: {data.object.maxJobsByTeamPerRound}
@@ -407,13 +420,6 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                         : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                 </TextC>
-                                {data.object.teamYearsCount === 24 ?
-                                    <TextC>Max. Jobs je Team je
-                                        3 Runden: {data.object.maxJobsByTeamPer3Rounds}
-                                        {data.object.maxJobsByTeamPer3Rounds === 1 ?
-                                            <TextC style={style().textGreen}> {'\u2714'}</TextC>
-                                            : <TextC style={style().textRed}> {'\u2762'}</TextC>}
-                                    </TextC> : null}
                             </View> : null}
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
@@ -671,7 +677,8 @@ export default function AdminActionsScreen({navigation}) {
                                                                 year_name: data.year.name
                                                             }
                                                         })}>
-                                                        <TextC style={style().textButton1}>{'\u279E'} Jahres-Endtabelle</TextC>
+                                                        <TextC
+                                                            style={style().textButton1}>{'\u279E'} Jahres-Endtabelle</TextC>
                                                     </Pressable> erstellt <TextC
                                                     style={style().textGreen}> {'\u2714'}</TextC>
                                                 </TextC>
