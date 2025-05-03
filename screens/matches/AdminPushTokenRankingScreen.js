@@ -57,7 +57,7 @@ export default function AdminPushTokenRankingScreen({navigation}) {
                         >
                             {data.object.map(item =>
                                 <CellVariant
-                                    key={item.id}
+                                    key={item.ptrRanking}
                                     title={item.ptrRanking + '. ' + item.team_name + (item.count ? ' (' + item.count + ')' : '')}
                                     detail={item.ptrPoints + ' P.'}
                                     onPress={() => null}
