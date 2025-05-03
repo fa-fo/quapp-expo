@@ -294,6 +294,8 @@ export default function AdminActionsScreen({navigation}) {
                                             >
                                                 <Picker.Item label="Standard (groupTeamsId / Excel-Skript)"
                                                              value="standard"/>
+                                                <Picker.Item label="nach Power-Ranking"
+                                                             value="power"/>
                                                 <Picker.Item label="nach Ranglistenpunkte/Jahr und Zufall"
                                                              value="random"/>
                                             </Picker>
