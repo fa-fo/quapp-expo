@@ -8,7 +8,7 @@ import {format, intervalToDuration, parseISO} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {style} from "../../assets/styles";
 //import {Audio} from 'expo-av';
-import * as Speech from 'expo-speech';
+//import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 
 export default function AutoPilotSupervisorScreen({navigation}) {
@@ -176,7 +176,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
 
         if (file !== '') {
             console.log(file);
-            Speech.speak(file, {rate: 1.0, language: 'de'});
+            //Speech.speak(file, {rate: 1.0, language: 'de'});
         }
 
         try {

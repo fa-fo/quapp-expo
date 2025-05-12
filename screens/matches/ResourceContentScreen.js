@@ -1,5 +1,8 @@
+// re-add "@10play/react-native-web-webview": "^0.0.3", "@10play/tentap-editor": "~0.6.1",
+
 import {useEffect, useState} from 'react';
 import {ActivityIndicator, Pressable, ScrollView, useWindowDimensions, View} from 'react-native';
+/*
 import {
     CoreBridge,
     darkEditorCss,
@@ -11,6 +14,7 @@ import {
     useEditorBridge,
     useEditorContent
 } from '@10play/tentap-editor';
+ */
 import fetchApi from "../../components/fetchApi";
 import {style} from "../../assets/styles";
 import RenderHtml from 'react-native-render-html';
@@ -28,7 +32,9 @@ export default function ResourceContentScreen({navigation}) {
     const [richText, setRichText] = useState('');
     const [isTryingSave, setIsTryingSave] = useState(false);
     const [saved, setSaved] = useState(false);
+    const content = null;
 
+    /*
     const editor = route.name === 'ResourceContentAdmin' ?
         useEditorBridge({
             autofocus: true,
@@ -43,6 +49,7 @@ export default function ResourceContentScreen({navigation}) {
 
     const content = route.name === 'ResourceContentAdmin' ?
         useEditorContent(editor, {type: 'html'}) : null;
+     */
 
     useEffect(() => {
         setRichText(content);

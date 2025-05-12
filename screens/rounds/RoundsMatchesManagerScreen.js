@@ -7,7 +7,7 @@ import fetchApi from '../../components/fetchApi';
 import CellVariantMatchesManager from "../../components/cellVariantMatchesManager";
 import CellVariantMatchesManagerProblem from "../../components/cellVariantMatchesManagerProblem";
 import {format} from "date-fns";
-import * as Speech from 'expo-speech';
+//import * as Speech from 'expo-speech';
 import {style} from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
@@ -97,7 +97,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
 
     function getIssuesLength() {
         return data ? parseInt((problemsRef?.current?.childNodes?.length ?? 0)  // for Web
-            + (problemsRef?.current?._children?.length ?? 0))   // for Android
+                + (problemsRef?.current?._children?.length ?? 0))   // for Android
             : null
     }
 
@@ -119,11 +119,11 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 || (min < 20 && min > 2 && [20, 50].includes(sec))) { // during the match
 
                 if ([27, 28, 29, 9, 19].includes(min)) {
-                    Speech.speak(min.toString() + ' min ' + sec.toString(), {rate: 1.5, language: 'de'});
+                    //Speech.speak(min.toString() + ' min ' + sec.toString(), {rate: 1.5, language: 'de'});
                 }
 
                 setTimeout(() => {
-                    Speech.speak(speecher.toString(), {rate: 1.5, language: 'en'});
+                    //Speech.speak(speecher.toString(), {rate: 1.5, language: 'en'});
                 }, 2000);
             }
         }
@@ -155,27 +155,27 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                         backgroundColor: "white"
                                     }}>
                                     {' Runde ' + data.object.round.id + ' um '
-                                    + DateFunctions.getFormatted(data.year.day + ' '
-                                        + data.object.round['timeStartDay'
-                                        + data.year.settings.currentDay_id]) + ' Uhr '}
+                                        + DateFunctions.getFormatted(data.year.day + ' '
+                                            + data.object.round['timeStartDay'
+                                            + data.year.settings.currentDay_id]) + ' Uhr '}
                                 </TextC>
                                 <View ref={problemsRef}>
-                                    {data.object.groups?.map(group =>
-                                        group.matches?.map(item => (
+                                    {data.object.groups ? data.object.groups.map(group =>
+                                        group.matches ? group.matches.map(item => (
                                             <CellVariantMatchesManagerProblem
                                                 key={item.id}
                                                 item={item}
                                             />
-                                        ))
-                                    )}
+                                        )) : null
+                                    ) : null}
                                 </View>
                                 {issuesLength === 0 ?
                                     <TextC style={{fontSize: 32}}>Spielbetrieb läuft ohne Probleme!</TextC>
                                     : null}
                             </View>
                             <View style={{flex: 1}}>
-                                {data.object.groups?.map(group =>
-                                    group.matches?.map((item, i) => (
+                                {data.object.groups ? data.object.groups.map(group =>
+                                    group.matches.length ? group.matches.map((item, i) => (
                                         <Pressable
                                             key={item.id}
                                             onPress={() => navigation.navigateDeprecated('MatchDetailsSupervisor', {item})}>
@@ -184,8 +184,8 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                                 item={item}
                                             />
                                         </Pressable>
-                                    ))
-                                )}
+                                    )) : null
+                                ) : null}
                             </View>
                         </View>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}

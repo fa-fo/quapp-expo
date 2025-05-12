@@ -109,7 +109,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                 (data?.status === 'success' && data.object.round ?
                     <View>
                         <TableView appearance={global.colorScheme}>
-                            {data.object.groups?.map(group => (
+                            {data.object.groups ? data.object.groups.map(group => (
                                 <Section
                                     key={group.id}
                                     headerComponent={
@@ -129,7 +129,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                             </View>
                                         </View>
                                     }>
-                                    {group.matches?.map(item =>
+                                    {group.matches ? group.matches.map(item =>
                                         (!item.logsCalc.isResultConfirmed ?
                                             <CellVariantMatchesAdmin
                                                 key={item.id}
@@ -140,9 +140,9 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                                 fromRoute={route.name}
                                                 loadScreenData={loadScreenData}
                                             /> : null)
-                                    )}
+                                    ) : null}
                                 </Section>
-                            ))}
+                            )) : null}
                         </TableView>
                         {SportFunctions.getRemarksAdmin(data.object.remarks)}
                     </View>
