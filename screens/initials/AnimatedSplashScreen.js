@@ -41,24 +41,24 @@ export default function AnimatedSplashScreen({image}) {
 
     const onImageLoaded = useCallback(async () => {
         try {
-            setProgress(.2);
+            setProgress(.4);
             await SplashScreen.hideAsync();
 
-            setProgress(.3);
+            setProgress(.5);
             setGlobalVariables();
 
-            setProgress(.4);
+            setProgress(.6);
             await PushFunctions.registerForPushNotificationsAsync()
                 .then(token => {
                     setExpoPushToken(token);
                     global.expoPushToken = (token !== 'undefined' && token !== undefined ? token : '');
                 })
 
-            setProgress(.5);
+            setProgress(.7);
             await loadStorageData().then(r => setAppIsReady(true));
 
-            for (let i = 0; i < 5; i++) {
-                setProgress(.6 + .1 * i);
+            for (let i = 0; i < 2; i++) {
+                setProgress(.8 + .1 * i);
                 await new Promise((resolve) => setTimeout(resolve, 1000));
             }
 
