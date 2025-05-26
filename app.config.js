@@ -27,7 +27,7 @@ export default {
             NSCameraUsageDescription: 'Die Kamera wird benötigt für den optionalen Foto-Upload nach jeder Spielprotokollierung.'
         },
         config: {
-            googleServicesFile: "./GoogleService-Info.plist"
+            googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST ?? (IS_DEV ? '' : './GoogleService-Info.plist'),
         }
     },
     android: {
@@ -36,7 +36,7 @@ export default {
             backgroundColor: '#FFFFFF'
         },
         package: IS_DEV ? 'de.quattfo.quapp.dev' : 'de.quattfo.quapp',
-        googleServicesFile: IS_DEV ? '' : './google-services.json',
+        googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? (IS_DEV ? '' : './google-services.json'),
         versionCode: versionCode,
         permissions: [
             'android.permission.CAMERA'
@@ -89,7 +89,7 @@ export default {
                 imageWidth: 200,
                 imageHeight: 200,
                 resizeMode: 'contain',
-                image: './assets/images/splash-light.png',
+                image: './assets/images/splash.png',
                 backgroundColor: '#ffffff',
                 dark: {
                     image: './assets/images/splash-dark.png',
