@@ -20,45 +20,41 @@ export default function RoundsMatchesScreen({navigation}) {
 
     function getHeaderButtons() {
         return (
-            <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
+            <TextC>
                 {route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ?
-                    <View style={[style().viewCentered, {flex: 1}]}>
-                        <Pressable
-                            style={[style().button1, style().buttonEvent, style().buttonGreen]}
-                            onPress={() => loadScreenData()}
-                        >
-                            <TextC style={style().textButton1}>
-                                <IconMat name='reload' size={24} color='#fff'/>
-                            </TextC>
-                        </Pressable>
-                    </View> : null}
+                    <Pressable
+                        style={[style().button1, style().buttonEvent, style().buttonGreen]}
+                        onPress={() => loadScreenData()}
+                    >
+                        <TextC style={style().textButton1}>
+                            <IconMat name='reload' size={24} color='#fff'/>
+                        </TextC>
+                    </Pressable>
+                    : null}
 
-                <View style={[style().viewCentered, {flex: 1, alignItems: 'flex-end'}]}>
-                    <TextC style={{flex: 1}}>
-                        {route.params.id > 1 ?
-                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                       onPress={() => navigation.navigateDeprecated(route.name, {
-                                           id: route.params.id - 1,
-                                           roundsCount: route.params.roundsCount,
-                                       })}
-                            >
-                                <TextC
-                                    style={style().textButtonTopRight}>{'<'}</TextC>
-                            </Pressable> : null}
-                        <TextC> </TextC>
-                        {route.params.id < route.params.roundsCount ?
-                            <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                       onPress={() => navigation.navigateDeprecated(route.name, {
-                                           id: route.params.id + 1,
-                                           roundsCount: route.params.roundsCount,
-                                       })}
-                            >
-                                <TextC
-                                    style={style().textButtonTopRight}>{'>'}</TextC>
-                            </Pressable> : null}
-                    </TextC>
-                </View>
-            </View>
+                <TextC>
+                    <Pressable
+                        style={[style().buttonTopRight, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
+                        onPress={() => navigation.navigateDeprecated(route.name, {
+                            id: route.params.id - 1,
+                            roundsCount: route.params.roundsCount,
+                        })}
+                    >
+                        <TextC style={style().textButtonTopRight}>{' < '}</TextC>
+                    </Pressable>
+                    <TextC> </TextC>
+                    <Pressable
+                        style={[style().buttonTopRight, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
+                        onPress={() => navigation.navigateDeprecated(route.name, {
+                            id: route.params.id + 1,
+                            roundsCount: route.params.roundsCount,
+                        })}
+                    >
+                        <TextC style={style().textButtonTopRight}>{' > '}</TextC>
+                    </Pressable>
+                    <TextC> </TextC>
+                </TextC>
+            </TextC>
         )
     }
 
