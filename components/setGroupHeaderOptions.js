@@ -6,25 +6,22 @@ export const setGroupHeaderOptions = (navigation, route, data) => {
     navigation.setOptions({
         headerRight: () => (
             <TextC>
-                {data.object.prevGroup ?
-                    <Pressable
-                        style={style().buttonTopRight}
-                        onPress={() =>
-                            navigation.navigateDeprecated(route.name, {item: data.object.prevGroup})
-                        }>
-                        <TextC style={style().textButtonTopRight}>{'<'}</TextC>
-                    </Pressable>
-                    : null}
+                <Pressable
+                    style={[style().buttonTopRight, (data.object.prevGroup ? null : style().hiddenElement)]}
+                    onPress={() =>
+                        navigation.navigateDeprecated(route.name, {item: data.object.prevGroup})
+                    }>
+                    <TextC style={style().textButtonTopRight}>{' < '}</TextC>
+                </Pressable>
                 <TextC> </TextC>
-                {data.object.nextGroup ?
-                    <Pressable
-                        style={style().buttonTopRight}
-                        onPress={() =>
-                            navigation.navigateDeprecated(route.name, {item: data.object.nextGroup})
-                        }>
-                        <TextC style={style().textButtonTopRight}>{'>'}</TextC>
-                    </Pressable>
-                    : null}
+                <Pressable
+                    style={[style().buttonTopRight, (data.object.nextGroup ? null : style().hiddenElement)]}
+                    onPress={() =>
+                        navigation.navigateDeprecated(route.name, {item: data.object.nextGroup})
+                    }>
+                    <TextC style={style().textButtonTopRight}>{' > '}</TextC>
+                </Pressable>
+                <TextC> </TextC>
             </TextC>
         ),
     });

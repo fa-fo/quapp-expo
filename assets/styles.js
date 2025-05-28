@@ -337,5 +337,9 @@ export const style = () => StyleSheet.create({
     borderBlue: {
         borderColor: '#0155fd',
         borderWidth: 4
+    },
+    hiddenElement: {
+        opacity: 0,
+        pointerEvents: 'none'
     }
 });
