@@ -50,7 +50,7 @@ export const setLocalPushNotifications = (matches) => {
                                 title: (item.isRefereeJob ? '!! SR-Einsatz !!' : 'Dein nächstes Spiel') + ' um ' + DateFunctions.getFormatted(item.matchStartTime) + ' Uhr!',
                                 body: item.sport.name + ' Feld ' + item.group_name + (item.isRefereeJob ? '' : ': ' + item.teams1.name + ' vs. ' + item.teams2.name),
                             },
-                            trigger,
+                            trigger: {type: 'date', timestamp: trigger},
                         })
                     })
                 }
