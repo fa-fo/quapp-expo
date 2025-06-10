@@ -60,7 +60,7 @@ export default function MatchLogsScreen({navigation}) {
 
     function setNextSendAlive() {
         global.nextSendAliveTime = new Date();
-        global.nextSendAliveTime.setSeconds(Number(parseInt(global.nextSendAliveTime.getSeconds()) + 20));
+        global.nextSendAliveTime.setSeconds(global.nextSendAliveTime.getSeconds() + 20);
     }
 
     useEffect(() => {
