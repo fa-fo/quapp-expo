@@ -106,7 +106,12 @@ export default function AnimatedSplashScreen({image}) {
                     <Progress.Bar progress={progress} width={200}
                                   color={ColorFunctions.getColor('GoldBg')}
                                   style={{position: 'absolute', top: dimensions.height / 2 + 200}}/>
-                    <TextC style={{position: 'absolute', top: dimensions.height / 2 + 215}}>
+                    <TextC style={{
+                        position: 'absolute',
+                        textAlign: 'center',
+                        top: dimensions.height / 2 + 215,
+                        width: '95%'
+                    }}>
                         QuattFo is loading
                     </TextC>
                 </Animated.View>
