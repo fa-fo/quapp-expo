@@ -14,7 +14,7 @@ export const style = () => StyleSheet.create({
         alignItems: 'center',
         marginVertical: 4,
         marginHorizontal: 8,
-        paddingVertical: 8,
+        paddingVertical: 12,
         paddingHorizontal: 12,
         borderRadius: 4,
         elevation: 3,
@@ -69,6 +69,10 @@ export const style = () => StyleSheet.create({
         paddingHorizontal: 4,
         maxWidth: '95%',
     },
+    buttonBig: {
+        paddingVertical: 16,
+        paddingHorizontal: 18,
+    },
     buttonBig1: {
         alignItems: 'center',
         paddingVertical: 16,
@@ -93,6 +97,9 @@ export const style = () => StyleSheet.create({
     },
     buttonOrange: {
         backgroundColor: ColorFunctions.getColor('OrangeBg')
+    },
+    buttonBlue: {
+        backgroundColor: ColorFunctions.getColor('blue')
     },
     buttonRed: {
         backgroundColor: '#a33300'

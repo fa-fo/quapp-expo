@@ -20,7 +20,7 @@ export default function RoundsMatchesScreen({navigation}) {
 
     function getHeaderButtons() {
         return (
-            <TextC>
+            <TextC numberOfLines={1} style={{height: '88%', marginRight: 10}}>
                 {route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ?
                     <Pressable
                         style={[style().button1, style().buttonEvent, style().buttonGreen]}
@@ -32,28 +32,26 @@ export default function RoundsMatchesScreen({navigation}) {
                     </Pressable>
                     : null}
 
-                <TextC>
-                    <Pressable
-                        style={[style().buttonTopRight, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
-                        onPress={() => navigation.navigateDeprecated(route.name, {
-                            id: route.params.id - 1,
-                            roundsCount: route.params.roundsCount,
-                        })}
-                    >
-                        <TextC style={style().textButtonTopRight}>{' < '}</TextC>
-                    </Pressable>
-                    <TextC> </TextC>
-                    <Pressable
-                        style={[style().buttonTopRight, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
-                        onPress={() => navigation.navigateDeprecated(route.name, {
-                            id: route.params.id + 1,
-                            roundsCount: route.params.roundsCount,
-                        })}
-                    >
-                        <TextC style={style().textButtonTopRight}>{' > '}</TextC>
-                    </Pressable>
-                    <TextC> </TextC>
-                </TextC>
+                <Pressable
+                    style={[style().buttonBig, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
+                    onPress={() => navigation.navigateDeprecated(route.name, {
+                        id: route.params.id - 1,
+                        roundsCount: route.params.roundsCount,
+                    })}
+                >
+                    <TextC style={style().textButtonTopRight}>{' \u276E '}</TextC>
+                </Pressable>
+                <TextC> </TextC>
+                <Pressable
+                    style={[style().buttonBig, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
+                    onPress={() => navigation.navigateDeprecated(route.name, {
+                        id: route.params.id + 1,
+                        roundsCount: route.params.roundsCount,
+                    })}
+                >
+                    <TextC style={style().textButtonTopRight}>{' \u276F '}</TextC>
+                </Pressable>
+                <TextC> </TextC>
             </TextC>
         )
     }
