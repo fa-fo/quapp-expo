@@ -39,7 +39,7 @@ export default function RoundsMatchesScreen({navigation}) {
                         roundsCount: route.params.roundsCount,
                     })}
                 >
-                    <TextC style={style().textButtonTopRight}>{' \u276E '}</TextC>
+                    <TextC style={style().textButtonTopRight}>{'\u276E'}</TextC>
                 </Pressable>
                 <TextC> </TextC>
                 <Pressable
@@ -49,7 +49,7 @@ export default function RoundsMatchesScreen({navigation}) {
                         roundsCount: route.params.roundsCount,
                     })}
                 >
-                    <TextC style={style().textButtonTopRight}>{' \u276F '}</TextC>
+                    <TextC style={style().textButtonTopRight}>{'\u276F'}</TextC>
                 </Pressable>
                 <TextC> </TextC>
             </TextC>
