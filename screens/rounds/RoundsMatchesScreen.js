@@ -20,39 +20,48 @@ export default function RoundsMatchesScreen({navigation}) {
 
     function getHeaderButtons() {
         return (
-            <TextC numberOfLines={1} style={{height: '88%', marginRight: 10}}>
+            <View style={[style().matchflexRowView, {
+                marginHorizontal: 10,
+                marginTop: 5,
+                maxWidth: route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ? 300 : 150,
+                height: '90%'
+            }]}>
                 {route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ?
-                    <Pressable
-                        style={[style().button1, style().buttonEvent, style().buttonGreen]}
-                        onPress={() => loadScreenData()}
-                    >
-                        <TextC style={style().textButton1}>
-                            <IconMat name='reload' size={24} color='#fff'/>
-                        </TextC>
-                    </Pressable>
+                    <View style={{flex: 2}}>
+                        <Pressable
+                            style={[style().button1, style().buttonEvent, style().buttonGreen]}
+                            onPress={() => loadScreenData()}
+                        >
+                            <TextC style={style().textButton1}>
+                                <IconMat name='reload' size={24} color='#fff'/>
+                            </TextC>
+                        </Pressable>
+                    </View>
                     : null}
 
-                <Pressable
-                    style={[style().buttonBig, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
-                    onPress={() => navigation.navigateDeprecated(route.name, {
-                        id: route.params.id - 1,
-                        roundsCount: route.params.roundsCount,
-                    })}
-                >
-                    <TextC style={style().textButtonTopRight}>{'\u276E'}</TextC>
-                </Pressable>
-                <TextC> </TextC>
-                <Pressable
-                    style={[style().buttonBig, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
-                    onPress={() => navigation.navigateDeprecated(route.name, {
-                        id: route.params.id + 1,
-                        roundsCount: route.params.roundsCount,
-                    })}
-                >
-                    <TextC style={style().textButtonTopRight}>{'\u276F'}</TextC>
-                </Pressable>
-                <TextC> </TextC>
-            </TextC>
+                <View style={{flex: 1}}>
+                    <Pressable
+                        style={[style().buttonHeader, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
+                        onPress={() => navigation.navigateDeprecated(route.name, {
+                            id: route.params.id - 1,
+                            roundsCount: route.params.roundsCount,
+                        })}
+                    >
+                        <TextC style={[style().textButtonTopRight, style().centeredText100]}>{'\u276E'}</TextC>
+                    </Pressable>
+                </View>
+                <View style={{flex: 1}}>
+                    <Pressable
+                        style={[style().buttonHeader, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
+                        onPress={() => navigation.navigateDeprecated(route.name, {
+                            id: route.params.id + 1,
+                            roundsCount: route.params.roundsCount,
+                        })}
+                    >
+                        <TextC style={[style().textButtonTopRight, style().centeredText100]}>{'\u276F'}</TextC>
+                    </Pressable>
+                </View>
+            </View>
         )
     }
 

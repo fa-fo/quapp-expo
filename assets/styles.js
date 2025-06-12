@@ -69,9 +69,14 @@ export const style = () => StyleSheet.create({
         paddingHorizontal: 4,
         maxWidth: '95%',
     },
-    buttonBig: {
-        paddingVertical: 16,
-        paddingHorizontal: 18,
+    buttonHeader: {
+        justifyContent: 'center',
+        paddingVertical: 4,
+        paddingHorizontal: 4,
+        borderRadius: 4,
+        elevation: 3,
+        width: '90%',
+        height: '90%'
     },
     buttonBig1: {
         alignItems: 'center',
