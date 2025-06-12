@@ -5,7 +5,7 @@ import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {Camera, CameraType} from "expo-camera";
+import {Camera, CameraType} from "expo-camera/legacy";
 
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as ColorFunctions from "../../../components/functions/ColorFunctions";
