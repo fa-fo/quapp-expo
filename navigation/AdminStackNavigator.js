@@ -16,9 +16,9 @@ import TeamYearsEndRankingScreen from "../screens/years/TeamYearsEndRankingScree
 import MatchDetailsScreen from "../screens/matches/MatchDetailsScreen";
 import * as DateFunctions from "../components/functions/DateFunctions";
 
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function AdminStackNavigator({navigation}) {
     return (

@@ -12,10 +12,10 @@ import ListMatchesByTeamScreen from "../screens/matches/ListMatchesByTeamScreen"
 import ListMatchesByGroupScreen from "../screens/matches/ListMatchesByGroupScreen";
 import MatchDetailsScreen from "../screens/matches/MatchDetailsScreen";
 
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as DateFunctions from "../components/functions/DateFunctions";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function YearsStackNavigator({navigation}) {
     return (

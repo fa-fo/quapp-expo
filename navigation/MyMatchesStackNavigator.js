@@ -12,11 +12,11 @@ import AllMatchPhotosScreen from "../screens/matches/AllMatchPhotosScreen";
 import ResourceContentScreen from "../screens/matches/ResourceContentScreen";
 import SettingsScreen from "../screens/initials/SettingsScreen";
 import NoInternetModalScreen from "../screens/initials/modals/NoInternetModalScreen";
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as DateFunctions from "../components/functions/DateFunctions";
 import * as ColorFunctions from "../components/functions/ColorFunctions";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function MyMatchesStackNavigator({navigation}) {
     return (

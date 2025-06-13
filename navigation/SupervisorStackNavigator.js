@@ -6,10 +6,10 @@ import RankingRefereeSubstScreen from '../screens/matches/RankingRefereeSubstScr
 import MatchDetailsScreen from "../screens/matches/MatchDetailsScreen";
 import AutoPilotSupervisorScreen from "../screens/matches/AutoPilotSupervisorScreen";
 
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as DateFunctions from "../components/functions/DateFunctions";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function SupervisorStackNavigator({navigation}) {
     return (
