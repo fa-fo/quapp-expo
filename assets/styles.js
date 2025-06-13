@@ -152,7 +152,7 @@ export const style = () => StyleSheet.create({
     textInputLarge: {
         fontSize: 36,
         textAlign: 'center',
-        width: '100%'
+        width: 250
     },
     testMode: {
         paddingVertical: 4,
@@ -294,9 +294,11 @@ export const style = () => StyleSheet.create({
         alignItems: 'center',
         shadowColor: ColorFunctions.getColor('primary'),
         shadowOffset: {width: 5, height: 5},
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+        shadowOpacity: 0.8,
+        shadowRadius: 25,
         elevation: 5,
+        borderWidth: 1,
+        borderColor: ColorFunctions.getColor('primary'),
     },
     topleftButtonContainer: {
         position: 'absolute',
