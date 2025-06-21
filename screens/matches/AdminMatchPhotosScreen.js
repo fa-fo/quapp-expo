@@ -112,7 +112,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                         timeText={DateFunctions.getFormatted(item.match.matchStartTime) + ' Uhr: '}
                                         team1Result={item.match.resultGoals1 !== null ? (parseInt(item.match.resultGoals1) || 0) : null}
                                         team2Result={item.match.resultGoals2 !== null ? (parseInt(item.match.resultGoals2) || 0) : null}
-                                        onPress={() => navigation.navigateDeprecated('MatchDetailsAdmin', {item: item.match})}
+                                        onPress={() => navigation.navigate('MatchDetailsAdmin', {item: item.match})}
                                         backgroundColor={item.playerNumber === 1 ? ColorFunctions.getColor('GreenLightBg') : ColorFunctions.getColor('RedLightBg')}
                                     />
                                 )}

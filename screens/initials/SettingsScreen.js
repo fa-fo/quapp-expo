@@ -28,7 +28,7 @@ export default function SettingsScreen({navigation}) {
     function logout(username) {
         delete global[username + 'PW'];
         setUsername(username + 'logout'); // +'logout' needed to reload screen
-        navigation.navigateDeprecated('MyMatches', {screen: 'Settings'})
+        navigation.navigate('MyMatches', {screen: 'Settings'})
     }
 
     return (

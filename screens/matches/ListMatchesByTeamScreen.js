@@ -48,7 +48,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 })
                 .catch((error) => {
                     console.error(error)
-                    navigation.navigateDeprecated('MyMatches', {screen: 'NoInternetModal'});
+                    navigation.navigate('MyMatches', {screen: 'NoInternetModal'});
                 })
                 .finally(() => {
                     setLoading(false);
@@ -160,7 +160,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             <Pressable
                                                                 style={style().buttonTopRight}
-                                                                onPress={() => navigation.navigateDeprecated('RankingInGroups', {item: data.object.group})}
+                                                                onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group})}
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
@@ -190,8 +190,8 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             refereeGroupName={data.object.referee_group_name}
                                                             localScore={localScore ? localScore[item.id] : null}
                                                             onPress={() => route.name === 'ListMatchesByTeamAdmin' ?
-                                                                navigation.navigateDeprecated('MatchDetailsAdmin', {item})
-                                                                : navigation.navigateDeprecated('MatchDetails', {item})}
+                                                                navigation.navigate('MatchDetailsAdmin', {item})
+                                                                : navigation.navigate('MatchDetails', {item})}
                                                         /> : null)
                                                 )}
                                             </Section>

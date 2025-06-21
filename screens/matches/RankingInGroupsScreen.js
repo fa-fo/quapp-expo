@@ -60,7 +60,7 @@ export default function RankingInGroupsScreen({navigation}) {
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                                         <Pressable style={style().buttonTopRight}
-                                                   onPress={() => navigation.navigateDeprecated(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: item})}
+                                                   onPress={() => navigation.navigate(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: item})}
                                         >
                                             <TextC style={style().textButtonTopRight} numberOfLines={1}>
                                                 <IconMat name="format-list-bulleted"
@@ -110,7 +110,7 @@ export default function RankingInGroupsScreen({navigation}) {
                                     isTest={data.object.isTest}
                                     dayId={data.object.day_id}
                                     daysCount={data.year.daysCount}
-                                    onPress={() => navigation.navigateDeprecated((route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByTeamAdmin' : 'ListMatchesByTeam'), {
+                                    onPress={() => navigation.navigate((route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByTeamAdmin' : 'ListMatchesByTeam'), {
                                         item: item,
                                         year_id: data.object.year_id,
                                         day_id: data.object.day_id

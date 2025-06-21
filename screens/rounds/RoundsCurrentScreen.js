@@ -42,7 +42,7 @@ export default function RoundsCurrentScreen({navigation}) {
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                                         <Pressable
                                             style={[style().button1, style().buttonConfirm, style().buttonGreen]}
-                                            onPress={() => navigation.navigateDeprecated(
+                                            onPress={() => navigation.navigate(
                                                 route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesManager'
                                                     :
                                                     route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAutoAdmin'
@@ -77,7 +77,7 @@ export default function RoundsCurrentScreen({navigation}) {
                                              detailColor={route.name === 'RoundsCurrent' || data.object.currentRoundId <= item.id ? null
                                                  : item.matchesConfirmed === item.matchesCount ? 'green'
                                                      : 'red'}
-                                             onPress={() => navigation.navigateDeprecated((route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesSupervisor'
+                                             onPress={() => navigation.navigate((route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesSupervisor'
                                                  : (route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAdmin'
                                                      : 'RoundsMatches')), {
                                                  id: item.id,

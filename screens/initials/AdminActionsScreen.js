@@ -568,7 +568,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <View>
                                         <Pressable
                                             style={style().link}
-                                            onPress={() => navigation.navigateDeprecated('Admin', {
+                                            onPress={() => navigation.navigate('Admin', {
                                                 screen: 'RoundsMatchesAdmin',
                                                 params: {
                                                     id: 25,

@@ -77,7 +77,7 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
                                             item={sport}
                                             object={data.object}
                                             detail={'Spiele'}
-                                            onPress={() => navigation.navigateDeprecated('TeamYearsInfoBalanceMatches', {
+                                            onPress={() => navigation.navigate('TeamYearsInfoBalanceMatches', {
                                                 team: route.params.team,
                                                 sport: sport
                                             })}

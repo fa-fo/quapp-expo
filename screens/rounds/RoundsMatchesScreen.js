@@ -42,7 +42,7 @@ export default function RoundsMatchesScreen({navigation}) {
                 <View style={{flex: 1}}>
                     <Pressable
                         style={[style().buttonHeader, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
-                        onPress={() => navigation.navigateDeprecated(route.name, {
+                        onPress={() => navigation.navigate(route.name, {
                             id: route.params.id - 1,
                             roundsCount: route.params.roundsCount,
                         })}
@@ -53,7 +53,7 @@ export default function RoundsMatchesScreen({navigation}) {
                 <View style={{flex: 1}}>
                     <Pressable
                         style={[style().buttonHeader, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
-                        onPress={() => navigation.navigateDeprecated(route.name, {
+                        onPress={() => navigation.navigate(route.name, {
                             id: route.params.id + 1,
                             roundsCount: route.params.roundsCount,
                         })}
@@ -148,7 +148,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 (group.name !== 'Endrunde' ?
                                                                     <Pressable
                                                                         style={style().buttonTopRight}
-                                                                        onPress={() => navigation.navigateDeprecated('RankingInGroups', {item: group})}
+                                                                        onPress={() => navigation.navigate('RankingInGroups', {item: group})}
                                                                     >
                                                                         <TextC style={style().textButtonTopRight}
                                                                                numberOfLines={1}>
@@ -189,7 +189,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 team2Result={item.resultGoals2 !== null ? (parseInt(item.resultGoals2) || 0) : null}
                                                                 isCurrentRound={data.object.currentRoundId === item.round_id ? 1 : 0}
                                                                 isMyTeam={(item.team1_id === global.myTeamId ? 1 : (item.team2_id === global.myTeamId ? 2 : 0))}
-                                                                onPress={() => navigation.navigateDeprecated('MatchDetails', {item})}
+                                                                onPress={() => navigation.navigate('MatchDetails', {item})}
                                                             /> :
                                                             <CellVariantMatchesAdmin
                                                                 key={item.id}

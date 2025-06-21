@@ -47,7 +47,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                             setModalVisible(false);
                             setIsPasswordOk(false);
                             setIsTryingLogin(false);
-                            navigation.navigateDeprecated('MatchLogs', {item: data.object[0]});
+                            navigation.navigate('MatchLogs', {item: data.object[0]});
                         }, 1000)
                     } else {
                         setTextPinWrongVisible(true);

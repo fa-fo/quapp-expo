@@ -43,7 +43,7 @@ export default function AdminPushTokenRankingScreen({navigation}) {
                                         </View>
                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                             <Pressable style={style().buttonTopRight}
-                                                       onPress={() => navigation.navigateDeprecated('AdminPushTokenRanking', {mode: route.params?.mode !== 'teams' ? 'teams' : null})}
+                                                       onPress={() => navigation.navigate('AdminPushTokenRanking', {mode: route.params?.mode !== 'teams' ? 'teams' : null})}
                                             >
                                                 <TextC style={style().textButtonTopRight} numberOfLines={1}>
                                                     <IconMat name="format-list-bulleted" size={15}/>{' '}

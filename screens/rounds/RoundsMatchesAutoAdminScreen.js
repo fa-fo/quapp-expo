@@ -64,7 +64,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                         headerRight: () => (
                             <TextC>
                                 <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                           onPress={() => navigation.navigateDeprecated('RoundsMatchesAdmin', {
+                                           onPress={() => navigation.navigate('RoundsMatchesAdmin', {
                                                id: json.object?.round?.id,
                                                roundsCount: route.params.roundsCount,
                                            })}

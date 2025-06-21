@@ -78,7 +78,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                                     countStars={item.calcTotalChampionships}
                                     detail={item.calcTotalRankingPoints + ' P., ' + item.calcTotalYears + ' Teiln.'}
                                     isMyTeam={(item.team_id === global.myTeamId ? 1 : 0)}
-                                    onPress={() => navigation.navigateDeprecated('TeamYearsInfo', {item})}
+                                    onPress={() => navigation.navigate('TeamYearsInfo', {item})}
                                 />
                             )) : null}
 
@@ -92,7 +92,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                                         countStars={myTeamData.calcTotalChampionships}
                                         detail={myTeamData.calcTotalRankingPoints + ' P., ' + myTeamData.calcTotalYears + ' Teiln.'}
                                         isMyTeam={1}
-                                        onPress={() => navigation.navigateDeprecated('TeamYearsInfo', {item: myTeamData})}
+                                        onPress={() => navigation.navigate('TeamYearsInfo', {item: myTeamData})}
                                     />
                                 </View>
                                 : null}

@@ -11,7 +11,7 @@ export const setGroupHeaderOptions = (navigation, route, data) => {
                     <Pressable
                         style={[style().buttonHeader, style().buttonBlue, (data.object.prevGroup ? null : style().hiddenElement)]}
                         onPress={() =>
-                            navigation.navigateDeprecated(route.name, {item: data.object.prevGroup})
+                            navigation.navigate(route.name, {item: data.object.prevGroup})
                         }>
                         <TextC style={[style().textButtonTopRight, style().centeredText100]}>{'\u276E'}</TextC>
                     </Pressable>
@@ -20,7 +20,7 @@ export const setGroupHeaderOptions = (navigation, route, data) => {
                     <Pressable
                         style={[style().buttonHeader, style().buttonBlue, (data.object.nextGroup ? null : style().hiddenElement)]}
                         onPress={() =>
-                            navigation.navigateDeprecated(route.name, {item: data.object.nextGroup})
+                            navigation.navigate(route.name, {item: data.object.nextGroup})
                         }>
                         <TextC style={[style().textButtonTopRight, style().centeredText100]}>{'\u276F'}</TextC>
                     </Pressable>

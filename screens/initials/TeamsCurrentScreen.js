@@ -45,7 +45,7 @@ export default function TeamsCurrentScreen({navigation}) {
                                         isMyTeam={(item.team_id === global.myTeamId && route.name === 'TeamsCurrent' ? 1 : 0)}
                                         detail={'Spielplan'}
                                         canceled={item.canceled}
-                                        onPress={() => navigation.navigateDeprecated('ListMatchesByTeam', {item})}
+                                        onPress={() => navigation.navigate('ListMatchesByTeam', {item})}
                                     />)
                             ))}
                         </Section>

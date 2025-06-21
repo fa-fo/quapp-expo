@@ -22,7 +22,7 @@ export default function UsernameLoginModal({
                         setModalVisible(false);
                         setUsernamePW('');
                         global[username + 'PW'] = usernamePW;
-                        navigation.navigateDeprecated(capitalizeFirstLetter(username), {
+                        navigation.navigate(capitalizeFirstLetter(username), {
                             screen: 'RoundsCurrent',
                         });
                     } else {
