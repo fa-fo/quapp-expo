@@ -50,6 +50,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                             navigation.navigate('MatchLogs', {item: data.object[0]});
                         }, 1000)
                     } else {
+                        setIsTryingLogin(false);
                         setTextPinWrongVisible(true);
                         inputRef?.current?.focus();
                     }
