@@ -6,7 +6,13 @@ export const setGroupHeaderOptions = (navigation, route, data) => {
     navigation.setOptions({
         headerRight: () => (
             <View
-                style={[style().matchflexRowView, {marginHorizontal: 10, marginTop: 5, maxWidth: 150, height: '90%'}]}>
+                style={[style().matchflexRowView, {
+                    marginHorizontal: 10,
+                    marginTop: 5,
+                    maxWidth: 150,
+                    height: '90%',
+                    alignSelf: 'flex-end'
+                }]}>
                 <View style={{flex: 1}}>
                     <Pressable
                         style={[style().buttonHeader, style().buttonBlue, (data.object.prevGroup ? null : style().hiddenElement)]}

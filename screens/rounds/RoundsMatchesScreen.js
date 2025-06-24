@@ -24,7 +24,8 @@ export default function RoundsMatchesScreen({navigation}) {
                 marginHorizontal: 10,
                 marginTop: 5,
                 maxWidth: route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ? 300 : 150,
-                height: '90%'
+                height: '90%',
+                alignSelf: 'flex-end'
             }]}>
                 {route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ?
                     <View style={{flex: 2}}>
