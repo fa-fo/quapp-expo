@@ -25,7 +25,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
     let new_team_name = route.params?.setMyTeam ? route.params.item?.team?.name ?? '' : global.myTeamName;
 
     useEffect(() => {
-        setMyTeamSelectModalVisible(team_id === null); // first app start
+        setMyTeamSelectModalVisible(team_id === null && new_team_id === null); // first app start
 
         const loadData = () => {
             setLoading(true);
@@ -36,7 +36,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
     }, []);
 
     const loadScreenData = () => {
-        if (team_id !== null) {
+        if (team_id !== null || new_team_id === 0) {
             fetchApi('matches/byTeam/' + (team_id ?? 0) + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0) + (route.name === 'ListMatchesByTeamAdmin' ? '/1' : ''))
                 .then((json) => {
                     setData(json);
