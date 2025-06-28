@@ -538,7 +538,7 @@ export default function MatchLogsScreen({navigation}) {
                         <View style={{flex: 1}}>
                             <Pressable style={[style().button1, style().viewStatus, style().buttonGreen]}
                                        onPress={() => setTeamsSwapped(!teamsSwapped)}>
-                                <TextC style={[style().centeredText100, style().textButton1]}>
+                                <TextC style={[style().centeredText100, style().textButton1]} adjustsFontSizeToFit>
                                     <IconMat name={'swap-horizontal-bold'} size={20}/>
                                 </TextC>
                             </Pressable>
@@ -629,7 +629,7 @@ export default function MatchLogsScreen({navigation}) {
                                                     :
                                                     <View style={style().matchflexRowView}>
                                                         {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, teamA_id, diff)}
-                                                        <View style={[style().viewCentered, {flex: 2}]}>
+                                                        <View style={[style().viewCentered, {flex: 2.3}]}>
                                                             {getButton(eventItem, null, null)}
                                                         </View>
                                                         {FoulFunctions.getFoulCards(liveLogsCalc, eventItem.code, teamB_id, diff)}

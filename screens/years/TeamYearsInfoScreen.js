@@ -45,7 +45,7 @@ export default function TeamYearsInfoScreen({navigation}) {
                                     {team.calcTotalChampionships ? SportFunctions.getChampionshipStars(team.calcTotalChampionships) : null}
                                 </TextC>
                                 <TextC>{'Teilnahmen: ' + team.calcTotalYears}</TextC>
-                                <TextC>{'Gesamtplatzierungspunkte: ' + (team.calcTotalRankingPoints ?? 0)}</TextC>
+                                <TextC>{'Gesamtplatz...punkte: ' + (team.calcTotalRankingPoints ?? 0)}</TextC>
                                 {team.calcTotalPointsPerYear ?
                                     <TextC>{'Platzierungspunkte/Jahr: ' + team.calcTotalPointsPerYear}</TextC> : null}
                                 {team.calcTotalRanking ?
