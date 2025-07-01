@@ -67,14 +67,17 @@ export default function MyTeamSelectModal({
                                                      accessory="DetailDisclosure"
                                                      detail={'auswählen'}
                                                      onPress={() => {
+                                                         setWelcomeModalVisible(false);
                                                          setModalVisible(false);
-                                                         navigation.reset({
-                                                             index: 0,
-                                                             routes: [{
-                                                                 name: 'MyMatchesCurrent',
-                                                                 params: {setMyTeam: 1, item: item}
-                                                             }],
-                                                         })
+                                                         setTimeout(() => {
+                                                             navigation.reset({
+                                                                 index: 0,
+                                                                 routes: [{
+                                                                     name: 'MyMatchesCurrent',
+                                                                     params: {setMyTeam: 1, item: item}
+                                                                 }],
+                                                             })
+                                                         }, 200);
                                                      }}
                                         />
                                     ))}
@@ -84,14 +87,17 @@ export default function MyTeamSelectModal({
                                                  accessory="DetailDisclosure"
                                                  detail={'auswählen'}
                                                  onPress={() => {
+                                                     setWelcomeModalVisible(false);
                                                      setModalVisible(false);
-                                                     navigation.reset({
-                                                         index: 0,
-                                                         routes: [{
-                                                             name: 'MyMatchesCurrent',
-                                                             params: {setMyTeam: 1, item: null}
-                                                         }],
-                                                     })
+                                                     setTimeout(() => {
+                                                         navigation.reset({
+                                                             index: 0,
+                                                             routes: [{
+                                                                 name: 'MyMatchesCurrent',
+                                                                 params: {setMyTeam: 1, item: null}
+                                                             }],
+                                                         })
+                                                     }, 200);
                                                  }}
                                     />
                                 </Section>
