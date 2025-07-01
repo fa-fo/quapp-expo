@@ -28,7 +28,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 headerStyle: {
                     backgroundColor: ColorFunctions.getColor('YellowBg'),
                 },
-                headerBackButtonDisplayMode: 'minimal'
+                headerBackTitleVisible: false,
             }}>
             <Stack.Screen
                 name="MyMatchesCurrent"
