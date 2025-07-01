@@ -8,6 +8,7 @@ import MyTeamSelectModal from "./modals/MyTeamSelectModal";
 import {Picker} from "@react-native-picker/picker";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import {reloadAppAsync} from "expo";
+import * as ColorFunctions from "../../components/functions/ColorFunctions";
 
 export default function SettingsScreen({navigation}) {
     const [selectedScheme, setSelectedScheme] = useState(global.colorSchemeSaved);
@@ -49,16 +50,20 @@ export default function SettingsScreen({navigation}) {
 
                 <TextC>{'\n\n'}</TextC>
                 <TextC>Farbschema ändern (Neustart erforderlich):</TextC>
-                <Picker
-                    selectedValue={selectedScheme}
-                    onValueChange={(itemValue) => setSelectedScheme(itemValue)}
-                    style={[style().button1, style().pickerSelect, {width: '100%'}]}
-                    itemStyle={style().pickerItem}
-                >
-                    <Picker.Item label={'wie Systemeinstellung (' + Appearance.getColorScheme() + ')'} value="system"/>
-                    <Picker.Item label="hell" value="light"/>
-                    <Picker.Item label="dunkel" value="dark"/>
-                </Picker>
+                <View style={style().pickerView}>
+                    <Picker
+                        selectedValue={selectedScheme}
+                        onValueChange={(itemValue) => setSelectedScheme(itemValue)}
+                        style={[style().button1, style().pickerSelect, {width: '95%'}]}
+                        itemStyle={style().pickerItem}
+                        dropdownIconColor={ColorFunctions.getColor('primary')}
+                    >
+                        <Picker.Item label={'wie Systemeinstellung (' + Appearance.getColorScheme() + ')'}
+                                     value="system"/>
+                        <Picker.Item label="hell" value="light"/>
+                        <Picker.Item label="dunkel" value="dark"/>
+                    </Picker>
+                </View>
                 {showReloadButton ?
                     <Pressable
                         style={[style().button1, style().buttonConfirm, style().buttonGreen, {width: 120}]}

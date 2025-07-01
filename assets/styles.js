@@ -52,13 +52,20 @@ export const style = () => StyleSheet.create({
         paddingVertical: 2,
         paddingHorizontal: 4,
     },
+    pickerView: {
+        borderColor: ColorFunctions.getColor('primary'),
+        borderWidth: 2,
+    },
     pickerSelect: {
-        width: 300,
-        height: 50,
         color: ColorFunctions.getColor('primary'),
         backgroundColor: ColorFunctions.getColor('primaryBg'),
+        padding: 0,
+        margin: 0,
     },
     pickerItem: {
+        width: 300,
+        height: 50,
+        margin: 0,
         color: ColorFunctions.getColor('primary'),
         backgroundColor: ColorFunctions.getColor('primaryBg'),
     },
