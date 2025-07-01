@@ -38,7 +38,7 @@ export default function AdminStackNavigator({navigation}) {
                 name="RoundsMatchesAdmin"
                 component={RoundsMatchesScreen}
                 options={({route}) => ({
-                    title: 'Admin: Spiele der Runde ' + route.params.id,
+                    title: 'Admin: Runde ' + route.params.id,
                 })}
             />
             <Stack.Screen

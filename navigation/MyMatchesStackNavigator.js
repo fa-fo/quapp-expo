@@ -94,7 +94,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="RoundsMatches"
                 component={RoundsMatchesScreen}
                 options={({route}) => ({
-                    title: 'Spiele der Runde ' + route.params.id,
+                    title: 'Runde ' + route.params.id,
                 })}
             />
             <Stack.Screen

@@ -54,6 +54,7 @@ export const style = () => StyleSheet.create({
     },
     pickerSelect: {
         width: 300,
+        height: 50,
         color: ColorFunctions.getColor('primary'),
         backgroundColor: ColorFunctions.getColor('primaryBg'),
     },
