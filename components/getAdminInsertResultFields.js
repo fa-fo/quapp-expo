@@ -33,18 +33,20 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
     }
 
     useEffect(() => {
-        let g1 = getGoalsFromResultGoals(match.resultGoals1);
-        let g2 = getGoalsFromResultGoals(match.resultGoals2);
-        setOldGoals1(g1);
-        setOldGoals2(g2);
-        setGoals1(g1);
-        setGoals2(g2);
-        setOkGoals1(g1 !== '');
-        setOkGoals2(g2 !== '');
+        if (match) {
+            let g1 = getGoalsFromResultGoals(match.resultGoals1);
+            let g2 = getGoalsFromResultGoals(match.resultGoals2);
+            setOldGoals1(g1);
+            setOldGoals2(g2);
+            setGoals1(g1);
+            setGoals2(g2);
+            setOkGoals1(g1 !== '');
+            setOkGoals2(g2 !== '');
 
-        let rA = getResultAdminFromMatch(match);
-        setOldResultAdmin(rA);
-        setSelectedResultAdmin(rA);
+            let rA = getResultAdminFromMatch(match);
+            setOldResultAdmin(rA);
+            setSelectedResultAdmin(rA);
+        }
     }, [match]);
 
     useEffect(() => {
@@ -87,7 +89,7 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
             };
 
             confirmResults([{'id': match.id, 'mode': 1}], null, loadScreenData, postData, setSaved)
-                .then(m => setMatch(m))
+                .then(m => setMatch(m[0]))
                 .finally(() => setIsTryingSave(false))
         }
     }
