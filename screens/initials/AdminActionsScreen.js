@@ -340,6 +340,10 @@ export default function AdminActionsScreen({navigation}) {
                                                onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', selectedValue2)}>
                                         <TextC style={style().textButton1}>Los!</TextC>
                                     </Pressable>
+                                    <Pressable style={[style().button1, style().buttonGreen]}
+                                               onPress={() => adminAction('groupTeams/checkPlaceNumberAfterAddAll', '')}>
+                                        <TextC style={style().textButton1}>Check!</TextC>
+                                    </Pressable>
                                 </View>
                                 <TextC>{data.avgOpponentRankingPointsPerYear ?
                                     <TextC>Durchschnittsranglistenpunkte der Gegner in Gruppe
@@ -348,7 +352,14 @@ export default function AdminActionsScreen({navigation}) {
                                                 <TextC
                                                     key={k}>{k}: {v}   </TextC>))}</TextC>
                                         ))}</TextC> : null}</TextC>
-                                <TextC>{data.year.settings.currentDay_id === 2 && data.avgOpponentPrevDayRanking ?
+                                <TextC>{data.avgOpponentRankingPower ?
+                                    <TextC>{'\n'}Durchschnitts-Power-Ranking der Gegner in Gruppe
+                                        {Object.entries(data.avgOpponentRankingPower).map(([key, val]) => (
+                                            <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
+                                                <TextC
+                                                    key={k}>{k}: {v}   </TextC>))}</TextC>
+                                        ))}</TextC> : null}</TextC>
+                                <TextC>{data.year.settings.currentDay_id > 1 && data.avgOpponentPrevDayRanking ?
                                     <TextC>{'\n'}Durchschnittsvortagesplatz der Gegner in Gruppe
                                         {Object.entries(data.avgOpponentPrevDayRanking).map(([key, val]) => (
                                             <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
