@@ -89,7 +89,7 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
             };
 
             confirmResults([{'id': match.id, 'mode': 1}], null, loadScreenData, postData, setSaved)
-                .then(m => setMatch(m[0]))
+                .then(m => setMatch(m))
                 .finally(() => setIsTryingSave(false))
         }
     }
