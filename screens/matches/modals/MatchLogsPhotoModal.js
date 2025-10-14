@@ -5,7 +5,7 @@ import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import {Camera, CameraType} from "expo-camera/legacy";
+import {CameraView, useCameraPermissions} from "expo-camera";
 
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as ColorFunctions from "../../../components/functions/ColorFunctions";
@@ -20,8 +20,8 @@ export default function MatchLogsPhotoModal({
 
     const cameraRef = useRef();
     const dimensions = useWindowDimensions();
-    const [type, setType] = useState(CameraType.back);
-    const [hasPermission, requestPermission] = Camera.useCameraPermissions();
+    const [facing, setFacing] = useState('back');
+    const [hasPermission, requestPermission] = useCameraPermissions();
     const [isPreview, setIsPreview] = useState(false);
     const [data, setData] = useState(null);
     const [isBusy, setIsBusy] = useState(false);
@@ -92,8 +92,8 @@ export default function MatchLogsPhotoModal({
         setIsPreview(false);
     }
 
-    function toggleCameraType() {
-        setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+    function toggleCameraFacing() {
+        setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 
     function getRatioWidth(height) {
@@ -131,13 +131,13 @@ export default function MatchLogsPhotoModal({
                 :
                 (!isPreview ? (
                     <View style={{flex: 1, width: '100%', height: '100%'}}>
-                        <Camera
+                        <CameraView
                             style={{
                                 height: dimensions.height,
                                 width: getRatioWidth(dimensions.height),
                                 alignSelf: "center"
                             }}
-                            type={type}
+                            facing={facing}
                             ref={cameraRef}
                             isActive={true}
                             photo={true}
@@ -145,7 +145,7 @@ export default function MatchLogsPhotoModal({
                             orientation="landscape-right"
                         />
                         <View style={style().topleftButtonContainer}>
-                            <Pressable onPress={toggleCameraType}>
+                            <Pressable onPress={toggleCameraFacing}>
                                 <IconMat name='camera-flip' size={48} color='green'/>
                             </Pressable>
                         </View>
@@ -212,5 +212,3 @@ export default function MatchLogsPhotoModal({
         </View>
     </Modal>
 }
-
-

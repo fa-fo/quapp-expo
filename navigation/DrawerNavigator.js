@@ -44,8 +44,8 @@ export default function MyDrawer() {
                     global.isLocalhostWebview ? {
                         backgroundColor: ColorFunctions.getColor('RedLightBg'),
                     } : {},
-                headerLeft: () => <HeaderLeft/>
-            }}>
+                headerLeft: () => <HeaderLeft/>,
+            }} id={'MyDrawer'}>
             <Drawer.Screen
                 name="MyMatches"
                 component={MyMatchesStackNavigator}
@@ -54,25 +54,18 @@ export default function MyDrawer() {
             <Drawer.Screen
                 name="Years"
                 component={YearsStackNavigator}
-                options={{
-                    title: <TextC>{title()} {'Historie'}</TextC>,
-                }}
+                options={{title: <TextC>{title()} {'Historie'}</TextC>}}
             />
             <Drawer.Screen
                 name="Supervisor"
                 component={SupervisorStackNavigator}
-                options={{
-                    title: <TextC>{title()} {'Supervisor'}</TextC>,
-                }}
+                options={{title: <TextC>{title()} {'Supervisor'}</TextC>}}
             />
             <Drawer.Screen
                 name="Admin"
                 component={AdminStackNavigator}
-                options={{
-                    title: <TextC>{title()} {'Admin'}</TextC>,
-                }}
+                options={{title: <TextC>{title()} {'Admin'}</TextC>}}
             />
         </Drawer.Navigator>
     )
-        ;
 }

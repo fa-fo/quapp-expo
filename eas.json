@@ -9,6 +9,9 @@
       "distribution": "internal",
       "ios": {
         "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
       }
     },
     "development": {
@@ -22,9 +25,7 @@
       "android": {
         "buildType": "app-bundle"
       },
-      "ios": {
-        "image": "macos-sequoia-15.3-xcode-16.2"
-      }
+      "ios": {}
     }
   },
   "submit": {
