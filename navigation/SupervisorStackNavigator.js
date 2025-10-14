@@ -6,10 +6,10 @@ import RankingRefereeSubstScreen from '../screens/matches/RankingRefereeSubstScr
 import MatchDetailsScreen from "../screens/matches/MatchDetailsScreen";
 import AutoPilotSupervisorScreen from "../screens/matches/AutoPilotSupervisorScreen";
 
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import * as DateFunctions from "../components/functions/DateFunctions";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function SupervisorStackNavigator({navigation}) {
     return (
@@ -18,7 +18,7 @@ export default function SupervisorStackNavigator({navigation}) {
                 headerStyle: {
                     backgroundColor: 'thistle',
                 },
-                headerBackTitleVisible: false,
+                headerBackButtonDisplayMode: 'minimal',
             }}>
             <Stack.Screen
                 name="RoundsCurrentSupervisor"

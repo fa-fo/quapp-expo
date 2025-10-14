@@ -263,7 +263,7 @@ export default function CustomDrawerContent(props) {
                         icon={() => <Icon name="heart-flash" size={25} color={ColorFunctions.getColor('primary')}/>}
                         label="Admin Aktionen"
                         onPress={() =>
-                            props.navigation.navigate('Admin', {screen: 'AdminActions'})
+                            props.navigation.navigate('Admin', {screen: 'AdminActions'}, {pop: true})
                         }
                     />
                     {global.settings?.useLiveScouting ?
