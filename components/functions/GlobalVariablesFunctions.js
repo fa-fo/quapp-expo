@@ -6,9 +6,12 @@ export function setGlobalVariables() {
 
     global.isProductionWebview = window?.location?.hostname === 'api.quattfo.de';
     global.isLocalhostWebview = window?.location?.hostname === 'localhost';
+    global.isDevBuildWebview = window?.location?.hostname.substring(0, 8) === '192.168.' && __DEV__;
 
     if (global.isLocalhostWebview) {
         global.baseUrl = 'http://localhost/quapp-cakephp/';
+    } else if (global.isDevBuildWebview) {
+        global.baseUrl = window?.location?.protocol + '//' + window?.location?.hostname + '/quapp-cakephp/';
     } else {
         global.baseUrl = 'https://api.quattfo.de/';
     }
