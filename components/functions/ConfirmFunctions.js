@@ -5,18 +5,22 @@ import fetchApi from '../fetchApi';
 
 export function getMatches2Confirm(object) {
     let matches = [];
+    let count2ConfirmUpcoming = 0;
 
     if (object?.groups?.length) {
         object.groups.map(group => {
             if (group?.matches?.length) {
                 group.matches.map(item => {
-                    if (!item.logsCalc?.isResultConfirmed && item.isTime2confirm) {
+                    if (!item.logsCalc?.isResultConfirmed) {
                         if (item.isResultOk || item.canceled > 0) {
-                            let a = {
-                                'id': item.id,
-                                'mode': item.isResultOk ? 0 : getConfirmModeFromCanceled(item.canceled),
-                            };
-                            matches = [a, ...matches];
+                            count2ConfirmUpcoming++;
+                            if (item.isTime2confirm) {
+                                let a = {
+                                    'id': item.id,
+                                    'mode': item.isResultOk ? 0 : getConfirmModeFromCanceled(item.canceled),
+                                };
+                                matches = [a, ...matches];
+                            }
                         }
                     }
                 })
@@ -24,7 +28,7 @@ export function getMatches2Confirm(object) {
         })
     }
 
-    return matches;
+    return {'matches': matches, 'count2ConfirmUpcoming': count2ConfirmUpcoming};
 }
 
 export const confirmResults = (matches, setModalVisible, loadScreenData, postData, setSaved) => {
@@ -56,8 +60,8 @@ export function getConfirmButton(matchId, mode, text, setModalVisible, loadScree
                 mode === 0
                     ? style().buttonGreen
                     : (mode === 1) || (mode === 2)
-                    ? style().buttonGreyDark
-                    : style().buttonRed,
+                        ? style().buttonGreyDark
+                        : style().buttonRed,
             ]}
             onPress={() => confirmResults([{'id': matchId, 'mode': mode}], setModalVisible, loadScreenData, null)}>
             <TextC numberOfLines={1} style={style().textButton1}>

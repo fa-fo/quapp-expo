@@ -18,6 +18,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
     const [now, setNow] = useState(new Date());
     const [lastUpdate, setLastUpdate] = useState(null); // check for too long time not updated
     const [matchesToConfirm, setMatchesToConfirm] = useState([]);
+    const [count2ConfirmUpcoming, setCount2ConfirmUpcoming] = useState(0);
     const [isConfirming, setIsConfirming] = useState(false); // prevent double auto-confirming
 
     useEffect(() => {
@@ -51,7 +52,10 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
         fetchApi('matches/byRound/0/1/0/0/0') // offset: 0 (5th parameter)
             .then((json) => {
                 setData(json);
-                setMatchesToConfirm(ConfirmFunctions.getMatches2Confirm(json.object));
+
+                let m = ConfirmFunctions.getMatches2Confirm(json.object);
+                setMatchesToConfirm(m.matches);
+                setCount2ConfirmUpcoming(m.count2ConfirmUpcoming);
 
                 let then = new Date();
                 then.setSeconds(Number(parseInt(then.getSeconds().toString()) + 10));
@@ -124,7 +128,8 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                                                 {group.name === 'A' ?
                                                     <TextC numberOfLines={1}
                                                            style={style().textGreen}>
-                                                        {'Regulär werten: ' + matchesToConfirm.length + ' (automatisch)'}
+                                                        {'Regulär werten: ' + matchesToConfirm.length
+                                                            + ' (' + count2ConfirmUpcoming + ')' + ' automatisch'}
                                                     </TextC> : null}
                                             </View>
                                         </View>

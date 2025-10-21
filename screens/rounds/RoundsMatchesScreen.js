@@ -16,6 +16,7 @@ export default function RoundsMatchesScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [matchesToConfirm, setMatchesToConfirm] = useState([]);
+    const [count2ConfirmUpcoming, setCount2ConfirmUpcoming] = useState(0);
     let round_id_prev = 0; // previously called round_id
 
     function getHeaderButtons() {
@@ -101,7 +102,9 @@ export default function RoundsMatchesScreen({navigation}) {
                 setData(json);
 
                 if (route.name === 'RoundsMatchesAdmin') {
-                    setMatchesToConfirm(ConfirmFunctions.getMatches2Confirm(json.object));
+                    let m = ConfirmFunctions.getMatches2Confirm(json.object);
+                    setMatchesToConfirm(m.matches);
+                    setCount2ConfirmUpcoming(m.count2ConfirmUpcoming);
                 }
             })
             .catch((error) => console.error(error))
@@ -166,8 +169,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                             <TextC numberOfLines={1}
                                                                                    style={style().textButton1}>
                                                                                 {'Alles regulär werten: ' +
-                                                                                    matchesToConfirm.length
-                                                                                }
+                                                                                    matchesToConfirm.length + ' (' + count2ConfirmUpcoming + ')'}
                                                                             </TextC>
                                                                         </Pressable>
                                                                         :
