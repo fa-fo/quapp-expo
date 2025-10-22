@@ -2,7 +2,7 @@ import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {style} from '../../assets/styles.js';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import fetchApi from '../../components/fetchApi';
@@ -11,6 +11,7 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function ListMatchesByGroupScreen({navigation}) {
+    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -19,6 +20,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
     let group_id_prev = -1; // previously called group_id
     let group_name = route.params.item?.group_name ?? 'A';
 
+    // initial load
     useEffect(() => {
         if (group_id_prev !== group_id) {
             group_id_prev = group_id;
@@ -31,6 +33,21 @@ export default function ListMatchesByGroupScreen({navigation}) {
             setLoading(false);
         };
     }, [navigation, route]);
+
+    // auto-reload
+    useEffect(() => {
+        let sur = (data?.year?.secondsUntilReload?.[0] ?? 0) > 0 ? data?.year?.secondsUntilReload?.[0] : (data?.year?.secondsUntilReload?.[1] ?? 0);
+
+        if (sur > 0) {
+            let timer = setTimeout(() => {
+                if (isFocused) {
+                    loadScreenData();
+                }
+            }, sur * 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [data]);
 
     const loadScreenData = () => {
         fetchApi('matches/byGroup/' + group_id + (route.name === 'ListMatchesByGroupAdmin' ? '/1' : ''))

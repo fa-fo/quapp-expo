@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import {style} from '../../assets/styles.js';
@@ -13,6 +13,7 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
 
 export default function ListMatchesByTeamScreen({navigation}) {
+    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -24,6 +25,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
     let new_team_id = route.params?.setMyTeam ? route.params.item?.team_id ?? 0 : global.myTeamId; // for team change
     let new_team_name = route.params?.setMyTeam ? route.params.item?.team?.name ?? '' : global.myTeamName;
 
+    // initial load
     useEffect(() => {
         setMyTeamSelectModalVisible(team_id === null && new_team_id === null); // first app start
 
@@ -34,6 +36,21 @@ export default function ListMatchesByTeamScreen({navigation}) {
 
         return route.name === 'MyMatchesCurrent' ? navigation.addListener('focus', loadData) : loadData();
     }, []);
+
+    // auto-reload
+    useEffect(() => {
+        let sur = (data?.year?.secondsUntilReload?.[0] ?? 0) > 0 ? data?.year?.secondsUntilReload?.[0] : (data?.year?.secondsUntilReload?.[1] ?? 0);
+
+        if (sur > 0) {
+            let timer = setTimeout(() => {
+                if (isFocused) {
+                    loadScreenData();
+                }
+            }, sur * 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [data]);
 
     function getHeaderButtons() {
         let showReloadButton = Platform.OS === 'web' && data?.yearSelected === undefined;

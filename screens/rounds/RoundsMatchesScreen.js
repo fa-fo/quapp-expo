@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect, useRoute} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused, useRoute} from '@react-navigation/native';
 import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {style} from '../../assets/styles.js';
@@ -12,6 +12,7 @@ import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function RoundsMatchesScreen({navigation}) {
+    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -83,6 +84,7 @@ export default function RoundsMatchesScreen({navigation}) {
         }
     }, [navigation, route]);
 
+    // auto-reload Admin/Supervisor
     useFocusEffect(
         useCallback(() => {
             const interval = route.name !== 'RoundsMatches' && global.settings.useLiveScouting ?
@@ -90,11 +92,24 @@ export default function RoundsMatchesScreen({navigation}) {
                     loadScreenData(route.params.id);
                 }, 3000) : '';
 
-            return () => {
-                clearInterval(interval);
-            };
+            return () => clearInterval(interval);
         }, [route]),
     );
+
+    // auto-reload: regular user, one time
+    useEffect(() => {
+        let sur = (data?.year?.secondsUntilReload?.[0] ?? 0) > 0 ? data?.year?.secondsUntilReload?.[0] : (data?.year?.secondsUntilReload?.[1] ?? 0);
+
+        if (sur > 0 && route.name === 'RoundsMatches') {
+            let timer = setTimeout(() => {
+                if (isFocused && (data?.object?.currentRoundId ?? 0) === route.params.id) {
+                    loadScreenData(route.params.id);
+                }
+            }, sur * 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [data]);
 
     const loadScreenData = (roundId) => {
         fetchApi('matches/byRound/' + (roundId ?? route.params.id) + (route.name === 'RoundsMatches' ? '' : '/1'))

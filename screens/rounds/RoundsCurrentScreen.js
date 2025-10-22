@@ -4,11 +4,12 @@ import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {style} from "../../assets/styles";
 
 export default function RoundsCurrentScreen({navigation}) {
+    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -19,6 +20,21 @@ export default function RoundsCurrentScreen({navigation}) {
             loadScreenData();
         });
     }, [route]);
+
+    // auto-reload
+    useEffect(() => {
+        let sur = data?.year?.secondsUntilReload?.[1] ?? 0;
+
+        if (sur > 0) {
+            let timer = setTimeout(() => {
+                if (isFocused) {
+                    loadScreenData();
+                }
+            }, sur * 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [data]);
 
     const loadScreenData = () => {
         fetchApi('rounds/all' + (route.name === 'RoundsCurrent' ? '' : '/1'))
@@ -67,8 +83,8 @@ export default function RoundsCurrentScreen({navigation}) {
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"
                                              title={'Runde ' + item.id
-                                             + (global.settings.usePlayOff && data.object.rounds.length === item.id ? ' (Endrunde)' : '')
-                                             + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
+                                                 + (global.settings.usePlayOff && data.object.rounds.length === item.id ? ' (Endrunde)' : '')
+                                                 + ' um ' + DateFunctions.getFormatted(item.timeStart) + ' Uhr'}
                                              accessory="DetailDisclosure"
                                              isCurrentRound={data.object.currentRoundId === item.id ? 1 : 0}
                                              detail={route.name === 'RoundsCurrent' ? 'Details'

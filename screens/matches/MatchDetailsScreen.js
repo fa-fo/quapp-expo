@@ -10,6 +10,7 @@ import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
+import {parseISO} from "date-fns";
 
 export default function MatchDetailsScreen({navigation}) {
     const route = useRoute();
@@ -20,6 +21,7 @@ export default function MatchDetailsScreen({navigation}) {
     const [photoModalVisible, setPhotoModalVisible] = useState(false);
     const [photoSelected, setPhotoSelected] = useState(null);
 
+    // initial load
     useEffect(() => {
         return navigation.addListener('focus', () => {
             setLoading(true);
@@ -27,9 +29,12 @@ export default function MatchDetailsScreen({navigation}) {
         });
     }, [route]);
 
-    // reload to check for result confirmation
+    // auto-reload
     useEffect(() => {
-        if (data?.object && data.object[0].logsCalc.isMatchEnded && !data.object[0].logsCalc.isResultConfirmed) {
+        if (data?.object && !data.object[0].canceled
+            && parseISO(data.object[0].matchStartTime) < new Date()
+            && !data.object[0].logsCalc.isResultConfirmed) {
+
             const timer = setTimeout(() => {
                 if (isFocused && !modalVisible && !photoModalVisible) {
                     setLoading(true);
