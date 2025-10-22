@@ -53,7 +53,6 @@ export default function ListMatchesByGroupScreen({navigation}) {
         fetchApi('matches/byGroup/' + group_id + (route.name === 'ListMatchesByGroupAdmin' ? '/1' : ''))
             .then((json) => {
                 setData(json);
-                navigation.setOptions({headerRight: () => null}); // needed for iOS
                 setGroupHeaderOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))

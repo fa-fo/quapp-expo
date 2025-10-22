@@ -6,6 +6,7 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 export const setGroupHeaderOptions = (navigation, route, data, loadScreenData) => {
     let showReloadButton = Platform.OS === 'web' && data.yearSelected === undefined;
 
+    navigation.setOptions({headerRight: () => null}); // needed for iOS
     navigation.setOptions({
         headerRight: () => (
             <View

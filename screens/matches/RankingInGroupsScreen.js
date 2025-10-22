@@ -54,7 +54,6 @@ export default function RankingInGroupsScreen({navigation}) {
         fetchApi('groupTeams/all/' + group_id + (route.name === 'RankingInGroupsAdmin' ? '/1' : ''))
             .then((json) => {
                 setData(json);
-                navigation.setOptions({headerRight: () => null}); // needed for iOS
                 setGroupHeaderOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))
