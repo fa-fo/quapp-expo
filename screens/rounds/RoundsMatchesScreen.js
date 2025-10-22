@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
-import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {style} from '../../assets/styles.js';
 import CellVariantMatches from '../../components/cellVariantMatches';
@@ -20,18 +20,21 @@ export default function RoundsMatchesScreen({navigation}) {
     let round_id_prev = 0; // previously called round_id
 
     function getHeaderButtons() {
+        let showReloadButton = (Platform.OS === 'web' && data?.yearSelected === undefined)
+            || (route.name !== 'RoundsMatches' && !global.settings.useLiveScouting);
+
         return (
             <View style={[style().matchflexRowView, {
                 marginHorizontal: 10,
                 marginTop: 5,
-                maxWidth: route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ? 300 : 150,
+                maxWidth: showReloadButton ? 300 : 150,
                 height: '90%',
                 alignSelf: 'flex-end'
             }]}>
-                {route.name !== 'RoundsMatches' && !global.settings.useLiveScouting ?
+                {showReloadButton ?
                     <View style={{flex: 2}}>
                         <Pressable
-                            style={[style().button1, style().buttonEvent, style().buttonGreen]}
+                            style={[style().buttonHeader, style().buttonGreen]}
                             onPress={() => loadScreenData()}
                         >
                             <TextC style={style().textButton1}>
@@ -73,9 +76,6 @@ export default function RoundsMatchesScreen({navigation}) {
             setLoading(true);
             loadScreenData(route.params.id);
 
-            navigation.setOptions({headerRight: () => null}); // needed for iOS
-            navigation.setOptions({headerRight: () => getHeaderButtons()});
-
             return () => {
                 setData(null);
                 setLoading(false);
@@ -100,6 +100,8 @@ export default function RoundsMatchesScreen({navigation}) {
         fetchApi('matches/byRound/' + (roundId ?? route.params.id) + (route.name === 'RoundsMatches' ? '' : '/1'))
             .then((json) => {
                 setData(json);
+                navigation.setOptions({headerRight: () => null}); // needed for iOS
+                navigation.setOptions({headerRight: () => getHeaderButtons()});
 
                 if (route.name === 'RoundsMatchesAdmin') {
                     let m = ConfirmFunctions.getMatches2Confirm(json.object);

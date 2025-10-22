@@ -1,18 +1,34 @@
 import TextC from "../components/customText";
-import {Pressable, View} from 'react-native';
+import {Platform, Pressable, View} from 'react-native';
 import {style} from '../assets/styles';
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
-export const setGroupHeaderOptions = (navigation, route, data) => {
+export const setGroupHeaderOptions = (navigation, route, data, loadScreenData) => {
+    let showReloadButton = Platform.OS === 'web' && data.yearSelected === undefined;
+
     navigation.setOptions({
         headerRight: () => (
             <View
                 style={[style().matchflexRowView, {
                     marginHorizontal: 10,
                     marginTop: 5,
-                    maxWidth: 150,
+                    maxWidth: showReloadButton ? 300 : 150,
                     height: '90%',
                     alignSelf: 'flex-end'
                 }]}>
+                {showReloadButton ?
+                    <View style={{flex: 2}}>
+                        <Pressable
+                            style={[style().buttonHeader, style().buttonGreen]}
+                            onPress={() => loadScreenData()}
+                        >
+                            <TextC style={style().textButton1}>
+                                <IconMat name='reload' size={24} color='#fff'/>
+                            </TextC>
+                        </Pressable>
+                    </View>
+                    : null}
+
                 <View style={{flex: 1}}>
                     <Pressable
                         style={[style().buttonHeader, style().buttonBlue, (data.object.prevGroup ? null : style().hiddenElement)]}

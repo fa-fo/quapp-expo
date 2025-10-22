@@ -38,7 +38,7 @@ export default function RankingInGroupsScreen({navigation}) {
             .then((json) => {
                 setData(json);
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
-                setGroupHeaderOptions(navigation, route, json);
+                setGroupHeaderOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));

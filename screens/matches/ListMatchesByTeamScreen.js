@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
@@ -35,6 +35,33 @@ export default function ListMatchesByTeamScreen({navigation}) {
         return route.name === 'MyMatchesCurrent' ? navigation.addListener('focus', loadData) : loadData();
     }, []);
 
+    function getHeaderButtons() {
+        let showReloadButton = Platform.OS === 'web' && data?.yearSelected === undefined;
+
+        return (
+            <View style={[style().matchflexRowView, {
+                marginHorizontal: 10,
+                marginTop: 5,
+                maxWidth: 150,
+                height: '90%',
+                alignSelf: 'flex-end'
+            }]}>
+                {showReloadButton ?
+                    <View style={{flex: 2}}>
+                        <Pressable
+                            style={[style().buttonHeader, style().buttonGreen]}
+                            onPress={() => loadScreenData()}
+                        >
+                            <TextC style={style().textButton1}>
+                                <IconMat name='reload' size={24} color='#fff'/>
+                            </TextC>
+                        </Pressable>
+                    </View>
+                    : null}
+            </View>
+        )
+    }
+
     const loadScreenData = () => {
         if (team_id !== null || new_team_id === 0) {
             fetchApi('matches/byTeam/' + (team_id ?? 0) + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0) + (route.name === 'ListMatchesByTeamAdmin' ? '/1' : ''))
@@ -45,6 +72,10 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     updateGlobalVariables(json.year?.settings);
                     showLocalStorageScore(json.year?.settings);
                     setMatchesServices(json.object.matches, json.year?.settings);
+
+                    navigation.setOptions({headerRight: () => null}); // needed for iOS
+                    navigation.setOptions({headerRight: () => getHeaderButtons()});
+
                 })
                 .catch((error) => {
                     console.error(error)

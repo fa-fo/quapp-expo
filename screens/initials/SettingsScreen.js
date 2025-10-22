@@ -72,7 +72,7 @@ export default function SettingsScreen({navigation}) {
                                 window?.location?.reload()
                             else reloadAppAsync();
                         }}>
-                        <Icon name="reload" size={25}/>
+                        <Icon name='reload' size={25}/>
                         <TextC style={style().textButton1}>App neu starten</TextC>
                     </Pressable>
                     : null
