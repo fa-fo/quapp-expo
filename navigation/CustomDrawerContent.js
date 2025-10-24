@@ -323,7 +323,7 @@ export default function CustomDrawerContent(props) {
                         /> : null}
                     {Platform.OS === 'web' && global.settings?.usePush ?
                         <DrawerItem
-                            icon={() => <Icon name="email-send-outline" size={25}
+                            icon={() => <Icon name="email-arrow-right-outline" size={25}
                                               color={ColorFunctions.getColor('primary')}/>}
                             label="Push Notifications"
                             onPress={() =>
