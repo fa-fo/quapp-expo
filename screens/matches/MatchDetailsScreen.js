@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {ActivityIndicator, Image, Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {style} from '../../assets/styles.js';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
@@ -9,6 +9,7 @@ import MatchDetailsPhotoModal from "./modals/MatchDetailsPhotoModal";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
 import {parseISO} from "date-fns";
 
@@ -46,9 +47,41 @@ export default function MatchDetailsScreen({navigation}) {
         }
     }, [data]);
 
+    function getHeaderButtons() {
+        let showReloadButton = Platform.OS === 'web' && data?.yearSelected === undefined;
+
+        return (
+            <View style={[style().matchflexRowView, {
+                marginHorizontal: 10,
+                marginTop: 5,
+                maxWidth: 150,
+                height: '90%',
+                alignSelf: 'flex-end'
+            }]}>
+                {showReloadButton ?
+                    <View style={{flex: 2}}>
+                        <Pressable
+                            style={[style().buttonHeader, style().buttonGreen]}
+                            onPress={() => loadScreenData()}
+                        >
+                            <TextC style={style().textButton1}>
+                                <IconMat name='reload' size={24} color='#fff'/>
+                            </TextC>
+                        </Pressable>
+                    </View>
+                    : null}
+            </View>
+        )
+    }
+
     const loadScreenData = () => {
         fetchApi('matches/byId/' + route.params.item.id)
-            .then((json) => setData(json))
+            .then((json) => {
+                setData(json);
+
+                navigation.setOptions({headerRight: () => null}); // needed for iOS
+                navigation.setOptions({headerRight: () => getHeaderButtons()});
+            })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
