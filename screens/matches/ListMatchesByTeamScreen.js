@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantMatches from '../../components/cellVariantMatches';
 import {style} from '../../assets/styles.js';
@@ -11,9 +11,9 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as PushFunctions from "../../components/functions/PushFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function ListMatchesByTeamScreen({navigation}) {
-    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -24,33 +24,6 @@ export default function ListMatchesByTeamScreen({navigation}) {
     let team_name = route.params?.item?.team?.name ?? global.myTeamName;
     let new_team_id = route.params?.setMyTeam ? route.params.item?.team_id ?? 0 : global.myTeamId; // for team change
     let new_team_name = route.params?.setMyTeam ? route.params.item?.team?.name ?? '' : global.myTeamName;
-
-    // initial load
-    useEffect(() => {
-        setMyTeamSelectModalVisible(team_id === null && new_team_id === null); // first app start
-
-        const loadData = () => {
-            setLoading(true);
-            loadScreenData();
-        };
-
-        return route.name === 'MyMatchesCurrent' ? navigation.addListener('focus', loadData) : loadData();
-    }, []);
-
-    // auto-reload
-    useEffect(() => {
-        let sur = (data?.year?.secondsUntilReload?.[0] ?? 0) > 0 ? data?.year?.secondsUntilReload?.[0] : (data?.year?.secondsUntilReload?.[1] ?? 0);
-
-        if (sur > 0) {
-            let timer = setTimeout(() => {
-                if (isFocused) {
-                    loadScreenData();
-                }
-            }, sur * 1000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [data]);
 
     function getHeaderButtons() {
         let showReloadButton = Platform.OS === 'web' && data?.yearSelected === undefined;
@@ -92,7 +65,6 @@ export default function ListMatchesByTeamScreen({navigation}) {
 
                     navigation.setOptions({headerRight: () => null}); // needed for iOS
                     navigation.setOptions({headerRight: () => getHeaderButtons()});
-
                 })
                 .catch((error) => {
                     console.error(error)
@@ -169,6 +141,20 @@ export default function ListMatchesByTeamScreen({navigation}) {
             }
         }
     }
+
+    // initial load
+    useEffect(() => {
+        setMyTeamSelectModalVisible(team_id === null && new_team_id === null); // first app start
+
+        const loadData = () => {
+            setLoading(true);
+            loadScreenData();
+        };
+
+        return route.name === 'MyMatchesCurrent' ? navigation.addListener('focus', loadData) : loadData();
+    }, []);
+
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
