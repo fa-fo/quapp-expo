@@ -11,6 +11,7 @@ import {format} from "date-fns";
 import {style} from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function RoundsMatchesManagerScreen({navigation}) {
     const route = useRoute();
@@ -22,39 +23,16 @@ export default function RoundsMatchesManagerScreen({navigation}) {
     const [lastUpdate, setLastUpdate] = useState(null); // check for too long time not updated
     const problemsRef = useRef(null);
 
-    if (Platform.OS !== 'web') {
-        useKeepAwake()
-    }
-
-    useEffect(() => {
-        setLoading(true);
-        loadScreenData();
-
-        return () => {
-            setData(null);
-            setLoading(false);
-        };
-    }, [navigation, route]);
-
-    useEffect(() => {
-        const interval1 = setInterval(() => {
-            loadScreenData();
-        }, 3000);
-
-        const interval2 = setInterval(() => {
-            getTime();
-        }, 1000);
-
-        return () => {
-            clearInterval(interval1);
-            clearInterval(interval2);
-        };
-    }, [])
-
     function getTime() {
         let n = new Date();
         global.criticalIssuesCount = 0;
         setNow(n);
+    }
+
+    function getIssuesLength() {
+        return data ? parseInt((problemsRef?.current?.childNodes?.length ?? 0)  // for Web
+                + (problemsRef?.current?._children?.length ?? 0))   // for Android
+            : null
     }
 
     const loadScreenData = () => {
@@ -91,15 +69,30 @@ export default function RoundsMatchesManagerScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
+    if (Platform.OS !== 'web') {
+        useKeepAwake()
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getTime();
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [])
+
+    useEffect(() => {
+        setLoading(true);
+        loadScreenData();
+
+        return () => setData(null);
+    }, []);
+
+    useAutoReload(route, data, loadScreenData);
+
     useEffect(() => {
         setIssuesLength(getIssuesLength());
     }, [data]);
-
-    function getIssuesLength() {
-        return data ? parseInt((problemsRef?.current?.childNodes?.length ?? 0)  // for Web
-                + (problemsRef?.current?._children?.length ?? 0))   // for Android
-            : null
-    }
 
     useEffect(() => {
         if (issuesLength !== null) {

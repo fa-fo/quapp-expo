@@ -1,37 +1,16 @@
 import TextC from "../../components/customText";
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariantRankingSubst from "../../components/cellVariantRefereeSubst";
-import {useFocusEffect} from "@react-navigation/native";
+import {useRoute} from "@react-navigation/native";
+import {useAutoReload} from "../../components/useAutoReload";
 
-export default function RankingRefereeSubstScreenScreen({navigation}) {
+export default function RankingRefereeSubstScreen({navigation}) {
+    const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        setLoading(true);
-        loadScreenData();
-
-        return () => {
-            setData(null);
-            setLoading(false);
-        };
-    }, []);
-
-    useFocusEffect(
-        useCallback(() => {
-            const interval =
-                setInterval(() => {
-                    loadScreenData();
-                }, 3000);
-
-            return () => {
-                clearInterval(interval);
-            };
-        }, []),
-    );
 
     const loadScreenData = () => {
         fetchApi('matches/getRankingRefereeSubst/')
@@ -39,6 +18,15 @@ export default function RankingRefereeSubstScreenScreen({navigation}) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
+
+    useEffect(() => {
+        setLoading(true);
+        loadScreenData();
+
+        return () => setData(null);
+    }, []);
+
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>

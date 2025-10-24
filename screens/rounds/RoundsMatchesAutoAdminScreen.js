@@ -10,6 +10,7 @@ import {Section, TableView} from "react-native-tableview-simple";
 import CellVariantMatchesAdmin from "../../components/cellVariantMatchesAdmin";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function RoundsMatchesAutoAdminScreen({navigation}) {
     const route = useRoute();
@@ -21,32 +22,17 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
     const [count2ConfirmUpcoming, setCount2ConfirmUpcoming] = useState(0);
     const [isConfirming, setIsConfirming] = useState(false); // prevent double auto-confirming
 
-    useEffect(() => {
-        setLoading(true);
-        loadScreenData();
+    function getTime() {
+        let n = new Date();
+        setNow(n);
+    }
 
-        return () => {
-            setData(null);
-            setLoading(false);
-        };
-    }, [navigation, route]);
-
-    useFocusEffect(
-        useCallback(() => {
-            const interval1 = setInterval(() => {
-                loadScreenData();
-            }, 3000);
-
-            const interval2 = setInterval(() => {
-                getTime();
-            }, 1000);
-
-            return () => {
-                clearInterval(interval1);
-                clearInterval(interval2);
-            };
-        }, [route]),
-    );
+    function confirmAllResults() {
+        if (matchesToConfirm.length > 0 && !isConfirming) {
+            setIsConfirming(true);
+            ConfirmFunctions.confirmResults(matchesToConfirm, setIsConfirming, loadScreenData, null);
+        }
+    }
 
     const loadScreenData = () => {
         fetchApi('matches/byRound/0/1/0/0/0') // offset: 0 (5th parameter)
@@ -85,21 +71,28 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
+    useFocusEffect(
+        useCallback(() => {
+            const interval = setInterval(() => {
+                getTime();
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }, [route]),
+    );
+
     useEffect(() => {
         confirmAllResults();
     }, [matchesToConfirm]);
 
-    function getTime() {
-        let n = new Date();
-        setNow(n);
-    }
+    useEffect(() => {
+        setLoading(true);
+        loadScreenData();
 
-    function confirmAllResults() {
-        if (matchesToConfirm.length > 0 && !isConfirming) {
-            setIsConfirming(true);
-            ConfirmFunctions.confirmResults(matchesToConfirm, setIsConfirming, loadScreenData, null);
-        }
-    }
+        return () => setData(null);
+    }, []);
+
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView

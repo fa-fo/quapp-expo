@@ -7,15 +7,14 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import CellVariantMatches from "../../components/cellVariantMatches";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
+import {useAutoReload} from "../../components/useAutoReload";
+import {useRoute} from "@react-navigation/native";
 
 export default function AdminMatchPhotosScreen({navigation}) {
+    const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [photoKey, setPhotoKey] = useState(null);
-
-    useEffect(() => {
-        loadScreenData();
-    }, []);
 
     const loadScreenData = () => {
         let postData = {password: global.adminPW};
@@ -28,17 +27,6 @@ export default function AdminMatchPhotosScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
-    useEffect(() => {
-        const interval =
-            setInterval(() => {
-                loadScreenData();
-            }, 1000 * 60 * 5);
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [])
-
     const setCheck = async (isOk) => {
         setLoading(true);
         let postData = {password: global.adminPW};
@@ -49,6 +37,12 @@ export default function AdminMatchPhotosScreen({navigation}) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
+
+    useEffect(() => {
+        loadScreenData();
+    }, []);
+
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>

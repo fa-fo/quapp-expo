@@ -2,7 +2,7 @@ import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {ActivityIndicator, Image, Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {style} from '../../assets/styles.js';
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import MatchDetailsLoginModal from './modals/MatchDetailsLoginModal';
 import MatchDetailsPhotoModal from "./modals/MatchDetailsPhotoModal";
@@ -11,41 +11,15 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
-import {parseISO} from "date-fns";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function MatchDetailsScreen({navigation}) {
     const route = useRoute();
-    const isFocused = useIsFocused();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [photoModalVisible, setPhotoModalVisible] = useState(false);
     const [photoSelected, setPhotoSelected] = useState(null);
-
-    // initial load
-    useEffect(() => {
-        return navigation.addListener('focus', () => {
-            setLoading(true);
-            loadScreenData();
-        });
-    }, [route]);
-
-    // auto-reload
-    useEffect(() => {
-        if (data?.object && !data.object[0].canceled
-            && parseISO(data.object[0].matchStartTime) < new Date()
-            && !data.object[0].logsCalc.isResultConfirmed) {
-
-            const timer = setTimeout(() => {
-                if (isFocused && !modalVisible && !photoModalVisible) {
-                    setLoading(true);
-                    loadScreenData();
-                }
-            }, 60000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [data]);
 
     function getHeaderButtons() {
         let showReloadButton = Platform.OS === 'web' && data?.yearSelected === undefined;
@@ -85,6 +59,16 @@ export default function MatchDetailsScreen({navigation}) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
+
+    // initial load
+    useEffect(() => {
+        return navigation.addListener('focus', () => {
+            setLoading(true);
+            loadScreenData();
+        });
+    }, [route]);
+
+    useAutoReload(route, data, loadScreenData, !modalVisible && !photoModalVisible);
 
     return (
         isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :

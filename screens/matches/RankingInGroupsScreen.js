@@ -2,16 +2,16 @@ import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {style} from '../../assets/styles.js';
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantRanking from '../../components/cellVariantRanking';
 import fetchApi from '../../components/fetchApi';
 import {setGroupHeaderOptions} from '../../components/setGroupHeaderOptions';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function RankingInGroupsScreen({navigation}) {
-    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -20,6 +20,16 @@ export default function RankingInGroupsScreen({navigation}) {
     let group_id = item.group_id;
     let group_id_prev = -1; // previously called group_id
     let group_name = item.group_name;
+
+    const loadScreenData = () => {
+        fetchApi('groupTeams/all/' + group_id + (route.name === 'RankingInGroupsAdmin' ? '/1' : ''))
+            .then((json) => {
+                setData(json);
+                setGroupHeaderOptions(navigation, route, json, loadScreenData);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    };
 
     // initial load
     useEffect(() => {
@@ -35,30 +45,7 @@ export default function RankingInGroupsScreen({navigation}) {
         };
     }, [navigation, route]);
 
-    // auto-reload
-    useEffect(() => {
-        let sur = data?.year?.secondsUntilReload?.[0] ?? 0;
-
-        if (sur > 0) {
-            let timer = setTimeout(() => {
-                if (isFocused) {
-                    loadScreenData();
-                }
-            }, sur * 1000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [data]);
-
-    const loadScreenData = () => {
-        fetchApi('groupTeams/all/' + group_id + (route.name === 'RankingInGroupsAdmin' ? '/1' : ''))
-            .then((json) => {
-                setData(json);
-                setGroupHeaderOptions(navigation, route, json, loadScreenData);
-            })
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-    };
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>

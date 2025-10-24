@@ -4,37 +4,15 @@ import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {style} from "../../assets/styles";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function RoundsCurrentScreen({navigation}) {
-    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        return navigation.addListener('focus', () => {
-            setLoading(true);
-            loadScreenData();
-        });
-    }, [route]);
-
-    // auto-reload
-    useEffect(() => {
-        let sur = data?.year?.secondsUntilReload?.[1] ?? 0;
-
-        if (sur > 0) {
-            let timer = setTimeout(() => {
-                if (isFocused) {
-                    loadScreenData();
-                }
-            }, sur * 1000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [data]);
 
     const loadScreenData = () => {
         fetchApi('rounds/all' + (route.name === 'RoundsCurrent' ? '' : '/1'))
@@ -42,6 +20,16 @@ export default function RoundsCurrentScreen({navigation}) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
+
+    // initial load
+    useEffect(() => {
+        return navigation.addListener('focus', () => {
+            setLoading(true);
+            loadScreenData();
+        });
+    }, [route]);
+
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>

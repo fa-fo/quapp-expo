@@ -39,7 +39,7 @@ export const confirmResults = (matches, setModalVisible, loadScreenData, postDat
         .then(data => {
             if (data?.status === 'success') {
                 if (loadScreenData)
-                    loadScreenData(data.object.round_id);
+                    loadScreenData();
                 if (setModalVisible)
                     setModalVisible(false);
                 if (setSaved)

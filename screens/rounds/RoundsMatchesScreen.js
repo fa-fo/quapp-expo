@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
-import {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect, useIsFocused, useRoute} from '@react-navigation/native';
+import {useEffect, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
 import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {style} from '../../assets/styles.js';
@@ -10,15 +10,21 @@ import fetchApi from '../../components/fetchApi';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import {useAutoReload} from "../../components/useAutoReload";
 
 export default function RoundsMatchesScreen({navigation}) {
-    const isFocused = useIsFocused();
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [matchesToConfirm, setMatchesToConfirm] = useState([]);
     const [count2ConfirmUpcoming, setCount2ConfirmUpcoming] = useState(0);
     let round_id_prev = 0; // previously called round_id
+
+    function confirmAllResults() {
+        if (matchesToConfirm.length > 0) {
+            ConfirmFunctions.confirmResults(matchesToConfirm, null, loadScreenData, null);
+        }
+    }
 
     function getHeaderButtons() {
         let showReloadButton = (Platform.OS === 'web' && data?.yearSelected === undefined)
@@ -71,48 +77,8 @@ export default function RoundsMatchesScreen({navigation}) {
         )
     }
 
-    useEffect(() => {
-        if (round_id_prev !== route.params.id) {
-            round_id_prev = route.params.id;
-            setLoading(true);
-            loadScreenData(route.params.id);
-
-            return () => {
-                setData(null);
-                setLoading(false);
-            };
-        }
-    }, [navigation, route]);
-
-    // auto-reload Admin/Supervisor
-    useFocusEffect(
-        useCallback(() => {
-            const interval = route.name !== 'RoundsMatches' && global.settings.useLiveScouting ?
-                setInterval(() => {
-                    loadScreenData(route.params.id);
-                }, 3000) : '';
-
-            return () => clearInterval(interval);
-        }, [route]),
-    );
-
-    // auto-reload: regular user, one time
-    useEffect(() => {
-        let sur = (data?.year?.secondsUntilReload?.[0] ?? 0) > 0 ? data?.year?.secondsUntilReload?.[0] : (data?.year?.secondsUntilReload?.[1] ?? 0);
-
-        if (sur > 0 && route.name === 'RoundsMatches') {
-            let timer = setTimeout(() => {
-                if (isFocused && (data?.object?.currentRoundId ?? 0) === route.params.id) {
-                    loadScreenData(route.params.id);
-                }
-            }, sur * 1000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [data]);
-
-    const loadScreenData = (roundId) => {
-        fetchApi('matches/byRound/' + (roundId ?? route.params.id) + (route.name === 'RoundsMatches' ? '' : '/1'))
+    const loadScreenData = () => {
+        fetchApi('matches/byRound/' + route.params.id + (route.name === 'RoundsMatches' ? '' : '/1'))
             .then((json) => {
                 setData(json);
                 navigation.setOptions({headerRight: () => null}); // needed for iOS
@@ -128,11 +94,21 @@ export default function RoundsMatchesScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
-    function confirmAllResults() {
-        if (matchesToConfirm.length > 0) {
-            ConfirmFunctions.confirmResults(matchesToConfirm, null, loadScreenData, null);
+    // initial load
+    useEffect(() => {
+        if (round_id_prev !== route.params.id) {
+            round_id_prev = route.params.id;
+            setLoading(true);
+            loadScreenData();
+
+            return () => {
+                setData(null);
+                setLoading(false);
+            };
         }
-    }
+    }, [navigation, route]);
+
+    useAutoReload(route, data, loadScreenData);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
