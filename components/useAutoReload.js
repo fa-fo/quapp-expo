@@ -7,8 +7,8 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
 
     useFocusEffect(
         useCallback(() => {
-            if (data?.object && data.year) {
-                let f = data.year.secondsUntilReload?.filter(Number) ?? [];
+            if (data?.object) {
+                let f = data.object.secondsUntilReload?.filter(Number) ?? [];
                 let minSecondsUntilReload = f.length ? Math.min(...f) : 0;
 
                 switch (route.name) {
@@ -38,10 +38,10 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                             ? 60 : 0;
                         break;
                     case 'RankingInGroups':
-                        sur = data.year.secondsUntilReload?.[0] ?? 0;
+                        sur = data.object.secondsUntilReload?.[0] ?? 0;
                         break;
                     case 'RoundsCurrent':
-                        sur = data.year.secondsUntilReload?.[1] ?? 0;
+                        sur = data.object.secondsUntilReload?.[1] ?? 0;
                         break;
                     case 'RoundsMatchesAdmin':
                     case 'RoundsMatchesSupervisor':
@@ -61,6 +61,4 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
             }
         }, [data]),
     );
-
-    return true;
 }
