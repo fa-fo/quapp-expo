@@ -19,7 +19,9 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                     case 'RankingRefereeSubstSupervisor':
                     case 'RoundsMatchesAutoAdmin':
                     case 'RoundsMatchesManager':
-                        sur = 3;
+                    case 'RoundsMatchesAdmin':
+                    case 'RoundsMatchesSupervisor':
+                        sur = global.settings.useLiveScouting ? 3 : 0;
                         break;
                     case 'ListMatchesByGroup':
                     case 'ListMatchesByTeam':
@@ -31,6 +33,8 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                         sur = (data.object.currentRoundId ?? 0) === route.params.id ? sur : 0;
                         break;
                     case 'MatchDetails':
+                    case 'MatchDetailsAdmin':
+                    case 'MatchDetailsSupervisor':
                         sur = !data.object[0].logsCalc.isResultConfirmed
                         && !data.object[0].canceled
                         && (parseISO(data.object[0].matchStartTime) < new Date() || global.settings.isTest)
@@ -38,14 +42,13 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                             ? 60 : 0;
                         break;
                     case 'RankingInGroups':
+                    case 'RankingInGroupsAdmin':
                         sur = data.object.secondsUntilReload?.[0] ?? 0;
                         break;
                     case 'RoundsCurrent':
+                    case 'RoundsCurrentAdmin':
+                    case 'RoundsCurrentSupervisor':
                         sur = data.object.secondsUntilReload?.[1] ?? 0;
-                        break;
-                    case 'RoundsMatchesAdmin':
-                    case 'RoundsMatchesSupervisor':
-                        sur = global.settings.useLiveScouting ? 3 : 0;
                         break;
                     default:
                         sur = 0;
