@@ -1,6 +1,5 @@
 import {useCallback} from 'react';
 import {useFocusEffect} from "@react-navigation/native";
-import {parseISO} from "date-fns";
 
 export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
     let sur; // seconds until reload
@@ -14,6 +13,9 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                 switch (route.name) {
                     case 'AdminMatchPhotos':
                         sur = data.object.toCheck?.length ? 0 : 5 * 60;
+                        break;
+                    case 'AutoPilotSupervisor':
+                        sur = (data.object.secondsUntilReload?.[1] ?? 0) - 11 * 60;
                         break;
                     case 'ListMatchesByRefereeCanceledTeamsSupervisor':
                     case 'RankingRefereeSubstSupervisor':
@@ -35,9 +37,9 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                     case 'MatchDetails':
                     case 'MatchDetailsAdmin':
                     case 'MatchDetailsSupervisor':
-                        sur = !data.object[0].logsCalc.isResultConfirmed
+                        sur = data.object[0].isTime2login
+                        && !data.object[0].logsCalc.isResultConfirmed
                         && !data.object[0].canceled
-                        && (parseISO(data.object[0].matchStartTime) < new Date() || global.settings.isTest)
                         && noModalsVisible
                             ? 60 : 0;
                         break;

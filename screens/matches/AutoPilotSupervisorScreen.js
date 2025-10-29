@@ -2,16 +2,20 @@
 
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import fetchApi from "../../components/fetchApi";
-import {format, intervalToDuration, parseISO} from "date-fns";
+import {differenceInSeconds, format, parse} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {style} from "../../assets/styles";
 //import {Audio} from 'expo-av';
 //import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import {useAutoReload} from "../../components/useAutoReload";
+import {useRoute} from "@react-navigation/native";
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function AutoPilotSupervisorScreen({navigation}) {
+    const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [now, setNow] = useState(new Date());
@@ -19,18 +23,42 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     const [currentRoundId, setCurrentRoundId] = useState(null);
     const [autoPilot, setAutoPilot] = useState(true);
 
-    useEffect(() => {
-        return navigation.addListener('focus', () => {
-            loadScreenData();
-        });
-    }, []);
+    function getHeaderButtons() {
+        let showReloadButton = Platform.OS === 'web';
+
+        return (
+            <View style={[style().matchflexRowView, {
+                marginHorizontal: 10,
+                marginTop: 5,
+                maxWidth: 150,
+                height: '90%',
+                alignSelf: 'flex-end'
+            }]}>
+                {showReloadButton ?
+                    <View style={{flex: 2}}>
+                        <Pressable
+                            style={[style().buttonHeader, style().buttonGreen]}
+                            onPress={() => loadScreenData()}
+                        >
+                            <TextC style={style().textButton1}>
+                                <IconMat name='reload' size={24} color='#fff'/>
+                            </TextC>
+                        </Pressable>
+                    </View>
+                    : null}
+            </View>
+        )
+    }
 
     const loadScreenData = () => {
         setLoading(true);
         fetchApi('rounds/all/0/10') // offset: 10
             .then((json) => {
                 setData(json);
-                setCurrentRoundId(getCurrentRoundId(json) ?? 0);
+                setCurrentRoundId(json?.object?.currentRoundId ?? 0);
+
+                navigation.setOptions({headerRight: () => null}); // needed for iOS
+                navigation.setOptions({headerRight: () => getHeaderButtons()});
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -47,71 +75,47 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         };
     }, [currentRoundId, autoPilot, data])
 
-    function getCurrentRoundId(json) {
-        let time = new Date();
-        time.setMinutes(time.getMinutes() + 10);
-        time.setHours(time.getHours() - (json?.year?.settings?.currentDay_id === 2 ? 1 : 2));
-        let cycle = Math.floor(time.getHours() / 8);
-
-        if (cycle !== 1 && global.settings.isTest === 0) {
-            //return 0; // on real match day only play real times
-        }
-
-        //return (time.getHours() % 8 * 2 + 1) + Math.floor(time.getMinutes() / 30);
-        return json?.object?.currentRoundId ?? null;
-    }
-
     function getMatchTime() {
+        let now = new Date();
         let currentRound = data?.object?.rounds?.find((e) => e.id === currentRoundId);
 
         if (currentRound) {
-            let mainTimer = '';
-            let neg = 0;
             let countdown = '';
             const zeroPad = (num) => String(num).padStart(2, "0");
 
-            let now = new Date();
-            let start = parseISO(currentRound.timeStart);
-            let timer = intervalToDuration({start: now, end: start});
+            let start = parse(currentRound.timeStart.slice(-8), 'HH:mm:ss', now);
 
-            if (timer.hours % 8 === 0) {
-                // positive timer
-                mainTimer = zeroPad(timer.minutes)
-                    + ':'
-                    + zeroPad(timer.seconds)
-            } else {
-                // negative timer
-                neg = 1;
-                mainTimer = '-'
-                    + zeroPad(59 - timer.minutes)
-                    + ':'
-                    + zeroPad(59 - timer.seconds)
+            if (global.settings.isTest) {
+                now.setHours(now.getMinutes() < 50 ? start.getHours() : start.getHours() - 1);
             }
 
-            if (!isLoading && (timer.minutes === 20 || currentRoundId === null)) {
-                // round change
-                loadScreenData();
-            }
+            let diffSecs = Math.abs(differenceInSeconds(now, start)) % (30 * 60);
+            let minute = Math.floor(diffSecs / 60);
+            let second = diffSecs % 60;
+
+            let mainTimer = start > now ? '-' : '';
+            mainTimer += zeroPad(minute) + ':' + zeroPad(second);
 
             if (autoPilot && currentRoundId !== 0) {
                 // additional countdown
                 let arr = [9, 19];
-                if (arr.indexOf(timer.minutes) > -1 && timer.seconds > 49) {
-                    countdown = '-00:' + zeroPad(59 - timer.seconds)
+                if (arr.indexOf(minute) > -1 && second > 49) {
+                    countdown = '-00:' + zeroPad(60 - second)
                 }
 
                 playSpeechAndSound(mainTimer).then(r => {
-                    //console.log(timer.seconds)
+                    //console.log(second)
                 });
             }
 
-            setNow(now);
             setMatchTime(
                 <View>
-                    <TextC style={[style().big1, neg ? style().textRed : null]}>{mainTimer}</TextC>
+                    <TextC style={[style().big1, start > now ? style().textRed : null]}>{mainTimer}</TextC>
                     <TextC style={[style().big1, style().big3, style().textRed]}>{countdown}</TextC>
                 </View>);
         }
+
+        setNow(now);
     }
 
     function getSpeechString(mainTimer) {
@@ -194,6 +198,14 @@ export default function AutoPilotSupervisorScreen({navigation}) {
             console.error(error)
         }
     }
+
+    useEffect(() => {
+        return navigation.addListener('focus', () => {
+            loadScreenData();
+        });
+    }, []);
+
+    useAutoReload(route, data, loadScreenData, !isLoading);
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
