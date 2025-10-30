@@ -6,7 +6,7 @@ import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantRanking from '../../components/cellVariantRanking';
 import fetchApi from '../../components/fetchApi';
-import {setGroupHeaderOptions} from '../../components/setGroupHeaderOptions';
+import {setHeaderRightOptions} from '../../components/setHeaderRightOptions';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useAutoReload} from "../../components/useAutoReload";
@@ -25,7 +25,7 @@ export default function RankingInGroupsScreen({navigation}) {
         fetchApi('groupTeams/all/' + group_id + (route.name === 'RankingInGroupsAdmin' ? '/1' : ''))
             .then((json) => {
                 setData(json);
-                setGroupHeaderOptions(navigation, route, json, loadScreenData);
+                setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));

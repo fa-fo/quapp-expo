@@ -2,7 +2,7 @@
 
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import fetchApi from "../../components/fetchApi";
 import {differenceInSeconds, format, parse} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
@@ -12,7 +12,7 @@ import {style} from "../../assets/styles";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
 import {useRoute} from "@react-navigation/native";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 
 export default function AutoPilotSupervisorScreen({navigation}) {
     const route = useRoute();
@@ -23,42 +23,13 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     const [currentRoundId, setCurrentRoundId] = useState(null);
     const [autoPilot, setAutoPilot] = useState(true);
 
-    function getHeaderButtons() {
-        let showReloadButton = Platform.OS === 'web';
-
-        return (
-            <View style={[style().matchflexRowView, {
-                marginHorizontal: 10,
-                marginTop: 5,
-                maxWidth: 150,
-                height: '90%',
-                alignSelf: 'flex-end'
-            }]}>
-                {showReloadButton ?
-                    <View style={{flex: 2}}>
-                        <Pressable
-                            style={[style().buttonHeader, style().buttonGreen]}
-                            onPress={() => loadScreenData()}
-                        >
-                            <TextC style={style().textButton1}>
-                                <IconMat name='reload' size={24} color='#fff'/>
-                            </TextC>
-                        </Pressable>
-                    </View>
-                    : null}
-            </View>
-        )
-    }
-
     const loadScreenData = () => {
         setLoading(true);
         fetchApi('rounds/all/0/10') // offset: 10
             .then((json) => {
                 setData(json);
                 setCurrentRoundId(json?.object?.currentRoundId ?? 0);
-
-                navigation.setOptions({headerRight: () => null}); // needed for iOS
-                navigation.setOptions({headerRight: () => getHeaderButtons()});
+                setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));

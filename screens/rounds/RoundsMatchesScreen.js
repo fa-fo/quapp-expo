@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {style} from '../../assets/styles.js';
 import CellVariantMatches from '../../components/cellVariantMatches';
@@ -11,6 +11,7 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useAutoReload} from "../../components/useAutoReload";
+import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 
 export default function RoundsMatchesScreen({navigation}) {
     const route = useRoute();
@@ -26,63 +27,11 @@ export default function RoundsMatchesScreen({navigation}) {
         }
     }
 
-    function getHeaderButtons() {
-        let showReloadButton = (Platform.OS === 'web' && data?.yearSelected === undefined)
-            || (route.name !== 'RoundsMatches' && !global.settings.useLiveScouting);
-
-        return (
-            <View style={[style().matchflexRowView, {
-                marginHorizontal: 10,
-                marginTop: 5,
-                maxWidth: showReloadButton ? 300 : 150,
-                height: '90%',
-                alignSelf: 'flex-end'
-            }]}>
-                {showReloadButton ?
-                    <View style={{flex: 2}}>
-                        <Pressable
-                            style={[style().buttonHeader, style().buttonGreen]}
-                            onPress={() => loadScreenData()}
-                        >
-                            <TextC style={style().textButton1}>
-                                <IconMat name='reload' size={24} color='#fff'/>
-                            </TextC>
-                        </Pressable>
-                    </View>
-                    : null}
-
-                <View style={{flex: 1}}>
-                    <Pressable
-                        style={[style().buttonHeader, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
-                        onPress={() => navigation.navigate(route.name, {
-                            id: route.params.id - 1,
-                            roundsCount: route.params.roundsCount,
-                        })}
-                    >
-                        <TextC style={[style().textButtonTopRight, style().centeredText100]}>{'\u276E'}</TextC>
-                    </Pressable>
-                </View>
-                <View style={{flex: 1}}>
-                    <Pressable
-                        style={[style().buttonHeader, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
-                        onPress={() => navigation.navigate(route.name, {
-                            id: route.params.id + 1,
-                            roundsCount: route.params.roundsCount,
-                        })}
-                    >
-                        <TextC style={[style().textButtonTopRight, style().centeredText100]}>{'\u276F'}</TextC>
-                    </Pressable>
-                </View>
-            </View>
-        )
-    }
-
     const loadScreenData = () => {
         fetchApi('matches/byRound/' + route.params.id + (route.name === 'RoundsMatches' ? '' : '/1'))
             .then((json) => {
                 setData(json);
-                navigation.setOptions({headerRight: () => null}); // needed for iOS
-                navigation.setOptions({headerRight: () => getHeaderButtons()});
+                setHeaderRightOptions(navigation, route, json, loadScreenData);
 
                 if (route.name === 'RoundsMatchesAdmin') {
                     let m = ConfirmFunctions.getMatches2Confirm(json.object);

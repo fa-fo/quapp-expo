@@ -6,6 +6,7 @@ import Carousel from "react-native-reanimated-carousel";
 import {style} from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useRoute} from "@react-navigation/native";
+import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 
 const width = Dimensions.get("window").width;
 
@@ -27,22 +28,7 @@ export default function AllMatchPhotosScreen({navigation}) {
         fetchApi('matcheventLogs/getPhotosAll/' + (global.myTeamId ?? 0) + '/' + (route.params?.item?.year_id ?? 0))
             .then((json) => {
                 setData(json);
-                navigation.setOptions({headerRight: () => null}); // needed for iOS
-                navigation.setOptions({
-                    headerRight: () => (
-                        <TextC>
-                            <Pressable
-                                style={[style().button1, style().buttonEvent, style().buttonGreen]}
-                                onPress={() => loadScreenData()}
-                            >
-                                <TextC style={style().textButton1}>
-                                    <IconMat name='reload' size={24} color='#fff'/>
-                                </TextC>
-                            </Pressable>
-                        </TextC>
-                    ),
-                });
-
+                setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -129,6 +115,7 @@ export default function AllMatchPhotosScreen({navigation}) {
                                     </TextC>
                                 </View>
                             )}
+                            vertical={false}
                         />
                         :
                         <TextC>Hier findet ihr am Turniertag alle Fotos, die über die App nach der
