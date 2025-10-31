@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useCallback, useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {RefreshControl, ScrollView, View} from 'react-native';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import {format} from "date-fns";
@@ -11,6 +11,7 @@ import CellVariantMatchesAdmin from "../../components/cellVariantMatchesAdmin";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
+import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 
 export default function RoundsMatchesAutoAdminScreen({navigation}) {
     const route = useRoute();
@@ -47,25 +48,7 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
                 then.setSeconds(Number(parseInt(then.getSeconds().toString()) + 10));
                 setLastUpdate(then);
 
-                navigation.setOptions({headerRight: () => null}); // needed for iOS
-
-                if (json.object?.round?.id) {
-                    navigation.setOptions({
-                        headerRight: () => (
-                            <TextC>
-                                <Pressable style={[style().buttonTopRight, style().buttonOrange]}
-                                           onPress={() => navigation.navigate('RoundsMatchesAdmin', {
-                                               id: json.object?.round?.id,
-                                               roundsCount: route.params.roundsCount,
-                                           })}
-                                >
-                                    <TextC
-                                        style={style().textButtonTopRight}>{'zur klassischen Ansicht'}</TextC>
-                                </Pressable>
-                            </TextC>
-                        ),
-                    });
-                }
+                setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
