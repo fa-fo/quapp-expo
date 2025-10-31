@@ -5,10 +5,9 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const setHeaderRightOptions = (navigation, route, data, loadScreenData) => {
     let showObj = {};
-    showObj.autoAdmin = route.name === 'RoundsMatchesAdmin';
-    showObj.classicAdmin = route.name === 'RoundsMatchesAutoAdmin';
-    showObj.manager = route.name === 'RoundsMatchesSupervisor';
-    showObj.classicSupervisor = route.name === 'RoundsMatchesManager';
+    showObj.autoAdmin = /RoundsCurrentAdmin|RoundsMatchesAdmin/.test(route.name) && global.settings.useLiveScouting;
+    showObj.classicView = /RoundsMatchesAutoAdmin|RoundsMatchesManager/.test(route.name);
+    showObj.manager = /RoundsCurrentSupervisor|RoundsMatchesSupervisor/.test(route.name) && global.settings.useLiveScouting;
     showObj.reload = Platform.OS === 'web' && data.yearSelected === undefined && Object.values(showObj).filter(Boolean).length === 0;
     showObj.groupNavi = /ListMatchesByGroup|RankingInGroups/.test(route.name);
     showObj.roundNavi = /RoundsMatches/.test(route.name) && !/AutoAdmin/.test(route.name) && !/Manager/.test(route.name);
@@ -26,10 +25,12 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                 }]}>
 
                 {showObj['autoAdmin'] ?
-                    <View style={{flex: 2}}>
+                    <View style={{flex: 2, height: '100%'}}>
                         <Pressable
                             style={[style().buttonHeader, style().buttonGreen]}
-                            onPress={() => navigation.navigate('RoundsMatchesAutoAdmin', {roundsCount: route.params.roundsCount})}
+                            onPress={() => navigation.navigate('RoundsMatchesAutoAdmin',
+                                {roundsCount: route.params?.roundsCount ?? data.object.rounds?.length}
+                            )}
                         >
                             <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                                 <IconMat name='auto-fix' size={24} color='#fff'/> Auto-Admin
@@ -38,26 +39,28 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                     </View>
                     : null}
 
-                {showObj['classicAdmin'] ?
-                    <View style={{flex: 2}}>
+                {showObj['classicView'] ?
+                    <View style={{flex: 2, height: '100%'}}>
                         <Pressable style={[style().buttonHeader, style().buttonOrange]}
-                                   onPress={() => navigation.navigate('RoundsMatchesAdmin', {
-                                       id: data.object.round.id,
-                                       roundsCount: route.params.roundsCount,
-                                   })}
+                                   onPress={() => navigation.navigate(
+                                       route.name === 'RoundsMatchesAutoAdmin' ? 'RoundsMatchesAdmin' : route.name === 'RoundsMatchesManager' ? 'RoundsMatchesSupervisor' : '',
+                                       {id: data.object.round.id, roundsCount: route.params.roundsCount}
+                                   )}
                         >
                             <TextC style={[style().textButton1, {textAlign: 'center'}]}>
-                                <IconMat name='desktop-classic' size={24} color='#fff'/> zur klassischen Ansicht
+                                <IconMat name='desktop-classic' size={24} color='#fff'/> Classic Mode
                             </TextC>
                         </Pressable>
                     </View>
                     : null}
 
                 {showObj['manager'] ?
-                    <View style={{flex: 2}}>
+                    <View style={{flex: 2, height: '100%'}}>
                         <Pressable
                             style={[style().buttonHeader, style().buttonGreen]}
-                            onPress={() => navigation.navigate('RoundsMatchesManager', {roundsCount: route.params.roundsCount})}
+                            onPress={() => navigation.navigate('RoundsMatchesManager',
+                                {roundsCount: route.params?.roundsCount ?? data.object.rounds?.length}
+                            )}
                         >
                             <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                                 <IconMat name='image-auto-adjust' size={24} color='#fff'/> Supervisor Manager
@@ -65,22 +68,6 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                         </Pressable>
                     </View>
                     : null}
-
-                {showObj['classicSupervisor'] ?
-                    <View style={{flex: 2}}>
-                        <Pressable style={[style().buttonHeader, style().buttonOrange]}
-                                   onPress={() => navigation.navigate('RoundsMatchesSupervisor', {
-                                       id: data.object.round.id,
-                                       roundsCount: route.params.roundsCount,
-                                   })}
-                        >
-                            <TextC style={[style().textButton1, {textAlign: 'center'}]}>
-                                <IconMat name='desktop-classic' size={24} color='#fff'/> zur klassischen Ansicht
-                            </TextC>
-                        </Pressable>
-                    </View>
-                    : null}
-
 
                 {showObj['reload'] ?
                     <View style={{flex: 2, height: '100%'}}>

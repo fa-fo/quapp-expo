@@ -1,13 +1,13 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import {useRoute} from '@react-navigation/native';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import {style} from "../../assets/styles";
 import {useAutoReload} from "../../components/useAutoReload";
+import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 
 export default function RoundsCurrentScreen({navigation}) {
     const route = useRoute();
@@ -16,7 +16,10 @@ export default function RoundsCurrentScreen({navigation}) {
 
     const loadScreenData = () => {
         fetchApi('rounds/all' + (route.name === 'RoundsCurrent' ? '' : '/1'))
-            .then((json) => setData(json))
+            .then((json) => {
+                setData(json);
+                setHeaderRightOptions(navigation, route, json, loadScreenData);
+            })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
@@ -36,37 +39,7 @@ export default function RoundsCurrentScreen({navigation}) {
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.rounds?.length > 0 ? (
                     <TableView appearance={global.colorScheme}>
-                        <Section
-                            header={global.currentDayName}
-                            headerComponent={route.name !== 'RoundsCurrent' && global.settings.useLiveScouting ?
-                                <View style={[style().matchflexRowView, style().headerComponentView]}>
-                                    <View style={{flex: 2}}>
-                                        <TextC>{global.currentDayName}</TextC>
-                                    </View>
-                                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                        <Pressable
-                                            style={[style().button1, style().buttonConfirm, style().buttonGreen]}
-                                            onPress={() => navigation.navigate(
-                                                route.name === 'RoundsCurrentSupervisor' ? 'RoundsMatchesManager'
-                                                    :
-                                                    route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAutoAdmin'
-                                                        :
-                                                        '', {
-                                                    roundsCount: data.object.rounds.length,
-                                                })}
-                                        >
-                                            <TextC numberOfLines={1} style={style().textButton1}>
-                                                {route.name === 'RoundsCurrentSupervisor' ? 'zur Manager-Ansicht'
-                                                    :
-                                                    route.name === 'RoundsCurrentAdmin' ? 'zur Admin-Auto-Ansicht'
-                                                        :
-                                                        ''
-                                                }
-                                            </TextC>
-                                        </Pressable>
-                                    </View>
-                                </View> : null
-                            }>
+                        <Section header={global.currentDayName}>
                             {data.object.rounds.map(item => (
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"
