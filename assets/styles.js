@@ -78,8 +78,9 @@ export const style = () => StyleSheet.create({
         maxWidth: '95%',
     },
     buttonHeader: {
+        alignSelf: 'flex-end',
         justifyContent: 'center',
-        paddingVertical: 4,
+        paddingVertical: 0,
         paddingHorizontal: 4,
         borderRadius: 4,
         elevation: 3,
@@ -135,6 +136,9 @@ export const style = () => StyleSheet.create({
     textButtonTopRight: {
         color: ColorFunctions.getColor('buttonTxt'),
         width: '100%'
+    },
+    textButtonHeader: {
+        fontSize: 24
     },
     foulCards: {
         paddingVertical: 5,
