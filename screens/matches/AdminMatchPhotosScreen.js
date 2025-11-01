@@ -33,6 +33,10 @@ export default function AdminMatchPhotosScreen({navigation}) {
         fetchApi('matcheventLogs/setPhotoCheck/' + data.object.toCheck[photoKey].id + '/' + isOk, 'POST', postData)
             .then((json) => {
                 setPhotoKey(photoKey + 1);
+
+                if (data.object.toCheck.length - photoKey - 1 === 0) {
+                    loadScreenData();
+                }
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
