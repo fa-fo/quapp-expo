@@ -28,16 +28,17 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                     case 'ListMatchesByGroup':
                     case 'ListMatchesByTeam':
                     case 'MyMatchesCurrent':
-                        sur = minSecondsUntilReload;
+                        sur = global.settings.useAutoReload ? minSecondsUntilReload : 0;
                         break;
                     case 'RoundsMatches':
-                        sur = minSecondsUntilReload;
+                        sur = global.settings.useAutoReload ? minSecondsUntilReload : 0;
                         sur = (data.object.currentRoundId ?? 0) === route.params.id ? sur : 0;
                         break;
                     case 'MatchDetails':
                     case 'MatchDetailsAdmin':
                     case 'MatchDetailsSupervisor':
-                        sur = data.object[0].isTime2login
+                        sur = global.settings.useAutoReload
+                        && data.object[0].isTime2login
                         && !data.object[0].logsCalc.isResultConfirmed
                         && !data.object[0].canceled
                         && noModalsVisible
@@ -45,12 +46,12 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                         break;
                     case 'RankingInGroups':
                     case 'RankingInGroupsAdmin':
-                        sur = data.object.secondsUntilReload?.[0] ?? 0;
+                        sur = global.settings.useAutoReload ? (data.object.secondsUntilReload?.[0] ?? 0) : 0;
                         break;
                     case 'RoundsCurrent':
                     case 'RoundsCurrentAdmin':
                     case 'RoundsCurrentSupervisor':
-                        sur = data.object.secondsUntilReload?.[1] ?? 0;
+                        sur = global.settings.useAutoReload ? (data.object.secondsUntilReload?.[1] ?? 0) : 0;
                         break;
                     default:
                         sur = 0;
