@@ -1,4 +1,6 @@
-// re-add "expo-speech": "~11.3.0","expo-av": "~13.4.1",
+// re-add "expo-speech": "~14.0.7",
+//     "expo-audio": "~1.0.14",
+//     "expo-asset": "~12.0.9"
 
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
@@ -7,12 +9,12 @@ import fetchApi from "../../components/fetchApi";
 import {differenceInSeconds, format, parse} from "date-fns";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
 import {style} from "../../assets/styles";
-//import {Audio} from 'expo-av';
-//import * as Speech from 'expo-speech';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
 import {useRoute} from "@react-navigation/native";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+//import {useAudioPlayer} from 'expo-audio';
+//import * as Speech from 'expo-speech';
 
 export default function AutoPilotSupervisorScreen({navigation}) {
     const route = useRoute();
@@ -22,6 +24,8 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     const [matchTime, setMatchTime] = useState(null);
     const [currentRoundId, setCurrentRoundId] = useState(null);
     const [autoPilot, setAutoPilot] = useState(true);
+    //const audioSource = require('./../../assets/sounds/alarm.mp3');
+    //const player = useAudioPlayer(audioSource);
 
     const loadScreenData = () => {
         setLoading(true);
@@ -75,7 +79,6 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                 }
 
                 playSpeechAndSound(mainTimer).then(r => {
-                    //console.log(second)
                 });
             }
 
@@ -87,6 +90,20 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         }
 
         setNow(now);
+    }
+
+    async function playSpeechAndSound(mainTimer) {
+        let file = getSpeechString(mainTimer);
+
+        if (mainTimer === '19:59')
+            await new Promise(r => setTimeout(r, 1000)); // wait 1 sec
+
+        if (file !== '') {
+            console.log(file);
+            //Speech.speak(file, {rate: 1.0, language: 'de'});
+
+            //player.play();
+        }
     }
 
     function getSpeechString(mainTimer) {
@@ -143,33 +160,6 @@ export default function AutoPilotSupervisorScreen({navigation}) {
         return spString;
     }
 
-    async function playSpeechAndSound(mainTimer) {
-        let file = getSpeechString(mainTimer);
-
-        if (mainTimer === '19:59')
-            await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
-
-        if (file !== '') {
-            console.log(file);
-            //Speech.speak(file, {rate: 1.0, language: 'de'});
-        }
-
-        try {
-            if (file !== '') {
-                /*
-                const sound = new Audio.Sound();
-                await sound.loadAsync(
-                    require('./../../assets/sounds/alarm.mp3'),
-                    {shouldPlay: true});
-                await sound.setPositionAsync(0);
-                await sound.playAsync();
-                 */
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     useEffect(() => {
         return navigation.addListener('focus', () => {
             loadScreenData();
@@ -210,6 +200,10 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>Keine Spielrunden gefunden!</TextC>)}
+
+            <Pressable style={style().button1} onPress={() => null}>
+                <TextC numberOfLines={1} style={style().textButton1}>Play</TextC>
+            </Pressable>
         </ScrollView>
     );
 }
