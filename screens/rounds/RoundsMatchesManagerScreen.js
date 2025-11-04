@@ -112,7 +112,7 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                 : issuesLength === 0 ? style().buttonGreenLight : null}
         >
             <View style={{alignItems: 'flex-end', paddingTop: 4, paddingRight: 8}}>
-                <TextC>{format(now, "HH:mm:ss")}</TextC>
+                <TextC style={style().big3}>{format(now, "HH:mm:ss")}</TextC>
             </View>
             {isLoading ? null :
                 (data?.status === 'success' && data.object.round ?
