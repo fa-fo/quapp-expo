@@ -2,12 +2,11 @@ import TextC from "../components/customText";
 import {View} from 'react-native';
 import {style} from '../assets/styles';
 import * as SportFunctions from "./functions/SportFunctions";
-import {Popable, usePopable} from "react-native-popable";
+import {Popable} from "react-native-popable";
 import * as ColorFunctions from "./functions/ColorFunctions";
 import * as DateFunctions from "./functions/DateFunctions";
 
 export default function CellVariantMatchesManager(props) {
-    const [ref, {hide, show}] = usePopable();
     let item = props.item;
 
     return (
@@ -16,9 +15,9 @@ export default function CellVariantMatchesManager(props) {
             strictPosition={true}
             position="left"
             backgroundColor={ColorFunctions.getColor('primaryBg')}
-            style={{width: 800}}
+            style={{width: 800, top: 120 - props.groupIndex * 60 - props.matchIndex * 20}}
             content={
-                <View style={[style().modalView, {margin: 0}]}>
+                <View style={[style().modalView, {margin: 0, padding: 5}]}>
                     {item.playOffName ? <TextC numberOfLines={1} style={style().centeredText100}>
                             {item.playOffName}</TextC>
                         : <TextC numberOfLines={1} style={style().centeredText100}>Runde {item.round.id},
@@ -58,7 +57,7 @@ export default function CellVariantMatchesManager(props) {
 
                 </View>
             }>
-            <View style={[style().viewCentered, (props.i === 0 ? {marginTop: 8} : null)]}>
+            <View style={[style().viewCentered, (props.matchIndex === 0 ? {marginTop: 8} : null)]}>
                 <View style={style().matchflexRowView}>
                     <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center', paddingRight: 8}}>
                         <TextC numberOfLines={1}>

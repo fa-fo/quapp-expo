@@ -91,7 +91,7 @@ export default function MatchDetailsScreen({navigation}) {
                         {item.logsCalc.isResultConfirmed ?
                             <View style={style().centeredText100}>
                                 {item.round.autoUpdateResults
-                                || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin' ?
+                                || route.name === 'MatchDetailsAdmin' ?
                                     <View style={style().viewCentered}>
                                         <TextC numberOfLines={1}
                                                style={[style().centeredText100, style().small]}>Endstand</TextC>
@@ -136,7 +136,7 @@ export default function MatchDetailsScreen({navigation}) {
                         {item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
                             <View style={[style().centeredText100, style().viewCentered]}>
                                 {item.round.autoUpdateResults
-                                || route.name === 'MatchDetailsSupervisor' || route.name === 'MatchDetailsAdmin'
+                                || route.name === 'MatchDetailsAdmin'
                                 || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
                                     <TextC numberOfLines={1}
                                            style={[style().centeredText100, style().big1, style().textRed]}>

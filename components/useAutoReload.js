@@ -36,7 +36,6 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                         break;
                     case 'MatchDetails':
                     case 'MatchDetailsAdmin':
-                    case 'MatchDetailsSupervisor':
                         sur = global.settings.useAutoReload
                         && data.object[0].isTime2login
                         && !data.object[0].logsCalc.isResultConfirmed

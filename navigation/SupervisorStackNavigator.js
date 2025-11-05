@@ -48,18 +48,6 @@ export default function SupervisorStackNavigator({navigation}) {
                 options={{title: 'Ersatz-SR-Rangliste'}}
             />
             <Stack.Screen
-                name="MatchDetailsSupervisor"
-                component={MatchDetailsScreen}
-                options={({route}) => ({
-                    title:
-                        DateFunctions.getFormatted(route.params.item.matchStartTime) +
-                        ' Uhr: ' +
-                        route.params.item.sport.name +
-                        ' Gr. ' +
-                        route.params.item.group_name,
-                })}
-            />
-            <Stack.Screen
                 name="AutoPilotSupervisor"
                 component={AutoPilotSupervisorScreen}
                 options={{title: 'Supervisor Auto-Pilot'}}

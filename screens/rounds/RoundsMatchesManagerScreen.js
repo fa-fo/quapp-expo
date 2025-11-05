@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
-import {Platform, Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Platform, RefreshControl, ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useKeepAwake} from "expo-keep-awake";
 import fetchApi from '../../components/fetchApi';
@@ -150,16 +150,14 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                     : null}
                             </View>
                             <View style={{flex: 1}}>
-                                {data.object.groups ? data.object.groups.map(group =>
-                                    group.matches.length ? group.matches.map((item, i) => (
-                                        <Pressable
+                                {data.object.groups ? data.object.groups.map((group, groupIndex) =>
+                                    group.matches.length ? group.matches.map((item, matchIndex) => (
+                                        <CellVariantMatchesManager
                                             key={item.id}
-                                            onPress={() => navigation.navigate('MatchDetailsSupervisor', {item})}>
-                                            <CellVariantMatchesManager
-                                                i={i}
-                                                item={item}
-                                            />
-                                        </Pressable>
+                                            groupIndex={groupIndex}
+                                            matchIndex={matchIndex}
+                                            item={item}
+                                        />
                                     )) : null
                                 ) : null}
                             </View>
