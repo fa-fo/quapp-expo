@@ -86,9 +86,9 @@ export default function CellVariantMatchesAdmin(props) {
         return (
             props.fromRoute.includes('Admin') && props.item.logsCalc.avgOffset !== undefined ?
                 <TextC style={style().textRed}>{'Offset: '
-                + props.item.logsCalc.minOffset + '-'
-                + props.item.logsCalc.avgOffset + '-'
-                + props.item.logsCalc.maxOffset}
+                    + props.item.logsCalc.minOffset + '-'
+                    + props.item.logsCalc.avgOffset + '-'
+                    + props.item.logsCalc.maxOffset}
                 </TextC>
                 : null)
     }
@@ -231,15 +231,9 @@ export default function CellVariantMatchesAdmin(props) {
                                         adjustsFontSizeToFit
                                         numberOfLines={1}
                                         style={[style().big1, style().textRed]}>
-                                        {props.item.logsCalc.score !== undefined
-                                            ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
-                                            0
-                                            : 0}
+                                        {parseInt(props.item.logsCalc.score?.[props.item.team1_id] ?? 0) || 0}
                                         {' '}:{' '}
-                                        {props.item.logsCalc.score !== undefined
-                                            ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
-                                            0
-                                            : 0}
+                                        {parseInt(props.item.logsCalc.score?.[props.item.team2_id] ?? 0) || 0}
                                     </TextC>
                                     {getCardsAndRemarks()}
                                 </View>
@@ -319,15 +313,9 @@ export default function CellVariantMatchesAdmin(props) {
                                         <TextC> {'\u2714'} </TextC>bestätigt
                                     </TextC>
                                     <TextC numberOfLines={1}>
-                                        {props.item.logsCalc.score !== undefined
-                                            ? parseInt(props.item.logsCalc.score[props.item.team1_id]) ||
-                                            0
-                                            : 0}
+                                        {parseInt(props.item.logsCalc.score?.[props.item.team1_id] ?? 0) || 0}
                                         :
-                                        {props.item.logsCalc.score !== undefined
-                                            ? parseInt(props.item.logsCalc.score[props.item.team2_id]) ||
-                                            0
-                                            : 0}{' '}
+                                        {parseInt(props.item.logsCalc.score?.[props.item.team2_id] ?? 0) || 0}{' '}
                                         im MatchLog
                                     </TextC>
                                     {props.item.resultTrend > 2 ? (
