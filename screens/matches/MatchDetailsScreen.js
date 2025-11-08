@@ -77,7 +77,7 @@ export default function MatchDetailsScreen({navigation}) {
                                    style={style().centeredText100}>SR: {item.refereeName}
                             </TextC> : null}
                         <TextC> </TextC>
-                        <TextC numberOfLines={1} style={style().centeredText100}>
+                        <TextC style={style().centeredText100}>
                             Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}
                         </TextC>
                         <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
@@ -97,9 +97,9 @@ export default function MatchDetailsScreen({navigation}) {
                                                style={[style().centeredText100, style().small]}>Endstand</TextC>
                                         <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
                                             {global.settings.useLiveScouting ? (
-                                                (parseInt(item?.logsCalc?.score?.[item.team1_id] ?? 0) || 0)
+                                                (parseInt(item.logsCalc.score?.[item.team1_id] ?? 0) || 0)
                                                 + (' : ') +
-                                                (parseInt(item?.logsCalc?.score?.[item.team2_id] ?? 0) || 0)
+                                                (parseInt(item.logsCalc.score?.[item.team2_id] ?? 0) || 0)
                                             ) : (item.resultGoals1 / item.sport.goalFactor
                                                 + (' : ') +
                                                 item.resultGoals2 / item.sport.goalFactor
@@ -140,8 +140,9 @@ export default function MatchDetailsScreen({navigation}) {
                                 || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
                                     <TextC numberOfLines={1}
                                            style={[style().centeredText100, style().big1, style().textRed]}>
-                                        {parseInt(item?.logsCalc?.score?.[item.team1_id] ?? 0) || 0}
-                                        : {parseInt(item?.logsCalc?.score?.[item.team2_id] ?? 0) || 0}
+                                        {parseInt(item.logsCalc.score?.[item.team1_id] ?? 0) || 0}
+                                        {' '}:{' '}
+                                        {parseInt(item.logsCalc.score?.[item.team2_id] ?? 0) || 0}
                                     </TextC>
                                     :
                                     <TextC style={style().textRed}>{global.hintAutoUpdateResults}</TextC>
