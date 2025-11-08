@@ -58,9 +58,9 @@ export default function CellVariantMatchesManagerProblem(props) {
     function getOffsets() {
         return (
             <TextC style={style().textRed}>{'Offset: '
-            + props.item.logsCalc.minOffset + '-'
-            + props.item.logsCalc.avgOffset + '-'
-            + props.item.logsCalc.maxOffset}
+                + props.item.logsCalc.minOffset + '-'
+                + props.item.logsCalc.avgOffset + '-'
+                + props.item.logsCalc.maxOffset}
             </TextC>
         )
     }
@@ -74,11 +74,13 @@ export default function CellVariantMatchesManagerProblem(props) {
             ? null :
             <View style={style().viewCentered}>
                 <View style={style().matchflexRowView}>
-                    <View style={[style().viewStatus, {flex: 1, alignItems: 'flex-end'}]}>
-                        <TextC numberOfLines={1}>
+                    <View style={[style().viewStatus, {flex: 1, alignItems: 'flex-end', justifyContent: 'center'}]}>
+                        <TextC numberOfLines={1} adjustsFontSizeToFit>
                             {SportFunctions.getSportImage(props.item.sport.code)}
                             {props.item.sport.code + ' '}
-                            <TextC style={style().textBlue}>{props.item.group_name}</TextC>
+                            <TextC style={[style().textBlue, {fontWeight: 'bold', fontSize: 16}]}>
+                                {props.item.group_name}
+                            </TextC>
                         </TextC>
                     </View>
                     <View style={{flex: 4, alignSelf: 'flex-start', paddingRight: 20}}>

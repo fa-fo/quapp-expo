@@ -123,11 +123,13 @@ export default function RoundsMatchesManagerScreen({navigation}) {
                                     style={{
                                         color: 'orange',
                                         alignSelf: 'center',
-                                        marginVertical: 6,
+                                        fontSize: 18,
+                                        fontWeight: 'bold',
+                                        marginBottom: 14,
                                         shadowOffset: {width: 5, height: 5},
-                                        shadowColor: 'black',
+                                        shadowColor: 'orange',
                                         shadowRadius: 4,
-                                        shadowOpacity: 0.1,
+                                        shadowOpacity: 0.4,
                                         backgroundColor: "white"
                                     }}>
                                     {' Runde ' + data.object.round.id + ' um '

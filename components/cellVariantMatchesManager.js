@@ -1,5 +1,5 @@
 import TextC from "../components/customText";
-import {View} from 'react-native';
+import {useWindowDimensions, View} from 'react-native';
 import {style} from '../assets/styles';
 import * as SportFunctions from "./functions/SportFunctions";
 import {Popable} from "react-native-popable";
@@ -7,6 +7,8 @@ import * as ColorFunctions from "./functions/ColorFunctions";
 import * as DateFunctions from "./functions/DateFunctions";
 
 export default function CellVariantMatchesManager(props) {
+    const dimensions = useWindowDimensions();
+
     let item = props.item;
 
     function getPopableContent() {
@@ -35,7 +37,7 @@ export default function CellVariantMatchesManager(props) {
                        style={style().centeredText100}>SR: {item.refereeName}
                 </TextC> : null}
             <TextC> </TextC>
-            <TextC numberOfLines={1} style={style().centeredText100}>
+            <TextC style={style().centeredText100}>
                 Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}
             </TextC>
             <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
@@ -45,8 +47,21 @@ export default function CellVariantMatchesManager(props) {
             <TextC numberOfLines={1}
                    style={[style().centeredText100, style().big1, style().textRed]}>
                 {parseInt(item.logsCalc.score?.[item.team1_id] ?? 0) || 0}
-                : {parseInt(item.logsCalc.score?.[item.team2_id] ?? 0) || 0}
+                {' '}:{' '}
+                {parseInt(item.logsCalc.score?.[item.team2_id] ?? 0) || 0}
             </TextC>
+
+            {item.canceled > 0 ?
+                <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                    Das Spiel fällt aus!</TextC> : null}
+            {item.canceled === 1 || item.canceled === 3 ?
+                <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                    {(item.teams1?.name ?? '?') + (item.isTest ? '_test' : '')} zurückgezogen
+                </TextC> : null}
+            {item.canceled === 2 || item.canceled === 3 ?
+                <TextC numberOfLines={1} style={[style().centeredText100, style().textRed]}>
+                    {(item.teams2?.name ?? '?') + (item.isTest ? '_test' : '')} zurückgezogen
+                </TextC> : null}
         </View>
     }
 
@@ -55,10 +70,10 @@ export default function CellVariantMatchesManager(props) {
         strictPosition={true}
         position="left"
         backgroundColor={ColorFunctions.getColor('primaryBg')}
-        style={{width: 800, top: 120 - props.groupIndex * 60 - props.matchIndex * 20}}
+        style={{width: dimensions.width * .74, top: 120 - props.groupIndex * 60 - props.matchIndex * 20}}
         content={getPopableContent()}
     >
-        <View style={[style().viewCentered, (props.matchIndex === 0 ? {marginTop: 8} : null)]}>
+        <View style={[style().viewCentered, (props.matchIndex === 0 ? {marginTop: 16} : null)]}>
             <View style={style().matchflexRowView}>
                 <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center', paddingRight: 8}}>
                     <TextC numberOfLines={1}>
@@ -68,12 +83,15 @@ export default function CellVariantMatchesManager(props) {
                     </TextC>
                 </View>
                 <View style={{flex: 1}}>
-                    <TextC adjustsFontSizeToFit numberOfLines={1}
-                           style={[style().big3, style().textRed]}>
-                        {parseInt(item.logsCalc.score?.[item.team1_id] ?? 0) || 0}
-                        {' '}:{' '}
-                        {parseInt(item.logsCalc.score?.[item.team2_id] ?? 0) || 0}
-                    </TextC>
+                    {!item.canceled ?
+                        <TextC adjustsFontSizeToFit numberOfLines={1}
+                               style={[style().big3, style().textRed]}>
+                            {parseInt(item.logsCalc.score?.[item.team1_id] ?? 0) || 0}
+                            {' '}:{' '}
+                            {parseInt(item.logsCalc.score?.[item.team2_id] ?? 0) || 0}
+                        </TextC>
+                        : <TextC>abg.</TextC>
+                    }
                 </View>
             </View>
         </View>
