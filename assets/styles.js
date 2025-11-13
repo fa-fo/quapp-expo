@@ -52,6 +52,16 @@ export const style = () => StyleSheet.create({
         paddingVertical: 2,
         paddingHorizontal: 4,
     },
+    buttonPIN: {
+        marginVertical: 0,
+        marginHorizontal: 2,
+        paddingVertical: 0,
+        paddingHorizontal: 2,
+        backgroundColor: '#8b8b8b',
+        opacity: .8,
+        position: 'absolute',
+        right: 0
+    },
     pickerView: {
         borderColor: ColorFunctions.getColor('primary'),
         borderWidth: 2,

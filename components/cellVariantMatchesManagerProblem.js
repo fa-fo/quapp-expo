@@ -1,10 +1,12 @@
 import TextC from "../components/customText";
 import {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {style} from '../assets/styles';
 import * as SportFunctions from "./functions/SportFunctions";
+import PinModal from "./modals/PinModal";
 
 export default function CellVariantMatchesManagerProblem(props) {
+    const [pinModalVisible, setPinModalVisible] = useState(false);
     const [showOffset, setShowOffset] = useState(false);
 
     useEffect(() => {
@@ -25,6 +27,13 @@ export default function CellVariantMatchesManagerProblem(props) {
             getStatus(status) ? null :
                 <View style={[style().viewStatus, getButtonStyle(status), {maxWidth: getButtonWidth(status)}]}>
                     <TextC numberOfLines={1} style={style().textButton1}>
+                        {status === 'isLoggedIn' ?
+                            <Pressable
+                                style={[style().button1, style().buttonPIN]}
+                                onPress={() => setPinModalVisible(true)}>
+                                <TextC style={style().textButton1}>PIN</TextC>
+                            </Pressable>
+                            : null}
                         {nameProblem}
                     </TextC>
                 </View>
@@ -107,6 +116,11 @@ export default function CellVariantMatchesManagerProblem(props) {
                         {showOffset ? getOffsets() : null}
                     </View>
                 </View>
+                <PinModal
+                    setModalVisible={setPinModalVisible}
+                    modalVisible={pinModalVisible}
+                    match={props.item}
+                />
             </View>
     );
 }
