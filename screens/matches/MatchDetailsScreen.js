@@ -170,7 +170,7 @@ export default function MatchDetailsScreen({navigation}) {
                                 {(item.teams2?.name ?? '?') + (item.isTest ? '_test' : '')} zurückgezogen
                             </TextC> : null}
 
-                        {item.isTime2login && !item.canceled ?
+                        {item.isTime2login && !item.canceled && route.name !== 'MatchDetailsAdmin' ?
                             (!item.logsCalc.isMatchConcluded || (global.settings.maxPhotos > 0 && (item.logsCalc.photos?.length ?? 0) < global.settings.maxPhotos) ?
                                 (global.isProductionWebview ? null
                                     :
