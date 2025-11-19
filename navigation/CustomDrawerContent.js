@@ -81,17 +81,15 @@ export default function CustomDrawerContent(props) {
                     props.navigation.navigate('MyMatches', {screen: 'TeamsCurrent'})
                 }
             />
-            {Platform.OS === 'web' && process?.env?.NODE_ENV !== 'development' ? null
-                :
-                (global.settings?.useLiveScouting ?
-                    <DrawerItem
-                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
-                                          color={ColorFunctions.getColor('primary')}/>}
-                        label="Fotos"
-                        onPress={() =>
-                            props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
-                        }
-                    /> : null)
+            {global.settings?.useLiveScouting && global.settings.maxPhotos > 0 ?
+                <DrawerItem
+                    icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                      color={ColorFunctions.getColor('primary')}/>}
+                    label="Fotos"
+                    onPress={() =>
+                        props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos'})
+                    }
+                /> : null
             }
             <DrawerItem
                 icon={() => <Icon name="playlist-check" size={25} color={ColorFunctions.getColor('primary')}/>}
