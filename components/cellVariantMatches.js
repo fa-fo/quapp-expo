@@ -48,7 +48,7 @@ export default function CellVariantMatches(props) {
                                            ? 'bold'
                                            : 'normal',
                                }}>
-                            {props.timeText}
+                            {props.timeText ?? ''}
                         </TextC>
                         <TextC adjustsFontSizeToFit numberOfLines={1}>
                             {props.timeText2 ??

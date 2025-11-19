@@ -18,7 +18,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
 
     const loadScreenData = () => {
         let postData = {password: global.adminPW};
-        fetchApi('matcheventLogs/getPhotosToCheck', 'POST', postData)
+        fetchApi('matcheventLogs/getAdminPhotosToCheck', 'POST', postData)
             .then((json) => {
                 setData(json);
                 setPhotoKey(0);
@@ -30,7 +30,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
     const setCheck = async (isOk) => {
         setLoading(true);
         let postData = {password: global.adminPW};
-        fetchApi('matcheventLogs/setPhotoCheck/' + data.object.toCheck[photoKey].id + '/' + isOk, 'POST', postData)
+        fetchApi('matcheventLogs/setAdminPhotoCheck/' + data.object.toCheck[photoKey].id + '/' + isOk, 'POST', postData)
             .then((json) => {
                 setPhotoKey(photoKey + 1);
 
@@ -107,7 +107,6 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                     <CellVariantMatches
                                         key={item.id}
                                         item={item.match}
-                                        timeText={DateFunctions.getFormatted(item.match.matchStartTime) + ' Uhr: '}
                                         team1Result={item.match.resultGoals1 !== null ? (parseInt(item.match.resultGoals1) || 0) : null}
                                         team2Result={item.match.resultGoals2 !== null ? (parseInt(item.match.resultGoals2) || 0) : null}
                                         onPress={() => navigation.navigate('MatchDetailsAdmin', {item: item.match})}
