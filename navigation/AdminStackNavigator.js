@@ -100,12 +100,7 @@ export default function AdminStackNavigator({navigation}) {
                 name="MatchDetailsAdmin"
                 component={MatchDetailsScreen}
                 options={({route}) => ({
-                    title: 'Admin: ' +
-                        DateFunctions.getFormatted(route.params.item.matchStartTime) +
-                        ' Uhr: ' +
-                        route.params.item.sport.name +
-                        ' Gr. ' +
-                        route.params.item.group_name,
+                    title: 'Admin: Spiel-Details ' + route.params.item.sport.name,
                 })}
             />
             <Stack.Screen
