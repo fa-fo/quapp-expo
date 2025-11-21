@@ -166,7 +166,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             <Pressable
                                                                 style={style().buttonTopRight}
-                                                                onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group})}
+                                                                onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group}, {pop: true})}
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
