@@ -17,12 +17,9 @@ export default function RankingInGroupsScreen({navigation}) {
     const [data, setData] = useState([]);
 
     let item = route.params?.item ?? {group_id: 0, group_name: 'A'};
-    let group_id = item.group_id;
-    let group_id_prev = -1; // previously called group_id
-    let group_name = item.group_name;
 
     const loadScreenData = () => {
-        fetchApi('groupTeams/all/' + group_id + (route.name === 'RankingInGroupsAdmin' ? '/1' : ''))
+        fetchApi('groupTeams/all/' + item.group_id + (route.name === 'RankingInGroupsAdmin' ? '/1' : ''))
             .then((json) => {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
@@ -33,11 +30,8 @@ export default function RankingInGroupsScreen({navigation}) {
 
     // initial load
     useEffect(() => {
-        if (group_id_prev !== group_id) {
-            group_id_prev = group_id;
-            setLoading(true);
-            loadScreenData();
-        }
+        setLoading(true);
+        loadScreenData();
 
         return () => {
             setData(null);
@@ -58,7 +52,7 @@ export default function RankingInGroupsScreen({navigation}) {
                                     <View style={{flex: 1}}>
                                         <TextC>{DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
                                             <TextC
-                                                style={style().textBlue}>{'\nGruppe ' + group_name + ':'}</TextC>
+                                                style={style().textBlue}>{'\nGruppe ' + item.group_name + ':'}</TextC>
                                         </TextC>
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -67,7 +61,7 @@ export default function RankingInGroupsScreen({navigation}) {
                                         >
                                             <TextC style={style().textButtonTopRight} numberOfLines={1}>
                                                 <IconMat name="format-list-bulleted"
-                                                         size={15}/>{' Spielplan Gr. ' + group_name}
+                                                         size={15}/>{' Spielplan Gr. ' + item.group_name}
                                             </TextC>
                                         </Pressable>
                                     </View>

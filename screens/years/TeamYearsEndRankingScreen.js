@@ -11,20 +11,14 @@ export default function TeamYearsEndRankingScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    let year_id_prev = 0; // previously called year_id
 
     useEffect(() => {
-        return navigation.addListener('focus', () => {
-            if (year_id_prev !== route.params.item.year_id) {
-                year_id_prev = route.params.item.year_id;
-                setLoading(true);
+        setLoading(true);
 
-                fetchApi('teamYears/getEndRanking/' + route.params.item.year_id + (route.name === 'TeamYearsEndRankingAdmin' ? '/1' : ''))
-                    .then((json) => setData(json))
-                    .catch((error) => console.error(error))
-                    .finally(() => setLoading(false));
-            }
-        });
+        fetchApi('teamYears/getEndRanking/' + route.params.item.year_id + (route.name === 'TeamYearsEndRankingAdmin' ? '/1' : ''))
+            .then((json) => setData(json))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
     }, [navigation, route]);
 
     return (

@@ -19,7 +19,6 @@ export default function RoundsMatchesScreen({navigation}) {
     const [data, setData] = useState([]);
     const [matchesToConfirm, setMatchesToConfirm] = useState([]);
     const [count2ConfirmUpcoming, setCount2ConfirmUpcoming] = useState(0);
-    let round_id_prev = 0; // previously called round_id
 
     function confirmAllResults() {
         if (matchesToConfirm.length > 0) {
@@ -45,16 +44,13 @@ export default function RoundsMatchesScreen({navigation}) {
 
     // initial load
     useEffect(() => {
-        if (round_id_prev !== route.params.id) {
-            round_id_prev = route.params.id;
-            setLoading(true);
-            loadScreenData();
+        setLoading(true);
+        loadScreenData();
 
-            return () => {
-                setData(null);
-                setLoading(false);
-            };
-        }
+        return () => {
+            setData(null);
+            setLoading(false);
+        };
     }, [navigation, route]);
 
     useAutoReload(route, data, loadScreenData);

@@ -1,32 +1,21 @@
 import TextC from "../../components/customText";
-import {useCallback, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
-import {useFocusEffect, useRoute} from "@react-navigation/native";
+import {useRoute} from "@react-navigation/native";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 
 export default function GroupsAllScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    let year_id_prev = null;
-    let day_id_prev = null;
 
-    useFocusEffect(
-        useCallback(() => {
-            if ((route.params === undefined && year_id_prev === null)
-                || year_id_prev !== (route.params?.year_id ?? (global.currentYear?.id ?? 0))
-                || day_id_prev !== (route.params?.day_id ?? (global.settings?.currentDay_id ?? 0))) {
-
-                year_id_prev = route.params?.year_id ?? (global.currentYear?.id ?? 0);
-                day_id_prev = route.params?.day_id ?? (global.settings?.currentDay_id ?? 0);
-                setLoading(true);
-                loadScreenData();
-            }
-        }, [navigation, route]),
-    );
+    useEffect(() => {
+        setLoading(true);
+        loadScreenData();
+    }, [navigation, route]);
 
     const loadScreenData = () => {
         fetchApi('groups/all' + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0))
@@ -41,7 +30,7 @@ export default function GroupsAllScreen({navigation}) {
                 (data?.status === 'success' && data?.object?.groups?.length > 0 ? (
                     <TableView appearance={global.colorScheme}>
                         <Section
-                            header={DateFunctions.getDateFormatted(data.yearSelected !== undefined ? data.yearSelected.day : data.year.day)}>
+                            header={DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}>
                             {data.object.groups.map(item => (
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"

@@ -17,7 +17,6 @@ export default function ListMatchesByGroupScreen({navigation}) {
     const [data, setData] = useState([]);
 
     let group_id = route.params.item?.group_id ?? 0;
-    let group_id_prev = -1; // previously called group_id
     let group_name = route.params.item?.group_name ?? 'A';
 
     const loadScreenData = () => {
@@ -32,11 +31,8 @@ export default function ListMatchesByGroupScreen({navigation}) {
 
     // initial load
     useEffect(() => {
-        if (group_id_prev !== group_id) {
-            group_id_prev = group_id;
-            setLoading(true);
-            loadScreenData();
-        }
+        setLoading(true);
+        loadScreenData();
 
         return () => {
             setData(null);
