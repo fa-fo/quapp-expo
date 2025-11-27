@@ -44,7 +44,7 @@ export default function AdminScoutRankingScreen({navigation}) {
                                 <CellVariant
                                     key={item.scrRanking}
                                     title={item.scrRanking + '. ' + item.team_name}
-                                    detail={item.scrPoints + ' P.'}
+                                    detail={item.scrPoints + ' P., ' + item.scrMatchCount + ' Sp.'}
                                     onPress={() => null}
                                 />
                             )}
@@ -53,6 +53,4 @@ export default function AdminScoutRankingScreen({navigation}) {
                     : <TextC>Fehler!</TextC>)}
         </ScrollView>
     );
-
-
 }
