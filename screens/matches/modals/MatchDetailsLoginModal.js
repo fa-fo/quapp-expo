@@ -34,10 +34,6 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                 'datetimeSent': DateFunctions.getLocalDatetime(),
             };
 
-            if (!item.logsCalc.wasLoggedIn) {
-                postData = {'expoPushToken': global.expoPushToken, ...postData};
-            }
-
             fetchApi('matcheventLogs/login/' + item.id, 'POST', postData)
                 .then((data) => {
                     if (data?.status === 'success') {

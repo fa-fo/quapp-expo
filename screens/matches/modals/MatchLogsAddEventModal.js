@@ -34,9 +34,6 @@ export default function MatchLogsAddEventModal({
             if (data.playerNumber !== null) {
                 postData = {'playerNumber': data.playerNumber, ...postData};
             }
-            if (addEvent.code === 'MATCH_CONCLUDE') {
-                postData = {'expoPushToken': global.expoPushToken, ...postData};
-            }
 
             fetchApi('matcheventLogs/add/' + match.id, 'POST', postData)
                 .then((json) => {

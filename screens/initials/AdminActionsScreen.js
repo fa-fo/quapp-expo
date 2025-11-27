@@ -640,23 +640,24 @@ export default function AdminActionsScreen({navigation}) {
                             <TextC>Tabellen neu berechnen</TextC>
                         }
 
-                        {data.year.settings.usePushTokenRatings && data.object.matchesCount > 0 && data.object.ptrAll > 0 ?
+                        {data.year.settings.useScoutRatings && data.object.matchesCount > 0 && data.object.scrAll > 0 ?
                             <View style={style().matchflexEventsView}>
                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 <Pressable
-                                    style={[style().button1, (data.object.ptrAll === data.object.ptrConfirmed ? style().buttonGreenLight : style().buttonGreen)]}
-                                    onPress={() => adminAction('pushTokenRatings/checkAll', '')}>
+                                    style={[style().button1, (data.object.scrAll === data.object.scrConfirmed ? style().buttonGreenLight : style().buttonGreen)]}
+                                    onPress={() => adminAction('scoutRatings/checkAll', '')}>
                                     <TextC
-                                        style={data.object.ptrAll === data.object.ptrConfirmed ? {color: ColorFunctions.getColor('primary')} : style().textButton1}>
-                                        PT-Ratings bestätigen: {data.object.ptrConfirmed} / {data.object.ptrAll}</TextC>
+                                        style={data.object.scrAll === data.object.scrConfirmed ? {color: ColorFunctions.getColor('primary')} : style().textButton1}>
+                                        Scout-Ratings
+                                        bestätigen: {data.object.scrConfirmed} / {data.object.scrAll}</TextC>
                                 </Pressable>
-                                {data.object.ptrRanking > 0 ?
+                                {data.object.scrRanking > 0 ?
                                     <View>
                                         <TextC>
                                             <Pressable
                                                 style={style().link}
-                                                onPress={() => navigation.navigate('AdminPushTokenRanking')}>
-                                                <TextC style={style().textButton1}>{'\u279E'} PTR-Ranking</TextC>
+                                                onPress={() => navigation.navigate('AdminScoutRanking')}>
+                                                <TextC style={style().textButton1}>{'\u279E'} Scout-Ranking</TextC>
                                             </Pressable>
                                         </TextC>
                                     </View> : null}

@@ -336,13 +336,13 @@ export default function CustomDrawerContent(props) {
                                 props.navigation.navigate('Admin', {screen: 'PushNotifications', pop: true})
                             }
                         /> : null}
-                    {global.settings?.usePushTokenRatings ?
+                    {global.settings?.useScoutRatings ?
                         <DrawerItem
                             icon={() => <Icon name="table-eye" size={25}
                                               color={ColorFunctions.getColor('primary')}/>}
-                            label="PTR-Ranking"
+                            label="Scout-Ranking"
                             onPress={() =>
-                                props.navigation.navigate('Admin', {screen: 'AdminPushTokenRanking', pop: true})
+                                props.navigation.navigate('Admin', {screen: 'AdminScoutRanking', pop: true})
                             }
                         /> : null}
                 </View>

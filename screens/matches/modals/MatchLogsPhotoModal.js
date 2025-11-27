@@ -70,8 +70,7 @@ export default function MatchLogsPhotoModal({
                 'refereePIN': global['refereePIN' + match.id],
                 'matchEventCode': 'PHOTO_UPLOAD',
                 'datetimeSent': DateFunctions.getLocalDatetime(),
-                'photo': `data:image/jpg;base64,${source}`,
-                'expoPushToken': global.expoPushToken
+                'photo': `data:image/jpg;base64,${source}`
             };
 
             fetchApi('matcheventLogs/add/' + match.id, 'POST', postData)
