@@ -640,16 +640,13 @@ export default function AdminActionsScreen({navigation}) {
                             <TextC>Tabellen neu berechnen</TextC>
                         }
 
-                        {data.year.settings.useScoutRatings && data.object.matchesCount > 0 && data.object.scrAll > 0 ?
+                        {data.year.settings.useScoutRatings && data.object.matchesCount > 0 ?
                             <View style={style().matchflexEventsView}>
                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 <Pressable
-                                    style={[style().button1, (data.object.scrAll === data.object.scrConfirmed ? style().buttonGreenLight : style().buttonGreen)]}
-                                    onPress={() => adminAction('scoutRatings/checkAll', '')}>
-                                    <TextC
-                                        style={data.object.scrAll === data.object.scrConfirmed ? {color: ColorFunctions.getColor('primary')} : style().textButton1}>
-                                        Scout-Ratings
-                                        bestätigen: {data.object.scrConfirmed} / {data.object.scrAll}</TextC>
+                                    style={[style().button1, style().buttonGreen]}
+                                    onPress={() => adminAction('scoutRatings/setScrRanking', '')}>
+                                    <TextC style={style().textButton1}>Scout-Ratings-Tabelle aktualisieren</TextC>
                                 </Pressable>
                                 {data.object.scrRanking > 0 ?
                                     <View>
