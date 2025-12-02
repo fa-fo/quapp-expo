@@ -645,7 +645,7 @@ export default function AdminActionsScreen({navigation}) {
                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 <Pressable
                                     style={[style().button1, style().buttonGreen]}
-                                    onPress={() => adminAction('scoutRatings/setScrRanking', '')}>
+                                    onPress={() => adminAction('teamYears/setScrRanking', '')}>
                                     <TextC style={style().textButton1}>Scout-Ratings-Tabelle aktualisieren</TextC>
                                 </Pressable>
                                 {data.object.scrRanking > 0 ?
@@ -653,7 +653,7 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC>
                                             <Pressable
                                                 style={style().link}
-                                                onPress={() => navigation.navigate('AdminScoutRanking')}>
+                                                onPress={() => navigation.navigate('AdminScoutRanking', {item: null}, {pop: true})}>
                                                 <TextC style={style().textButton1}>{'\u279E'} Scout-Ranking</TextC>
                                             </Pressable>
                                         </TextC>

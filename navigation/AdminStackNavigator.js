@@ -9,12 +9,13 @@ import PushNotificationsScreen from "../screens/initials/PushNotificationsScreen
 
 import AdminMatchPhotosScreen from "../screens/matches/AdminMatchPhotosScreen";
 import AdminScoutRankingScreen from "../screens/matches/AdminScoutRankingScreen";
+import AdminScoutTeamLogsScreen from "../screens/matches/AdminScoutTeamLogsScreen";
+
 import RankingInGroupsScreen from "../screens/matches/RankingInGroupsScreen";
 import ListMatchesByTeamScreen from "../screens/matches/ListMatchesByTeamScreen";
 import ListMatchesByGroupScreen from "../screens/matches/ListMatchesByGroupScreen";
 import TeamYearsEndRankingScreen from "../screens/years/TeamYearsEndRankingScreen";
 import MatchDetailsScreen from "../screens/matches/MatchDetailsScreen";
-import * as DateFunctions from "../components/functions/DateFunctions";
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -62,6 +63,13 @@ export default function AdminStackNavigator({navigation}) {
                 name="AdminScoutRanking"
                 component={AdminScoutRankingScreen}
                 options={{title: 'Admin: Scout-Ranking'}}
+            />
+            <Stack.Screen
+                name="AdminScoutTeamLogs"
+                component={AdminScoutTeamLogsScreen}
+                options={({route}) => ({
+                    title: 'Admin: Scout-Logs ' + route.params.team_name,
+                })}
             />
             <Stack.Screen
                 name="TeamYearsEndRankingAdmin"

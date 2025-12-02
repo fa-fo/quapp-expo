@@ -1,5 +1,5 @@
 import TextC from "../../components/customText";
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import fetchApi from '../../components/fetchApi';
 import {useRoute} from "@react-navigation/native";
@@ -8,6 +8,7 @@ import CellVariant from "../../components/cellVariant";
 import {style} from "../../assets/styles";
 import {Picker} from "@react-native-picker/picker";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function AdminScoutRankingScreen({navigation}) {
     const route = useRoute();
@@ -19,7 +20,7 @@ export default function AdminScoutRankingScreen({navigation}) {
     }, [navigation, route]);
 
     const loadScreenData = () => {
-        fetchApi('scoutRatings/getScrRanking/' + (route.params?.year_id ?? 0))
+        fetchApi('teamYears/getScrRanking/' + (route.params?.year_id ?? 0))
             .then((json) => {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
@@ -46,7 +47,7 @@ export default function AdminScoutRankingScreen({navigation}) {
                         <Section
                             headerComponent={
                                 <View style={[style().matchflexRowView, style().headerComponentView]}>
-                                    <View style={{flex: 1}}>
+                                    <View style={{flex: 3}}>
                                         <TextC>{data.object.year_name + ': Team-Wertung'}</TextC>
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -61,9 +62,10 @@ export default function AdminScoutRankingScreen({navigation}) {
                                         </Picker>
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-start'}}>
-                                        <Pressable style={[style().button1, style().buttonGreen]}
-                                                   onPress={() => adminAction('scoutRatings/setScrRanking', (route.params?.year_id ?? 0))}>
-                                            <TextC style={style().textButton1}>neu berechnen</TextC>
+                                        <Pressable style={[style().button1, style().buttonEvent, style().buttonRed]}
+                                                   onPress={() => adminAction('teamYears/setScrRanking', (route.params?.year_id ?? 0))}>
+                                            <TextC style={style().textButton1}>
+                                                <IconMat name="calculator" size={24}/>neu berechnen</TextC>
                                         </Pressable>
                                     </View>
                                 </View>
@@ -74,7 +76,11 @@ export default function AdminScoutRankingScreen({navigation}) {
                                     key={item.scrRanking}
                                     title={item.scrRanking + '. ' + item.team_name}
                                     detail={item.scrPoints + ' P/S, ' + item.scrMatchCount + ' Sp.'}
-                                    onPress={() => null}
+                                    onPress={() => navigation.navigate('AdminScoutTeamLogs', {
+                                        team_id: item.team_id,
+                                        team_name: item.team_name,
+                                        year_id: (route.params?.year_id ?? 0),
+                                    })}
                                 />
                             )}
                         </Section>
