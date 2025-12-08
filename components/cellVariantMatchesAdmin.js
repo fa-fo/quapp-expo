@@ -389,7 +389,7 @@ export default function CellVariantMatchesAdmin(props) {
 
                     {!global.settings.useLiveScouting ?
                         <View style={[style().matchflexRowView, {flex: 5}]}>
-                            {getAdminInsertResultFields(props.item, null, props.playOffTeams)}
+                            {getAdminInsertResultFields(props.item, props.loadScreenData, props.playOffTeams)}
                             <View style={{flex: 1}}>
                                 {props.item.isTime2confirm ? getSpecialConfirmModalButton() : null}
                                 {props.item.resultTrend > 2 ?

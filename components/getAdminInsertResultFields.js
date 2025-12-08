@@ -63,7 +63,7 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
             setIsTryingSave(true);
             let postData = {'team1_id': selectedTeam1, 'team2_id': selectedTeam2};
 
-            SportFunctions.saveMatchTeamIds(match, postData, setTeamsSaved)
+            SportFunctions.saveMatchTeamIds(match, loadScreenData, postData, setTeamsSaved)
                 .finally(() => setIsTryingSave(false))
         }
     }, [selectedTeam1, selectedTeam2]);
@@ -79,7 +79,7 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
         setOkGoals1(submitGoals1 !== '');
         setOkGoals2(submitGoals2 !== '');
 
-        if (submitGoals1 !== '' && submitGoals2 !== '' && (submitGoals1 !== oldGoals1 || submitGoals2 !== oldGoals2 || selectedResultAdmin !== oldResultAdmin)) {
+        if (!isTryingSave && submitGoals1 !== '' && submitGoals2 !== '' && (submitGoals1 !== oldGoals1 || submitGoals2 !== oldGoals2 || selectedResultAdmin !== oldResultAdmin)) {
             setIsTryingSave(true);
 
             let postData = {

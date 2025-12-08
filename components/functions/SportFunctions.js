@@ -75,13 +75,15 @@ export const saveRefereeName = (match, postData, setSaved) => {
 };
 
 
-export const saveMatchTeamIds = (match, postData, setSaved) => {
+export const saveMatchTeamIds = (match, loadScreenData, postData, setSaved) => {
     postData = {'password': global.adminPW, ...postData};
 
     return fetchApi('matches/saveMatchTeamIds/' + match.id, 'POST', postData)
         .then(data => {
             if (data?.status === 'success') {
                 setSaved(true)
+                if (loadScreenData)
+                    loadScreenData();
             }
         })
         .catch(error => console.error(error));
