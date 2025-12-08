@@ -33,9 +33,7 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                         <View style={{flex: 2, height: '100%'}}>
                             <Pressable
                                 style={[style().buttonHeader, style().buttonGreen]}
-                                onPress={() => navigation.navigate('RoundsMatchesAutoAdmin',
-                                    {roundsCount: route.params?.roundsCount ?? data.object.rounds?.length}
-                                )}
+                                onPress={() => navigation.navigate('RoundsMatchesAutoAdmin')}
                             >
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <Icon name="auto-fix" size={32} color="#fff" style={{marginRight: 8}}/>
@@ -52,7 +50,7 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                             <Pressable style={[style().buttonHeader, style().buttonOrange]}
                                        onPress={() => navigation.navigate(
                                            route.name === 'RoundsMatchesAutoAdmin' ? 'RoundsMatchesAdmin' : route.name === 'RoundsMatchesManager' ? 'RoundsMatchesSupervisor' : '',
-                                           {id: data.object.round.id, roundsCount: route.params.roundsCount}
+                                           {id: data.object.round.id}
                                        )}
                             >
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -69,9 +67,7 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                         <View style={{flex: 2, height: '100%'}}>
                             <Pressable
                                 style={[style().buttonHeader, style().buttonGreen]}
-                                onPress={() => navigation.navigate('RoundsMatchesManager',
-                                    {roundsCount: route.params?.roundsCount ?? data.object.rounds?.length}
-                                )}
+                                onPress={() => navigation.navigate('RoundsMatchesManager')}
                             >
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <Icon name="image-auto-adjust" size={32} color="#fff" style={{marginRight: 8}}/>
@@ -132,7 +128,6 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                                     style={[style().buttonHeader, style().buttonOrange, (route.params.id > 1 ? null : style().hiddenElement)]}
                                     onPress={() => navigation.navigate(route.name, {
                                         id: route.params.id - 1,
-                                        roundsCount: route.params.roundsCount,
                                     })}
                                 >
                                     <TextC
@@ -143,10 +138,9 @@ export const setHeaderRightOptions = (navigation, route, data, loadScreenData) =
                             </View>
                             <View style={{flex: 1, height: '100%'}}>
                                 <Pressable
-                                    style={[style().buttonHeader, style().buttonOrange, (route.params.id < route.params.roundsCount ? null : style().hiddenElement)]}
+                                    style={[style().buttonHeader, style().buttonOrange, (route.params.id < global.settings.roundsCount ? null : style().hiddenElement)]}
                                     onPress={() => navigation.navigate(route.name, {
                                         id: route.params.id + 1,
-                                        roundsCount: route.params.roundsCount,
                                     })}
                                 >
                                     <TextC

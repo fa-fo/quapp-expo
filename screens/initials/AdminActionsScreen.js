@@ -577,10 +577,7 @@ export default function AdminActionsScreen({navigation}) {
                                             style={style().link}
                                             onPress={() => navigation.navigate('Admin', {
                                                 screen: 'RoundsMatchesAdmin',
-                                                params: {
-                                                    id: 25,
-                                                    roundsCount: 25,
-                                                }
+                                                params: {id: global.settings.roundsCount}
                                             })}>
                                             <TextC
                                                 style={[style().textButton1, style().big22, {color: ColorFunctions.getColor('primary')}]}>
@@ -756,7 +753,10 @@ export default function AdminActionsScreen({navigation}) {
                             <View style={style().matchflexEventsView}>
                                 <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                                 <Pressable style={[style().button1, style().buttonRed]}
-                                           onPress={() => adminAction('years/clearTest', '')}>
+                                           onPress={() => {
+                                               adminAction('years/clearTest', '');
+                                               setTeamNamesSplit([]);
+                                           }}>
                                     <TextC style={style().textButton1}>Testmodus:
                                         Alle Testdaten löschen</TextC>
                                 </Pressable>

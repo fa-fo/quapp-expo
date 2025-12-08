@@ -141,10 +141,7 @@ export default function CustomDrawerContent(props) {
                     onPress={() => props.navigation.navigate('MyMatches', {
                         screen: 'RoundsMatches',
                         pop: true,
-                        params: {
-                            id: 25,
-                            roundsCount: 25,
-                        }
+                        params: {id: global.settings?.roundsCount}
                     })}
                 />
                 : null}

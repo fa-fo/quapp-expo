@@ -58,7 +58,6 @@ export default function RoundsCurrentScreen({navigation}) {
                                                  : (route.name === 'RoundsCurrentAdmin' ? 'RoundsMatchesAdmin'
                                                      : 'RoundsMatches')), {
                                                  id: item.id,
-                                                 roundsCount: data.object.rounds.length,
                                              })}
                                 />
                             ))}

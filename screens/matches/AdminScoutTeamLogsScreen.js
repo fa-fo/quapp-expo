@@ -36,7 +36,7 @@ export default function AdminScoutTeamLogsScreen({navigation}) {
                             <TextC>{text + '\n'}</TextC>
                         )}
                     </TextC>
-                    : <TextC>Fehler!</TextC>)}
+                    : <TextC>keine Daten</TextC>)}
         </ScrollView>
     );
 }
