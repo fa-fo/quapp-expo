@@ -23,7 +23,7 @@ export default function SettingsModal({
             setTextPWWrongVisible(false);
             let postData = {password: usernamePW, value: selectedNameValue};
 
-            fetchApi('settings/setSetting/' + selectedName, 'POST', postData)
+            fetchApi('settings/adminSet/' + selectedName, 'POST', postData)
                 .then(json => {
                     if (json && json.status === 'success') {
                         setModalVisible(false);
