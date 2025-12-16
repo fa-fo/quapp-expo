@@ -23,7 +23,7 @@ export function useAutoReload(route, data, loadScreenData, noModalsVisible) {
                     case 'RoundsMatchesManager':
                     case 'RoundsMatchesAdmin':
                     case 'RoundsMatchesSupervisor':
-                        sur = global.settings.useLiveScouting ? 3 : 0;
+                        sur = global.settings.useLiveScouting ? 3 : minSecondsUntilReload - 57;
                         break;
                     case 'ListMatchesByGroup':
                     case 'ListMatchesByTeam':
