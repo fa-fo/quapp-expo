@@ -12,6 +12,7 @@ import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import * as ColorFunctions from "../../components/functions/ColorFunctions";
 
 export default function RoundsMatchesScreen({navigation}) {
     const route = useRoute();
@@ -71,7 +72,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                     : null}
                                 {data.object.groups ?
                                     <TableView appearance={global.colorScheme}>
-                                        {data.object.groups?.map(group => (
+                                        {data.object.groups.map(group => (
                                             <Section
                                                 key={group.id}
                                                 headerComponent={
@@ -118,7 +119,29 @@ export default function RoundsMatchesScreen({navigation}) {
                                                             }
                                                         </View>
                                                     </View>
-                                                }>
+                                                }
+                                                footerComponent={
+                                                    route.name === 'RoundsMatchesAdmin' && group.name === 'Endrunde' && data.year.settings.showEndRanking ?
+                                                        <View>
+                                                            <TextC
+                                                                style={{fontSize: 20, textAlign: 'right', right: 10}}>
+                                                                {'\n'}
+                                                                <Pressable
+                                                                    style={style().link}
+                                                                    onPress={() => navigation.navigate('TeamYearsEndRankingAdmin', {
+                                                                        item: {
+                                                                            year_id: data.year.id,
+                                                                            year_name: data.year.name
+                                                                        }
+                                                                    })}>
+                                                                    <TextC
+                                                                        style={[style().textButton1, style().big22, {color: ColorFunctions.getColor('primary')}]}>
+                                                                        {'\u2714'} erstellt und freigegeben: {'\u279E'} Endstand nach Endrunde</TextC>
+                                                                </Pressable>
+                                                            </TextC>
+                                                        </View> : null
+                                                }
+                                            >
                                                 {group.matches ?
                                                     group.matches.map(item => (
                                                         route.name === 'RoundsMatches' ?
