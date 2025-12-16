@@ -88,7 +88,10 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                 'resultAdmin': selectedResultAdmin
             };
 
-            confirmResults([{'id': match.id, 'mode': 1}], null, loadScreenData, postData, setSaved)
+            confirmResults([{
+                'id': match.id,
+                'mode': 1
+            }], null, match.isPlayOff ? loadScreenData : null, postData, setSaved)
                 .then(m => setMatch(m))
                 .finally(() => setIsTryingSave(false))
         }
