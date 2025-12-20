@@ -28,7 +28,9 @@ export default function YearsAllScreen({navigation}) {
                                              cellStyle="RightDetail"
                                              title={item.year_name}
                                              accessory="DetailDisclosure"
-                                             detail="Tabelle"
+                                             detail={(item.year_name >= 2024 && global.settings.useLiveScouting ? 'Fotos, ' : '')
+                                                 + (item.year_name >= 2022 ? 'Ergebnisse, ' : '')
+                                                 + 'Endtabelle'}
                                              onPress={() => navigation.navigate('TeamYearsEndRanking', {item})}
                                 />
                             ))}
