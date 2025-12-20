@@ -64,7 +64,7 @@ export default function CellVariantMatches(props) {
                             }
                         </TextC>
                         {props.item.isPlayOff ?
-                            <TextC numberOfLines={1}>
+                            <TextC numberOfLines={1} style={style().big22}>
                                 {props.item.playOffName ?? ''}
                             </TextC> : null}
                     </View>

@@ -164,7 +164,7 @@ export default function CellVariantMatchesAdmin(props) {
                             </View> : null}
 
                         {props.item.isPlayOff ?
-                            <TextC numberOfLines={1}>
+                            <TextC numberOfLines={1} style={style().big22}>
                                 {props.item.playOffName ?? ''}
                             </TextC> : null}
                         {props.item.teams3 && global.settings.useLiveScouting ?

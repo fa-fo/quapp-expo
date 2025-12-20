@@ -121,22 +121,28 @@ export default function RoundsMatchesScreen({navigation}) {
                                                     </View>
                                                 }
                                                 footerComponent={
-                                                    route.name === 'RoundsMatchesAdmin' && group.name === 'Endrunde' && data.year.settings.showEndRanking ?
+                                                    group.name === 'Endrunde' && data.year.settings.showEndRanking ?
                                                         <View>
                                                             <TextC
                                                                 style={{fontSize: 20, textAlign: 'right', right: 10}}>
                                                                 {'\n'}
                                                                 <Pressable
                                                                     style={style().link}
-                                                                    onPress={() => navigation.navigate('TeamYearsEndRankingAdmin', {
-                                                                        item: {
-                                                                            year_id: data.year.id,
-                                                                            year_name: data.year.name
+                                                                    onPress={() => navigation.navigate(route.name === 'RoundsMatchesAdmin' ? 'Admin' : 'Years', {
+                                                                        screen: route.name === 'RoundsMatchesAdmin' ? 'TeamYearsEndRankingAdmin' : 'TeamYearsEndRanking',
+                                                                        pop: true,
+                                                                        params: {
+                                                                            item: {
+                                                                                year_id: data.year.id,
+                                                                                year_name: data.year.name
+                                                                            }
                                                                         }
-                                                                    })}>
+                                                                    })}
+                                                                >
                                                                     <TextC
                                                                         style={[style().textButton1, style().big22, {color: ColorFunctions.getColor('primary')}]}>
-                                                                        {'\u2714'} erstellt und freigegeben: {'\u279E'} Endstand nach Endrunde</TextC>
+                                                                        {route.name === 'RoundsMatchesAdmin' ? '\u2714 erstellt und freigegeben:\n' : ''}
+                                                                        {'\u279E'} Endstand nach Endrunde</TextC>
                                                                 </Pressable>
                                                             </TextC>
                                                         </View> : null
