@@ -29,6 +29,11 @@ export async function loadStorageData() {
         .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
         .catch((error) => console.error(error));
 
+    await AsyncStorage.getItem('myTeamChangedLate')
+        .then(response => response !== null ? response.toString() : null)
+        .then((string) => global.myTeamChangedLate = (string !== null ? parseInt(JSON.parse(string)) : null))
+        .catch((error) => console.error(error));
+
     await AsyncStorage.getItem('myTeamName')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))

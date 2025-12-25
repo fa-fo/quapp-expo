@@ -13,6 +13,7 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import {parse} from "date-fns";
 
 export default function ListMatchesByTeamScreen({navigation}) {
     const route = useRoute();
@@ -32,6 +33,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 .then((json) => {
                     setData(json);
                     setMyTeam();
+                    setMyTeamChangedLate(json.object?.matches?.[0].matchStartTime);
                     setPushToken(json.year?.settings);
                     updateGlobalVariables(json.year?.settings);
                     showLocalStorageScore(json.year?.settings);
@@ -52,6 +54,25 @@ export default function ListMatchesByTeamScreen({navigation}) {
         if (route.params?.setMyTeam && global.myTeamId !== new_team_id) {
             AsyncStorageFunctions.setAsyncStorage('myTeamId', new_team_id);
             AsyncStorageFunctions.setAsyncStorage('myTeamName', new_team_name);
+        }
+    }
+
+    function setMyTeamChangedLate(firstMatchStartTime) {
+        if (firstMatchStartTime) {
+            let setLate = null;
+            let now = new Date();
+            let start = parse(firstMatchStartTime.slice(-8), 'HH:mm:ss', now);
+
+            if (now > start && route.params?.setMyTeam && global.myTeamId !== new_team_id) {
+                setLate = 1;
+            }
+            if (now <= start) {
+                setLate = 0;
+            }
+            if (setLate !== null && setLate !== global.myTeamChangedLate) {
+                global.myTeamChangedLate = setLate;
+                AsyncStorageFunctions.setAsyncStorage('myTeamChangedLate', setLate);
+            }
         }
     }
 
@@ -82,13 +103,8 @@ export default function ListMatchesByTeamScreen({navigation}) {
             global.myTeamId = new_team_id;
             global.myTeamName = new_team_name;
         }
-        if ((route.params?.setMyTeam && global.myTeamId !== new_team_id) || global.myYearId !== settings?.currentYear_id) {
-            if (settings?.currentYear_id) {
-                if (global.myYearId !== settings.currentYear_id) {
-                    global.myYearId = settings.currentYear_id;
-                }
-            }
-        }
+
+        global.myYearId = settings?.currentYear_id ?? global.myYearId;
     }
 
     function showLocalStorageScore(settings) {

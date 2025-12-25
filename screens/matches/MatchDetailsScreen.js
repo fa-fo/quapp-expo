@@ -137,7 +137,7 @@ export default function MatchDetailsScreen({navigation}) {
                             <View style={[style().centeredText100, style().viewCentered]}>
                                 {item.round.autoUpdateResults
                                 || route.name === 'MatchDetailsAdmin'
-                                || global.myTeamId === item.team1_id || global.myTeamId === item.team2_id ?
+                                || ([item.team1_id, item.team2_id].includes(global.myTeamId) && !global.myTeamChangedLate) ?
                                     <TextC numberOfLines={1}
                                            style={[style().centeredText100, style().big1, style().textRed]}>
                                         {parseInt(item.logsCalc.score?.[item.team1_id] ?? 0) || 0}
