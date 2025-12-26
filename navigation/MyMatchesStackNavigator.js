@@ -39,7 +39,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="RankingInGroups"
                 component={RankingInGroupsScreen}
                 options={({route}) => ({
-                    title: 'Tabelle der Gr. ' + (route.params?.item?.group_name ?? 'A'),
+                    title: 'Tabelle' + (global.settings.groupsCount > 1 ? ' der Gr. ' + (route.params?.item?.group_name ?? 'A') : ''),
                 })}
             />
             <Stack.Screen
@@ -53,7 +53,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 name="ListMatchesByGroup"
                 component={ListMatchesByGroupScreen}
                 options={({route}) => ({
-                    title: 'Spiele der Gr. ' + (route.params?.item?.group_name ?? 'A'),
+                    title: 'Spiele' + (global.settings.groupsCount > 1 ? ' der Gr. ' + (route.params?.item?.group_name ?? 'A') : ''),
                 })}
             />
             <Stack.Screen
@@ -61,11 +61,9 @@ export default function MyMatchesStackNavigator({navigation}) {
                 component={MatchDetailsScreen}
                 options={({route}) => ({
                     title:
-                        DateFunctions.getFormatted(route.params.item.matchStartTime) +
-                        ' Uhr: ' +
-                        route.params.item.sport.name +
-                        ' Gr. ' +
-                        route.params.item.group_name,
+                        DateFunctions.getFormatted(route.params.item.matchStartTime) + ' Uhr: '
+                        + route.params.item.sport.name
+                        + (global.settings.groupsCount > 1 ? ' Gr. ' + route.params.item.group_name : ''),
                 })}
             />
             <Stack.Screen
@@ -73,11 +71,9 @@ export default function MyMatchesStackNavigator({navigation}) {
                 component={MatchLogsScreen}
                 options={({route}) => ({
                     title:
-                        DateFunctions.getFormatted(route.params.item.matchStartTime) +
-                        ' Uhr: ' +
+                        DateFunctions.getFormatted(route.params.item.matchStartTime) + ' Uhr: ' +
                         route.params.item.sport.name +
-                        ' Gr. ' +
-                        route.params.item.group_name,
+                        + (global.settings.groupsCount > 1 ? ' Gr. ' + route.params.item.group_name : ''),
                 })}
             />
             <Stack.Screen

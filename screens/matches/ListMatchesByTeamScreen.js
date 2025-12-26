@@ -33,7 +33,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 .then((json) => {
                     setData(json);
                     setMyTeam();
-                    setMyTeamChangedLate(json.object?.matches?.[0].matchStartTime);
+                    setMyTeamChangedLate(json.object?.matches);
                     setPushToken(json.year?.settings);
                     updateGlobalVariables(json.year?.settings);
                     showLocalStorageScore(json.year?.settings);
@@ -57,7 +57,9 @@ export default function ListMatchesByTeamScreen({navigation}) {
         }
     }
 
-    function setMyTeamChangedLate(firstMatchStartTime) {
+    function setMyTeamChangedLate(matches) {
+        let firstMatchStartTime = matches?.length > 0 ? matches[0].matchStartTime : false;
+
         if (firstMatchStartTime) {
             let setLate = null;
             let now = new Date();
@@ -167,10 +169,13 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                                 {'\n'}
                                                                 {
                                                                     (team_name === global.myTeamName ? 'Mein Team: ' : '')
-                                                                    + team_name + '\n'
-                                                                    + 'Spielen in '}
-                                                                <TextC
-                                                                    style={style().textBlue}>{'Gruppe ' + data.object.group.group_name}</TextC>{'\n'}
+                                                                    + team_name + '\n'}
+                                                                {data.year.settings.groupsCount > 1 ?
+                                                                    <TextC>{'Spielen in '}
+                                                                        <TextC
+                                                                            style={style().textBlue}>{'Gruppe ' + data.object.group.group_name + '\n'}</TextC>
+                                                                    </TextC>
+                                                                    : null}
                                                                 {data.yearSelected === undefined && data.object.referee_group_name ?
                                                                     <TextC>
                                                                         <TextC style={style().textViolet}>SR</TextC>
@@ -186,8 +191,9 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
-                                                                    <IconMat name="table-large"
-                                                                             size={15}/>{' Tabelle Gr. ' + data.object.group.group_name}
+                                                                    <IconMat name="table-large" size={15}/>
+                                                                    {' Tabelle'}
+                                                                    {data.year.settings.groupsCount > 1 ? ' Gr. ' + data.object.group.group_name : ''}
                                                                 </TextC>
                                                             </Pressable>
                                                         </View>

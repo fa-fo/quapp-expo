@@ -76,8 +76,9 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
-                                                                    <IconMat name="table-large"
-                                                                             size={15}/>{' Tabelle Gr. ' + group_name}
+                                                                    <IconMat name="table-large" size={15}/>
+                                                                    {' Tabelle'}
+                                                                    {data.year.settings.groupsCount > 1 ? ' Gr. ' + group_name : ''}
                                                                 </TextC>
                                                             </Pressable>
                                                         </View>

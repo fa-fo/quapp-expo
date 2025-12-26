@@ -84,7 +84,9 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                     <TextC
                                                                         style={{color: 'orange'}}>{'Runde ' + route.params.id}  </TextC>
                                                                     : '\n'}
-                                                                {'Gruppe ' + group.name + ':'}</TextC>
+                                                                {data.year.settings.groupsCount > 1 ? 'Gruppe ' + group.name + ':' : ''}
+                                                                {global.settings.usePlayOff && global.settings.roundsCount === route.params.id ? 'Endrunde' : ''}
+                                                            </TextC>
                                                         </View>
                                                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                                                             {route.name === 'RoundsMatches' ?
@@ -95,8 +97,9 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                     >
                                                                         <TextC style={style().textButtonTopRight}
                                                                                numberOfLines={1}>
-                                                                            <IconMat name="table-large"
-                                                                                     size={15}/>{' Tabelle Gr. ' + group.name}
+                                                                            <IconMat name="table-large" size={15}/>
+                                                                            {' Tabelle'}
+                                                                            {data.year.settings.groupsCount > 1 ? ' Gr. ' + group.name : ''}
                                                                         </TextC>
                                                                     </Pressable> : null)
                                                                 :

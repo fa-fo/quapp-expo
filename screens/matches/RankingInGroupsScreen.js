@@ -51,8 +51,9 @@ export default function RankingInGroupsScreen({navigation}) {
                                 <View style={[style().matchflexRowView, style().headerComponentView]}>
                                     <View style={{flex: 1}}>
                                         <TextC>{DateFunctions.getDateFormatted(data.yearSelected?.day ?? data.year.day)}
-                                            <TextC
-                                                style={style().textBlue}>{'\nGruppe ' + item.group_name + ':'}</TextC>
+                                            <TextC style={style().textBlue}>
+                                                {data.year.settings.groupsCount > 1 ? '\nGruppe ' + item.group_name + ':' : ''}
+                                            </TextC>
                                         </TextC>
                                     </View>
                                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -60,8 +61,9 @@ export default function RankingInGroupsScreen({navigation}) {
                                                    onPress={() => navigation.navigate(route.name === 'RankingInGroupsAdmin' ? 'ListMatchesByGroupAdmin' : 'ListMatchesByGroup', {item: item})}
                                         >
                                             <TextC style={style().textButtonTopRight} numberOfLines={1}>
-                                                <IconMat name="format-list-bulleted"
-                                                         size={15}/>{' Spielplan Gr. ' + item.group_name}
+                                                <IconMat name="format-list-bulleted" size={15}/>
+                                                {' Spielplan'}
+                                                {data.year.settings.groupsCount > 1 ? ' Gr. ' + item.group_name : ''}
                                             </TextC>
                                         </Pressable>
                                     </View>

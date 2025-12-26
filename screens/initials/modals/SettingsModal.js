@@ -62,7 +62,8 @@ export default function SettingsModal({
             <View style={style().centeredView}>
                 <View style={style().modalView}>
                     <TextC style={style().big3}>System-Einstellungen ändern</TextC>
-                    <TextC style={style().textRed}>Achtung: Ändere Einstellungen bitte nur, wenn Du weißt, was Du tust.</TextC>
+                    <TextC style={style().textRed}>Achtung: Ändere Einstellungen bitte nur, wenn Du weißt, was Du
+                        tust.</TextC>
                     <TextC>{'\n'}Zuerst Einstellung auswählen:</TextC>
                     <Picker
                         selectedValue={selectedPickerValue}
@@ -76,7 +77,8 @@ export default function SettingsModal({
                     >
                         <Picker.Item key={0} value={0} label={'Einstellung auswählen:'} enabled={false}/>
                         {global.settings ? Object.entries(global.settings).map((item, i) => (
-                            <Picker.Item key={i + 1} value={i + 1} label={item[0] + ': ' + item[1]}/>
+                            item[0].includes('Count') ? null :
+                                <Picker.Item key={i + 1} value={i + 1} label={item[0] + ': ' + item[1]}/>
                         )) : null}
                     </Picker>
                     {selectedPickerValue ?

@@ -55,8 +55,11 @@ export default function MatchDetailsScreen({navigation}) {
                             {data.year.daysCount > 1 ? ', Tag ' + item.group.day_id : ''}</TextC>
                         {item.playOffName ? <TextC numberOfLines={1} style={style().centeredText100}>
                                 {item.playOffName}</TextC>
-                            : <TextC numberOfLines={1} style={style().centeredText100}>Runde {item.round.id},
-                                Gruppe {item.group_name}</TextC>}
+                            : <TextC numberOfLines={1} style={style().centeredText100}>
+                                {'Runde ' + item.round.id}
+                                {data.year.settings.groupsCount > 1 ? ', Gruppe ' + item.group_name : ''}
+                            </TextC>
+                        }
                         <TextC numberOfLines={2} style={[style().centeredText100, style().big2]}
                                adjustsFontSizeToFit>{(item.teams1?.name ?? '?') + (item.isTest ? '_test' : '')}</TextC>
                         <TextC numberOfLines={1} style={[style().centeredText100, style().small]}>vs</TextC>
@@ -81,7 +84,8 @@ export default function MatchDetailsScreen({navigation}) {
                             Spielbeginn: {DateFunctions.getDateTimeFormatted(item.matchStartTime) + ' Uhr: '}
                         </TextC>
                         <TextC numberOfLines={1} style={[style().centeredText100, style().big3]}>
-                            {item.sport.name} Feld {item.group_name}
+                            {item.sport.name}
+                            {data.year.settings.groupsCount > 1 ? ', Feld ' + item.group_name : ''}
                         </TextC>
 
                         {!item.logsCalc.isMatchStarted && !item.logsCalc.isResultConfirmed ?
