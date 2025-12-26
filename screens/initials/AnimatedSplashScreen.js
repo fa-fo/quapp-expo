@@ -112,7 +112,7 @@ export default function AnimatedSplashScreen({image}) {
                         top: dimensions.height / 2 + 215,
                         width: '95%'
                     }}>
-                        QuattFo is loading
+                        {global.tournamentName ?? 'App'} is loading
                     </TextC>
                 </Animated.View>
                 : null}
