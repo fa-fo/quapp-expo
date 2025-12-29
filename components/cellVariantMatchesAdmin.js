@@ -164,7 +164,7 @@ export default function CellVariantMatchesAdmin(props) {
                             </View> : null}
 
                         {props.item.isPlayOff ?
-                            <TextC numberOfLines={1} style={style().big22}>
+                            <TextC adjustsFontSizeToFit numberOfLines={1} style={style().big22}>
                                 {props.item.playOffName ?? ''}
                             </TextC> : null}
                         {props.item.teams3 && global.settings.useLiveScouting ?
@@ -176,8 +176,8 @@ export default function CellVariantMatchesAdmin(props) {
                                 <TextC style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name}
                             </TextC> : null}
                         {!global.settings.useLiveScouting ? getAdminInsertRefereeNameField(props.item) : null}
-
                     </View>
+
                     {global.settings.useLiveScouting ?
                         <View style={{flex: 6, alignSelf: 'flex-start', flexDirection: 'row'}}>
                             {!props.item.logsCalc.isMatchStarted &&

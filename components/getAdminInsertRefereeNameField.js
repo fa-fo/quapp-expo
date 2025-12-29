@@ -41,6 +41,7 @@ export function getAdminInsertRefereeNameField(match) {
                                        onBlur={submit}
                                        keyboardType="default"
                                        maxLength={32}
+                                       placeholder="hier SR eintragen"
                                        value={refName ?? ''}
                             />
                             {saved ?

@@ -126,8 +126,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                 footerComponent={
                                                     group.name === 'Endrunde' && data.year.settings.showEndRanking ?
                                                         <View>
-                                                            <TextC
-                                                                style={{fontSize: 20, textAlign: 'right', right: 10}}>
+                                                            <TextC>
                                                                 {'\n'}
                                                                 <Pressable
                                                                     style={style().link}
@@ -143,7 +142,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                     })}
                                                                 >
                                                                     <TextC
-                                                                        style={[style().textButton1, style().big22, {color: ColorFunctions.getColor('primary')}]}>
+                                                                        style={[style().textButton1, {fontSize: 20, textAlign: 'right', color: ColorFunctions.getColor('primary')}]}>
                                                                         {route.name === 'RoundsMatchesAdmin' ? '\u2714 erstellt und freigegeben:\n' : ''}
                                                                         {'\u279E'} Endstand nach Endrunde</TextC>
                                                                 </Pressable>

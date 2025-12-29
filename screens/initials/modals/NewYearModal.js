@@ -89,9 +89,9 @@ export default function NewYearModal({
                         <TextInput
                             style={[style().textInput, {borderColor: checkName(name) ? 'green' : 'red'}]}
                             onChangeText={setName}
-                            placeholder=""
                             keyboardType="numeric"
-                            value={name}
+                            placeholder="hier Name/Jahr eintragen"
+                            value={name.toString()}
                             maxLength={4}
                         />
                     </TextC>
@@ -119,7 +119,7 @@ export default function NewYearModal({
                         <TextInput
                             style={[style().textInput, {borderColor: checkValue(daysCount) ? 'green' : 'red'}]}
                             onChangeText={setDaysCount}
-                            placeholder=""
+                            placeholder="hier Anzahl eintragen"
                             keyboardType="numeric"
                             value={daysCount}
                             maxLength={3}
@@ -129,7 +129,7 @@ export default function NewYearModal({
                         <TextInput
                             style={[style().textInput, {borderColor: checkValue(teamsCount) ? 'green' : 'red'}]}
                             onChangeText={setTeamsCount}
-                            placeholder=""
+                            placeholder="hier Anzahl eintragen"
                             keyboardType="numeric"
                             value={teamsCount}
                             maxLength={3}

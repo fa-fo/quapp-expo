@@ -73,7 +73,7 @@ export default function SettingsModal({
                             setSelectedNameValue(Object.entries(global.settings)[v - 1][1]);
                             setOldNameValue(Object.entries(global.settings)[v - 1][1]);
                         }}
-                        style={[style().button1, style().pickerSelect]}
+                        style={[style().button1, style().pickerSelect, {width: 300}]}
                     >
                         <Picker.Item key={0} value={0} label={'Einstellung auswählen:'} enabled={false}/>
                         {global.settings ? Object.entries(global.settings).map((item, i) => (
@@ -86,7 +86,7 @@ export default function SettingsModal({
                             <TextInput
                                 style={[style().textInput, {borderColor: checkValue(selectedNameValue) ? 'green' : 'red'}]}
                                 onChangeText={setSelectedNameValue}
-                                placeholder=""
+                                placeholder="hier neuen Wert eingeben"
                                 keyboardType="numeric"
                                 value={selectedNameValue}
                                 maxLength={4}

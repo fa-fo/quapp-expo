@@ -30,7 +30,7 @@ export default function CellVariantMatches(props) {
             backgroundColor={
                 props.isRefereeJob ? ColorFunctions.getColor('VioletLightBg')
                     : props.isCurrentRound && !props.item.canceled ? ColorFunctions.getColor('GreenLightBg')
-                    : props.backgroundColor
+                        : props.backgroundColor
             }
             cellContentView={
                 <View
@@ -50,23 +50,23 @@ export default function CellVariantMatches(props) {
                                }}>
                             {props.timeText ?? ''}
                         </TextC>
-                        <TextC adjustsFontSizeToFit numberOfLines={1}>
-                            {props.timeText2 ??
-                            <TextC>
-                                {SportFunctions.getSportImage(props.item.sport.code)}
-                                {props.item.sport.code}
-                                {props.isRefereeJob && props.refereeGroupName ?
-                                    <TextC style={style().textViolet}>
-                                        {'SR' + (props.item.teams4 ? '-E' : '')
-                                        + (props.refereeGroupName !== props.item.group_name ? ' ' + props.item.group_name + '\u2762' : '')}
-                                    </TextC> : null}
-                            </TextC>
-                            }
-                        </TextC>
                         {props.item.isPlayOff ?
-                            <TextC numberOfLines={1} style={style().big22}>
+                            <TextC adjustsFontSizeToFit numberOfLines={1} style={style().big22}>
                                 {props.item.playOffName ?? ''}
                             </TextC> : null}
+                        <TextC adjustsFontSizeToFit numberOfLines={1}>
+                            {props.timeText2 ??
+                                <TextC>
+                                    {SportFunctions.getSportImage(props.item.sport.code)}
+                                    {props.item.sport.code}
+                                    {props.isRefereeJob && props.refereeGroupName ?
+                                        <TextC style={style().textViolet}>
+                                            {'SR' + (props.item.teams4 ? '-E' : '')
+                                                + (props.refereeGroupName !== props.item.group_name ? ' ' + props.item.group_name + '\u2762' : '')}
+                                        </TextC> : null}
+                                </TextC>
+                            }
+                        </TextC>
                     </View>
                     <View style={{
                         flex: (props.item.canceled || props.team1Result !== null || (global.settings?.useLiveScouting && (props.isCurrentRound || props.item.isRefereeJobLoginRequired)) ? 3 : 3.6),

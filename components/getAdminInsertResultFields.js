@@ -164,9 +164,9 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                         <TextC
                             style={{fontSize: 10, textAlign: 'center'}}>{'\n\nFaktor ' + match.sport.goalFactor}</TextC>
                         <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
-                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'right'}}>{match.resultGoals1}</TextC>
+                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'right'}} adjustsFontSizeToFit numberOfLines={1}>{match.resultGoals1}</TextC>
                             <TextC style={{flex: 1, fontSize: 24, textAlign: 'center'}}>{':'}</TextC>
-                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'left'}}>{match.resultGoals2}</TextC>
+                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'left'}} adjustsFontSizeToFit numberOfLines={1}>{match.resultGoals2}</TextC>
                         </View>
                     </View>
                     <View style={{flex: 2}}>
