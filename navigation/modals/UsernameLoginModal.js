@@ -10,7 +10,7 @@ export default function UsernameLoginModal({
                                                username,
                                                navigation,
                                            }) {
-    const [usernamePW, setUsernamePW] = useState(__DEV__ ? '' : '');
+    const [usernamePW, setUsernamePW] = useState(__DEV__ ? process.env.EXPO_PUBLIC_ADMIN_PW : '');
     const [textPWWrongVisible, setTextPWWrongVisible] = useState(false);
     const inputRef = useRef();
 

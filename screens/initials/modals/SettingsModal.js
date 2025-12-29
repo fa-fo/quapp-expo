@@ -15,7 +15,7 @@ export default function SettingsModal({
     const [selectedName, setSelectedName] = useState('');
     const [selectedNameValue, setSelectedNameValue] = useState('');
     const [oldNameValue, setOldNameValue] = useState('');
-    const [usernamePW, setUsernamePW] = useState('');
+    const [usernamePW, setUsernamePW] = useState(__DEV__ ? process.env.EXPO_PUBLIC_ADMIN_PW : '');
     const [textPWWrongVisible, setTextPWWrongVisible] = useState(false);
 
     const save = () => {
