@@ -45,7 +45,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                             </Pressable>
                                         </View>
                                     )) : null}
-                                    {data.yearSelected && route.params.item.year_id >= 27 ?
+                                    {data.yearSelected?.hasPhotos ?
                                         <View style={{flex: 1, alignItems: 'center'}}>
                                             <Pressable style={style().buttonTopRight}
                                                        onPress={() => navigation.navigate('AllMatchPhotos', {
