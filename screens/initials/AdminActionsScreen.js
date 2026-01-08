@@ -322,10 +322,10 @@ export default function AdminActionsScreen({navigation}) {
                             <TextC>{data.avgRankingPoints ?
                                 <TextC>Durchschnittsranglistenpunkte Gr.
                                     {Object.entries(data.avgRankingPoints).map(([key, val]) => (
-                                        <TextC>{'\n'}
-                                            <TextC key={key}>{key}: </TextC>
+                                        <TextC key={key}>{'\n'}
+                                            <TextC>{key}: </TextC>
                                             {Object.entries(val).map(([k, v]) => (
-                                                <TextC key={k}>{'\n'}{k}: {v}</TextC>
+                                                <TextC key={k}>{k}: {v}    </TextC>
                                             ))}
                                         </TextC>
                                     ))}</TextC> : null}</TextC>
