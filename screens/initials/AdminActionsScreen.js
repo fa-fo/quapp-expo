@@ -301,22 +301,35 @@ export default function AdminActionsScreen({navigation}) {
                                                 <TextC style={style().textButton1}>Los!</TextC>
                                             </Pressable>
                                         </View>
-                                        <TextC>{data.avgRankingPointsPerYear !== undefined ?
-                                            <TextC>Durchschnittsranglistenpunkte Gr.
-                                                {Object.entries(data.avgRankingPointsPerYear).map(([key, val]) => (
-                                                    <TextC key={key}>{key}: {val}   </TextC>
-                                                ))}</TextC> : null}</TextC>
                                     </View>
                                     :
                                     (data.object.matchesCount === 0 ?
                                             <TextC>Gruppenzuordnungen sortieren</TextC>
                                             :
-                                            <TextC>Gruppenzuordnungen sortiert<TextC
-                                                style={style().textGreen}> {'\u2714'}</TextC></TextC>
+                                            <TextC>Gruppenzuordnungen sortiert
+                                                <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                                <Pressable
+                                                    style={[style().button1, style().buttonCancel, style().buttonGreen]}
+                                                    onPress={() => adminAction('groups/checkAfterAddAllGroupTeams', '')}>
+                                                    <TextC style={style().textButton1}>Check!</TextC>
+                                                </Pressable>
+                                            </TextC>
                                     )
                                 }
                             </View> : null}
 
+                        <View>
+                            <TextC>{data.avgRankingPoints ?
+                                <TextC>Durchschnittsranglistenpunkte Gr.
+                                    {Object.entries(data.avgRankingPoints).map(([key, val]) => (
+                                        <TextC>{'\n'}
+                                            <TextC key={key}>{key}: </TextC>
+                                            {Object.entries(val).map(([k, v]) => (
+                                                <TextC key={k}>{'\n'}{k}: {v}</TextC>
+                                            ))}
+                                        </TextC>
+                                    ))}</TextC> : null}</TextC>
+                        </View>
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
                             <View>
@@ -337,53 +350,56 @@ export default function AdminActionsScreen({navigation}) {
                                                onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', selectedValue2)}>
                                         <TextC style={style().textButton1}>Los!</TextC>
                                     </Pressable>
-                                    <Pressable style={[style().button1, style().buttonGreen]}
-                                               onPress={() => adminAction('groupTeams/checkPlaceNumberAfterAddAll', '')}>
-                                        <TextC style={style().textButton1}>Check!</TextC>
-                                    </Pressable>
                                 </View>
-                                <TextC>{data.avgOpponentRankingPointsPerYear ?
-                                    <TextC>Durchschnittsranglistenpunkte der Gegner in Gruppe
-                                        {Object.entries(data.avgOpponentRankingPointsPerYear).map(([key, val]) => (
-                                            <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
-                                                <TextC
-                                                    key={k}>{k}: {v}   </TextC>))}</TextC>
-                                        ))}</TextC> : null}</TextC>
-                                <TextC>{data.avgOpponentRankingPower ?
-                                    <TextC>{'\n'}Durchschnitts-Power-Ranking der Gegner in Gruppe
-                                        {Object.entries(data.avgOpponentRankingPower).map(([key, val]) => (
-                                            <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
-                                                <TextC
-                                                    key={k}>{k}: {v}   </TextC>))}</TextC>
-                                        ))}</TextC> : null}</TextC>
-                                <TextC>{data.year.settings.currentDay_id > 1 && data.avgOpponentPrevDayRanking ?
-                                    <TextC>{'\n'}Durchschnittsvortagesplatz der Gegner in Gruppe
-                                        {Object.entries(data.avgOpponentPrevDayRanking).map(([key, val]) => (
-                                            <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
-                                                <TextC
-                                                    key={k}>{k}: {v}   </TextC>))}</TextC>
-                                        ))}</TextC> : null}</TextC>
-                                <TextC>{data.countDoubleMatches ?
-                                    <TextC>{'\n'}Gleiche Paarungen wie zuvor:
-                                        {Object.entries(data.countDoubleMatches).map(([key, val]) => (
-                                            <TextC key={key}>{'\n' + key}: {val}</TextC>
-                                        ))}</TextC> : null}</TextC>
-                            </View>
+                            </View> : null}
+
+                        {data.object.groupTeamsCount !== data.year.teamsCount ?
+                            <TextC>Platzziffern an Teams verteilen</TextC>
                             :
-                            (data.object.matchesCount === 0 ?
-                                    <TextC>Platzziffern an Teams verteilen</TextC>
-                                    :
-                                    <TextC>Platzziffern an Teams verteilt<TextC
-                                        style={style().textGreen}> {'\u2714'}</TextC></TextC>
-                            )
+                            <TextC>Platzziffern an Teams verteilt
+                                <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                <Pressable style={[style().button1, style().buttonCancel, style().buttonGreen]}
+                                           onPress={() => adminAction('groupTeams/checkPlaceNumberAfterAddAll', '')}>
+                                    <TextC style={style().textButton1}>Check!</TextC>
+                                </Pressable>
+                            </TextC>
                         }
+                        <View>
+                            <TextC>{data.avgOpponentRankingPointsPerYear ?
+                                <TextC>Durchschnittsranglistenpunkte der Gegner in Gruppe
+                                    {Object.entries(data.avgOpponentRankingPointsPerYear).map(([key, val]) => (
+                                        <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
+                                            <TextC
+                                                key={k}>{k}: {v}   </TextC>))}</TextC>
+                                    ))}</TextC> : null}</TextC>
+                            <TextC>{data.avgOpponentRankingPower ?
+                                <TextC>{'\n'}Durchschnitts-Power-Ranking der Gegner in Gruppe
+                                    {Object.entries(data.avgOpponentRankingPower).map(([key, val]) => (
+                                        <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
+                                            <TextC
+                                                key={k}>{k}: {v}   </TextC>))}</TextC>
+                                    ))}</TextC> : null}</TextC>
+                            <TextC>{data.year.settings.currentDay_id > 1 && data.avgOpponentPrevDayRanking ?
+                                <TextC>{'\n'}Durchschnittsvortagesplatz der Gegner in Gruppe
+                                    {Object.entries(data.avgOpponentPrevDayRanking).map(([key, val]) => (
+                                        <TextC key={key}>{'\n' + key}: {Object.entries(val).map(([k, v]) => (
+                                            <TextC
+                                                key={k}>{k}: {v}   </TextC>))}</TextC>
+                                    ))}</TextC> : null}</TextC>
+                            <TextC>{data.countDoubleMatches ?
+                                <TextC>{'\n'}Gleiche Paarungen wie zuvor:
+                                    {Object.entries(data.countDoubleMatches).map(([key, val]) => (
+                                        <TextC key={key}>{'\n' + key}: {val}</TextC>
+                                    ))}</TextC> : null}</TextC>
+                        </View>
 
                         {data.year.settings.isTest === 1 && data.object.matchesCount > 0 && data.object.matchResultCount === 0 ?
                             <View style={{position: 'absolute', right: 0, top: 5}}>
                                 <Pressable style={[style().button1, style().buttonRed]}
                                            onPress={() => adminAction('years/clearMatchesAndLogs', '')}>
                                     <TextC style={style().textButton1}>Testmodus:
-                                        Alle Spiele{'\n'}und Matchlogs löschen</TextC>
+                                        Alle Spiele{'\n'}und Matchlogs löschen{'\n'}
+                                        (Tag {data.year.settings.currentDay_id})</TextC>
                                 </Pressable>
                             </View> : null}
                         <TextC style={{fontSize: 32}}>{'\u27F1'}</TextC>
