@@ -138,7 +138,7 @@ export default function CellVariantMatches(props) {
                                 <View style={{flex: 1.6, fontSize: 14}}>
                                     <Pressable
                                         style={[style().button1, style().buttonConfirm, style().buttonOrange]}
-                                        onPress={() => Linking.openURL('mailto:info@quattfo.de?subject='
+                                        onPress={() => Linking.openURL('mailto:' + process.env.EXPO_PUBLIC_EMAIL + '?subject='
                                             + encodeURIComponent('Ergebnis ' + props.item.id)
                                             + '&body=' + encodeURIComponent((props.item.teams1?.name ?? '') + ':\n' + props.localScore[props.item.team1_id] + '\n\n' + (props.item.teams2?.name ?? '') + ':\n' + props.localScore[props.item.team2_id] + '\n\nKommentar des Schiedsrichters:\n'))}>
                                         <TextC numberOfLines={2} adjustsFontSizeToFit style={style().textButton1}>

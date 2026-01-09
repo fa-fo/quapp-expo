@@ -349,11 +349,11 @@ export default function CustomDrawerContent(props) {
             </View>
             <View style={style().matchflexEventsView}>
                 <Text style={style().textBlue}>
-                    <Text
-                        onPress={() => Linking.openURL('https://www.quattfo.de/infos/impressum.html')}>Impressum</Text>
+                    <Text onPress={() => Linking.openURL(process.env.EXPO_PUBLIC_WEBSITE_IMPRESSUM)}>
+                        Impressum</Text>
                     {'  -  '}
-                    <Text
-                        onPress={() => Linking.openURL('https://www.quattfo.de/infos/datenschutz.html')}>Datenschutz</Text>
+                    <Text onPress={() => Linking.openURL(process.env.EXPO_PUBLIC_WEBSITE_DATENSCHUTZ)}>
+                        Datenschutz</Text>
                 </Text>
             </View>
             {Constants?.expoConfig?.version ?
