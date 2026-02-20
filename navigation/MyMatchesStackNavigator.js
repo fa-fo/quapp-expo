@@ -72,7 +72,7 @@ export default function MyMatchesStackNavigator({navigation}) {
                 options={({route}) => ({
                     title:
                         DateFunctions.getFormatted(route.params.item.matchStartTime) + ' Uhr: ' +
-                        route.params.item.sport.name +
+                        route.params.item.sport.name
                         + (global.settings.groupsCount > 1 ? ' Gr. ' + route.params.item.group_name : ''),
                 })}
             />
