@@ -40,7 +40,7 @@ export const setLocalPushNotifications = (matches) => {
     if (Device.isDevice && Platform.OS !== 'web') {
         Notifications.cancelAllScheduledNotificationsAsync() // cancel notifications for old team
             .then(r => {
-                if (global.myTeamId > 0) {
+                if (global.myTeamId > 0 && matches.length > 0) {
                     matches.map(item => {
                         const trigger = parseISO(item.matchStartTime);
                         trigger.setMinutes(Number(parseInt(trigger.getMinutes().toString()) - 10));
