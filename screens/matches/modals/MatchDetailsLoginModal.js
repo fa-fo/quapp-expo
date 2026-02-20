@@ -102,15 +102,17 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                         {isTryingLogin ? <ActivityIndicator size={36} color="green"/> : null}
                     </View>
 
-                    {textPinWrongVisible ? <TextC style={style().failureText}>falscher PIN?</TextC> : null}
+                    {textPinWrongVisible ?
+                        <TextC style={style().failureText}>falscher PIN?</TextC>
+                        : null}
                     {textPinEmptyVisible && refereePin === '' ?
                         <TextC style={style().failureText}>Bitte PIN eingeben</TextC> : null}
                     <TextC> </TextC>
 
                     {!isTryingLogin ?
-                        <Pressable style={[style().button1, style().buttonGrey]}
+                        <Pressable style={[style().button1, style().buttonGrey, {width: 200}]}
                                    onPress={() => setModalVisible(false)}>
-                            <TextC style={style().textButton1}>Schließen</TextC>
+                            <TextC style={[style().centeredText100, style().textButton1]}>Schließen</TextC>
                         </Pressable> : null}
                 </View>
             </View>

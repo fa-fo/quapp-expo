@@ -88,7 +88,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                 {global.settings.usePlayOff && global.settings.roundsCount === route.params.id ? 'Endrunde' : ''}
                                                             </TextC>
                                                         </View>
-                                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                                        <View style={{flex: 1.5, alignItems: 'flex-end'}}>
                                                             {route.name === 'RoundsMatches' ?
                                                                 (group.name !== 'Endrunde' ?
                                                                     <Pressable
@@ -142,7 +142,11 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                     })}
                                                                 >
                                                                     <TextC
-                                                                        style={[style().textButton1, {fontSize: 20, textAlign: 'right', color: ColorFunctions.getColor('primary')}]}>
+                                                                        style={[style().textButton1, {
+                                                                            fontSize: 20,
+                                                                            textAlign: 'right',
+                                                                            color: ColorFunctions.getColor('primary')
+                                                                        }]}>
                                                                         {route.name === 'RoundsMatchesAdmin' ? '\u2714 erstellt und freigegeben:\n' : ''}
                                                                         {'\u279E'} Endstand nach Endrunde</TextC>
                                                                 </Pressable>

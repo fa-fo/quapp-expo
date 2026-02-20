@@ -37,7 +37,7 @@ export default function MatchLogsAddEventModal({
 
             fetchApi('matcheventLogs/add/' + match.id, 'POST', postData)
                 .then((json) => {
-                    if (json.status === 'success') {
+                    if (json?.status === 'success') {
                         setLiveLogsCalc(json.object);
                         setNextSendAlive();
                     }
@@ -86,7 +86,7 @@ export default function MatchLogsAddEventModal({
                         <View>
                             <TextInput style={[style().textInput, style().textInputLarge]}
                                        onChangeText={setPlayerNumber}
-                                       placeholder="Hier zuerst Nummer eingeben"
+                                       placeholder="Hier Nr. zuerst eingeben"
                                        keyboardType="numeric"
                                        maxLength={3}
                                        value={playerNumber !== null ? playerNumber : ''}
@@ -97,41 +97,45 @@ export default function MatchLogsAddEventModal({
                         </View>
                     ) : null}
 
-                    {teamArray.slice(0, addEvent.needsTeamAssoc + 1).map(team => (
-                        <Pressable key={team.id}
-                                   style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1, {width: '80%'}]}
-                                   onPress={async () => {
-                                       let submitNumber = isNumber(playerNumber) ? parseInt(playerNumber) : null;
-                                       if (!addEvent.needsPlayerAssoc || submitNumber !== null) {
-                                           await setSubmitData({
-                                               'teamId': (addEvent.needsTeamAssoc ? team.id : null),
-                                               'playerNumber': (addEvent.needsPlayerAssoc ? submitNumber : null),
-                                           });
+                    <View>
+                        {teamArray.slice(0, addEvent.needsTeamAssoc + 1).map(team => (
+                            <View key={team.id}>
+                            <Pressable style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1]}
+                                       onPress={async () => {
+                                           let submitNumber = isNumber(playerNumber) ? parseInt(playerNumber) : null;
+                                           if (!addEvent.needsPlayerAssoc || submitNumber !== null) {
+                                               await setSubmitData({
+                                                   'teamId': (addEvent.needsTeamAssoc ? team.id : null),
+                                                   'playerNumber': (addEvent.needsPlayerAssoc ? submitNumber : null),
+                                               });
 
-                                           setAddEventModalVisible(false);
-                                       } else {
-                                           setPlayerNumber('');
-                                       }
-                                   }}>
-                            <TextC style={[style().textButton1, (addEvent.needsTeamAssoc ? null : style().big3)]}>
-                                {addEvent.needsTeamAssoc ?
-                                    team.name
-                                    :
-                                    <Text>
-                                        <IconMat name="arrow-right" size={30}
-                                                 style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
-                                        {' '}Bestätigen
-                                    </Text>
-                                }
-                            </TextC>
-                        </Pressable>
-                    ))}
+                                               setAddEventModalVisible(false);
+                                           } else {
+                                               setPlayerNumber('');
+                                           }
+                                       }}>
+                                <TextC numberOfLines={2}
+                                       style={[style().centeredText100, style().textButton1, (addEvent.needsTeamAssoc ? null : style().big3)]}>
+                                    {addEvent.needsTeamAssoc ?
+                                        team.name + ''
+                                        :
+                                        <Text>
+                                            <IconMat name="arrow-right" size={30}
+                                                     style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
+                                            {' '}Bestätigen
+                                        </Text>
+                                    }
+                                </TextC>
+                            </Pressable>
+                            </View>
+                        ))}
+                    </View>
                     <TextC> </TextC>
-                    <Pressable style={[style().button1, style().buttonGrey]}
+                    <Pressable style={[style().button1, style().buttonGrey, {width: 200}]}
                                onPress={() => {
                                    setAddEventModalVisible(false);
                                }}>
-                        <TextC style={style().textButton1}>abbrechen</TextC>
+                        <TextC style={[style().centeredText100, style().textButton1]}>abbrechen</TextC>
                     </Pressable>
                 </View>
             </View>

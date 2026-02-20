@@ -69,7 +69,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                                     : null}
                                                             </TextC>
                                                         </View>
-                                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                                        <View style={{flex: 1.5, alignItems: 'flex-end'}}>
                                                             <Pressable
                                                                 style={style().buttonTopRight}
                                                                 onPress={() => navigation.navigate(route.name === 'ListMatchesByGroupAdmin' ? 'RankingInGroupsAdmin' : 'RankingInGroups', {item: route.params.item}, {pop: true})}

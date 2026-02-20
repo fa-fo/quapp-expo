@@ -129,7 +129,7 @@ export default function AllMatchPhotosScreen({navigation}) {
                         style={[style().button1, style().buttonEvent, style().buttonGreen]}
                         onPress={() => scrollToMyNextPhoto(progress)}
                     >
-                        <TextC style={[style().textButton1, {textAlign: 'center'}]}>
+                        <TextC style={[style().textButton1]} numberOfLines={1}>
                             Mein Team
                             <IconMat name='skip-next' size={24} color='#fff'/>
                         </TextC>

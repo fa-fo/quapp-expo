@@ -48,27 +48,24 @@ export default function MatchLogsCancelEventModal({
             }}
         >
             <View style={style().centeredView}>
-                <View style={style().modalView}>
-                    <TextC>Bitte Rückgängigmachen bestätigen</TextC>
-
+                <View style={[style().modalView, {width: '80%'}]}>
+                    <TextC numberOfLines={2} style={style().centeredText100}>{'Bitte Rückgängigmachen\nbestätigen'}</TextC>
                     <Pressable
-                        style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1, {width: '80%'}]}
+                        style={[style().button1, style().buttonGreen, style().buttonEvent, style().buttonBig1, {width: '95%'}]}
                         onPress={() => {
                             cancelMatcheventlog();
                             setCancelEventModalVisible(false);
                         }}>
-                        <TextC style={style().textButton1}>
-                            <IconMat name="arrow-right" size={15}/>
-                            {' '}
-                            Bestätigen
+                        <TextC style={[style().centeredText100, style().textButton1]}>
+                            <IconMat name="arrow-right" size={15}/>{' Bestätigen'}
                         </TextC>
                     </Pressable>
                     <TextC> </TextC>
-                    <Pressable style={[style().button1, style().buttonGrey]}
+                    <Pressable style={[style().button1, style().buttonGrey, {width: 170}]}
                                onPress={() => {
                                    setCancelEventModalVisible(false);
                                }}>
-                        <TextC style={style().textButton1}>abbrechen</TextC>
+                        <TextC style={[style().centeredText100, style().textButton1]}>abbrechen</TextC>
                     </Pressable>
                 </View>
             </View>

@@ -184,7 +184,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                                     : null}
                                                             </TextC>
                                                         </View>
-                                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                                        <View style={{flex: 1.5, alignItems: 'flex-end'}}>
                                                             <Pressable
                                                                 style={style().buttonTopRight}
                                                                 onPress={() => navigation.navigate('RankingInGroups', {item: data.object.group}, {pop: true})}

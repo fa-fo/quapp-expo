@@ -13,11 +13,12 @@ export const style = () => StyleSheet.create({
     buttonTopRight: {
         alignItems: 'center',
         marginVertical: 4,
-        marginHorizontal: 8,
+        marginHorizontal: 4,
         paddingVertical: 12,
         paddingHorizontal: 12,
         borderRadius: 4,
         elevation: 3,
+        width: '100%',
         backgroundColor: ColorFunctions.getColor('blue'),
     },
     button1: {
@@ -173,6 +174,8 @@ export const style = () => StyleSheet.create({
     },
     textInputLarge: {
         fontSize: 36,
+        paddingVertical: 4,
+        lineHeight: 44,
         textAlign: 'center',
         width: 250
     },
@@ -182,10 +185,12 @@ export const style = () => StyleSheet.create({
         backgroundColor: ColorFunctions.getColor('TestHintBg'),
     },
     failureText: {
+        width: 300,
         paddingVertical: 4,
         paddingHorizontal: 6,
         backgroundColor: '#a33300',
-        color: '#fff'
+        color: '#fff',
+        textAlign: 'center',
     },
     centeredText100: {
         width: '100%',
@@ -212,6 +217,7 @@ export const style = () => StyleSheet.create({
     },
     matchDetailsView: {
         paddingTop: 18,
+        paddingBottom: 20,
         paddingHorizontal: 5,
         alignItems: 'center',
     },
