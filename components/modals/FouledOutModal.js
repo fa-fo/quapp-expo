@@ -16,16 +16,19 @@ export default function FouledOutModal({
             }}>
             <View style={style().centeredView}>
                 <View style={style().modalView}>
-                    <TextC style={style().big3}>Foul Out!</TextC>
-                    <TextC>{'\n'}</TextC>
-                    <TextC>Die/der soeben bestrafte Spieler*in darf am laufenden Spiel nicht mehr teilnehmen!</TextC>
-                    <TextC>{'\n'}</TextC>
+                    <View>
+                        <TextC style={style().big2}>Foul Out!</TextC>
+                        <TextC>{'\n'}</TextC>
+                        <TextC>Die/der soeben bestrafte Spieler*in darf am laufenden Spiel nicht mehr
+                            teilnehmen!</TextC>
+                        <TextC>{'\n'}</TextC>
 
-                    <Pressable
-                        style={[style().button1, style().buttonRed]}
-                        onPress={() => setModalVisible(false)}>
-                        <TextC style={style().textButton1}>OK, schließen</TextC>
-                    </Pressable>
+                        <Pressable
+                            style={[style().button1, style().buttonRed]}
+                            onPress={() => setModalVisible(false)}>
+                            <TextC style={[style().centeredText100, style().textButton1]}>OK, schließen</TextC>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </Modal>
