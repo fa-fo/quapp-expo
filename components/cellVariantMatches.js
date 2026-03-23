@@ -9,6 +9,7 @@ import * as ColorFunctions from "./functions/ColorFunctions";
 
 export default function CellVariantMatches(props) {
     const [showBlinking, setShowBlinking] = useState(true);
+    const [showLiveTicker, setShowLiveTicker] = useState(false);
     const [supervisorActionsModalVisible, setSupervisorActionsModalVisible] =
         useState(false);
 
@@ -20,6 +21,9 @@ export default function CellVariantMatches(props) {
             }, 1000);
             return () => clearInterval(interval);
         }
+        setShowLiveTicker(props.isCurrentRound && global.settings?.useLiveScouting
+            && (props.item.round.autoUpdateResults
+                || ([props.item.team1_id, props.item.team2_id].includes(global.myTeamId) && !global.myTeamChangedLate)));
     }, []);
 
     return (
@@ -69,7 +73,7 @@ export default function CellVariantMatches(props) {
                         </TextC>
                     </View>
                     <View style={{
-                        flex: (props.item.canceled || props.team1Result !== null || (global.settings?.useLiveScouting && (props.isCurrentRound || props.item.isRefereeJobLoginRequired)) ? 3 : 3.6),
+                        flex: (props.item.canceled || props.team1Result !== null || props.item.isRefereeJobLoginRequired || showLiveTicker ? 3 : 3.6),
                         fontSize: 14
                     }}>
                         <TextC
@@ -155,7 +159,7 @@ export default function CellVariantMatches(props) {
                                                        fontWeight: props.isCurrentRound || props.nextIsCurrentRound ? 'bold' : 'normal'
                                                    }]}>{showBlinking ? 'Login!' : ''}</TextC>
                                         </View>
-                                        : (props.isCurrentRound && global.settings?.useLiveScouting ?
+                                        : (showLiveTicker ?
                                             <View style={{flex: 0.6, alignSelf: 'center'}}>
                                                 <TextC numberOfLines={1} adjustsFontSizeToFit
                                                        style={[style().textRed, {
@@ -177,7 +181,6 @@ export default function CellVariantMatches(props) {
                             </Pressable>
                         </View>
                     ) : null}
-
 
                     {props.fromRoute === 'ListMatchesByRefereeCanceledTeamsSupervisor' ?
                         <View style={{alignSelf: 'center', flex: 1}}>
