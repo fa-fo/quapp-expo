@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import {showLive} from "../../components/functions/CheckFunctions";
 
 export default function MatchDetailsScreen({navigation}) {
     const route = useRoute();
@@ -29,9 +30,7 @@ export default function MatchDetailsScreen({navigation}) {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
                 setItem(json.object[0] ?? []);
-                setShowLiveTicker(json.object[0].round.autoUpdateResults
-                    || route.name === 'MatchDetailsAdmin'
-                    || ([json.object[0].team1_id, json.object[0].team2_id].includes(global.myTeamId) && !global.myTeamChangedLate));
+                setShowLiveTicker(showLive(json.object[0], 1));
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));

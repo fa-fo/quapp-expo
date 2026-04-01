@@ -6,6 +6,7 @@ import {style} from '../assets/styles.js';
 import SupervisorActionsModal from './modals/SupervisorActionsModal';
 import * as SportFunctions from './functions/SportFunctions';
 import * as ColorFunctions from "./functions/ColorFunctions";
+import {showLive} from "./functions/CheckFunctions";
 
 export default function CellVariantMatches(props) {
     const [showBlinking, setShowBlinking] = useState(true);
@@ -21,9 +22,8 @@ export default function CellVariantMatches(props) {
             }, 1000);
             return () => clearInterval(interval);
         }
-        setShowLiveTicker(props.isCurrentRound && global.settings?.useLiveScouting
-            && (props.item.round.autoUpdateResults
-                || ([props.item.team1_id, props.item.team2_id].includes(global.myTeamId) && !global.myTeamChangedLate)));
+
+        setShowLiveTicker(showLive(props.item, props.isCurrentRound));
     }, []);
 
     return (
