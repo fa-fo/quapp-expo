@@ -11,12 +11,19 @@ export default function TeamsCurrentScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [sports, setSports] = useState([]);
 
     useEffect(() => {
         loadScreenData();
     }, []);
 
     const loadScreenData = () => {
+        if (route.name === 'TeamsCurrentAdmin') {
+            fetchApi('sports/all')
+                .then((json) => setSports(json))
+                .catch((error) => console.error(error));
+        }
+
         fetchApi('teamYears/all')
             .then((json) => setData(json))
             .catch((error) => console.error(error))
@@ -33,10 +40,8 @@ export default function TeamsCurrentScreen({navigation}) {
                                 (route.name === 'TeamsCurrentAdmin' ?
                                     <CellVariantTeamsAdmin
                                         key={item.id}
-                                        teamYearsId={item.id}
-                                        title={item.team.name}
-                                        routeName={route.name}
-                                        canceled={item.canceled}
+                                        item={item}
+                                        sports={sports.object}
                                     />
                                     :
                                     <CellVariant

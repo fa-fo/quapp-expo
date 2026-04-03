@@ -52,14 +52,14 @@ export default function CancelTeamYearModal({
                         keyboardType="default"
                         value={usernamePW}
                         maxLength={16}
-                        onSubmitEditing={() => cancelTeamYear(props.teamYearsId, canceled)}
+                        onSubmitEditing={() => cancelTeamYear(props.item.id, canceled)}
                     />
                     <Pressable
                         style={[
                             style().button1,
                             canceled ? style().buttonGreen : style().buttonRed,
                         ]}
-                        onPress={() => cancelTeamYear(props.teamYearsId, canceled)}>
+                        onPress={() => cancelTeamYear(props.item.id, canceled)}>
                         <TextC
                             numberOfLines={1}
                             style={style().textButton1}>

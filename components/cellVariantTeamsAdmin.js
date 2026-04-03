@@ -2,22 +2,44 @@ import TextC from "../components/customText";
 import {useState} from 'react';
 import {Pressable, View} from 'react-native';
 import {Cell} from 'react-native-tableview-simple';
+import {Checkbox} from 'expo-checkbox';
 import {style} from '../assets/styles';
-import fetchApi from './fetchApi';
 import CancelTeamYearModal from "./modals/CancelTeamYearModal";
+import fetchApi from "./fetchApi";
 
 export default function CellVariantTeamsAdmin(props) {
-    const [canceled, setCanceled] = useState(props.canceled);
+    let initialRefereePref = props.sports.map(sport => sport.id.toString()).join('');
+
+    const [canceled, setCanceled] = useState(props.item.canceled);
     const [cancelTeamYearModalVisible, setCancelTeamYearModalVisible] =
         useState(false);
+    const [refereePref, setRefereePref] = useState(props.item.refereePref?.toString() ?? initialRefereePref);
 
-    const cancelTeamYear = (teamYearsId, undo) => {
-        let postData = {password: global.adminPW};
+    function getRefereePref(sport_id) {
+        return refereePref.includes(sport_id.toString());
+    }
 
-        fetchApi('teamYears/cancel/' + teamYearsId + '/' + undo, 'POST', postData)
-            .then(json => setCanceled(json.object ? json.object.canceled : undo))
+    function changeRefereePref(sport_id, itemValue) {
+        let sid = sport_id.toString();
+        let str = itemValue ? refereePref + sid : refereePref.replaceAll(sid, '');
+
+        let newRefereePref = [...new Set(str)].join('');  // remove doublets
+        setRefereePref(newRefereePref);
+        saveRefereePref(newRefereePref);
+    }
+
+    function saveRefereePref(newRefereePref) {
+        let postData = {password: global.adminPW, refereePref: newRefereePref};
+
+        fetchApi('teamYears/saveRefereePref/' + props.item.id, 'POST', postData)
+            .then(json => {
+                if (json && json.status === 'success') {
+                } else {
+                }
+            })
             .catch(error => console.error(error));
-    };
+
+    }
 
     return (
         <Cell
@@ -32,21 +54,31 @@ export default function CellVariantTeamsAdmin(props) {
                     }}>
                     <View style={{flex: 1, alignSelf: 'center'}}>
                         <TextC
-
                             numberOfLines={1}
-                            style={{
-                                fontWeight: props.isMyTeam ? 'bold' : 'normal',
-                                fontSize: 16,
-                            }}>
-                            {props.title}
+                            style={{fontSize: 16}}>
+                            {props.item.team.name}
                             {canceled ?
                                 <TextC style={{color: '#a33300', fontSize: 10}}>
-                                    {' '}
-                                    zurückgezogen
+                                    {' '}zurückgezogen
                                 </TextC>
                                 : null}
                         </TextC>
                     </View>
+                    {global.settings.useRefereePref && props.sports ?
+                        <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+                            {props.sports.map(sport => (
+                                <TextC key={sport.id}>
+                                    {sport.code.substring(0, 1)}
+                                    <Checkbox
+                                        disabled={refereePref.length < 4 && getRefereePref(sport.id)}
+                                        value={getRefereePref(sport.id)}
+                                        onValueChange={(itemValue) => changeRefereePref(sport.id, itemValue)}
+                                    />
+                                    {' '}
+                                </TextC>
+                            ))}
+                        </View> : null}
+
                     <View style={{flex: 0.6, alignSelf: 'center'}}>
                         <Pressable
                             style={[

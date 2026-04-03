@@ -446,6 +446,13 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                         : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                 </TextC>
+                                {global.settings.useRefereePref ?
+                                    <TextC>Max. SR-Einsätze je Team je
+                                        Sportart: {data.object.maxMatchesByRefereeTeamPerSport}
+                                        {data.object.maxMatchesByRefereeTeamPerSport < 3 ?
+                                            <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                            : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                    </TextC> : null}
                             </View> : null}
 
                         {data.object.matchesCount === 0 && data.object.groupTeamsCount === data.year.teamsCount ?
@@ -487,8 +494,8 @@ export default function AdminActionsScreen({navigation}) {
                                         </TextC>
                                     </Pressable>
                                 ))}
-
                             </View> : null}
+
                         {data.year.settings.currentDay_id > 1 && data.object.matchesCount > data.object.matchResultCount ?
                             <TextC>Abgesagte Spiele wg. 1 fehlenden Team: {data.object.matchesWith1CanceledCount}
                                 {data.object.matchesWith1CanceledCount === 0 ?
@@ -514,8 +521,22 @@ export default function AdminActionsScreen({navigation}) {
                                 ))}
                             </View> : null}
 
+                        {global.settings.useRefereePref && data.object.matchResultCount === 0 ?
+                            <View>
+                                <TextC>Spiele mit falschen SR-Präferenzen: {data.object.matchesWithNotRefereePref}
+                                    {data.object.matchesWithNotRefereePref === 0 ?
+                                        <TextC style={style().textGreen}> {'\u2714'}</TextC>
+                                        : <TextC style={style().textRed}> {'\u2762'}</TextC>}
+                                    {data.object.matchesWithNotRefereePref > 0 ?
+                                        <Pressable style={[style().button1, style().buttonCancel, style().buttonGreen]}
+                                                   onPress={() => adminAction('matches/changeRefereesByPrefs', '')}>
+                                            <TextC style={style().textButton1}>optimieren!</TextC>
+                                        </Pressable> : null}
+                                </TextC>
+                            </View> : null}
+
                         {data.object.matchesCount > data.object.matchResultCount ?
-                            <TextC style={{fontSize: 32}}>Spielbetrieb läuft!</TextC> : null}
+                            <TextC style={{fontSize: 32}}>{'\n'}Spielbetrieb läuft!</TextC> : null}
                         {data.object.matchesCount > data.object.matchResultCount ?
                             <View style={style().matchflexRowView}>
                                 <View style={[style().viewStatus, {flex: 1}]}>
