@@ -1,19 +1,18 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 28014;
+const versionCode = 29000;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '4.0.2',
+    version: '5.0.0',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
-    updates: {
-        fallbackToCacheTimeout: 0
+    extra: {
+        eas: {
+            projectId: '6e5271a6-5d4f-4a44-a517-0b2c7b9ec853'
+        }
     },
-    assetBundlePatterns: [
-        '**/*'
-    ],
     ios: {
         supportsTablet: true,
         bundleIdentifier: IS_DEV ? 'de.quattfo.quapp.dev' : 'de.quattfo.quapp',
@@ -50,9 +49,6 @@ export default {
         favicon: './assets/images/favicon.png',
         bundler: 'metro'
     },
-    androidStatusBar: {
-        translucent: true
-    },
     plugins: [
         [
             './withAndroidRemovedPermissions',
@@ -64,7 +60,7 @@ export default {
             'expo-build-properties',
             {
                 android: {
-                    targetSdkVersion: 34,
+                    targetSdkVersion: 36,
                     minSdkVersion: 26
                 }
             }
@@ -98,11 +94,15 @@ export default {
             }
         ]
     ],
-    extra: {
-        eas: {
-            projectId: '6e5271a6-5d4f-4a44-a517-0b2c7b9ec853'
-        }
+    androidStatusBar: {
+        translucent: true
     },
+    updates: {
+        fallbackToCacheTimeout: 0
+    },
+    assetBundlePatterns: [
+        '**/*'
+    ],
     experiments: {
         baseUrl: "/expo"
     },
