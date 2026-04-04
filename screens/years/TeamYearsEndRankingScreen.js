@@ -32,7 +32,8 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                                     <View style={{flex: 1}}>
                                         <TextC>{route.params.item.year_name}</TextC>
                                     </View>
-                                    {data.yearSelected?.daysWithGroups > 0 ? ([...Array(data.yearSelected.daysWithGroups).keys()]).map(day_id => (
+                                    {data.yearSelected?.daysWithGroups > 0 ? (
+                                        [...Array(data.yearSelected.daysWithGroups).keys()]).map(day_id => (
                                         <View key={day_id} style={{flex: 2, alignItems: 'center'}}>
                                             <Pressable style={style().buttonTopRight}
                                                        onPress={() => navigation.navigate('GroupsAll', {

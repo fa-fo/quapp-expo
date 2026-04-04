@@ -104,7 +104,7 @@ export default function AllMatchPhotosScreen({navigation}) {
                                         />
                                     </Pressable>
                                     <TextC style={{flex: 1, textAlign: 'center'}}>
-                                        {item.sport_name + ' Gr. ' + item.group_name + ', Runde ' + item.round_id}
+                                        {'Tag ' + item.day_id + ', Runde ' + item.round_id + ', ' + item.sport_name + ' Gr. ' + item.group_name}
                                         {'\n'}
                                         {item.team1_name + ' vs ' + item.team2_name}
                                         {'\n'}
