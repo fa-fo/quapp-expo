@@ -18,7 +18,7 @@ export const style = () => StyleSheet.create({
         paddingHorizontal: 12,
         borderRadius: 4,
         elevation: 3,
-        width: '100%',
+        width: '95%',
         backgroundColor: ColorFunctions.getColor('blue'),
     },
     button1: {
