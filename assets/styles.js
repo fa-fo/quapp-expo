@@ -296,17 +296,9 @@ export const style = () => StyleSheet.create({
         textAlign: 'center',
     },
     drawerSectionView: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 12,
-    },
-    separatorLine: {
-        flex: 1,
-        backgroundColor: ColorFunctions.getColor('primary'),
-        height: 1.2,
-        marginLeft: 12,
-        marginRight: 24,
+        paddingTop: 12,
+        borderTopWidth: .5,
+        borderColor: ColorFunctions.getColor('primary'),
     },
     centeredView: {
         flex: 1,

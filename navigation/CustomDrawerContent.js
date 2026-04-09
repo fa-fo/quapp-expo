@@ -30,216 +30,241 @@ export default function CustomDrawerContent(props) {
                     source={require('../assets/images/logo.png')}
                 />
             </View>
-            <View style={style().drawerSectionView}>
-                <TextC style={{marginLeft: 10}}>
-                    {tournamentName + ' ' + (currentDayId > 0 ? currentYearName + ', Tag ' + currentDayId : '')}
+            <View>
+                <TextC style={{marginLeft: 10, width: '100%', fontWeight: 'bold'}}>
+                    {tournamentName + ' ' + (currentDayId > 0 ? currentYearName + ', Tag ' + currentDayId : '')}:
                     {global.isLocalhostWebview ?
                         <TextC style={[style().big22, style().textRed]}> localhost</TextC> : null}
                 </TextC>
-                <View style={style().separatorLine}/>
-            </View>
-            {global.myTeamId === 0 ? null
-                :
+                {global.myTeamId === 0 ? null
+                    :
+                    <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="exclamation-thick" size={25} style={style().yellowBg}/>}
+                        label="Meine Spiele"
+                        onPress={() =>
+                            props.navigation.reset({
+                                index: 0,
+                                routes: [{name: 'MyMatches', screen: 'MyMatchesCurrent'}],
+                            })
+                        }
+                    />
+                }
                 <DrawerItem
-                    icon={() => <Icon name="exclamation-thick" size={25} style={style().yellowBg}/>}
-                    label="Meine Spiele"
+                    style={{width: '100%'}}
+                    icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Alle Spielrunden"
                     onPress={() =>
-                        props.navigation.reset({
-                            index: 0,
-                            routes: [{name: 'MyMatches', screen: 'MyMatchesCurrent'}],
+                        props.navigation.navigate('MyMatches', {screen: 'RoundsCurrent', pop: true})
+                    }
+                />
+                {global.currentYear?.teamsCount > 24 ?
+                    <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="view-grid-outline" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
+                        label="Alle Gruppen"
+                        onPress={() =>
+                            props.navigation.navigate('MyMatches', {screen: 'GroupsAll', pop: true})
+                        }
+                    />
+                    : <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="table-large" size={25} color={ColorFunctions.getColor('primary')}/>}
+                        label="Tabelle"
+                        onPress={() =>
+                            props.navigation.navigate('MyMatches', {screen: 'RankingInGroups', pop: true})
+                        }
+                    />
+                }
+                <DrawerItem
+                    style={{width: '100%'}}
+                    icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Alle Teams"
+                    onPress={() =>
+                        props.navigation.navigate('MyMatches', {screen: 'TeamsCurrent', pop: true})
+                    }
+                />
+                {global.settings?.useLiveScouting && global.settings.maxPhotos > 0 ?
+                    <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
+                        label="Fotos"
+                        onPress={() =>
+                            props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos', pop: true})
+                        }
+                    /> : null
+                }
+                <DrawerItem
+                    style={{width: '100%'}}
+                    icon={() => <Icon name="playlist-check" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Spielregeln"
+                    onPress={() =>
+                        props.navigation.navigate('MyMatches', {
+                            screen: 'ResourceContent',
+                            pop: true,
+                            params: {
+                                resource_id: 16,
+                                title: 'Spielregeln'
+                            }
                         })
                     }
                 />
-            }
-            <DrawerItem
-                icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Alle Spielrunden"
-                onPress={() =>
-                    props.navigation.navigate('MyMatches', {screen: 'RoundsCurrent', pop: true})
-                }
-            />
-            {global.currentYear?.teamsCount > 24 ?
                 <DrawerItem
-                    icon={() => <Icon name="view-grid-outline" size={25} color={ColorFunctions.getColor('primary')}/>}
-                    label="Alle Gruppen"
+                    style={{width: '100%'}}
+                    icon={() => <Icon name="food-fork-drink" size={25} color={ColorFunctions.getColor('primary')}/>}
+                    label="Speisekarte"
                     onPress={() =>
-                        props.navigation.navigate('MyMatches', {screen: 'GroupsAll', pop: true})
+                        props.navigation.navigate('MyMatches', {
+                            screen: 'ResourceContent',
+                            pop: true,
+                            params: {
+                                resource_id: 77,
+                                title: 'Speisekarte'
+                            }
+                        })
                     }
                 />
-                : <DrawerItem
-                    icon={() => <Icon name="table-large" size={25} color={ColorFunctions.getColor('primary')}/>}
-                    label="Tabelle"
-                    onPress={() =>
-                        props.navigation.navigate('MyMatches', {screen: 'RankingInGroups', pop: true})
-                    }
-                />
-            }
-            <DrawerItem
-                icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Alle Teams"
-                onPress={() =>
-                    props.navigation.navigate('MyMatches', {screen: 'TeamsCurrent', pop: true})
-                }
-            />
-            {global.settings?.useLiveScouting && global.settings.maxPhotos > 0 ?
-                <DrawerItem
-                    icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
-                                      color={ColorFunctions.getColor('primary')}/>}
-                    label="Fotos"
-                    onPress={() =>
-                        props.navigation.navigate('MyMatches', {screen: 'AllMatchPhotos', pop: true})
-                    }
-                /> : null
-            }
-            <DrawerItem
-                icon={() => <Icon name="playlist-check" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Spielregeln"
-                onPress={() =>
-                    props.navigation.navigate('MyMatches', {
-                        screen: 'ResourceContent',
-                        pop: true,
-                        params: {
-                            resource_id: 16,
-                            title: 'Spielregeln'
-                        }
-                    })
-                }
-            />
-            <DrawerItem
-                icon={() => <Icon name="food-fork-drink" size={25} color={ColorFunctions.getColor('primary')}/>}
-                label="Speisekarte"
-                onPress={() =>
-                    props.navigation.navigate('MyMatches', {
-                        screen: 'ResourceContent',
-                        pop: true,
-                        params: {
-                            resource_id: 77,
-                            title: 'Speisekarte'
-                        }
-                    })
-                }
-            />
-            {currentDayId > 1 ?
-                <DrawerItem
-                    icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
-                    label="Archiv Tag 1"
-                    onPress={() => props.navigation.navigate('Years', {
-                        screen: 'GroupsAll',
-                        pop: true,
-                        params: {
-                            year_id: currentYearId,
-                            day_id: (currentDayId - 1)
-                        }
-                    })}
-                />
-                : null}
-            {global.settings?.usePlayOff ?
-                <DrawerItem
-                    icon={() => <Icon name="playlist-plus" size={25}
-                                      color={ColorFunctions.getColor('primary')}/>}
-                    label="Endrunden-Spiele"
-                    onPress={() => props.navigation.navigate('MyMatches', {
-                        screen: 'RoundsMatches',
-                        pop: true,
-                        params: {id: global.settings?.roundsCount}
-                    })}
-                />
-                : null}
-            {global.settings?.usePlayOff && global.settings?.showEndRanking ?
-                <DrawerItem
-                    icon={() => <Icon name="table-large-plus" size={25} color={ColorFunctions.getColor('primary')}/>}
-                    label="Endstand nach Endrunde"
-                    onPress={() => props.navigation.navigate('Years', {
-                        screen: 'TeamYearsEndRanking',
-                        pop: true,
-                        params: {item: {year_id: currentYearId, year_name: currentYearName}}
-                    })}
-                />
-                : null}
+                {currentDayId > 1 ?
+                    <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
+                        label="Archiv Tag 1"
+                        onPress={() => props.navigation.navigate('Years', {
+                            screen: 'GroupsAll',
+                            pop: true,
+                            params: {
+                                year_id: currentYearId,
+                                day_id: (currentDayId - 1)
+                            }
+                        })}
+                    />
+                    : null}
+                {global.settings?.usePlayOff ?
+                    <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="playlist-plus" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
+                        label="Endrunden-Spiele"
+                        onPress={() => props.navigation.navigate('MyMatches', {
+                            screen: 'RoundsMatches',
+                            pop: true,
+                            params: {id: global.settings?.roundsCount}
+                        })}
+                    />
+                    : null}
+                {global.settings?.usePlayOff && global.settings?.showEndRanking ?
+                    <DrawerItem
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="table-large-plus" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
+                        label="Endstand nach Endrunde"
+                        onPress={() => props.navigation.navigate('Years', {
+                            screen: 'TeamYearsEndRanking',
+                            pop: true,
+                            params: {item: {year_id: currentYearId, year_name: currentYearName}}
+                        })}
+                    />
+                    : null}
+            </View>
+
             {global.settings?.showArchieve ?
                 <View>
                     <View style={style().drawerSectionView}>
-                        <TextC style={{marginLeft: 10}}>{tournamentName} Historie</TextC>
-                        <View style={style().separatorLine}/>
+                        <TextC style={{marginLeft: 10, width: '100%', fontWeight: 'bold'}}>
+                            {tournamentName} Historie:
+                        </TextC>
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
+                            label="Archiv"
+                            onPress={() => props.navigation.navigate('Years', {screen: 'YearsAll', pop: true})}
+                        />
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="table-star" size={25} color={ColorFunctions.getColor('primary')}/>}
+                            label="Ewige Tabelle"
+                            onPress={() =>
+                                props.navigation.navigate('Years', {screen: 'TeamsAllTimeRanking', pop: true})
+                            }
+                        />
                     </View>
-                    <DrawerItem
-                        icon={() => <Icon name="history" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Archiv"
-                        onPress={() => props.navigation.navigate('Years', {screen: 'YearsAll', pop: true})}
-                    />
-                    <DrawerItem
-                        icon={() => <Icon name="table-star" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Ewige Tabelle"
-                        onPress={() =>
-                            props.navigation.navigate('Years', {screen: 'TeamsAllTimeRanking', pop: true})
-                        }
-                    />
                 </View> : null}
             <View>
                 <View style={style().drawerSectionView}>
-                    <View style={style().separatorLine}/>
-                </View>
-                {global.settings?.useRefereeName ?
+                    {global.settings?.useRefereeName ?
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="text-box-search" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="SR-Spielsuche"
+                            onPress={() => props.navigation.navigate('MyMatches', {
+                                screen: 'ListMatchesByReferee',
+                                pop: true
+                            })}
+                        /> : null}
                     <DrawerItem
-                        icon={() => <Icon name="text-box-search" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="SR-Spielsuche"
-                        onPress={() => props.navigation.navigate('MyMatches', {
-                            screen: 'ListMatchesByReferee',
-                            pop: true
-                        })}
-                    /> : null}
-                <DrawerItem
-                    icon={() => <Icon name="account-settings-outline" size={25}
-                                      color={ColorFunctions.getColor('primary')}/>}
-                    label="Einstellungen"
-                    onPress={() => {
-                        props.navigation.navigate('MyMatches', {screen: 'Settings', pop: true})
-                    }}
-                />
+                        style={{width: '100%'}}
+                        icon={() => <Icon name="account-settings-outline" size={25}
+                                          color={ColorFunctions.getColor('primary')}/>}
+                        label="Einstellungen"
+                        onPress={() => {
+                            props.navigation.navigate('MyMatches', {screen: 'Settings', pop: true})
+                        }}
+                    />
+                </View>
             </View>
             {global.supervisorPW === undefined ?
                 null
                 :
                 <View>
                     <View style={style().drawerSectionView}>
-                        <TextC style={{marginLeft: 10}}>Supervisor</TextC>
-                        <View style={style().separatorLine}/>
+                        <TextC style={{marginLeft: 10, width: '100%', fontWeight: 'bold'}}>
+                            Supervisor:
+                        </TextC>
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
+                            label="Supervisor Spielrunden"
+                            onPress={() =>
+                                props.navigation.navigate('Supervisor', {screen: 'RoundsCurrentSupervisor', pop: true})
+                            }
+                        />
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="phone-missed" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Fehlende SR"
+                            onPress={() =>
+                                props.navigation.navigate('Supervisor', {
+                                    screen: 'ListMatchesByRefereeCanceledTeamsSupervisor',
+                                    pop: true
+                                })
+                            }
+                        />
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="clipboard-list-outline" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Ersatz-SR-Rangliste"
+                            onPress={() =>
+                                props.navigation.navigate('Supervisor', {
+                                    screen: 'RankingRefereeSubstSupervisor',
+                                    pop: true
+                                })
+                            }
+                        />
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="refresh-auto" size={25}
+                                              color={ColorFunctions.getColor('primary')}/>}
+                            label="Supervisor Auto-Pilot"
+                            onPress={() =>
+                                props.navigation.navigate('Supervisor', {screen: 'AutoPilotSupervisor', pop: true})
+                            }
+                        />
                     </View>
-                    <DrawerItem
-                        icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Supervisor Spielrunden"
-                        onPress={() =>
-                            props.navigation.navigate('Supervisor', {screen: 'RoundsCurrentSupervisor', pop: true})
-                        }
-                    />
-                    <DrawerItem
-                        icon={() => <Icon name="phone-missed" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Fehlende SR"
-                        onPress={() =>
-                            props.navigation.navigate('Supervisor', {
-                                screen: 'ListMatchesByRefereeCanceledTeamsSupervisor',
-                                pop: true
-                            })
-                        }
-                    />
-                    <DrawerItem
-                        icon={() => <Icon name="clipboard-list-outline" size={25}
-                                          color={ColorFunctions.getColor('primary')}/>}
-                        label="Ersatz-SR-Rangliste"
-                        onPress={() =>
-                            props.navigation.navigate('Supervisor', {
-                                screen: 'RankingRefereeSubstSupervisor',
-                                pop: true
-                            })
-                        }
-                    />
-                    <DrawerItem
-                        icon={() => <Icon name="refresh-auto" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Supervisor Auto-Pilot"
-                        onPress={() =>
-                            props.navigation.navigate('Supervisor', {screen: 'AutoPilotSupervisor', pop: true})
-                        }
-                    />
                 </View>
             }
             {global.adminPW === undefined ?
@@ -247,121 +272,127 @@ export default function CustomDrawerContent(props) {
                 :
                 <View>
                     <View style={style().drawerSectionView}>
-                        <TextC style={{marginLeft: 10}}>Admin</TextC>
-                        <View style={style().separatorLine}/>
+                        <TextC style={{marginLeft: 10, width: '100%', fontWeight: 'bold'}}>
+                            Admin:
+                        </TextC>
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Spielrunden"
+                            onPress={() =>
+                                props.navigation.reset({
+                                    index: 0,
+                                    routes: [{name: 'Admin', screen: 'RoundsCurrentAdmin'}],
+                                })
+                            }
+                        />
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="heart-flash" size={25} color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Aktionen"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {screen: 'AdminActions', pop: true})
+                            }
+                        />
+                        {global.settings?.useLiveScouting ?
+                            <DrawerItem
+                                style={{width: '100%'}}
+                                icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
+                                                  color={ColorFunctions.getColor('primary')}/>}
+                                label="Admin Fotos"
+                                onPress={() =>
+                                    props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos', pop: true})
+                                }
+                            /> : null}
+                        {global.settings?.useLiveScouting ?
+                            <DrawerItem
+                                style={{width: '100%'}}
+                                icon={() => <Icon name="view-grid-outline" size={25}
+                                                  color={ColorFunctions.getColor('primary')}/>}
+                                label="Admin Gruppen"
+                                onPress={() =>
+                                    props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin', pop: true})
+                                }
+                            /> : null}
+                        <DrawerItem
+                            style={{width: '100%'}}
+                            icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
+                            label="Admin Teams"
+                            onPress={() =>
+                                props.navigation.navigate('Admin', {screen: 'TeamsCurrentAdmin', pop: true})
+                            }
+                        />
+                        {Platform.OS === 'web' && !global.settings?.useResourceContentApi ?
+                            <DrawerItem
+                                style={{width: '100%'}}
+                                icon={() => <Icon name="playlist-check" size={25}
+                                                  color={ColorFunctions.getColor('primary')}/>}
+                                label="Admin Spielregeln"
+                                onPress={() =>
+                                    props.navigation.navigate('Admin', {
+                                        screen: 'ResourceContentAdmin',
+                                        pop: true,
+                                        params: {
+                                            resource_id: 16,
+                                            title: 'Admin Spielregeln'
+                                        }
+                                    })
+                                }
+                            /> : null}
+                        {Platform.OS === 'web' && !global.settings?.useResourceContentApi ?
+                            <DrawerItem
+                                style={{width: '100%'}}
+                                icon={() => <Icon name="food-fork-drink" size={25}
+                                                  color={ColorFunctions.getColor('primary')}/>}
+                                label="Admin Speisekarte"
+                                onPress={() =>
+                                    props.navigation.navigate('Admin', {
+                                        screen: 'ResourceContentAdmin',
+                                        pop: true,
+                                        params: {
+                                            resource_id: 77,
+                                            title: 'Admin Speisekarte'
+                                        }
+                                    })
+                                }
+                            /> : null}
+                        {Platform.OS === 'web' && global.settings?.usePush ?
+                            <DrawerItem
+                                style={{width: '100%'}}
+                                icon={() => <Icon name="email-arrow-right-outline" size={25}
+                                                  color={ColorFunctions.getColor('primary')}/>}
+                                label="Push Notifications"
+                                onPress={() =>
+                                    props.navigation.navigate('Admin', {screen: 'PushNotifications', pop: true})
+                                }
+                            /> : null}
+                        {global.settings?.useScoutRatings ?
+                            <DrawerItem
+                                style={{width: '100%'}}
+                                icon={() => <Icon name="table-eye" size={25}
+                                                  color={ColorFunctions.getColor('primary')}/>}
+                                label="Scout-Ranking"
+                                onPress={() =>
+                                    props.navigation.navigate('Admin', {screen: 'AdminScoutRanking', pop: true})
+                                }
+                            /> : null}
                     </View>
-                    <DrawerItem
-                        icon={() => <Icon name="timetable" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Admin Spielrunden"
-                        onPress={() =>
-                            props.navigation.reset({
-                                index: 0,
-                                routes: [{name: 'Admin', screen: 'RoundsCurrentAdmin'}],
-                            })
-                        }
-                    />
-                    <DrawerItem
-                        icon={() => <Icon name="heart-flash" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Admin Aktionen"
-                        onPress={() =>
-                            props.navigation.navigate('Admin', {screen: 'AdminActions', pop: true})
-                        }
-                    />
-                    {global.settings?.useLiveScouting ?
-                        <DrawerItem
-                            icon={() => <Icon name="picture-in-picture-bottom-right" size={25}
-                                              color={ColorFunctions.getColor('primary')}/>}
-                            label="Admin Fotos"
-                            onPress={() =>
-                                props.navigation.navigate('Admin', {screen: 'AdminMatchPhotos', pop: true})
-                            }
-                        /> : null}
-                    {global.settings?.useLiveScouting ?
-                        <DrawerItem
-                            icon={() => <Icon name="view-grid-outline" size={25}
-                                              color={ColorFunctions.getColor('primary')}/>}
-                            label="Admin Gruppen"
-                            onPress={() =>
-                                props.navigation.navigate('Admin', {screen: 'GroupsAllAdmin', pop: true})
-                            }
-                        /> : null}
-                    <DrawerItem
-                        icon={() => <Icon name="cpu-64-bit" size={25} color={ColorFunctions.getColor('primary')}/>}
-                        label="Admin Teams"
-                        onPress={() =>
-                            props.navigation.navigate('Admin', {screen: 'TeamsCurrentAdmin', pop: true})
-                        }
-                    />
-                    {Platform.OS === 'web' && !global.settings?.useResourceContentApi ?
-                        <DrawerItem
-                            icon={() => <Icon name="playlist-check" size={25}
-                                              color={ColorFunctions.getColor('primary')}/>}
-                            label="Admin Spielregeln"
-                            onPress={() =>
-                                props.navigation.navigate('Admin', {
-                                    screen: 'ResourceContentAdmin',
-                                    pop: true,
-                                    params: {
-                                        resource_id: 16,
-                                        title: 'Admin Spielregeln'
-                                    }
-                                })
-                            }
-                        /> : null}
-                    {Platform.OS === 'web' && !global.settings?.useResourceContentApi ?
-                        <DrawerItem
-                            icon={() => <Icon name="food-fork-drink" size={25}
-                                              color={ColorFunctions.getColor('primary')}/>}
-                            label="Admin Speisekarte"
-                            onPress={() =>
-                                props.navigation.navigate('Admin', {
-                                    screen: 'ResourceContentAdmin',
-                                    pop: true,
-                                    params: {
-                                        resource_id: 77,
-                                        title: 'Admin Speisekarte'
-                                    }
-                                })
-                            }
-                        /> : null}
-                    {Platform.OS === 'web' && global.settings?.usePush ?
-                        <DrawerItem
-                            icon={() => <Icon name="email-arrow-right-outline" size={25}
-                                              color={ColorFunctions.getColor('primary')}/>}
-                            label="Push Notifications"
-                            onPress={() =>
-                                props.navigation.navigate('Admin', {screen: 'PushNotifications', pop: true})
-                            }
-                        /> : null}
-                    {global.settings?.useScoutRatings ?
-                        <DrawerItem
-                            icon={() => <Icon name="table-eye" size={25}
-                                              color={ColorFunctions.getColor('primary')}/>}
-                            label="Scout-Ranking"
-                            onPress={() =>
-                                props.navigation.navigate('Admin', {screen: 'AdminScoutRanking', pop: true})
-                            }
-                        /> : null}
                 </View>
             }
             <View style={style().drawerSectionView}>
-                <View style={style().separatorLine}/>
-            </View>
-            <View style={style().matchflexEventsView}>
-                <Text style={style().textBlue}>
+                <Text style={[style().centeredText100, style().textBlue]}>
                     <Text onPress={() => Linking.openURL(process.env.EXPO_PUBLIC_WEBSITE_IMPRESSUM)}>
                         Impressum</Text>
                     {'  -  '}
                     <Text onPress={() => Linking.openURL(process.env.EXPO_PUBLIC_WEBSITE_DATENSCHUTZ)}>
                         Datenschutz</Text>
                 </Text>
-            </View>
-            {Constants?.expoConfig?.version ?
-                <View style={style().matchflexEventsView}>
-                    <TextC>
+                {Constants?.expoConfig?.version ?
+                    <TextC style={style().centeredText100}>
                         {Constants.expoConfig.name} v{Constants.expoConfig.version}
                     </TextC>
-                </View> : null}
+                    : null}
+            </View>
         </DrawerContentScrollView>
     );
 }
