@@ -2,7 +2,7 @@ node_modules/
 .expo/
 .idea/
 dist/
-.env.local
+/.env.development
 npm-debug.*
 *.jks
 *.p8
@@ -17,3 +17,4 @@ GoogleService-Info.plist
 
 # macOS
 .DS_Store
+
