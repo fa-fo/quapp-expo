@@ -54,43 +54,45 @@ export default function UsernameLoginModal({
             }}>
             <View style={style().centeredView}>
                 <View style={style().modalView}>
-                    <TextC>
-                        {'Hier bitte ' +
-                            capitalizeFirstLetter(username) +
-                            '-Passwort eingeben:'}
-                    </TextC>
-                    <TextInput
-                        style={style().textInput}
-                        onChangeText={setUsernamePW}
-                        secureTextEntry={true}
-                        placeholder="Hier Passwort eingeben"
-                        keyboardType="default"
-                        value={usernamePW}
-                        maxLength={16}
-                        ref={inputRef}
-                        onSubmitEditing={() => tryLogin()}
-                    />
-                    {textPWWrongVisible ? (
-                        <TextC style={style().failureText}>falsches PW?</TextC>
-                    ) : null}
-                    <TextC>
-                        {usernamePW === '' ?
-                            <TextC style={style().failureText}>Bitte Passwort eingeben</TextC>
-                            : ''}
-                    </TextC>
-                    <Pressable
-                        style={[style().button1, style().buttonGreen]}
-                        onPress={() => tryLogin()}>
-                        <TextC style={style().textButton1}>
-                            {'Als ' + capitalizeFirstLetter(username) + ' einloggen'}
+                    <View>
+                        <TextC>
+                            {'Hier bitte ' +
+                                capitalizeFirstLetter(username) +
+                                '-Passwort eingeben:'}
                         </TextC>
-                    </Pressable>
-                    <TextC> </TextC>
-                    <Pressable
-                        style={[style().button1, style().buttonGrey]}
-                        onPress={() => setModalVisible(false)}>
-                        <TextC style={style().textButton1}>Schließen</TextC>
-                    </Pressable>
+                        <TextInput
+                            style={style().textInput}
+                            onChangeText={setUsernamePW}
+                            secureTextEntry={true}
+                            placeholder="Hier Passwort eingeben"
+                            keyboardType="default"
+                            value={usernamePW}
+                            maxLength={16}
+                            ref={inputRef}
+                            onSubmitEditing={() => tryLogin()}
+                        />
+                        {textPWWrongVisible ? (
+                            <TextC style={style().failureText}>falsches PW?</TextC>
+                        ) : null}
+                        <TextC>
+                            {usernamePW === '' ?
+                                <TextC style={style().failureText}>Bitte Passwort eingeben</TextC>
+                                : ''}
+                        </TextC>
+                        <Pressable
+                            style={[style().button1, style().buttonGreen]}
+                            onPress={() => tryLogin()}>
+                            <TextC style={style().textButton1}>
+                                {'Als ' + capitalizeFirstLetter(username) + ' einloggen'}
+                            </TextC>
+                        </Pressable>
+                        <TextC> </TextC>
+                        <Pressable
+                            style={[style().button1, style().buttonGrey]}
+                            onPress={() => setModalVisible(false)}>
+                            <TextC style={style().textButton1}>Schließen</TextC>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </Modal>

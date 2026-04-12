@@ -175,7 +175,7 @@ export const style = () => StyleSheet.create({
     textInputLarge: {
         fontSize: 36,
         paddingVertical: 4,
-        lineHeight: 44,
+        lineHeight: 54,
         textAlign: 'center',
         width: 250
     },
