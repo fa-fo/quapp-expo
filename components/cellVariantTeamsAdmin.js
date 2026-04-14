@@ -8,7 +8,7 @@ import CancelTeamYearModal from "./modals/CancelTeamYearModal";
 import fetchApi from "./fetchApi";
 
 export default function CellVariantTeamsAdmin(props) {
-    let initialRefereePref = props.sports.map(sport => sport.id.toString()).join('');
+    let initialRefereePref = props.sports?.map(sport => sport.id.toString()).join('') ?? '';
 
     const [canceled, setCanceled] = useState(props.item.canceled);
     const [cancelTeamYearModalVisible, setCancelTeamYearModalVisible] =

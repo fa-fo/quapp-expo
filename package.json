@@ -50,6 +50,7 @@
   "devDependencies": {
     "@babel/core": "^7.28.4",
     "@expo/metro-runtime": "~6.1.2",
+    "expo-atlas": "^0.4.0",
     "expo-dev-client": "~6.0.15",
     "expo-doctor": "~1.17.10"
   },

@@ -25,6 +25,7 @@
       "android": {
         "buildType": "app-bundle"
       },
+      "environment": "production",
       "ios": {}
     }
   },
