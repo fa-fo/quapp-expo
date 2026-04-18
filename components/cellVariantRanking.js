@@ -17,13 +17,9 @@ export default function CellVariantRanking(props) {
                         flex: 1,
                         paddingVertical: 4,
                         borderBottomColor: '#3d8d02',
-                        borderBottomWidth:
-                            props.dayId === 1 &&
-                            props.item.calcRanking > 0 &&
-                            ((global.settings.usePlayOff > 0 && props.daysCount === 1 && props.item.calcRanking === global.settings.usePlayOff)
-                                || (global.settings.usePlayOff === 0 && props.daysCount > 1 && props.item.calcRanking % 4 === 0))
-                                ? 2
-                                : 0,
+                        borderBottomWidth: props.item.showBorderBottom ? 2 : 0,
+                        borderTopColor: '#3d8d02',
+                        borderTopWidth: props.item.showBorderTop ? 2 : 0,
                     }}>
                     <View style={{alignSelf: 'center', flex: 2.5}}>
                         <TextC
