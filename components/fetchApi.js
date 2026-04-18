@@ -1,6 +1,8 @@
 import * as DateFunctions from "./functions/DateFunctions";
 
 export default function fetchApi(address, method, postData, docMode) {
+    address = global.baseUrl + address + global.baseUrlExt;
+
     if (method === 'POST') {
         let formData = new FormData();
 
@@ -8,13 +10,13 @@ export default function fetchApi(address, method, postData, docMode) {
             formData.append(key, value);
         }
 
-        return fetch(global.baseUrl + address, {
+        return fetch(address, {
             method: 'POST',
             body: formData,
         }).then(response => docMode === 'pdf' ? response : response.json())
 
     } else {
-        return fetch(global.baseUrl + address, {
+        return fetch(address, {
             method: 'GET',
         })
             .then(response => response.json())
