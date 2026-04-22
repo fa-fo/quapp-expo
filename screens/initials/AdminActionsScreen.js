@@ -20,8 +20,8 @@ export default function AdminActionsScreen({navigation}) {
     const route = useRoute();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const [selectedValue1, setSelectedValue1] = useState('standard');
-    const [selectedValue2, setSelectedValue2] = useState('standard');
+    const [sortModeGroupTeams, setSortModeGroupTeams] = useState('standard');
+    const [sortModePlaceNumber, setSortModePlaceNumber] = useState('standard');
     const [teamNames, setTeamNames] = useState('');
     const [teamNamesSplit, setTeamNamesSplit] = useState([]);
     const [clearLogsModalVisible, setClearLogsModalVisible] = useState(false);
@@ -285,8 +285,8 @@ export default function AdminActionsScreen({navigation}) {
                                         <TextC>Nur Tag 1: Gruppenzuordnung der Teams sortieren:</TextC>
                                         <View>
                                             <Picker
-                                                selectedValue={selectedValue1}
-                                                onValueChange={(itemValue) => setSelectedValue1(itemValue)}
+                                                selectedValue={sortModeGroupTeams}
+                                                onValueChange={(itemValue) => setSortModeGroupTeams(itemValue)}
                                                 style={[style().button1, style().pickerSelect]}
                                             >
                                                 <Picker.Item label="Standard (groupTeamsId / Excel-Skript)"
@@ -297,7 +297,7 @@ export default function AdminActionsScreen({navigation}) {
                                                              value="random"/>
                                             </Picker>
                                             <Pressable style={[style().button1, style().buttonGreen]}
-                                                       onPress={() => adminAction('groups/sortAfterAddAllGroupTeams', selectedValue1)}>
+                                                       onPress={() => adminAction('groups/sortAfterAddAllGroupTeams', sortModeGroupTeams)}>
                                                 <TextC style={style().textButton1}>Los!</TextC>
                                             </Pressable>
                                         </View>
@@ -336,8 +336,8 @@ export default function AdminActionsScreen({navigation}) {
                                 <TextC>Platzziffern an Teams verteilen:</TextC>
                                 <View>
                                     <Picker
-                                        selectedValue={selectedValue2}
-                                        onValueChange={(itemValue) => setSelectedValue2(itemValue)}
+                                        selectedValue={sortModePlaceNumber}
+                                        onValueChange={(itemValue) => setSortModePlaceNumber(itemValue)}
                                         style={[style().button1, style().pickerSelect]}
                                     >
                                         <Picker.Item label="initial" value="initial"/>
@@ -347,7 +347,7 @@ export default function AdminActionsScreen({navigation}) {
                                         <Picker.Item label="random2 - overall" value="random2"/>
                                     </Picker>
                                     <Pressable style={[style().button1, style().buttonGreen]}
-                                               onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', selectedValue2)}>
+                                               onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', sortModePlaceNumber)}>
                                         <TextC style={style().textButton1}>Los!</TextC>
                                     </Pressable>
                                 </View>
@@ -389,8 +389,14 @@ export default function AdminActionsScreen({navigation}) {
                             <TextC>{data.countDoubleMatches ?
                                 <TextC>{'\n'}Gleiche Paarungen wie zuvor:
                                     {Object.entries(data.countDoubleMatches).map(([key, val]) => (
-                                        <TextC key={key}>{'\n' + key}: {val}</TextC>
+                                        <TextC
+                                            key={key}>{'\n' + key}: {Array.isArray(val) ? val.join('|') : val}</TextC>
                                     ))}</TextC> : null}</TextC>
+                            {data.countDoubleMatches && sortModePlaceNumber.includes('random') ?
+                                <Pressable style={[style().button1, style().buttonCancel, style().buttonGreen]}
+                                           onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', sortModePlaceNumber + '/1')}>
+                                    <TextC style={style().textButton1}>Re-draw with precheck to avoid countPrevLast...</TextC>
+                                </Pressable> : null}
                         </View>
 
                         {data.year.settings.isTest === 1 && data.object.matchesCount > 0 && data.object.matchResultCount === 0 ?
