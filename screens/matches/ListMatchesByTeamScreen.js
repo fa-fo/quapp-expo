@@ -127,7 +127,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 PushFunctions.setLocalPushNotifications(matches);
             }
             if (settings?.useLiveScouting) {
-                AsyncStorageFunctions.setAsyncStorage('myMatches', matches);
+                //AsyncStorageFunctions.setAsyncStorage('myMatchesOffline', matches);
             }
         }
     }
