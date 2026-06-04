@@ -2,7 +2,6 @@ import * as Device from "expo-device";
 import {Platform} from "react-native";
 import * as Notifications from "expo-notifications";
 import appConfig from '../../app.config.js';
-import {parseISO} from "date-fns";
 import * as DateFunctions from "./DateFunctions";
 
 export async function registerForPushNotificationsAsync() {
@@ -42,8 +41,8 @@ export const setLocalPushNotifications = (matches) => {
             .then(r => {
                 if (global.myTeamId > 0 && matches.length > 0) {
                     matches.map(item => {
-                        const trigger = parseISO(item.matchStartTime);
-                        trigger.setMinutes(Number(parseInt(trigger.getMinutes().toString()) - 10));
+                        const date = new Date(item.matchStartTime);
+                        date.setMinutes(Number(parseInt(date.getMinutes().toString()) - 10));
 
                         Notifications.scheduleNotificationAsync({
                             content: {
@@ -52,7 +51,7 @@ export const setLocalPushNotifications = (matches) => {
                             },
                             trigger: {
                                 type: Notifications.SchedulableTriggerInputTypes.DATE,
-                                timestamp: trigger
+                                date
                             },
                         })
                     })
