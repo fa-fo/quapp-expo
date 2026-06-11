@@ -6,6 +6,7 @@ import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import {useRoute} from "@react-navigation/native";
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function GroupsAllScreen({navigation}) {
     const route = useRoute();
@@ -25,7 +26,7 @@ export default function GroupsAllScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.groups?.length > 0 ? (
                     <TableView appearance={global.colorScheme}>
@@ -43,6 +44,6 @@ export default function GroupsAllScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>Keine Gruppen gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

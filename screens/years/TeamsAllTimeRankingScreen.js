@@ -5,6 +5,7 @@ import {Cell, Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import {style} from "../../assets/styles";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function TeamsAllTimeRankingScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -52,7 +53,7 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
     }
 
     return (
-        <ScrollView
+        <ScrollViewC
             refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}
             onScroll={(e) => {
                 if (data?.length < allData?.object?.length) {
@@ -116,6 +117,6 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                         </Section>
                     </TableView>
                     : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

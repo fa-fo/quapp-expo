@@ -9,6 +9,7 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
 import {useRoute} from "@react-navigation/native";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function AdminMatchPhotosScreen({navigation}) {
     const route = useRoute();
@@ -49,7 +50,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             <TextC>Bisher {data?.object?.okCount} ok - {data?.object?.notOkCount} notOk --
                 noch {data?.object?.toCheck.length - photoKey} Fotos zu prüfen</TextC>
             <View>
@@ -117,6 +118,6 @@ export default function AdminMatchPhotosScreen({navigation}) {
                         </View>
                         : <TextC>Fehler!</TextC>)}
             </View>
-        </ScrollView>
+        </ScrollViewC>
     );
 }

@@ -13,6 +13,7 @@ import * as DateFunctions from "../../components/functions/DateFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
 import {useRoute} from "@react-navigation/native";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import ScrollViewC from "../../components/customScrollView";
 //import {useAudioPlayer} from 'expo-audio';
 //import * as Speech from 'expo-speech';
 
@@ -169,7 +170,7 @@ export default function AutoPilotSupervisorScreen({navigation}) {
     useAutoReload(route, data, loadScreenData, !isLoading);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             <View style={{position: 'absolute', right: 5, top: 5}}>
                 <TextC>{format(now, "HH:mm:ss")}</TextC>
             </View>
@@ -204,6 +205,6 @@ export default function AutoPilotSupervisorScreen({navigation}) {
             <Pressable style={style().button1} onPress={() => null}>
                 <TextC numberOfLines={1} style={style().textButton1}>Play</TextC>
             </Pressable>
-        </ScrollView>
+        </ScrollViewC>
     );
 }

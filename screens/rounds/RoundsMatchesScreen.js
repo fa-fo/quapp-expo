@@ -13,6 +13,7 @@ import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function RoundsMatchesScreen({navigation}) {
     const route = useRoute();
@@ -57,7 +58,7 @@ export default function RoundsMatchesScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ?
                     (data.object?.showTime ?
@@ -193,6 +194,6 @@ export default function RoundsMatchesScreen({navigation}) {
                                 }
                             </View>
                     ) : <TextC>Fehler: keine Spiele gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

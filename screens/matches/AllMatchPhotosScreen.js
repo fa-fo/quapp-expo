@@ -7,6 +7,7 @@ import {style} from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useRoute} from "@react-navigation/native";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 const width = Dimensions.get("window").width;
 
@@ -17,6 +18,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     const [progress, setProgress] = useState(0);
     const [resizeMode, setResizeMode] = useState('contain');
     const ref = useRef();
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         loadScreenData();
@@ -79,7 +81,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     }
 
     return (
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{flex: 1, alignItems: 'center', marginBottom: insets.bottom}}>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' && data.object.photos.length ?
                         <Carousel

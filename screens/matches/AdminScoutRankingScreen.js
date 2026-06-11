@@ -9,6 +9,7 @@ import {style} from "../../assets/styles";
 import {Picker} from "@react-native-picker/picker";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function AdminScoutRankingScreen({navigation}) {
     const route = useRoute();
@@ -40,7 +41,7 @@ export default function AdminScoutRankingScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ?
                     <TableView appearance={global.colorScheme}>
@@ -86,6 +87,6 @@ export default function AdminScoutRankingScreen({navigation}) {
                         </Section>
                     </TableView>
                     : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

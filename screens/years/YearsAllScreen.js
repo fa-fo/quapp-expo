@@ -5,6 +5,7 @@ import {style} from '../../assets/styles.js';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
+import ScrollViewC from "../../components/customScrollView";
 
 export default function YearsAllScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -18,7 +19,7 @@ export default function YearsAllScreen({navigation}) {
     }, []);
 
     return (
-        <ScrollView>
+        <ScrollViewC>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' ? (
                     <TableView appearance={global.colorScheme}>
@@ -39,6 +40,6 @@ export default function YearsAllScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

@@ -15,6 +15,7 @@ import {format} from "date-fns";
 import {style} from "../../assets/styles";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 import {useRoute} from "@react-navigation/native";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function AdminActionsScreen({navigation}) {
     const route = useRoute();
@@ -115,7 +116,7 @@ export default function AdminActionsScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {global.settings.isTest ?
                 <TextC
                     style={[style().textInputLarge, style().testMode, style().centeredText100]}>Test-Modus!</TextC> : null}
@@ -829,6 +830,6 @@ export default function AdminActionsScreen({navigation}) {
                     loadScreenData={loadScreenData}
                     oldYear={data.year}
                 /> : null}
-        </ScrollView>
+        </ScrollViewC>
     )
 }

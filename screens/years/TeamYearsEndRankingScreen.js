@@ -6,6 +6,7 @@ import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
+import ScrollViewC from "../../components/customScrollView";
 
 export default function TeamYearsEndRankingScreen({navigation}) {
     const route = useRoute();
@@ -22,7 +23,7 @@ export default function TeamYearsEndRankingScreen({navigation}) {
     }, [navigation, route]);
 
     return (
-        <ScrollView>
+        <ScrollViewC>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' ? (
                     <TableView appearance={global.colorScheme}>
@@ -77,6 +78,6 @@ export default function TeamYearsEndRankingScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>Keine Teams gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

@@ -4,6 +4,7 @@ import {Pressable, RefreshControl, ScrollView, TextInput, View} from 'react-nati
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
 import {style} from '../../assets/styles';
+import ScrollViewC from "../../components/customScrollView";
 
 export default function PushNotificationsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -59,7 +60,7 @@ export default function PushNotificationsScreen({navigation}) {
     }
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View style={style().centeredView}>
@@ -100,6 +101,6 @@ export default function PushNotificationsScreen({navigation}) {
 
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

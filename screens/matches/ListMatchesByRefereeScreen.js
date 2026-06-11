@@ -7,6 +7,7 @@ import CellVariantMatches from '../../components/cellVariantMatches';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import fetchApi from '../../components/fetchApi';
 import {style} from "../../assets/styles";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function ListMatchesByRefereeScreen({navigation}) {
     const [refereeName, setRefereeName] = useState('');
@@ -41,7 +42,7 @@ export default function ListMatchesByRefereeScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             <View style={style().viewStatus}>
                 <TextInput
                     style={[style().textInput, style().textInputLarge]}
@@ -86,6 +87,6 @@ export default function ListMatchesByRefereeScreen({navigation}) {
                     }
                 </View>
             }
-        </ScrollView>
+        </ScrollViewC>
     );
 }

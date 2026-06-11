@@ -10,6 +10,7 @@ import {setHeaderRightOptions} from '../../components/setHeaderRightOptions';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useAutoReload} from "../../components/useAutoReload";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function RankingInGroupsScreen({navigation}) {
     const route = useRoute();
@@ -42,7 +43,7 @@ export default function RankingInGroupsScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ?
                     <TableView appearance={global.colorScheme}>
@@ -124,6 +125,6 @@ export default function RankingInGroupsScreen({navigation}) {
                         </Section>
                     </TableView>
                     : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

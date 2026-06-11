@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 import fetchApi from '../../components/fetchApi';
 import {useRoute} from "@react-navigation/native";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function AdminScoutTeamLogsScreen({navigation}) {
     const route = useRoute();
@@ -28,7 +29,7 @@ export default function AdminScoutTeamLogsScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ?
                     <TextC style={style().teamInfos}>
@@ -37,6 +38,6 @@ export default function AdminScoutTeamLogsScreen({navigation}) {
                         )}
                     </TextC>
                     : <TextC>keine Daten</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

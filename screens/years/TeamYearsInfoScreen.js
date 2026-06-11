@@ -8,6 +8,7 @@ import CellVariant from '../../components/cellVariant';
 import fetchApi from '../../components/fetchApi';
 import * as SportFunctions from "../../components/functions/SportFunctions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function TeamYearsInfoScreen({navigation}) {
     const route = useRoute();
@@ -80,7 +81,7 @@ export default function TeamYearsInfoScreen({navigation}) {
     }
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
@@ -89,6 +90,6 @@ export default function TeamYearsInfoScreen({navigation}) {
                         </TableView>
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

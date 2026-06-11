@@ -14,6 +14,7 @@ import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 import {parse} from "date-fns";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function ListMatchesByTeamScreen({navigation}) {
     const route = useRoute();
@@ -147,7 +148,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (route.params?.setMyTeam && team_name === '' ?
                     <TextC>Einstellung erfolgreich geändert: kein Team mehr ausgewählt</TextC>
@@ -254,6 +255,6 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     setModalVisible={setMyTeamSelectModalVisible}
                     modalVisible={myTeamSelectModalVisible}
                 />}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

@@ -8,6 +8,7 @@ import fetchApi from '../../components/fetchApi';
 import CellVariantMatches from "../../components/cellVariantMatches";
 import * as SportFunctions from "../../components/functions/SportFunctions";
 import * as DateFunctions from "../../components/functions/DateFunctions";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
     const route = useRoute();
@@ -32,7 +33,7 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
@@ -67,6 +68,6 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
                         </TableView>
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

@@ -8,6 +8,7 @@ import {useRoute} from '@react-navigation/native';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function RoundsCurrentScreen({navigation}) {
     const route = useRoute();
@@ -35,7 +36,7 @@ export default function RoundsCurrentScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data?.object?.rounds?.length > 0 ? (
                     <TableView appearance={global.colorScheme}>
@@ -64,6 +65,6 @@ export default function RoundsCurrentScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>Keine Spielrunden gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

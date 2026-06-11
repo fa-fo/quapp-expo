@@ -10,6 +10,7 @@ import {setHeaderRightOptions} from '../../components/setHeaderRightOptions';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import {useAutoReload} from "../../components/useAutoReload";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function ListMatchesByGroupScreen({navigation}) {
     const route = useRoute();
@@ -43,7 +44,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ?
                     (data.object?.showTime ?
@@ -108,6 +109,6 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                 )}
                             </TableView>
                     ) : <TextC>Fehler: keine Spiele gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

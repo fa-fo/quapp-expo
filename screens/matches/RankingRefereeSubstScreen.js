@@ -6,6 +6,7 @@ import fetchApi from '../../components/fetchApi';
 import CellVariantRankingSubst from "../../components/cellVariantRefereeSubst";
 import {useRoute} from "@react-navigation/native";
 import {useAutoReload} from "../../components/useAutoReload";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function RankingRefereeSubstScreen({navigation}) {
     const route = useRoute();
@@ -29,7 +30,7 @@ export default function RankingRefereeSubstScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data.object?.teams?.length > 0 ? (
                     <TableView appearance={global.colorScheme}>
@@ -45,6 +46,6 @@ export default function RankingRefereeSubstScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>keine Teams gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

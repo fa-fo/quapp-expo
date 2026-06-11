@@ -9,6 +9,7 @@ import {Picker} from "@react-native-picker/picker";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import {reloadAppAsync} from "expo";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function SettingsScreen({navigation}) {
     const [selectedScheme, setSelectedScheme] = useState(global.colorSchemeSaved);
@@ -33,7 +34,7 @@ export default function SettingsScreen({navigation}) {
     }
 
     return (
-        <ScrollView style={[style().headerComponentView, {minHeight: '100%'}]}>
+        <ScrollViewC style={[style().headerComponentView, {minHeight: '100%'}]}>
             <View>
                 {global.isProductionWebview ? null :
                     <Pressable style={[style().button1, style().buttonGreen]}
@@ -143,6 +144,6 @@ export default function SettingsScreen({navigation}) {
                     setModalVisible={setMyTeamSelectModalVisible}
                     modalVisible={myTeamSelectModalVisible}
                 />}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

@@ -6,6 +6,7 @@ import {useRoute} from '@react-navigation/native';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import CellVariantTeamsAdmin from '../../components/cellVariantTeamsAdmin';
+import ScrollViewC from "../../components/customScrollView";
 
 export default function TeamsCurrentScreen({navigation}) {
     const route = useRoute();
@@ -31,7 +32,7 @@ export default function TeamsCurrentScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <TableView appearance={global.colorScheme}>
@@ -56,6 +57,6 @@ export default function TeamsCurrentScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>Keine Teams gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

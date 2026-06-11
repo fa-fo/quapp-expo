@@ -6,6 +6,7 @@ import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import CellVariantBalance from '../../components/cellVariantBalance';
 import fetchApi from '../../components/fetchApi';
+import ScrollViewC from "../../components/customScrollView";
 
 export default function TeamYearsInfoBalanceScreen({navigation}) {
     const route = useRoute();
@@ -30,7 +31,7 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
     };
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' ? (
                     <View>
@@ -87,6 +88,6 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
                         </TableView>
                     </View>
                 ) : <TextC>keine Spiele gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

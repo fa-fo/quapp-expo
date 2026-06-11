@@ -7,6 +7,7 @@ import CellVariantMatches from '../../components/cellVariantMatches';
 import fetchApi from '../../components/fetchApi';
 import {useRoute} from '@react-navigation/native';
 import {useAutoReload} from "../../components/useAutoReload";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
     const route = useRoute();
@@ -33,7 +34,7 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
     useAutoReload(route, data, loadScreenData);
 
     return (
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
+        <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {isLoading ? null :
                 (data?.status === 'success' && data.object.matches && data.object.matches.length > 0 ? (
                     <TableView appearance={global.colorScheme}>
@@ -52,6 +53,6 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
                         </Section>
                     </TableView>
                 ) : <TextC>keine Spiele gefunden!</TextC>)}
-        </ScrollView>
+        </ScrollViewC>
     );
 }

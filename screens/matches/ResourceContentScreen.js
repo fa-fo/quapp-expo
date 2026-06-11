@@ -23,6 +23,7 @@ import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import TextC from "../../components/customText";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ScrollViewC from "../../components/customScrollView";
 
 export default function ResourceContentScreen({navigation}) {
     const route = useRoute();
@@ -103,7 +104,7 @@ export default function ResourceContentScreen({navigation}) {
     };
 
     return (
-        <ScrollView style={[style().headerComponentView, {minHeight: '100%'}]}>
+        <ScrollViewC style={[style().headerComponentView, {minHeight: '100%'}]}>
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' ?
                         <View>
@@ -149,6 +150,6 @@ export default function ResourceContentScreen({navigation}) {
                                 />}
                         </View> : null
                 )}
-        </ScrollView>
+        </ScrollViewC>
     );
 }
