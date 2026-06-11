@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import {style} from '../../assets/styles.js';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';

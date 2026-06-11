@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, View} from 'react-native';
+import {RefreshControl, View} from 'react-native';
 import {style} from '../../assets/styles.js';
 import {useRoute} from '@react-navigation/native';
 import {Section, TableView} from 'react-native-tableview-simple';

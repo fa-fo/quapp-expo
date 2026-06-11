@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Appearance, Platform, Pressable, ScrollView, View} from 'react-native';
+import {Appearance, Platform, Pressable, View} from 'react-native';
 import {style} from "../../assets/styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import UsernameLoginModal from "../../navigation/modals/UsernameLoginModal";

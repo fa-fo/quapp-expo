@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, Pressable, RefreshControl, ScrollView, TextInput, View} from 'react-native';
+import {ActivityIndicator, Pressable, RefreshControl, TextInput, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CellVariantMatches from '../../components/cellVariantMatches';

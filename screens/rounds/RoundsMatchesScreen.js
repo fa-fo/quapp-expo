@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Pressable, RefreshControl, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {style} from '../../assets/styles.js';
 import CellVariantMatches from '../../components/cellVariantMatches';

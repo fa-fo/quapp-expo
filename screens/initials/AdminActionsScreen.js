@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, TextInput, View} from 'react-native';
+import {Pressable, RefreshControl, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

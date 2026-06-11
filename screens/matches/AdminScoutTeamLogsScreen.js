@@ -1,7 +1,7 @@
 import {style} from "../../assets/styles";
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView} from 'react-native';
+import {RefreshControl} from 'react-native';
 import fetchApi from '../../components/fetchApi';
 import {useRoute} from "@react-navigation/native";
 import ScrollViewC from "../../components/customScrollView";

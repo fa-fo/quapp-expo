@@ -1,11 +1,10 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
+import {Image, Pressable, RefreshControl, View} from 'react-native';
 import fetchApi from '../../components/fetchApi';
 import {style} from "../../assets/styles";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import CellVariantMatches from "../../components/cellVariantMatches";
-import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
 import {useRoute} from "@react-navigation/native";

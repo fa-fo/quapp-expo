@@ -1,7 +1,7 @@
 // re-add "@10play/react-native-web-webview": "^0.0.3", "@10play/tentap-editor": "~0.6.1",
 
 import {useEffect, useState} from 'react';
-import {ActivityIndicator, Pressable, ScrollView, useWindowDimensions, View} from 'react-native';
+import {ActivityIndicator, Pressable, useWindowDimensions, View} from 'react-native';
 /*
 import {
     CoreBridge,

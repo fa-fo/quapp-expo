@@ -1,6 +1,6 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView} from 'react-native';
+import {RefreshControl} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {format, parseISO} from 'date-fns';
 import CellVariantMatches from '../../components/cellVariantMatches';
