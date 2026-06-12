@@ -10,7 +10,6 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-yarn.lock
 yarn-error.log
 google-services.json
 GoogleService-Info.plist
