@@ -1,7 +1,7 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {Pressable, RefreshControl, View} from 'react-native';
+import {Platform, Pressable, RefreshControl, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
 import {style} from '../../assets/styles.js';
 import CellVariantMatches from '../../components/cellVariantMatches';
@@ -54,6 +54,17 @@ export default function RoundsMatchesScreen({navigation}) {
             setLoading(false);
         };
     }, [navigation, route]);
+
+    // set input focus
+    useEffect(() => {
+        if (route.name === 'RoundsMatchesAdmin' && Platform.OS === 'web' && !isLoading) {
+            setTimeout(() => {
+                const inputs = Array.from(document.querySelectorAll('input'));
+                const firstEmpty = inputs.find((el) => !el.value);
+                firstEmpty?.focus();
+            }, 1500)
+        }
+    }, [route]);
 
     useAutoReload(route, data, loadScreenData);
 

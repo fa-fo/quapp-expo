@@ -61,6 +61,7 @@ export default function CellVariantMatchesAdmin(props) {
     function getSpecialConfirmModalButton() {
         return (
             <Pressable
+                tabIndex={-1}
                 style={[style().button1, style().buttonConfirm, style().buttonGreyDark]}
                 onPress={() => setSpecialConfirmModalVisible(true)}>
                 <TextC numberOfLines={1} style={style().textButton1}>
@@ -175,7 +176,7 @@ export default function CellVariantMatchesAdmin(props) {
                             <TextC numberOfLines={1} style={style().textGreen}>
                                 <TextC style={style().textViolet}>Ersatz-SR</TextC> {props.item.teams4.name}
                             </TextC> : null}
-                        {!global.settings.useLiveScouting ? getAdminInsertRefereeNameField(props.item) : null}
+                        {global.settings.useRefereeName ? getAdminInsertRefereeNameField(props.item) : null}
                     </View>
 
                     {global.settings.useLiveScouting ?
