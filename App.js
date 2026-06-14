@@ -13,10 +13,10 @@ export default function App() {
 
     return (
         <AnimatedSplashScreen
-            image={{
-                uri: Appearance.getColorScheme() === 'dark' ?
+            image={
+                Appearance.getColorScheme() === 'dark' ?
                     require('./assets/images/splash-dark.png')
                     : require('./assets/images/splash.png')
-            }}/>
+            }/>
     );
 }

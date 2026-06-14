@@ -100,7 +100,7 @@ export default function AnimatedSplashScreen({image}) {
                             transform: [{scale: animation}],
                         }}
                         resizeMode={'contain'}
-                        source={image.uri}
+                        source={image}
                         onLoadEnd={onImageLoaded}
                     />
                     <Progress.Bar progress={progress} width={200}
