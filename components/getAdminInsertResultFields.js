@@ -164,9 +164,11 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                         <TextC
                             style={{fontSize: 10, textAlign: 'center'}}>{'\n\nFaktor ' + match.sport.goalFactor}</TextC>
                         <View style={[style().matchflexRowView, {flex: 1, alignItems: 'center'}]}>
-                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'right'}} adjustsFontSizeToFit numberOfLines={1}>{match.resultGoals1}</TextC>
+                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'right'}} adjustsFontSizeToFit
+                                   numberOfLines={1}>{match.resultGoals1}</TextC>
                             <TextC style={{flex: 1, fontSize: 24, textAlign: 'center'}}>{':'}</TextC>
-                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'left'}} adjustsFontSizeToFit numberOfLines={1}>{match.resultGoals2}</TextC>
+                            <TextC style={{flex: 2, fontSize: 24, textAlign: 'left'}} adjustsFontSizeToFit
+                                   numberOfLines={1}>{match.resultGoals2}</TextC>
                         </View>
                     </View>
                     <View style={{flex: 2}}>
@@ -223,6 +225,10 @@ export function getAdminInsertResultFields(match0, loadScreenData, playOffTeams)
                             <Picker.Item label="(1) korrigiert durch Admin" value="1"/>
                             <Picker.Item label="(2) Übertrag von Papierbogen" value="2"/>
                         </Picker>
+                    </View> : null}
+                {match.calcRanking && global.settings.doCalcRankingAfterRoundCompleteConfirmed ?
+                    <View style={[style().viewStatus, style().buttonGreen]}>
+                        <TextC>{'\u2714'} Gruppentabellen aktualisiert</TextC>
                     </View> : null}
             </View> : null
     );
