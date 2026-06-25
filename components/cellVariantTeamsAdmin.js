@@ -1,6 +1,7 @@
 import TextC from "../components/customText";
 import {useState} from 'react';
-import {Pressable, View} from 'react-native';
+import {ActivityIndicator, Pressable, View} from 'react-native';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {Cell} from 'react-native-tableview-simple';
 import {Checkbox} from 'expo-checkbox';
 import {style} from '../assets/styles';
@@ -13,13 +14,16 @@ export default function CellVariantTeamsAdmin(props) {
     const [canceled, setCanceled] = useState(props.item.canceled);
     const [cancelTeamYearModalVisible, setCancelTeamYearModalVisible] =
         useState(false);
-    const [refereePref, setRefereePref] = useState(props.item.refereePref?.toString() ?? initialRefereePref);
+    const [refereePref, setRefereePref] = useState(props.item.refereePref?.toString().replace(/0/g, '') ?? initialRefereePref);
+    const [isTryingSave, setIsTryingSave] = useState(false);
+    const [saved, setSaved] = useState(false);
 
     function getRefereePref(sport_id) {
         return refereePref.includes(sport_id.toString());
     }
 
     function changeRefereePref(sport_id, itemValue) {
+        setIsTryingSave(true);
         let sid = sport_id.toString();
         let str = itemValue ? refereePref + sid : refereePref.replaceAll(sid, '');
 
@@ -34,11 +38,14 @@ export default function CellVariantTeamsAdmin(props) {
         fetchApi('teamYears/saveRefereePref/' + props.item.id, 'POST', postData)
             .then(json => {
                 if (json && json.status === 'success') {
-                } else {
+                    setIsTryingSave(false);
+                    setSaved(true);
+                    setTimeout(() => {
+                        setSaved(false);
+                    }, 3000);
                 }
             })
             .catch(error => console.error(error));
-
     }
 
     return (
@@ -68,15 +75,28 @@ export default function CellVariantTeamsAdmin(props) {
                         <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
                             {props.sports.map(sport => (
                                 <TextC key={sport.id}>
-                                    {sport.code.substring(0, 1)}
+                                    {' ' + sport.code.substring(0, 1) + ':'}
                                     <Checkbox
                                         disabled={refereePref.length < 4 && getRefereePref(sport.id)}
                                         value={getRefereePref(sport.id)}
+                                        onFocus={() => setSaved(false)}
                                         onValueChange={(itemValue) => changeRefereePref(sport.id, itemValue)}
                                     />
                                     {' '}
                                 </TextC>
                             ))}
+                            {saved ?
+                                <Icon name="checkbox-marked-circle" size={24}
+                                      style={{position: 'absolute', right: 2, top: 2, color: 'green'}}/>
+                                : null}
+                            {isTryingSave ?
+                                <ActivityIndicator size={24} color="green"
+                                                   style={{
+                                                       position: 'absolute',
+                                                       right: 2,
+                                                       top: 2,
+                                                       color: 'green'
+                                                   }}/> : null}
                         </View> : null}
 
                     <View style={{flex: 0.6, alignSelf: 'center'}}>
