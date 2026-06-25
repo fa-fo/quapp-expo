@@ -677,9 +677,12 @@ export default function AdminActionsScreen({navigation}) {
                                             <View>
                                                 <Pressable style={[style().button1, style().buttonGreen]}
                                                            onPress={() => adminAction('years/setAlwaysAutoUpdateResults', '')}>
-                                                    <TextC style={style().textButton1}>Ergebnisse und Tabellen
-                                                        freischalten{'\n'}(mit
-                                                        Tabellen-Neuberechnung)</TextC>
+                                                    <TextC style={style().textButton1}>
+                                                        Ergebnisse
+                                                        {data.year.settings.currentDay_id < data.year.daysCount || data.year.settings.showEndRanking ?
+                                                            ' und Tabellen ' : ' '}
+                                                        freischalten{'\n'}(mit Tabellen-Neuberechnung)
+                                                    </TextC>
                                                 </Pressable>
                                             </View>
                                             :
@@ -809,8 +812,10 @@ export default function AdminActionsScreen({navigation}) {
                                             :
                                             <Pressable style={[style().button1, style().buttonGreen]}
                                                        onPress={() => adminAction('years/showEndRanking', 1)}>
-                                                <TextC style={style().textButton1}>Tabellen und Jahres-Endtabelle
-                                                    freigeben</TextC>
+                                                <TextC style={style().textButton1}>
+                                                    Tabellen und Jahres-Endtabelle freigeben
+                                                    {'\n'}(nach der Siegerehrung?)
+                                                </TextC>
                                             </Pressable>
                                     )
                                     :
