@@ -22,13 +22,14 @@ export default function AdminActionsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [sortModeGroupTeams, setSortModeGroupTeams] = useState('standard');
-    const [sortModePlaceNumber, setSortModePlaceNumber] = useState('standard');
+    const [sortModePlaceNumber, setSortModePlaceNumber] = useState('initial');
     const [teamNames, setTeamNames] = useState('');
     const [teamNamesSplit, setTeamNamesSplit] = useState([]);
     const [clearLogsModalVisible, setClearLogsModalVisible] = useState(false);
     const [settingsModalVisible, setSettingsModalVisible] = useState(false);
     const [newYearModalVisible, setNewYearModalVisible] = useState(false);
     const [changePWModalVisible, setChangePWModalVisible] = useState(false);
+    const [show64, setShow64] = useState(false);
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
@@ -42,6 +43,7 @@ export default function AdminActionsScreen({navigation}) {
             .then((json) => {
                 setData({...json, ...mergeJson});
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
+                setShow64(json.year.teamsCount === 64 && json.year.settings.currentDay_id > 1);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -115,6 +117,21 @@ export default function AdminActionsScreen({navigation}) {
             .catch((error) => console.error(error));
     };
 
+    const getNextStepRefsChangeByPrefs = (rString) => {
+        if (data.countRefsChangedByPrefs5 !== undefined)
+            return '6' + (rString ? ': über alle Runden, max. 4 je Sport' : '')
+        else if (data.countRefsChangedByPrefs4 !== undefined)
+            return '5' + (rString ? ': innerhalb Runde, max. 4 je Sport' : '')
+        else if (data.countRefsChangedByPrefs3 !== undefined)
+            return '4' + (rString ? ': über alle Runden, max. 3 je Sport' : '')
+        else if (data.countRefsChangedByPrefs2 !== undefined)
+            return '3' + (rString ? ': innerhalb Runde, max. 3 je Sport' : '')
+        else if (data.countRefsChangedByPrefs1 !== undefined)
+            return '2' + (rString ? ': über alle Runden, max. 2 je Sport' : '')
+        else
+            return '1' + (rString ? ': innerhalb Runde, max. 2 je Sport' : '')
+    };
+
     return (
         <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
             {global.settings.isTest ?
@@ -179,8 +196,11 @@ export default function AdminActionsScreen({navigation}) {
                                                 </Pressable>
                                                 : null}
                                         </View>
-                                        <TextC>Ein Team je Zeile {'\u2B0E'} dann Team-Namen
-                                            überprüfen {'\u2B0E\u2B0E'}</TextC>
+                                        <TextC>
+                                            Ein Team je Zeile (gleiche Schreibweise wie in den Vorjahren!)
+                                            {global.settings.useRefereePref ? '\n+ SR-Präferenzen (1/ja;0/nein) getrennt: (;B;F;H;V), z.B.: Gurgn;1;1;0;1' : ''}
+                                            {'\n'}dann darunter Team-Namen überprüfen lassen
+                                        </TextC>
                                         <TextInput
                                             multiline
                                             numberOfLines={data.year.teamsCount}
@@ -342,9 +362,10 @@ export default function AdminActionsScreen({navigation}) {
                                         style={[style().button1, style().pickerSelect]}
                                     >
                                         <Picker.Item label="initial" value="initial"/>
-                                        <Picker.Item label="Standard, wie Excel-Skript" value="standard"/>
-                                        <Picker.Item label="ranking" value="ranking"/>
-                                        <Picker.Item label="random4 - only within a quartet" value="random4"/>
+                                        {show64 && <Picker.Item label="Standard, wie Excel-Skript" value="standard"/>}
+                                        {show64 && <Picker.Item label="ranking" value="ranking"/>}
+                                        {show64 &&
+                                            <Picker.Item label="random4 - only within a quartet" value="random4"/>}
                                         <Picker.Item label="random2 - overall" value="random2"/>
                                     </Picker>
                                     <Pressable style={[style().button1, style().buttonGreen]}
@@ -396,7 +417,8 @@ export default function AdminActionsScreen({navigation}) {
                             {data.countDoubleMatches && sortModePlaceNumber.includes('random') ?
                                 <Pressable style={[style().button1, style().buttonCancel, style().buttonGreen]}
                                            onPress={() => adminAction('groupTeams/sortPlaceNumberAfterAddAll', sortModePlaceNumber + '/1')}>
-                                    <TextC style={style().textButton1}>Re-draw with precheck to avoid countPrevLast...</TextC>
+                                    <TextC style={style().textButton1}>Re-draw with precheck to avoid
+                                        countPrevLast...</TextC>
                                 </Pressable> : null}
                         </View>
 
@@ -528,17 +550,22 @@ export default function AdminActionsScreen({navigation}) {
                                 ))}
                             </View> : null}
 
-                        {global.settings.useRefereePref && data.object.matchResultCount === 0 ?
+                        {global.settings.useRefereePref && data.object.matchesCount > 0 && data.object.matchResultCount === 0 ?
                             <View>
                                 <TextC>Spiele mit falschen SR-Präferenzen: {data.object.matchesWithNotRefereePref}
                                     {data.object.matchesWithNotRefereePref === 0 ?
                                         <TextC style={style().textGreen}> {'\u2714'}</TextC>
                                         : <TextC style={style().textRed}> {'\u2762'}</TextC>}
                                     {data.object.matchesWithNotRefereePref > 0 ?
-                                        <Pressable style={[style().button1, style().buttonCancel, style().buttonGreen]}
-                                                   onPress={() => adminAction('matches/changeRefereesByPrefs', '')}>
-                                            <TextC style={style().textButton1}>optimieren!</TextC>
-                                        </Pressable> : null}
+                                        <View>
+                                            <Pressable
+                                                style={[style().button1, style().buttonCancel, style().buttonGreen]}
+                                                onPress={() => adminAction('matches/changeRefereesByPrefs', getNextStepRefsChangeByPrefs(0))}>
+                                                <TextC style={style().textButton1}>innerhalb Gruppen optimieren!</TextC>
+                                            </Pressable>
+                                            <TextC>(Schritt {getNextStepRefsChangeByPrefs(1)})</TextC>
+                                        </View>
+                                        : null}
                                 </TextC>
                             </View> : null}
 
