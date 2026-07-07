@@ -89,14 +89,24 @@ export default function ResourceContentScreen({navigation}) {
 
     const tagsStyles = {
         h4: {
+            fontSize: 20,
+            fontWeight: 800,
             marginBottom: 0,
             color: ColorFunctions.getColor('primary')
         },
+        b: {
+            fontWeight: 800,
+        },
+        strong: {
+            fontWeight: 800,
+        },
         p: {
-            color: ColorFunctions.getColor('primary')
+            color: ColorFunctions.getColor('primary'),
+            marginBottom: 10
         },
         ul: {
-            color: ColorFunctions.getColor('primary')
+            color: ColorFunctions.getColor('primary'),
+            marginBottom: 10
         },
         li: {
             width: width - 50
