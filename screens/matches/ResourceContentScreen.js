@@ -87,30 +87,21 @@ export default function ResourceContentScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
+    const baseStyle = {
+        marginBottom: 0,
+        color: ColorFunctions.getColor('primary')
+    };
+
     const tagsStyles = {
-        h4: {
-            fontSize: 20,
-            fontWeight: 800,
-            marginBottom: 0,
-            color: ColorFunctions.getColor('primary')
-        },
-        b: {
-            fontWeight: 800,
-        },
-        strong: {
-            fontWeight: 800,
-        },
-        p: {
-            color: ColorFunctions.getColor('primary'),
-            marginBottom: 10
-        },
-        ul: {
-            color: ColorFunctions.getColor('primary'),
-            marginBottom: 10
-        },
-        li: {
-            width: width - 50
-        }
+        h1: {...baseStyle, fontSize: 28, fontWeight: 'bold'},
+        h2: {...baseStyle, fontSize: 24, fontWeight: 'bold'},
+        h3: {...baseStyle, fontSize: 22, fontWeight: 'bold'},
+        h4: {...baseStyle, fontSize: 20, fontWeight: 'bold'},
+        ul: {...baseStyle, marginBottom: 10},
+        p: {...baseStyle, marginBottom: 10},
+        li: {width: width - 50},
+        b: {fontWeight: 'bold'},
+        strong: {fontWeight: 'bold'}
     };
 
     return (
