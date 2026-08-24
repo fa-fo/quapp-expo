@@ -1,10 +1,10 @@
 const IS_DEV = process.env.APP_VARIANT === 'development';
-const versionCode = 29008;
+const versionCode = 30000;
 
 export default {
     name: IS_DEV ? 'DEV QuattFo Quapp' : 'QuattFo Quapp',
     slug: 'quattfo-quapp',
-    version: '5.0.2',
+    version: '6.0.0',
     orientation: 'default',
     scheme: 'quapp',
     icon: './assets/images/icon.png',
@@ -37,6 +37,7 @@ export default {
         package: IS_DEV ? 'de.quattfo.quapp.dev' : 'de.quattfo.quapp',
         googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? (IS_DEV ? '' : './google-services.json'),
         versionCode: versionCode,
+        usesCleartextTraffic: true,
         permissions: [
             'android.permission.CAMERA'
         ],
@@ -92,6 +93,13 @@ export default {
                     backgroundColor: '#000000'
                 }
             }
+        ],
+        [
+            'expo-status-bar',
+            {
+                hidden: false,
+                style: "dark"
+            }
         ]
     ],
     androidStatusBar: {
@@ -105,6 +113,5 @@ export default {
     ],
     experiments: {
         baseUrl: "/expo"
-    },
-    owner: 'fa-it'
+    }
 }
