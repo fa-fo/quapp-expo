@@ -72,32 +72,34 @@ export default function RankingInGroupsScreen({navigation}) {
                                 {global.settings.isTest && data.yearSelected === undefined && route.name === 'RankingInGroups' ?
                                     <View><TextC style={style().testMode}>{global.hintTestData}</TextC></View> : null}
                                 {data.object.showRanking ?
-                                    <View style={style().matchflexRowView}>
-                                        <View style={{alignSelf: 'center', flex: 1}}>
-                                            <TextC numberOfLines={1} style={style().textRankingStats}> </TextC>
-                                        </View>
-                                        <View style={{alignSelf: 'center', flex: 2}}>
-                                            <TextC numberOfLines={1} style={style().textRankingStats}>
-                                                Spiele
-                                            </TextC>
-                                        </View>
-                                        <View style={{alignSelf: 'center', flex: 2}}>
-                                            <TextC numberOfLines={1} style={style().textRankingStats}>
-                                                Torverh.
-                                            </TextC>
-                                        </View>
-                                        <View style={{alignSelf: 'center', flex: 2}}>
-                                            <TextC numberOfLines={1} style={style().textRankingStats}>
-                                                Tordiff.
-                                            </TextC>
-                                        </View>
-                                        <View style={{alignSelf: 'center', flex: 2}}>
-                                            <TextC numberOfLines={1} style={style().textRankingStats}>
-                                                Punkte
-                                            </TextC>
-                                        </View>
-                                        <View style={{flex: 0.4}}>
-                                            <TextC> </TextC>
+                                    <View>
+                                        <View style={style().matchflexRowView}>
+                                            <View style={{alignSelf: 'center', flex: 1}}>
+                                                <TextC numberOfLines={1} style={style().textRankingStats}> </TextC>
+                                            </View>
+                                            <View style={{alignSelf: 'center', flex: 2}}>
+                                                <TextC numberOfLines={1} style={style().textRankingStats}>
+                                                    Spiele
+                                                </TextC>
+                                            </View>
+                                            <View style={{alignSelf: 'center', flex: 2}}>
+                                                <TextC numberOfLines={1} style={style().textRankingStats}>
+                                                    Torverh.
+                                                </TextC>
+                                            </View>
+                                            <View style={{alignSelf: 'center', flex: 2}}>
+                                                <TextC numberOfLines={1} style={style().textRankingStats}>
+                                                    Tordiff.
+                                                </TextC>
+                                            </View>
+                                            <View style={{alignSelf: 'center', flex: 2}}>
+                                                <TextC numberOfLines={1} style={style().textRankingStats}>
+                                                    Punkte
+                                                </TextC>
+                                            </View>
+                                            <View style={{flex: 0.4}}>
+                                                <TextC> </TextC>
+                                            </View>
                                         </View>
                                     </View> : null}
                             </View>
