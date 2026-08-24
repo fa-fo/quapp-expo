@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {Animated, Easing, StyleSheet, useWindowDimensions, View} from 'react-native';
 import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
-import {setStatusBarBackgroundColor, setStatusBarStyle} from "expo-status-bar";
+import {StatusBar} from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Progress from 'react-native-progress';
 import MyDrawer from "../../navigation/DrawerNavigator";
@@ -68,9 +68,7 @@ export default function AnimatedSplashScreen({image}) {
         } finally {
             setProgress(1);
             setShowSplash(false);
-
-            setStatusBarStyle(global.colorScheme === 'dark' ? 'light' : 'dark');
-            setStatusBarBackgroundColor(ColorFunctions.getColor('primaryBg'));
+            StatusBar.setStyle(global.colorScheme === 'dark' ? 'light' : 'dark');
         }
     }, []);
 
