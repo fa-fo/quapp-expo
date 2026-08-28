@@ -2,7 +2,7 @@ import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
 import {Appearance, Platform, Pressable, View} from 'react-native';
 import {style} from "../../assets/styles";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import UsernameLoginModal from "../../navigation/modals/UsernameLoginModal";
 import MyTeamSelectModal from "./modals/MyTeamSelectModal";
 import {Picker} from "@react-native-picker/picker";
@@ -43,7 +43,7 @@ export default function SettingsScreen({navigation}) {
                                }}
                     >
                         <TextC style={style().textButton1}>
-                            <Icon name="account-switch-outline" size={30}/>
+                            <Icon name="account-switch-outline" size={30} color="#fff" />
                             Mein Team ändern
                         </TextC>
                     </Pressable>
@@ -90,7 +90,7 @@ export default function SettingsScreen({navigation}) {
                                        }}
                             >
                                 <TextC style={style().textButton1}>
-                                    <Icon name="login" size={30}/>
+                                    <Icon name="login" size={30} color="#fff" />
                                     Supervisor Login
                                 </TextC>
                             </Pressable>
@@ -100,7 +100,7 @@ export default function SettingsScreen({navigation}) {
                                            onPress={() => logout('supervisor')}
                                 >
                                     <TextC style={style().textButton1}>
-                                        <Icon name="login" size={15}/> Logout
+                                        <Icon name="login" size={15} color="#fff" /> Logout
                                     </TextC>
                                 </Pressable>
                             </TextC>
@@ -115,7 +115,7 @@ export default function SettingsScreen({navigation}) {
                                }}
                     >
                         <TextC style={style().textButton1}>
-                            <Icon name="login-variant" size={30}/>
+                            <Icon name="login-variant" size={30} color="#fff" />
                             Admin Login
                         </TextC>
                     </Pressable>
@@ -125,7 +125,7 @@ export default function SettingsScreen({navigation}) {
                                    onPress={() => logout('admin')}
                         >
                             <TextC style={style().textButton1}>
-                                <Icon name="login" size={15}/> Logout
+                                <Icon name="login" size={15} color="#fff" /> Logout
                             </TextC>
                         </Pressable>
                     </TextC>

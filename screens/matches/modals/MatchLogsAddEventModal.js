@@ -5,7 +5,7 @@ import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
 import {isNumber} from "../../../components/functions/CheckFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 
 export default function MatchLogsAddEventModal({
                                                    match,
@@ -120,7 +120,7 @@ export default function MatchLogsAddEventModal({
                                         team.name + ''
                                         :
                                         <Text>
-                                            <IconMat name="arrow-right" size={30}
+                                            <Icon name="arrow-right" size={30}
                                                      style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
                                             {' '}Bestätigen
                                         </Text>

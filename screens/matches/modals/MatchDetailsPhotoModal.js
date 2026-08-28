@@ -2,7 +2,7 @@ import TextC from "../../../components/customText";
 import {useEffect} from 'react';
 import {Image, Linking, Modal, Pressable, StyleSheet, View} from 'react-native';
 import {style} from '../../../assets/styles.js';
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import fetchApi from "../../../components/fetchApi";
 import * as ColorFunctions from "../../../components/functions/ColorFunctions";
 
@@ -58,7 +58,7 @@ export default function MatchDetailsPhotoModal({
                     <Pressable onPress={() => {
                         setModalVisible(false)
                     }}>
-                        <IconMat name='close' size={48} color={ColorFunctions.getColor('primary')}/>
+                        <Icon name='close' size={48} color={ColorFunctions.getColor('primary')}/>
                     </Pressable>
                 </View>
                 {route.name === 'MatchDetailsAdmin' ?
@@ -67,7 +67,7 @@ export default function MatchDetailsPhotoModal({
                             style={[style().button1, style().buttonEvent, style().buttonRed]}
                             onPress={() => setCheck(0)}
                         >
-                            <IconMat name='delete-outline' size={48} color='#fff'/>
+                            <Icon name='delete-outline' size={48} color='#fff'/>
                         </Pressable>
                     </View> : null}
 
@@ -77,7 +77,7 @@ export default function MatchDetailsPhotoModal({
                             style={[style().button1, style().buttonEvent, style().buttonGreen]}
                             onPress={() => setCheck(1)}
                         >
-                            <IconMat name='eye-check' size={48} color='#fff'/>
+                            <Icon name='eye-check' size={48} color='#fff'/>
                             <TextC style={[style().textButton1, {textAlign: 'center'}]}>OK</TextC>
                         </Pressable>
                         :
@@ -90,7 +90,7 @@ export default function MatchDetailsPhotoModal({
                                 onPress={() => downloadFile()}
                             >
                                 <TextC style={[style().textButton1, {textAlign: 'center'}]}>
-                                    <IconMat name='download' size={48} color='#fff'/>
+                                    <Icon name='download' size={48} color='#fff'/>
                                 </TextC>
                             </Pressable>
                         </View>

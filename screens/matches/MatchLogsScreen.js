@@ -21,8 +21,8 @@ import DoubleYellowModal from "../../components/modals/DoubleYellowModal";
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as FoulFunctions from '../../components/functions/FoulFunctions';
-import IconIon from "react-native-vector-icons/Ionicons";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import IconIon from "@react-native-vector-icons/ionicons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {style} from '../../assets/styles.js';
 
 export default function MatchLogsScreen({navigation}) {
@@ -362,72 +362,72 @@ export default function MatchLogsScreen({navigation}) {
     let getButtonIcon = function (code) {
         switch (code) {
             case 'ON_PLACE_REF':
-                return <IconMat
+                return <Icon
                     name={liveLogsCalc.isRefereeOnPlace ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={28}/>
+                    color="#fff" size={28}/>
             case 'ON_PLACE_TEAM1':
-                return <IconMat
+                return <Icon
                     name={liveLogsCalc.isTeam1OnPlace ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={28}/>
+                    color="#fff" size={28}/>
             case 'ON_PLACE_TEAM2':
-                return <IconMat
+                return <Icon
                     name={liveLogsCalc.isTeam2OnPlace ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={28}/>
+                    color="#fff" size={28}/>
             case 'GOAL_1POINT':
                 switch (route.params.item.sport.code) {
                     case 'BB':
-                        return <IconIon name="basketball" size={15}/>
+                        return <IconIon name="basketball" size={15} color="#fff"/>
                     case 'FB':
-                        return <IconIon name="football" size={15}/>
+                        return <IconIon name="football" size={15} color="#fff"/>
                     case 'HB':
-                        return <IconIon name="football-outline" size={15}/>
+                        return <IconIon name="football-outline" size={15} color="#fff"/>
                     case 'VB':
-                        return <IconMat name="volleyball" size={15}/>
+                        return <Icon name="volleyball" size={15} color="#fff"/>
                     default:
                         return null;
                 }
             case 'GOAL_2POINT':
                 return <Text>
-                    <IconIon name="basketball" size={15}/>
-                    <IconIon name="basketball" size={15}/>
+                    <IconIon name="basketball" size={15} color="#fff"/>
+                    <IconIon name="basketball" size={15} color="#fff"/>
                 </Text>
             case 'GOAL_3POINT':
                 return <Text>
-                    <IconIon name="basketball" size={15}/>
-                    <IconIon name="basketball" size={15}/>
-                    <IconIon name="basketball" size={15}/>
+                    <IconIon name="basketball" size={15} color="#fff"/>
+                    <IconIon name="basketball" size={15} color="#fff"/>
+                    <IconIon name="basketball" size={15} color="#fff"/>
                 </Text>
             case 'FOUL_CARD_YELLOW':
             case 'FOUL_CARD_RED_FB':
             case 'FOUL_CARD_RED_HB':
             case 'FOUL_CARD_RED_VB':
-                return <IconMat name="cards" size={15} style={{color: FoulFunctions.getFoulColor(code)}}/>
+                return <Icon name="cards" size={15} style={{color: FoulFunctions.getFoulColor(code)}}/>
             case 'FOUL_SUSP_FB':
             case 'FOUL_SUSP_HB':
-                return <IconMat name="hand-peace" size={15} style={{color: FoulFunctions.getFoulColor(code)}}/>
+                return <Icon name="hand-peace" size={15} style={{color: FoulFunctions.getFoulColor(code)}}/>
             case 'MATCH_START':
             case 'MATCH_CONCLUDE':
-                return <IconMat name="arrow-right" size={28}
-                                style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
+                return <Icon name="arrow-right" size={28}
+                             style={{color: showBlinking ? '#fff' : '#3d8d02'}}/>
             case 'MATCH_END':
-                return <IconMat name="arrow-right" size={28}
-                                style={{color: liveLogsCalc.isTime2matchEnd && showBlinking ? '#fff' : '#3d8d02'}}/>
+                return <Icon name="arrow-right" size={28}
+                             style={{color: liveLogsCalc.isTime2matchEnd && showBlinking ? '#fff' : '#3d8d02'}}/>
             case 'RESULT_WIN_NONE':
-                return <IconMat
+                return <Icon
                     name={liveLogsCalc.teamWon === 0 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={28}/>
+                    color="#fff" size={28}/>
             case 'RESULT_WIN_TEAM1':
-                return <IconMat
+                return <Icon
                     name={liveLogsCalc.teamWon === 1 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={28}/>
+                    color="#fff" size={28}/>
             case 'RESULT_WIN_TEAM2':
-                return <IconMat
+                return <Icon
                     name={liveLogsCalc.teamWon === 2 ? 'checkbox-marked-outline' : 'checkbox-blank-outline'}
-                    size={28}/>
+                    color="#fff" size={28}/>
             case 'PHOTO_ADD':
-                return <IconIon name="add-circle-outline" size={28}/>
+                return <IconIon name="add-circle-outline" color="#fff" size={28}/>
             case 'LOGOUT':
-                return <IconMat name="logout" size={28}/>
+                return <Icon name="logout" color="#fff" size={28}/>
             default:
                 return null;
         }
@@ -437,7 +437,7 @@ export default function MatchLogsScreen({navigation}) {
         return (
             code === 'GOAL_1POINT' && route.params.item.sport.name === 'Basketball') ? '1 Punkt'
             : (code === 'GOAL_1POINT' && route.params.item.sport.name === 'Volleyball') ? 'Punktgewinn'
-                : name.replace(/: /i, ':\n').replace(/Team 1/i, route.params.item.teams1.name).replace(/Team 2/i, route.params.item.teams2.name)
+                : name.replace(/: /i, ':\n').replace(/Team 1/i, route.params.item.teams1.name).replace(/Team 2/i, route.params.item.teams2.name);
     };
 
     let getButtonSize = function (code) {
@@ -539,7 +539,7 @@ export default function MatchLogsScreen({navigation}) {
                             <Pressable style={[style().button1, style().viewStatus, style().buttonGreen]}
                                        onPress={() => setTeamsSwapped(!teamsSwapped)}>
                                 <TextC style={[style().centeredText100, style().textButton1]} adjustsFontSizeToFit>
-                                    <IconMat name={'swap-horizontal-bold'} size={20}/>
+                                    <Icon name={'swap-horizontal-bold'} size={20} color="#fff"/>
                                 </TextC>
                             </Pressable>
                             <TextC style={[style().centeredText100, style().big2a, style().small]}>vs</TextC>
@@ -589,7 +589,7 @@ export default function MatchLogsScreen({navigation}) {
                                     }}
                                 >
                                     <Text numberOfLines={1} style={[style().centeredText100, style().small]}>
-                                        <IconMat name="undo-variant" size={15}/> Letzte Eingabe rückgängig
+                                        <Icon name="undo-variant" size={15}/> Letzte Eingabe rückgängig
                                     </Text>
                                 </Pressable>
                             </View>

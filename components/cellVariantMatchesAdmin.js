@@ -10,7 +10,7 @@ import RemarksModal from './modals/RemarksModal';
 import CardsModal from './modals/CardsModal';
 import * as ConfirmFunctions from './functions/ConfirmFunctions';
 import * as SportFunctions from "./functions/SportFunctions";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {getAdminInsertResultFields} from "./getAdminInsertResultFields";
 import {getAdminInsertRefereeNameField} from "./getAdminInsertRefereeNameField";
 

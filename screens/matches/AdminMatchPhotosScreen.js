@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {Image, Pressable, RefreshControl, View} from 'react-native';
 import fetchApi from '../../components/fetchApi';
 import {style} from "../../assets/styles";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import CellVariantMatches from "../../components/cellVariantMatches";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import {useAutoReload} from "../../components/useAutoReload";
@@ -75,7 +75,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                                 style={[style().button1, style().buttonEvent, style().buttonRed]}
                                                 onPress={() => setCheck(0)}
                                             >
-                                                <IconMat name='delete-outline' size={48} color='#fff'/>
+                                                <Icon name='delete-outline' size={48} color='#fff'/>
                                             </Pressable>
                                         </View>
                                         <View style={style().bottomButtonContainer}>
@@ -83,7 +83,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                                 style={[style().button1, style().buttonEvent, style().buttonGreen]}
                                                 onPress={() => setCheck(1)}
                                             >
-                                                <IconMat name='eye-check' size={48} color='#fff'/>
+                                                <Icon name='eye-check' size={48} color='#fff'/>
                                                 <TextC style={[style().textButton1, {textAlign: 'center'}]}>OK</TextC>
                                             </Pressable>
                                         </View>
@@ -95,7 +95,7 @@ export default function AdminMatchPhotosScreen({navigation}) {
                                             style={[style().button1, style().buttonEvent, style().buttonGreen]}
                                             onPress={loadScreenData}
                                         >
-                                            <IconMat name='reload' size={48} color='#fff'/>
+                                            <Icon name='reload' size={48} color='#fff'/>
                                             <TextC style={[style().textButton1, {textAlign: 'center'}]}>Suchen</TextC>
                                         </Pressable>
                                     </View>

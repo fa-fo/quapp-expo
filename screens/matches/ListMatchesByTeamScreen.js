@@ -9,7 +9,7 @@ import fetchApi from '../../components/fetchApi';
 import * as AsyncStorageFunctions from "../../components/functions/AsyncStorageFunctions";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as PushFunctions from "../../components/functions/PushFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import MyTeamSelectModal from "../initials/modals/MyTeamSelectModal";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
@@ -192,7 +192,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
-                                                                    <IconMat name="table-large" size={15}/>
+                                                                    <Icon name="table-large" size={15} color="#fff" />
                                                                     {' Tabelle'}
                                                                     {data.year.settings.groupsCount > 1 ? ' Gr. ' + data.object.group.group_name : ''}
                                                                 </TextC>

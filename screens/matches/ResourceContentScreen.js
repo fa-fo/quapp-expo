@@ -21,8 +21,7 @@ import RenderHtml from 'react-native-render-html';
 import {useRoute} from "@react-navigation/native";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import TextC from "../../components/customText";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import ScrollViewC from "../../components/customScrollView";
 
 export default function ResourceContentScreen({navigation}) {
@@ -118,7 +117,7 @@ export default function ResourceContentScreen({navigation}) {
                                                 onPress={() => saveScreenData()}
                                             >
                                                 <TextC style={style().textButton1}>
-                                                    <IconMat name='content-save' size={24} color='#fff'/>
+                                                    <Icon name='content-save' size={24} color='#fff'/>
                                                     Speichern
                                                 </TextC>
                                             </Pressable>

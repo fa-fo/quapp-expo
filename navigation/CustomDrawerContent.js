@@ -3,7 +3,7 @@ import TextC from "../components/customText";
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Image, Linking, Platform, Text, View} from 'react-native';
 import {style} from '../assets/styles';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from "@react-native-vector-icons/material-design-icons";
 import Constants from "expo-constants";
 import * as ColorFunctions from "../components/functions/ColorFunctions";
 

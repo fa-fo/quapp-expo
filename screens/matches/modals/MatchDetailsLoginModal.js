@@ -4,7 +4,7 @@ import {ActivityIndicator, Modal, Pressable, TextInput, View} from 'react-native
 import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 
 export default function MatchDetailsLoginModal({setModalVisible, modalVisible, navigation, item}) {
     const [refereePin, setRefereePin] = useState(global['refereePIN' + item.id] ?? '');

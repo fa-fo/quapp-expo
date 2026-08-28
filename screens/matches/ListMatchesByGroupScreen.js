@@ -8,7 +8,7 @@ import CellVariantMatches from '../../components/cellVariantMatches';
 import fetchApi from '../../components/fetchApi';
 import {setHeaderRightOptions} from '../../components/setHeaderRightOptions';
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {useAutoReload} from "../../components/useAutoReload";
 import ScrollViewC from "../../components/customScrollView";
 
@@ -77,7 +77,7 @@ export default function ListMatchesByGroupScreen({navigation}) {
                                                             >
                                                                 <TextC style={style().textButtonTopRight}
                                                                        numberOfLines={1}>
-                                                                    <IconMat name="table-large" size={15}/>
+                                                                    <Icon name="table-large" size={15} color="#fff" />
                                                                     {' Tabelle'}
                                                                     {data.year.settings.groupsCount > 1 ? ' Gr. ' + group_name : ''}
                                                                 </TextC>

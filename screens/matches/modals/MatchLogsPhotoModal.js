@@ -4,7 +4,7 @@ import {ActivityIndicator, Image, Modal, Pressable, StyleSheet, useWindowDimensi
 import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
 import * as DateFunctions from "../../../components/functions/DateFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {CameraView, useCameraPermissions} from "expo-camera";
 
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -145,14 +145,14 @@ export default function MatchLogsPhotoModal({
                         />
                         <View style={style().topleftButtonContainer}>
                             <Pressable onPress={toggleCameraFacing}>
-                                <IconMat name='camera-flip' size={48} color='green'/>
+                                <Icon name='camera-flip' size={48} color='green'/>
                             </Pressable>
                         </View>
                         <View style={style().toprightButtonContainer}>
                             <Pressable onPress={() => {
                                 setModalVisible(false)
                             }}>
-                                <IconMat name='close' size={48} color={ColorFunctions.getColor('primary')}/>
+                                <Icon name='close' size={48} color={ColorFunctions.getColor('primary')}/>
                             </Pressable>
                         </View>
                         <View style={style().bottomButtonContainer}>
@@ -165,7 +165,7 @@ export default function MatchLogsPhotoModal({
                                 {isBusy ?
                                     <ActivityIndicator size={55} color="white"/>
                                     :
-                                    <IconMat name='camera' size={55} color='white'/>}
+                                    <Icon name='camera' size={55} color='white'/>}
                                 <TextC style={[style().textButton1, {textAlign: 'center'}]}>
                                     Snap
                                 </TextC>
@@ -191,7 +191,7 @@ export default function MatchLogsPhotoModal({
                             style={[style().button1, style().buttonEvent, style().buttonRed]}
                             onPress={cancelPreview}
                         >
-                            <IconMat name='delete-forever-outline' size={48} color='#fff'/>
+                            <Icon name='delete-forever-outline' size={48} color='#fff'/>
                         </Pressable>
                     </View>
                     <View style={style().bottomButtonContainer}>
@@ -202,7 +202,7 @@ export default function MatchLogsPhotoModal({
                             {isBusy ?
                                 <ActivityIndicator size={55} color="white"/>
                                 :
-                                <IconMat name='send-check' size={55} color='#fff'/>}
+                                <Icon name='send-check' size={55} color='#fff'/>}
                             <TextC style={style().textButton1}>Absenden</TextC>
                         </Pressable>
                     </View>

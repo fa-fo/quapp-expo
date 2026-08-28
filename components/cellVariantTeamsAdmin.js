@@ -1,7 +1,7 @@
 import TextC from "../components/customText";
 import {useState} from 'react';
 import {ActivityIndicator, Pressable, View} from 'react-native';
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {Cell} from 'react-native-tableview-simple';
 import {Checkbox} from 'expo-checkbox';
 import {style} from '../assets/styles';

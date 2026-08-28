@@ -9,6 +9,7 @@ import fetchApi from '../../components/fetchApi';
 import * as SportFunctions from "../../components/functions/SportFunctions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import ScrollViewC from "../../components/customScrollView";
+import Icon from "@react-native-vector-icons/material-design-icons";
 
 export default function TeamYearsInfoScreen({navigation}) {
     const route = useRoute();
@@ -57,7 +58,10 @@ export default function TeamYearsInfoScreen({navigation}) {
                                     <Pressable style={style().buttonTopRight}
                                                onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: route.params.item})}
                                     >
-                                        <TextC style={style().textButtonTopRight}>{'Bilanz seit 2022'}</TextC>
+                                        <TextC style={style().textButtonTopRight}>
+                                            <Icon name="folder-table-outline" size={15} color="#fff"/>
+                                            {' Bilanz seit 2022'}
+                                        </TextC>
                                     </Pressable>
                                 </View>
                                 : null}

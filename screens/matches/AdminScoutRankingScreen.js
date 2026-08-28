@@ -8,7 +8,7 @@ import CellVariant from "../../components/cellVariant";
 import {style} from "../../assets/styles";
 import {Picker} from "@react-native-picker/picker";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import ScrollViewC from "../../components/customScrollView";
 
 export default function AdminScoutRankingScreen({navigation}) {
@@ -66,7 +66,7 @@ export default function AdminScoutRankingScreen({navigation}) {
                                         <Pressable style={[style().button1, style().buttonEvent, style().buttonRed]}
                                                    onPress={() => adminAction('teamYears/setScrRanking', (route.params?.year_id ?? 0))}>
                                             <TextC style={style().textButton1}>
-                                                <IconMat name="calculator" size={24}/>neu berechnen</TextC>
+                                                <Icon name="calculator" size={24}/>neu berechnen</TextC>
                                         </Pressable>
                                     </View>
                                 </View>

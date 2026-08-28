@@ -2,7 +2,7 @@ import TextC from "../../../components/customText";
 import {Modal, Pressable, View} from 'react-native';
 import {style} from '../../../assets/styles.js';
 import fetchApi from '../../../components/fetchApi';
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import * as AsyncStorageFunctions from "../../../components/functions/AsyncStorageFunctions";
 
 export default function MatchLogsCancelEventModal({
@@ -57,7 +57,7 @@ export default function MatchLogsCancelEventModal({
                             setCancelEventModalVisible(false);
                         }}>
                         <TextC style={[style().centeredText100, style().textButton1]}>
-                            <IconMat name="arrow-right" size={15}/>{' Bestätigen'}
+                            <Icon name="arrow-right" size={15} color="#fff" />{' Bestätigen'}
                         </TextC>
                     </Pressable>
                     <TextC> </TextC>

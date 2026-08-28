@@ -8,7 +8,7 @@ import MatchDetailsLoginModal from './modals/MatchDetailsLoginModal';
 import MatchDetailsPhotoModal from "./modals/MatchDetailsPhotoModal";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
 import * as DateFunctions from "../../components/functions/DateFunctions";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import imgNotAvailable from '../../assets/images/imgNotAvailable.png';
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";

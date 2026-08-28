@@ -4,7 +4,7 @@ import {ActivityIndicator, Dimensions, Image, Linking, Platform, Pressable, View
 import fetchApi from '../../components/fetchApi';
 import Carousel from "react-native-reanimated-carousel";
 import {style} from "../../assets/styles";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {useRoute} from "@react-navigation/native";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
@@ -133,7 +133,7 @@ export default function AllMatchPhotosScreen({navigation}) {
                     >
                         <TextC style={[style().textButton1]} numberOfLines={1}>
                             Mein Team
-                            <IconMat name='skip-next' size={24} color='#fff'/>
+                            <Icon name='skip-next' size={24} color='#fff'/>
                         </TextC>
                     </Pressable>
                     : null}
@@ -146,7 +146,7 @@ export default function AllMatchPhotosScreen({navigation}) {
                         onPress={() => downloadFile(getUriFile(data.object.photos[progress].match_id, data.object.photos[progress].id))}
                     >
                         <TextC style={[style().textButton1, {textAlign: 'center'}]}>
-                            <IconMat name='download' size={24} color='#fff'/>
+                            <Icon name='download' size={24} color='#fff'/>
                         </TextC>
                     </Pressable>
                     : null}

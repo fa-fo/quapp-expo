@@ -6,7 +6,7 @@ import MyMatchesStackNavigator from "./MyMatchesStackNavigator";
 import YearsStackNavigator from "./YearsStackNavigator";
 import SupervisorStackNavigator from "./SupervisorStackNavigator";
 import AdminStackNavigator from "./AdminStackNavigator";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from "@react-native-vector-icons/material-design-icons";
 import * as ColorFunctions from "../components/functions/ColorFunctions";
 import {style} from "../assets/styles";
 import {useNavigation} from "@react-navigation/native";

@@ -1,7 +1,7 @@
 import TextC from "../components/customText";
 import {Platform, Pressable, View} from 'react-native';
 import {style} from '../assets/styles';
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 
 export const setHeaderRightOptions = (navigation, route, data, loadScreenData) => {
     let showObj = {};

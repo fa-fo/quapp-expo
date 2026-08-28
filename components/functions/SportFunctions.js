@@ -1,5 +1,5 @@
 import TextC from "../../components/customText";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {Image, View} from "react-native";
 import * as DateFunctions from "./DateFunctions";
 import * as ColorFunctions from "./ColorFunctions";
@@ -43,7 +43,7 @@ export function getSportImage(code) {
 
 export function getChampionshipStars(countStars) {
     return [...Array(countStars)].map((e, i) =>
-        <IconMat name="star"
+        <Icon name="star"
                  key={i}
                  size={15}
                  style={{color: ColorFunctions.getColor('GoldBg')}}/>)

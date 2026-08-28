@@ -9,7 +9,7 @@ import CellVariantMatchesAdmin from '../../components/cellVariantMatchesAdmin';
 import fetchApi from '../../components/fetchApi';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as ConfirmFunctions from "../../components/functions/ConfirmFunctions";
-import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {useAutoReload} from "../../components/useAutoReload";
 import {setHeaderRightOptions} from "../../components/setHeaderRightOptions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
@@ -109,7 +109,7 @@ export default function RoundsMatchesScreen({navigation}) {
                                                                     >
                                                                         <TextC style={style().textButtonTopRight}
                                                                                numberOfLines={1}>
-                                                                            <IconMat name="table-large" size={15}/>
+                                                                            <Icon name="table-large" size={15} color="#fff" />
                                                                             {' Tabelle'}
                                                                             {data.year.settings.groupsCount > 1 ? ' Gr. ' + group.name : ''}
                                                                         </TextC>

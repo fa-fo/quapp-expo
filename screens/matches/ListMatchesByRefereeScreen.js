@@ -2,7 +2,7 @@ import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Pressable, RefreshControl, TextInput, View} from 'react-native';
 import {Section, TableView} from 'react-native-tableview-simple';
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import CellVariantMatches from '../../components/cellVariantMatches';
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import fetchApi from '../../components/fetchApi';
@@ -60,7 +60,7 @@ export default function ListMatchesByRefereeScreen({navigation}) {
                     }]}
                     onPress={() => loadScreenData()}
                 >
-                    <Icon name="arrow-right" size={25}/>
+                    <Icon name="arrow-right" size={25} color="#fff" />
                 </Pressable>
             </View>
 

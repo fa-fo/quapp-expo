@@ -1,7 +1,7 @@
 import TextC from "../components/customText";
 import {ActivityIndicator, TextInput, View} from 'react-native';
 import {style} from '../assets/styles';
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "@react-native-vector-icons/material-design-icons";
 import {useState} from "react";
 import * as SportFunctions from "./functions/SportFunctions";
 

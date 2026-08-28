@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {Pressable, RefreshControl, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from "@react-native-vector-icons/material-design-icons";
 import * as DateFunctions from "../../components/functions/DateFunctions";
 import * as SportFunctions from "../../components/functions/SportFunctions";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
@@ -145,7 +145,7 @@ export default function AdminActionsScreen({navigation}) {
                                 style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 140}]}
                                 onPress={() => setSettingsModalVisible(true)}>
                                 <TextC style={style().textButton1} numberOfLines={1}>
-                                    <Icon name="heart-settings" size={25}/> Einstellungen
+                                    <Icon name="heart-settings" size={25} color="#fff" /> Einstellungen
                                 </TextC>
                             </Pressable>
                         </View>
@@ -155,7 +155,7 @@ export default function AdminActionsScreen({navigation}) {
                                 style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 140}]}
                                 onPress={() => setChangePWModalVisible(true)}>
                                 <TextC style={style().textButton1} numberOfLines={1}>
-                                    <Icon name="form-textbox-password" size={25}/> PW ändern
+                                    <Icon name="form-textbox-password" size={25} color="#fff" /> PW ändern
                                 </TextC>
                             </Pressable>
                         </View>
@@ -166,7 +166,7 @@ export default function AdminActionsScreen({navigation}) {
                                     style={[style().button1, style().buttonConfirm, style().buttonRed, {width: 120}]}
                                     onPress={() => setClearLogsModalVisible(true)}>
                                     <TextC style={style().textButton1}>
-                                        <Icon name="delete" size={25}/> Logs leeren
+                                        <Icon name="delete" size={25} color="#fff" /> Logs leeren
                                     </TextC>
                                 </Pressable>
                             </View> : null}
@@ -576,8 +576,8 @@ export default function AdminActionsScreen({navigation}) {
                                 <View style={[style().viewStatus, {flex: 1}]}>
                                     <Pressable style={[style().button1, style().buttonGreyDark]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatches')}>
-                                        <TextC>
-                                            <Icon name="file-pdf-box" size={25}/>Pdf-Download:{'\n'}
+                                        <TextC style={style().textButton1}>
+                                            <Icon name="file-pdf-box" size={25} color="#fff" />Pdf-Download:{'\n'}
                                             Alle Team-Spielpläne </TextC>
                                     </Pressable>
                                 </View>
@@ -586,7 +586,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/0')}>
                                         <TextC style={style().textButton1}>
-                                            <Icon name="file-pdf-box" size={25}/>Pdf-Download:{'\n'}
+                                            <Icon name="file-pdf-box" size={25} color="#fff" />Pdf-Download:{'\n'}
                                             Alle Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 1</TextC>
                                     </Pressable>
                                 </View>
@@ -594,7 +594,7 @@ export default function AdminActionsScreen({navigation}) {
                                     <Pressable style={[style().button1, style().buttonGrey]}
                                                onPress={() => downloadPdf('teamYears/pdfAllTeamsMatchesWithGroupMatches/1')}>
                                         <TextC style={style().textButton1}>
-                                            <Icon name="file-pdf-box" size={25}/>Pdf-Download:{'\n'}
+                                            <Icon name="file-pdf-box" size={25} color="#fff" />Pdf-Download:{'\n'}
                                             Alle Team-Spielpläne{'\n'}+alle Gr.Spiele Teil 2</TextC>
                                     </Pressable>
                                 </View>
@@ -607,8 +607,8 @@ export default function AdminActionsScreen({navigation}) {
                                     {data.object.matchesCount > data.object.matchResultCount ?
                                         <Pressable style={[style().button1, style().buttonGreyDark]}
                                                    onPress={() => downloadPdf('sports/pdfAllFieldsMatches')}>
-                                            <TextC>
-                                                <Icon name="file-pdf-box" size={25}/>Pdf-Download:{'\n'}
+                                            <TextC style={style().textButton1}>
+                                                <Icon name="file-pdf-box" size={25} color="#fff" />Pdf-Download:{'\n'}
                                                 Alle Feld-Spielpläne </TextC>
                                         </Pressable>
                                         : null}
@@ -616,16 +616,16 @@ export default function AdminActionsScreen({navigation}) {
                                 <View style={[style().viewStatus, {flex: 1}]}>
                                     <Pressable style={[style().button1, style().buttonGreyDark]}
                                                onPress={() => downloadPdf('groupTeams/pdfAllRankings')}>
-                                        <TextC>
-                                            <Icon name="file-pdf-box" size={25}/>Pdf-Download:{'\n'}
+                                        <TextC style={style().textButton1}>
+                                            <Icon name="file-pdf-box" size={25} color="#fff" />Pdf-Download:{'\n'}
                                             Alle Tabellen </TextC>
                                     </Pressable>
                                 </View>
                                 <View style={[style().viewStatus, {flex: 1}]}>
                                     <Pressable style={[style().button1, style().buttonGreyDark]}
                                                onPress={() => downloadPdf('matches/pdfMatchesByGroup')}>
-                                        <TextC>
-                                            <Icon name="file-pdf-box" size={25}/>Pdf-Download:{'\n'}
+                                        <TextC style={style().textButton1}>
+                                            <Icon name="file-pdf-box" size={25} color="#fff" />Pdf-Download:{'\n'}
                                             Alle Gruppen-Spielpläne </TextC>
                                     </Pressable>
                                 </View>
