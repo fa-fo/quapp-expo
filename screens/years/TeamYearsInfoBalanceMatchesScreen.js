@@ -42,11 +42,19 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
                                 <View>
                                     <View style={[style().matchflexRowView, style().headerComponentView]}>
                                         <View style={{flex: 2}}>
-                                            <TextC style={{fontSize: 18}}>{route.params.team.team_name}</TextC>
+                                            <TextC style={{fontSize: 18}}>
+                                                {route.params.team.team_name ?? global.myTeamName}
+                                            </TextC>
                                             <TextC>
                                                 {SportFunctions.getSportImage(route.params.sport.code)}
                                                 {route.params.sport.name}
                                             </TextC>
+                                            <TextC>
+                                                {(route.params.balance[1] ?? 0) + ' Siege' + ' - '
+                                                    + (route.params.balance[0] ?? 0) + ' Unentschieden' + ' - '
+                                                    + (route.params.balance[2] ?? 0) + ' Niederlagen'}
+                                            </TextC>
+                                            <TextC>{'\n'}</TextC>
                                             <TextC>Alle ausgetragenen Spiele seit 2022: </TextC>
                                         </View>
                                     </View>

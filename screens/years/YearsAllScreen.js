@@ -1,11 +1,12 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator, Pressable, View} from 'react-native';
 import {style} from '../../assets/styles.js';
 import {Section, TableView} from 'react-native-tableview-simple';
 import fetchApi from '../../components/fetchApi';
 import CellVariant from '../../components/cellVariant';
 import ScrollViewC from "../../components/customScrollView";
+import Icon from "@react-native-vector-icons/material-design-icons";
 
 export default function YearsAllScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -23,7 +24,26 @@ export default function YearsAllScreen({navigation}) {
             {isLoading ? <ActivityIndicator size="large" color="#00ff00" style={style().actInd}/> :
                 (data?.status === 'success' ? (
                     <TableView appearance={global.colorScheme}>
-                        <Section>
+                        <Section headerComponent={
+                            <View>
+                                <View style={[style().matchflexRowView, style().headerComponentView]}>
+                                    <View style={{flex: 2}}>
+                                        <TextC>Bisherige Turniere:</TextC>
+                                    </View>
+                                    {global.myTeamId > 0 ?
+                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                            <Pressable style={style().buttonTopRight}
+                                                       onPress={() => navigation.navigate('TeamYearsInfoBalance', {team: {team_id: global.myTeamId}})}
+                                            >
+                                                <TextC style={style().textButtonTopRight}>
+                                                    <Icon name="folder-table-outline" size={15} color="#fff"/>
+                                                    {' Mein Team: ' + global.myTeamName + '\nBilanz seit 2022'}
+                                                </TextC>
+                                            </Pressable>
+                                        </View> : null}
+                                </View>
+                            </View>
+                        }>
                             {data.object.map(item => (
                                 <CellVariant key={item.id}
                                              cellStyle="RightDetail"

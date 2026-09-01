@@ -9,11 +9,13 @@ export default function CellVariantBalance(props) {
         <Cell
             {...props}
             cellStyle="RightDetail"
-            accessory="DisclosureIndicator"
+            accessory={props.object[props.item.id] ? "DisclosureIndicator" : null}
+            isDisabled={!props.object[props.item.id]}
             backgroundColor={
-                props.object[props.item.id][1] > (props.object[props.item.id][2] ?? 0) ? ColorFunctions.getColor('GreenLightBg')
-                    : (props.object[props.item.id][2] > (props.object[props.item.id][1] ?? 0) ? ColorFunctions.getColor('RedLightBg')
-                    : '')
+                props.object[props.item.id] ?
+                    (props.object[props.item.id][1] > (props.object[props.item.id][2] ?? 0) ? ColorFunctions.getColor('GreenLightBg')
+                        : (props.object[props.item.id][2] > (props.object[props.item.id][1] ?? 0) ? ColorFunctions.getColor('RedLightBg')
+                            : '')) : ''
             }
             cellContentView={
                 <View
@@ -47,7 +49,7 @@ export default function CellVariantBalance(props) {
                                 fontSize: 16,
                                 textAlign: 'center',
                             }}>
-                            {(props.object[props.item.id][1] ?? 0)}
+                            {(props.object[props.item.id]?.[1] ?? 0)}
                         </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
@@ -58,7 +60,7 @@ export default function CellVariantBalance(props) {
                                 fontSize: 16,
                                 textAlign: 'center',
                             }}>
-                            {(props.object[props.item.id][0] ?? 0)}
+                            {(props.object[props.item.id]?.[0] ?? 0)}
                         </TextC>
                     </View>
                     <View style={{alignSelf: 'center', flex: 2}}>
@@ -69,7 +71,7 @@ export default function CellVariantBalance(props) {
                                 fontSize: 16,
                                 textAlign: 'center',
                             }}>
-                            {(props.object[props.item.id][2] ?? 0)}
+                            {(props.object[props.item.id]?.[2] ?? 0)}
                         </TextC>
                     </View>
                     <View style={{alignSelf: 'center'}}>
