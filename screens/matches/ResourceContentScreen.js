@@ -17,7 +17,7 @@ import {
  */
 import fetchApi from "../../components/fetchApi";
 import {style} from "../../assets/styles";
-import RenderHtml from 'react-native-render-html';
+import RenderHtml from '@native-html/render';
 import {useRoute} from "@react-navigation/native";
 import * as ColorFunctions from "../../components/functions/ColorFunctions";
 import TextC from "../../components/customText";
