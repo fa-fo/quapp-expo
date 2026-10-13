@@ -1,10 +1,11 @@
 import TextC from "../../components/customText";
 import {useEffect, useState} from 'react';
-import {Pressable, RefreshControl, TextInput, View} from 'react-native';
+import {ActivityIndicator, Pressable, RefreshControl, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
 import {style} from '../../assets/styles';
 import ScrollViewC from "../../components/customScrollView";
+import Icon from "@react-native-vector-icons/material-design-icons";
 
 export default function PushNotificationsScreen({navigation}) {
     const [isLoading, setLoading] = useState(true);
@@ -12,6 +13,9 @@ export default function PushNotificationsScreen({navigation}) {
     const [selectedTeamId, setSelectedTeamId] = useState(0);
     const [mailTitle, setMailTitle] = useState('');
     const [mailBody, setMailBody] = useState('');
+    const [isTryingSend, setIsTryingSend] = useState(false);
+    const [response, setResponse] = useState(false);
+    const [receiptStatus, setReceiptStatus] = useState({});
 
     useEffect(() => {
         loadScreenData({});
@@ -24,40 +28,66 @@ export default function PushNotificationsScreen({navigation}) {
             .finally(() => setLoading(false));
     };
 
-    function sendPushNotification(teamId) {
-        let postData = {
-            'password': global['adminPW'],
-        };
+    function sendPush(teamId) {
+        if (mailTitle !== '' && mailBody !== '') {
+            setIsTryingSend(true);
 
-        fetchApi('pushTokens/byTeam/' + teamId, 'POST', postData)
-            .then((json) => {
-                json.object.map(async token => (
-                    await sendItem(token.expoPushToken)
-                ))
+            let postData = {
+                'password': global['adminPW'],
+                'title': mailTitle,
+                'body': mailBody,
+            };
+
+            fetchApi('pushTokens/sendByTeam/' + teamId, 'POST', postData)
+                .then((json) => setResponse(json))
+                .catch((error) => console.error(error))
+                .finally(() => setIsTryingSend(false));
+        }
+    }
+
+    useEffect(() => {
+        if (!response?.object) return;
+
+        let cancelled = false;
+
+        // set all ids from response to pending
+        const pending = new Set(response.object.map((item) => item.id));
+
+        const checkAll = () => {
+            if (pending.size === 0) {
+                clearInterval(timer);
+                return;
+            }
+
+            fetchApi('pushTokens/checkReceipts', 'POST', {
+                'password': global['adminPW'],
+                'receiptIds': [...pending],
             })
-            .catch((error) => console.error(error));
-    }
+                .then((json) => {
+                    const list = json?.object ?? [];
 
-    async function sendItem(expoPushToken) {
-        const message = {
-            to: expoPushToken,
-            sound: 'default',
-            channelId: 'default',
-            ttl: 3600,
-            title: mailTitle,
-            body: mailBody,
+                    list.forEach(({id, status}) => {
+                        if (status === 'ok') pending.delete(id);
+                    });
+
+                    if (!cancelled) {
+                        setReceiptStatus((prev) => ({
+                            ...prev,
+                            ...Object.fromEntries(list.map(({id, status}) => [id, status])),
+                        }));
+                    }
+                })
+                .catch((error) => console.error(error));
         };
 
-        await fetch('https://api.expo.dev/v2/push/send', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Accept-encoding': 'gzip, deflate',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message),
-        });
-    }
+        const timer = setInterval(checkAll, 30000);
+
+        return () => {
+            cancelled = true;
+            clearInterval(timer);
+        };
+    }, [response]);
+
 
     return (
         <ScrollViewC refreshControl={<RefreshControl refreshing={isLoading} onRefresh={loadScreenData}/>}>
@@ -95,10 +125,22 @@ export default function PushNotificationsScreen({navigation}) {
                             placeholder="Hier Text eingeben"
                         />
                         <Pressable style={[style().button1, style().buttonGreen]}
-                                   onPress={() => sendPushNotification(selectedTeamId)}>
+                                   disabled={isTryingSend}
+                                   onPress={() => sendPush(selectedTeamId)}>
+                            {isTryingSend ?
+                                <ActivityIndicator size={18} color="white"/>
+                                :
+                                <Icon name='send-outline' size={18} color='white'/>
+                            }
                             <TextC style={style().textButton1}>Senden</TextC>
                         </Pressable>
-
+                        <View>
+                            {response ? response.object.map((item) => (
+                                <TextC key={item.id}>
+                                    {item.id}: sent:{item.status} - receipt:{receiptStatus[item.id] ?? '…'}
+                                </TextC>
+                            )) : null}
+                        </View>
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
         </ScrollViewC>
