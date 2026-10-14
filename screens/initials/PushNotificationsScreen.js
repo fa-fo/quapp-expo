@@ -1,5 +1,5 @@
 import TextC from "../../components/customText";
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {ActivityIndicator, Pressable, RefreshControl, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import fetchApi from '../../components/fetchApi';
@@ -39,7 +39,7 @@ export default function PushNotificationsScreen({navigation}) {
 
             fetchApi('pushTokens/sendByTeam/' + teamId, 'POST', postData)
                 .then((json) => setResponse(json))
-                    .finally(() => setIsTryingSend(false));
+                .finally(() => setIsTryingSend(false));
         }
     }
 
@@ -75,15 +75,23 @@ export default function PushNotificationsScreen({navigation}) {
                         }));
                     }
                 })
-            };
+        };
 
-        const timer = setInterval(checkAll, 30000);
+        const timer = setInterval(checkAll, 10000);
 
         return () => {
             cancelled = true;
             clearInterval(timer);
         };
     }, [response]);
+
+    const {sentOkCount, receiptOkCount} = useMemo(() => {
+        const items = response?.object ?? [];
+        return {
+            sentOkCount: items.filter((i) => i.status === 'ok').length,
+            receiptOkCount: items.filter((i) => (receiptStatus?.[i.id] ?? '') === 'ok').length,
+        };
+    }, [response, receiptStatus]);
 
 
     return (
@@ -132,11 +140,20 @@ export default function PushNotificationsScreen({navigation}) {
                             <TextC style={style().textButton1}>Senden</TextC>
                         </Pressable>
                         <View>
-                            {response ? response.object.map((item) => (
-                                <TextC key={item.id}>
-                                    {item.id}: sent:{item.status} - receipt:{receiptStatus[item.id] ?? '…'}
-                                </TextC>
-                            )) : null}
+                            {response?.object ? (
+                                <>
+                                    <TextC>
+                                        Gesamt: {response.object.length} - sent ok: {sentOkCount} - receipt
+                                        ok: {receiptOkCount}
+                                        {'\n\n'}
+                                    </TextC>
+                                    {response.object.map((item) => (
+                                        <TextC key={item.id}>
+                                            {item.id}: sent:{item.status} - receipt:{receiptStatus[item.id] ?? '…'}
+                                        </TextC>
+                                    ))}
+                                </>
+                            ) : null}
                         </View>
                     </View>
                 ) : <TextC>Fehler!</TextC>)}
