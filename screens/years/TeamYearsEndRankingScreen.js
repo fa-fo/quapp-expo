@@ -18,7 +18,6 @@ export default function TeamYearsEndRankingScreen({navigation}) {
 
         fetchApi('teamYears/getEndRanking/' + route.params.item.year_id + (route.name === 'TeamYearsEndRankingAdmin' ? '/1' : ''))
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, [navigation, route]);
 

@@ -15,7 +15,6 @@ export default function YearsAllScreen({navigation}) {
     useEffect(() => {
         fetchApi('years/all')
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
 

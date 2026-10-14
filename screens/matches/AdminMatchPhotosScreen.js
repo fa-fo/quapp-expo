@@ -23,7 +23,6 @@ export default function AdminMatchPhotosScreen({navigation}) {
                 setData(json);
                 setPhotoKey(0);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 
@@ -38,7 +37,6 @@ export default function AdminMatchPhotosScreen({navigation}) {
                     loadScreenData();
                 }
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

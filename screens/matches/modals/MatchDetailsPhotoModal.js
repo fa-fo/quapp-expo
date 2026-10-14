@@ -31,7 +31,6 @@ export default function MatchDetailsPhotoModal({
         let postData = {password: global.adminPW};
         fetchApi('matcheventLogs/setAdminPhotoCheck/' + photoSelected.id + '/' + isOk, 'POST', postData)
             .then((json) => loadScreenData())
-            .catch((error) => console.error(error))
             .finally(() => setModalVisible(false));
     };
 

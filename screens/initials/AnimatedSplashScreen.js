@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {Animated, Easing, StyleSheet, useWindowDimensions, View} from 'react-native';
 import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
+import {navigationRef} from '../../navigation/RootNavigation';
 import {StatusBar} from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Progress from 'react-native-progress';
@@ -78,7 +79,7 @@ export default function AnimatedSplashScreen({image}) {
     return (
         <View style={{flex: 1}}>
             {appIsReady ?
-                <NavigationContainer theme={myTheme}>
+                <NavigationContainer theme={myTheme} ref={navigationRef}>
                     <MyDrawer/>
                 </NavigationContainer>
                 : null}

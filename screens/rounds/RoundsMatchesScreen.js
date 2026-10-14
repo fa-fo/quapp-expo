@@ -40,7 +40,6 @@ export default function RoundsMatchesScreen({navigation}) {
                     setCount2ConfirmUpcoming(m.count2ConfirmUpcoming);
                 }
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

@@ -28,7 +28,6 @@ export default function PinModal({
                     setPin(json.object.refereePIN);
                 }
             })
-            .catch((error) => console.error(error));
     };
 
 

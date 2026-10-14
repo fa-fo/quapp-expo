@@ -1,3 +1,4 @@
+import {navigate} from '../navigation/RootNavigation';
 import * as DateFunctions from "./functions/DateFunctions";
 
 export default function fetchApi(address, method, postData, docMode) {
@@ -28,5 +29,10 @@ export default function fetchApi(address, method, postData, docMode) {
 
                     return json;
                 })
+            .catch(error => {
+                console.error(error);
+                navigate('MyMatches', {screen: 'NoInternetModal'});
+                throw error;
+            })
     }
 }

@@ -28,7 +28,6 @@ export default function TeamYearsInfoBalanceMatchesScreen({navigation}) {
     const loadScreenData = () => {
         fetchApi('teams/balanceMatches/' + route.params.team.team_id + '/' + route.params.sport.id)
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

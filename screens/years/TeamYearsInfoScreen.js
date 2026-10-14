@@ -29,7 +29,6 @@ export default function TeamYearsInfoScreen({navigation}) {
     const loadScreenData = () => {
         fetchApi('teams/byId/' + route.params.item.team_id)
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

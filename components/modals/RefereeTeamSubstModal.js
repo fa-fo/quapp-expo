@@ -17,7 +17,6 @@ export default function RefereeTeamSubstModal({
     const loadData = () => {
         fetchApi('teamYears/all')
             .then((json) => setData(json))
-            .catch((error) => console.error(error));
     };
 
     function setRefereeTeamSubst(selectedValue) {
@@ -28,8 +27,7 @@ export default function RefereeTeamSubstModal({
             };
 
             fetchApi('matches/saveRefereeTeamSubst/' + match.id, 'POST', postData)
-                .catch((error) => console.error(error))
-                .finally(() => {
+                    .finally(() => {
                     loadScreenData();
                     setModalVisible(false);
                 });

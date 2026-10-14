@@ -82,7 +82,6 @@ export default function ResourceContentScreen({navigation}) {
                 setData(json);
                 setRichText(json?.object?.content ?? '');
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

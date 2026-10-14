@@ -32,7 +32,6 @@ export default function AllMatchPhotosScreen({navigation}) {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

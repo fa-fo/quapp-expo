@@ -32,7 +32,6 @@ export default function MatchDetailsScreen({navigation}) {
                 setItem(json.object[0] ?? []);
                 setShowLiveTicker(showLive(json.object[0], 1));
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

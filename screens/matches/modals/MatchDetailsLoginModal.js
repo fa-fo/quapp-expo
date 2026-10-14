@@ -51,8 +51,7 @@ export default function MatchDetailsLoginModal({setModalVisible, modalVisible, n
                         inputRef?.current?.focus();
                     }
                 })
-                .catch((error) => console.error(error))
-        } else {
+            } else {
             setTextPinEmptyVisible(true);
         }
     };

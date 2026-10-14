@@ -23,12 +23,10 @@ export default function TeamsCurrentScreen({navigation}) {
         if (route.name === 'TeamsCurrentAdmin') {
             fetchApi('sports/all')
                 .then((json) => setSports(json))
-                .catch((error) => console.error(error));
-        }
+            }
 
         fetchApi('teamYears/all')
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

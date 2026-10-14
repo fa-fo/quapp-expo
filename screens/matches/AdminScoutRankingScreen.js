@@ -26,7 +26,6 @@ export default function AdminScoutRankingScreen({navigation}) {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 
@@ -37,7 +36,6 @@ export default function AdminScoutRankingScreen({navigation}) {
 
         fetchApi(url + '/' + parameter, 'POST', postData)
             .then(() => loadScreenData())
-            .catch((error) => console.error(error));
     };
 
     return (

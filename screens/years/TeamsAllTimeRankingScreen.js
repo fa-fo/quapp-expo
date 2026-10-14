@@ -44,7 +44,6 @@ export default function TeamsAllTimeRankingScreen({navigation}) {
                 setData(json.object?.length ? json.object.slice(0, 20) : null);
                 setMyTeamData(global.myTeamId && json.object?.length ? json.object.find((e) => e.id === global.myTeamId) : false);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

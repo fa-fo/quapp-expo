@@ -20,29 +20,29 @@ export async function loadStorageData() {
     await AsyncStorage.getItem('colorScheme')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.colorSchemeSaved = (string !== null ? JSON.parse(string) : 'system'))
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
 
     global.colorScheme = global.colorSchemeSaved === 'system' ? Appearance.getColorScheme() : global.colorSchemeSaved;
 
     await AsyncStorage.getItem('myTeamId')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myTeamId = (string !== null ? parseInt(JSON.parse(string)) : null))
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
 
     await AsyncStorage.getItem('myTeamChangedLate')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myTeamChangedLate = (string !== null ? parseInt(JSON.parse(string)) : null))
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
 
     await AsyncStorage.getItem('myTeamName')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myTeamName = (string !== null ? JSON.parse(string) : ''))
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
 
     await AsyncStorage.getItem('myYearId')
         .then(response => response !== null ? response.toString() : null)
         .then((string) => global.myYearId = (string !== null ? parseInt(JSON.parse(string)) : null))
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
 
     if (global.isProductionWebview) {
         global.myTeamId = 0;  // reason: do not show TeamSelectScreen for this host!
@@ -67,7 +67,6 @@ export function setScore(code, matchId, teamId) {
 
                 setAsyncStorage(scoreName, newJson, 1);
             })
-            .catch((error) => console.error(error));
     }
 }
 

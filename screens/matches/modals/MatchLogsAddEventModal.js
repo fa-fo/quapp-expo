@@ -42,14 +42,12 @@ export default function MatchLogsAddEventModal({
                         setNextSendAlive();
                     }
                 })
-                .catch((error) => console.error(error));
-
+    
             if (addEvent.code === 'MATCH_CONCLUDE' && remarks !== '') {
                 postData = {'remarks': remarks, ...postData};
 
                 fetchApi('matcheventLogs/saveRemarks/' + match.id, 'POST', postData)
-                    .catch((error) => console.error(error));
-            }
+                    }
 
         }
 

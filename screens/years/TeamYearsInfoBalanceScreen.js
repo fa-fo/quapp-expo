@@ -26,7 +26,6 @@ export default function TeamYearsInfoBalanceScreen({navigation}) {
     const loadScreenData = () => {
         fetchApi('teams/balance/' + route.params.team.team_id)
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

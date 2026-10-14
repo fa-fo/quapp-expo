@@ -83,8 +83,7 @@ export default function MatchLogsPhotoModal({
                         setIsBusy(false)
                     }
                 })
-                .catch((error) => console.error(error));
-        }
+            }
     }
 
     const cancelPreview = async () => {

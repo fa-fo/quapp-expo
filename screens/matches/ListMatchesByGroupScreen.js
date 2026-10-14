@@ -26,7 +26,6 @@ export default function ListMatchesByGroupScreen({navigation}) {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

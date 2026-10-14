@@ -50,7 +50,6 @@ export default function RoundsMatchesAutoAdminScreen({navigation}) {
 
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

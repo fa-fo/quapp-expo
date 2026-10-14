@@ -21,7 +21,6 @@ export default function RoundsCurrentScreen({navigation}) {
                 setData(json);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

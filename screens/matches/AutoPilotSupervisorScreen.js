@@ -36,7 +36,6 @@ export default function AutoPilotSupervisorScreen({navigation}) {
                 setCurrentRoundId(json?.object?.currentRoundId ?? 0);
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

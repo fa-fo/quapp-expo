@@ -16,7 +16,6 @@ export default function RankingRefereeSubstScreen({navigation}) {
     const loadScreenData = () => {
         fetchApi('matches/getRankingRefereeSubst/')
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

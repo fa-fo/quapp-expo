@@ -36,8 +36,7 @@ export default function ListMatchesByRefereeScreen({navigation}) {
 
             fetchApi('matches/byReferee', 'POST', postData)
                 .then((json) => setData(json))
-                .catch((error) => console.error(error))
-                .finally(() => setLoading(false));
+                    .finally(() => setLoading(false));
         }
     };
 

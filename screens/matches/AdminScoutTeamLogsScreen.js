@@ -24,7 +24,6 @@ export default function AdminScoutTeamLogsScreen({navigation}) {
 
         fetchApi(url + '/' + parameter, 'POST', postData)
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

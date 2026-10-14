@@ -28,8 +28,7 @@ export default function MatchLogsCancelEventModal({
                         setLiveLogsCalc(json.object);
                     }
                 })
-                .catch((error) => console.error(error))
-                .finally(() => {
+                    .finally(() => {
                     setTimeout(() => { // wait for syncScore before trigger setScore
                         setIsSendingEvent(false);
                     }, 500);

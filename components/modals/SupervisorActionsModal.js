@@ -25,7 +25,6 @@ export default function SupervisorActionsModal({
         };
 
         fetchApi('matches/forceLogout/' + match.id, 'POST', postData)
-            .catch((error) => console.error(error))
             .finally(() => {
                 loadScreenData();
             });

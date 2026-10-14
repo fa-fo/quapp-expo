@@ -24,7 +24,6 @@ export default function PushNotificationsScreen({navigation}) {
     const loadScreenData = () => {
         fetchApi('teamYears/allWithPushTokenCount')
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 
@@ -40,8 +39,7 @@ export default function PushNotificationsScreen({navigation}) {
 
             fetchApi('pushTokens/sendByTeam/' + teamId, 'POST', postData)
                 .then((json) => setResponse(json))
-                .catch((error) => console.error(error))
-                .finally(() => setIsTryingSend(false));
+                    .finally(() => setIsTryingSend(false));
         }
     }
 
@@ -77,8 +75,7 @@ export default function PushNotificationsScreen({navigation}) {
                         }));
                     }
                 })
-                .catch((error) => console.error(error));
-        };
+            };
 
         const timer = setInterval(checkAll, 30000);
 

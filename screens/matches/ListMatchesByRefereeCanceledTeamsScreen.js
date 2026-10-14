@@ -20,7 +20,6 @@ export default function ListMatchesByRefereeCanceledTeamsScreen({navigation}) {
         };
         fetchApi('matches/refereeCanceledMatches', 'POST', postData)
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

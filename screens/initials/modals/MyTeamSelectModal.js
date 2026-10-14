@@ -40,7 +40,6 @@ export default function MyTeamSelectModal({
     const loadScreenData = () => {
         fetchApi('teamYears/all')
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

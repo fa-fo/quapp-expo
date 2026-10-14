@@ -21,7 +21,6 @@ export default function GroupsAllScreen({navigation}) {
     const loadScreenData = () => {
         fetchApi('groups/all' + '/' + (route.params?.year_id ?? 0) + '/' + (route.params?.day_id ?? 0))
             .then((json) => setData(json))
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 

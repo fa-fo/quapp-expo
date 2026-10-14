@@ -96,8 +96,7 @@ export default function MatchLogsScreen({navigation}) {
                             setNextSendAlive();
                         }
                     })
-                    .catch((error) => console.error(error));
-            }
+                    }
         }, 10000);
 
         return () => clearInterval(interval);
@@ -132,8 +131,7 @@ export default function MatchLogsScreen({navigation}) {
                         setScore2(parseInt(json[route.params.item.id][teamsSwapped ? teamA_id : teamB_id]) || 0);
                     }
                 })
-                .catch((error) => console.error(error));
-        }
+            }
     }, [allEvents, isSendingEvent]);
 
     useEffect(() => {
@@ -165,8 +163,7 @@ export default function MatchLogsScreen({navigation}) {
                         setNextSendAlive();
                     }
                 })
-                .catch((error) => console.error(error))
-                .finally(() => {
+                    .finally(() => {
                     setTimeout(() => { // wait to prevent multiple clicks
                         setIsSendingEvent(false);
                     }, 500);
@@ -199,8 +196,7 @@ export default function MatchLogsScreen({navigation}) {
                     AsyncStorageFunctions.syncScore(route.params.item, route.params.item.logsCalc.score);
                     setAllEvents(json);
                 })
-                .catch((error) => console.error(error))
-                .finally(() => setLoading(false));
+                    .finally(() => setLoading(false));
         }
     }, []);
 
@@ -256,8 +252,7 @@ export default function MatchLogsScreen({navigation}) {
                         setLiveLogsCalc(json.object);
                     }
                 })
-                .catch((error) => console.error(error))
-                .finally(() => setIsSendingEvent(false));
+                    .finally(() => setIsSendingEvent(false));
         }
 
         if (cancelEventDirectly.code && isCancelButton(cancelEventDirectly.code)) {

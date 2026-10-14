@@ -41,10 +41,6 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     setMatchesServices(json.object.matches, json.year?.settings);
                     setHeaderRightOptions(navigation, route, json, loadScreenData);
                 })
-                .catch((error) => {
-                    console.error(error)
-                    navigation.navigate('MyMatches', {screen: 'NoInternetModal'});
-                })
                 .finally(() => {
                     setLoading(false);
                 });
@@ -95,8 +91,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     };
 
                     fetchApi('pushTokens/add', 'POST', postData)
-                        .catch((error) => console.error(error));
-                }
+                            }
             }
         }
     }
@@ -118,8 +113,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                     let jsonScore = string !== null ? JSON.parse(string) : null;
                     setLocalScore(jsonScore);
                 })
-                .catch((error) => console.error(error));
-        }
+            }
     }
 
     function setMatchesServices(matches, settings) {
@@ -128,7 +122,7 @@ export default function ListMatchesByTeamScreen({navigation}) {
                 PushFunctions.setLocalPushNotifications(matches);
             }
             if (settings?.useLiveScouting) {
-                //AsyncStorageFunctions.setAsyncStorage('myMatchesOffline', matches);
+                AsyncStorageFunctions.setAsyncStorage('myMatchesOffline', matches);
             }
         }
     }

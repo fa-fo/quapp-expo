@@ -45,7 +45,6 @@ export default function AdminActionsScreen({navigation}) {
                 setHeaderRightOptions(navigation, route, json, loadScreenData);
                 setShow64(json.year.teamsCount === 64 && json.year.settings.currentDay_id > 1);
             })
-            .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
 
@@ -56,7 +55,6 @@ export default function AdminActionsScreen({navigation}) {
 
         fetchApi(url + '/' + parameter, 'POST', postData)
             .then((json) => json.object ? loadScreenData(json.object) : {})
-            .catch((error) => console.error(error));
     };
 
     const downloadPdf = (url) => {
@@ -70,13 +68,11 @@ export default function AdminActionsScreen({navigation}) {
                 const fileURL = URL.createObjectURL(blob);
                 window.open(fileURL);
             })
-            .catch((error) => console.error(error));
     };
 
     const insertTestTeamNames = () => {
         fetchApi('teams/getTestTeamNames')
             .then((json) => setTeamNames(json.object.teamNames.split('\\n').join('\n')))
-            .catch((error) => console.error(error));
     };
 
     const checkTeamNames = () => {
@@ -84,7 +80,6 @@ export default function AdminActionsScreen({navigation}) {
 
         fetchApi('teams/checkTeamNames/', 'POST', postData)
             .then((json) => setTeamNamesSplit(json.object))
-            .catch((error) => console.error(error));
     };
 
     const addTeamName = (name, i) => {
@@ -98,7 +93,6 @@ export default function AdminActionsScreen({navigation}) {
                     setTeamNamesSplit(a);
                 }
             })
-            .catch((error) => console.error(error));
     };
 
     const countTeamsFound = () => {
@@ -114,7 +108,6 @@ export default function AdminActionsScreen({navigation}) {
 
         fetchApi('teamYears/insert/', 'POST', postData)
             .then(() => loadScreenData())
-            .catch((error) => console.error(error));
     };
 
     const getNextStepRefsChangeByPrefs = (rString) => {
