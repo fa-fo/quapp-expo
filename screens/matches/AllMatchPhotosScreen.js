@@ -2,7 +2,7 @@ import TextC from "../../components/customText";
 import {useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Dimensions, Image, Linking, Platform, Pressable, View} from 'react-native';
 import fetchApi from '../../components/fetchApi';
-import Carousel from "react-native-reanimated-carousel";
+import {Carousel} from "react-native-reanimated-carousel";
 import {style} from "../../assets/styles";
 import Icon from "@react-native-vector-icons/material-design-icons";
 import {useRoute} from "@react-navigation/native";
@@ -17,7 +17,7 @@ export default function AllMatchPhotosScreen({navigation}) {
     const [data, setData] = useState([]);
     const [progress, setProgress] = useState(0);
     const [resizeMode, setResizeMode] = useState('contain');
-    const ref = useRef();
+    const ref = useRef(null);
     const insets = useSafeAreaInsets();
 
     useEffect(() => {
@@ -85,10 +85,12 @@ export default function AllMatchPhotosScreen({navigation}) {
                 (data?.status === 'success' && data.object.photos.length ?
                         <Carousel
                             ref={ref}
-                            width={Platform.select({web: 900, ios: width, android: width})}
-                            height={Platform.select({web: 600, ios: '100%', android: '100%'})}
+                            style={{
+                                width: Platform.select({web: 900, ios: width, android: width}),
+                                height: Platform.select({web: 600, ios: '100%', android: '100%'})
+                            }}
                             data={data.object.photos}
-                            windowSize={3}
+                            renderWindowSize={3}
                             loop={true}
                             autoPlay={true}
                             autoPlayInterval={3000}
